@@ -1,5 +1,5 @@
 # EDGAR
-Free tools for the efficient and consistent retrieval of corporate and financial data from the SEC
+Free tools for the efficient and consistent retrieval of corporate and financial data from the SEC. Note: this is under construction - I aim to have everything accessible by Nov 1 2023, so come back soon :)
 
 # What is EDGAR?
 
