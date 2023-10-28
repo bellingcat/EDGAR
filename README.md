@@ -30,26 +30,25 @@ The current table is created by the following method:
       - Calculate Q4 value
       - Create cleaned and sorted time series
       - Isolate the value for the considered year (or calculate trailing twelve month value based on preceding four quarters for this year if the company hasn't reported yet)
-    - For some particularly problematic data points such as debts I use addition and subtraction between related data points to ensure consistency (this is why the debt amounts are not always perfect accurate, but almost always in the ballpark)
+    - For some particularly problematic data points such as debts I use addition between related data points to ensure consistency (this is why the debt amounts are not always perfectly accurate, but almost always in the ballpark)
     - Match the GAAP tags with their plain English term
     - Keep a database of orphan tags, and add them into the dictionary, manually
    
-This method was challenging to design and implement, but it has been very rewarding to see that the resulting dataset in most cases matches and is in some cases more accurate than other easily accessible data sources. It's hard to say overall what is better without implementing a systematic audit. What I can say with reasonable certainty is that the dataset I have created is of comparable accuracy to what you can find on yahoo Finance, but spans a wider time frame. Obviously, it is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription.
+This method was challenging to design and implement, but it has been very rewarding to see that the resulting dataset in most cases matches and is in some cases more accurate than other easily accessible data sources. It's hard to say overall what is better without implementing a systematic audit. Obviously, it is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. But it's good enough for me to use in my own projects such as Market Inference and Graham. The dataset I have created is of comparable accuracy to what you can find on yahoo Finance, but spans a wider time frame. 
 
-But I do believe that we can get close – with your help! Please report inconsistencies to me and I will do my best to improve the existing method. I also am designing an entirely new method that I will implement early next year, based on the scraping of tables embedded in yearly/quarterly reports. This will solve the most obvious weakness of the current dataset, which is the paucity of information on those foreign firms that do not use GAAP tags to report their financial data. 
+I believe we can keep improving this dataset – with your help! Please report inconsistencies to me and I will do my best to improve the existing method. I also am designing an entirely new method that I will implement early next year, based on the scraping of tables embedded in yearly/quarterly reports. This will solve the most obvious weakness of the current dataset, which is the paucity of information on those foreign firms that do not use GAAP tags to report their financial data. 
 
 # Text Search all EDGAR Filings
 
-If you're interested in finding all the documents mentioning a certain person or a phrase in the EDGAR database, you can do that via text search. The problem is that there is no way to programmatically access the results. I've built a search and scraping script in Python that allows you to search for up to two distinct phrases, to modify the desired time frame, and to search only quarterly/yearly reports if desired. Note that the method I have created is reliable up to the limit of 10,000 search results. So I recommend doing a few manual searches first to tailor the parameters until you get an acceptable quantity of results.
+If you're interested in finding all the documents mentioning a certain person or a phrase in the EDGAR database, you can do that via text search. The problem is that there is no way to programmatically access the results. As a solution, I've built a search and scraping script in Python that allows you to search for up to two distinct phrases, to modify the desired time frame, and to search only quarterly/yearly reports if desired. Note that the method I have created is reliable up to the limit of 10,000 search results. So I recommend doing a few manual searches first to tailor the parameters until you get an acceptable quantity of results.
 
 The script will give you a .CSV table with the date, name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. 
 
-Let me know how it works! In a few months I will provide an updated version that automatically breaks over-ambitious searches into manageable time frames, and will include whatever other reasonable suggestions I receive. 
+Let me know how it works! In a few months I will provide an updated version that automatically breaks over-ambitious searches into manageable time frames, and I will try to include whatever other reasonable suggestions I receive. 
 
 # RSS Feed Customizer
 
-EDGAR has three RSS feeds, and I built a feed parsing Python script that allows you to filter the feed by market capitalization or a list of tickers of interest. The output is similar to the text search script in that it returns a .CSV with the name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. 
-
+EDGAR has three RSS feeds, and I built a feed parsing Python script that allows you to filter the feed by market capitalization or a list of tickers of interest. The output is similar to the text search script in that it returns a .CSV with the name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. Here too, I would be happy to improve the tool according to your proposals. 
 
 
 
