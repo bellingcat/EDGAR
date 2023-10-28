@@ -11,7 +11,7 @@ To _programatically_ access EDGAR data in a consistent and reliable manner is a 
 
 # Tool for Retrieving Financial Data
 
-Initially, I wanted to create a wrapper for EDGAR's financial data APIs (returning data along the concept, frame, and company fact axes). The goal was to allow the user to input a stock, a time frame, and a data point (in plain English) and obtain a time series of the relevant data. Although initial attempts were partially successful, it soon became apparent that, owing to the idiosyncrasies of the database structure and the manner in which different companies report their data, a complete solution could not take the form of an API wrapper.
+Initially, I wanted to create a wrapper for EDGAR's financial data APIs (returning data along the concept, frame, and company fact axes). The goal was to allow the user to input a stock, a time frame, and a financial data category (in plain English) and then obtain a time series of the relevant data. Although initial attempts were partially successful, it soon became apparent that, owing to the idiosyncrasies of the database structure and the manner in which different companies report their data, a complete solution could not take the form of an API wrapper.
 
 Instead, I created a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and available here for download as a .CSV file. You can open this file in EXCEL, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
 
