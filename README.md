@@ -3,7 +3,7 @@ Free tools for the efficient and consistent retrieval of corporate and financial
 
 # What is EDGAR?
 
-EDGAR is a database of corporate filings maintained by the United States Securities and Exchange Commission (SEC). These filings contain a wealth of quantitative and qualitative information on every legal entity that issues non-exempt securities in the United States. Whether you are looking to study the fundamentals of your favorite stocks, or tracking the corporate webs weaved by a person or company of interest, EDGAR is the place to find it.
+EDGAR is a database of corporate filings maintained by the United States Securities and Exchange Commission (SEC). These filings contain a wealth of quantitative and qualitative information on every legal entity that issues non-exempt securities in the United States. Whether you are looking to study the fundamentals of your favorite stocks, or to track the corporate webs weaved by a person or company of interest, EDGAR is the place to do it.
 
 But there's a catch. 
 
