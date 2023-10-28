@@ -21,7 +21,7 @@ The current table is created by the following method:
   - Scraping of all calculation sheets related to each filing associated with a publicly traded company
   - Create a dictionary matching the most commonly used GAAP tags with a plain English term 
   - For a given company, for each year:
-    - Determine what GAAP tags are listed under each cashflow / income / balance sheet heading (or whatever synonym term the company happens to use)
+    - Determine what GAAP tags are listed under each cashflow / income / balance sheet heading (or whatever alternative terms the company happens to use)
     - For each tag:
       - Obtain all the data associated with the tag in the company's bulk download folder for the desired year, and the preceding one 
       - Determine whether the data is duration or point in time
