@@ -46,7 +46,7 @@ Let me know how it works! In a few months I will provide an updated version that
 
 # RSS Feed Customizer
 
-EDGAR has three RSS feeds, and I built a feed parsing [Python script](EDGAR/EDGAR_RSS_custom.py)  that allows you to filter the feed to return only company/tickers of interest. The output is similar to the text search script in that it returns a .CSV with the name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. Here too, I would be happy to improve the tool according to your proposals. 
+EDGAR has three RSS feeds, and I built a feed parsing [Python script](EDGAR_RSS_custom.py)  that allows you to filter the feed to return only company/tickers of interest. The output is similar to the text search script in that it returns a .CSV with the name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. Here too, I would be happy to improve the tool according to your proposals. 
 
 
 
