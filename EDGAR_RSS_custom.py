@@ -17,7 +17,7 @@ headers = {'user-agent': " "}  # enter (your?) email address
 
 # enter tickers of interest
 
-tickers = [
+tickers_list = [
 #     "PLTR",
 #     "XOM",
 #     "AAPL",
@@ -83,10 +83,10 @@ for item in items:
         if CIK is not None:
             CIK_screen = int(CIK)
             ticker = tickers_cik['ticker'].loc[tickers_cik['cik_str'] == CIK_screen].values
-            if len(tickers) != 0:  # If ticker list defined by user is not empty, we look for tickers of interest
+            if len(tickers_list) != 0:  # If ticker list defined by user is not empty, we look for tickers of interest
                 if len(ticker) != 0:
                         ticker = ticker[0]
-                        if ticker in tickers:
+                        if ticker in tickers_list:
                                 print(f'Adding {ticker} to results')
                         # Append the data to the dictionaries
                                 data['Company'].append(title)
