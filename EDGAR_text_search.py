@@ -9,30 +9,21 @@ from selenium.webdriver.common.by import By
 import re
 import time
 
-# if breaks, concat what search results we got
-# append ticker to results?
-# if results == 10,000 automatically shorten dates to smaller window? Just give user option to iterate through quarters to be on safe side?
-# if len(results) != 100 and len(results) == len(results_previous): break
-
-
-file_path_input = "Documents/HOMEBREWING/"
-file_path_output = "Documents/HOMEBREWING/EDGAR-filings/"
-
-driver = webdriver.Chrome() 
-
 ###################
 ### User inputs ###
 
-exact_match = True
+file_path_output = "" # enter directory where search results will be downloaded, e.g. "Documents/EDGAR/search results/"
 
-search_term = "climate change" # up to 3 words
+exact_match = True # if True, searches for the entire search term as written, as opposed to individual wors within the search term
+
+search_term = "Sam Bankman Fried" # up to 3 words
 annual_quarterly_reports = True
-start_date = "2023-06-01"
+start_date = "2015-01-01"
 end_date = "2023-10-23"
-headers = {'user-agent': "editor@marketinference.com"}
+headers = {'user-agent': ""} # enter (your?) email address here
 
-
-# Define search words
+# Define driver
+driver = webdriver.Chrome() 
 
 # Split the search string by spaces
 words = search_term.split()
@@ -46,7 +37,6 @@ elif len(words) == 3:
     word1, word2, word3 = words
 else:
     print("Invalid number of words")
-
 
 if exact_match:
     if len(words) == 1:
@@ -69,7 +59,6 @@ else:
 
 if annual_quarterly_reports:
     text_search_url = text_search_url+'&category=form-cat1'
-
 
 # loop through search result pages
 full_search_result_table_list =[]  
