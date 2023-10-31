@@ -9,7 +9,7 @@ But there's a catch.
 
 To _programatically_ access EDGAR data in a consistent and reliable manner is a complex problem. Most people who have found solutions to this problem charge a fee for it, or only provide a limited free access to the obtained data. Thanks to funding from investigative journalism organization Bellingcat, I was able to devote six months to studying the EDGAR database, determining the most likely use cases for researchers and investors, and building tools that can help people exploit this incredible, free resource.
 
-# Tool for Retrieving Financial Data
+# Table of Cleaned Financial Data
 
 I've built a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and available here for download as a .CSV file. You can open this file in EXCEL, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
 
@@ -38,7 +38,7 @@ I believe we can keep improving this dataset – with your help! Please report i
 
 # Text Search all EDGAR Filings
 
-If you're interested in finding all the documents mentioning a certain person or a phrase in the EDGAR database, you can do that via text search. The problem is that there is no way to programmatically access the results. As a solution, I've built a [search and scraping script](EDGAR_test_search.py) in Python that allows you to search for up to two distinct phrases, to modify the desired time frame, and to search only quarterly/yearly reports if desired. Note that the method I have created is reliable up to the limit of 10,000 search results. So I recommend doing a few manual searches first to tailor the parameters until you get an acceptable quantity of results.
+If you're interested in finding all the documents mentioning a certain person or a phrase in the EDGAR database, you can do that via text search. The problem is that there is no way to programmatically access the results. As a solution, I've built a [search and scraping script](EDGAR_text_search.py) in Python that allows you to search for up to two distinct phrases, to modify the desired time frame, and to search only quarterly/yearly reports if desired. Note that the method I have created is reliable up to the limit of 10,000 search results. So I recommend doing a few manual searches first to tailor the parameters until you get an acceptable quantity of results.
 
 The script will give you a .CSV table with the date, name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. 
 
@@ -46,7 +46,7 @@ Let me know how it works! In a few months I will provide an updated version that
 
 # RSS Feed Customizer
 
-EDGAR has three RSS feeds, and I built a feed parsing [Python script](EDGAR_RSS_custom.py)  that allows you to filter the feed to return only company/tickers of interest. The output is similar to the text search script in that it returns a .CSV with the name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. Here too, I would be happy to improve the tool according to your proposals. 
+EDGAR has three RSS feeds, and I wrote a [RSS feed parsing script](EDGAR_RSS_custom.py)  that allows you to filter the feed to return only company/tickers of interest. The output is similar to the text search script in that it returns a .CSV with the name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. Here too, I would be happy to improve the tool according to your proposals. 
 
 
 
