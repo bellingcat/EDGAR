@@ -11,9 +11,7 @@ To _programatically_ access EDGAR data in a consistent and reliable manner is a 
 
 # Tool for Retrieving Financial Data
 
-Initially, I wanted to create a wrapper for EDGAR's financial data APIs (returning data along the concept, frame, and company fact axes). The goal was to allow the user to input a stock, a time frame, and a financial data category (in plain English) and then obtain a time series of the relevant data. Although initial attempts were partially successful, it soon became apparent that, owing to the idiosyncrasies of the database structure and the manner in which different companies report their data, a complete solution could not take the form of an API wrapper.
-
-Instead, I created a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and available here for download as a .CSV file. You can open this file in EXCEL, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
+I've built a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and available here for download as a .CSV file. You can open this file in EXCEL, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
 
 The current table is created by the following method:
 
@@ -34,7 +32,7 @@ The current table is created by the following method:
     - Match the GAAP tags with their plain English term
     - Keep a database of orphan tags, and add them into the dictionary, manually
    
-This method was challenging to design and implement, but it has been very rewarding to see that the resulting dataset in most cases matches and is in some cases more accurate than other easily accessible data sources. It's hard to say overall what is better without implementing a systematic audit. Obviously, it is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. But it's good enough for me to use in my own projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info). The dataset I have created is of comparable accuracy to what you can find on yahoo Finance, but spans a wider time frame. 
+The quality of any programatically produced fincial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. The dataset I have created is of comparable accuracy to what you can find on Yahoo Finance, but spans a wider time frame, and is good enough for me to use in my own projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info). 
 
 I believe we can keep improving this dataset – with your help! Please report inconsistencies to me and I will do my best to improve the existing method. I also am designing an entirely new method that I will implement early next year, based on the scraping of tables embedded in yearly/quarterly reports. This will solve the most obvious weakness of the current dataset, which is the paucity of information on those foreign firms that do not use GAAP tags to report their financial data. 
 
