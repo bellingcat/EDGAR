@@ -11,17 +11,18 @@ from datetime import datetime
 
 # enter your directories / headers here
 
-file_path_input = "Documents/HOMEBREWING/"
-file_path_output = "Documents/HOMEBREWING/RSS"
-download_dir = f'{file_path_output}/MI_articles/'
-headers = {'user-agent': "editor@marketinference.com"}
+file_path_input = ""  # e.g. "Documents/EDGAR/assets/ – in this directory, you need to place the file downloaded here: https://www.sec.gov/files/company_tickers.json
+file_path_output = "" # e.g. "Documents/EDGAR/RSS/" – this is where the files will be downloaded
+headers = {'user-agent': " "}  # enter (your?) email address
 
-# enter tickers of interest, or ticker category (country, market cap):
+# enter tickers of interest
 
-market_cap = 1_000_000_000
-tickers = pd.read_csv(f'{file_path_input}/SIMFIN/nasdaq_screener.csv')
-tickers = tickers['Symbol'].loc[tickers['Market Cap'] > market_cap]
-# print(tickers)
+tickers = [
+#     "PLTR",
+#     "XOM",
+#     "AAPL",
+"CHWY"
+]
 
 ####################
 ### define today ###
@@ -35,16 +36,14 @@ today = now.strftime("%Y-%m-%d")
 RSS_url = "https://www.sec.gov/Archives/edgar/xbrlrss.all.xml"
 
 # get ticker / CIK table
-
 # Load the JSON file for CIK numbers
-file_path = os.path.expanduser(f"{file_path_input}/SIMFIN/company_tickers.json")
+file_path = os.path.expanduser(f"{file_path_input}company_tickers.json")
 with open(file_path) as file:
     data = json.load(file)
 
 tickers_cik = pd.DataFrame.from_dict(data, orient='index')
 tickers_cik = tickers_cik[['ticker', 'cik_str']]
 
-# target_forms = [] <link>
 
 ### access RSS feed
 
@@ -82,24 +81,32 @@ for item in items:
         # screen for tickers of interest
         # find ticker
         if CIK is not None:
-                CIK_screen = int(CIK)
-                ticker = tickers_cik['ticker'].loc[tickers_cik['cik_str'] == CIK_screen].values
-                if len(ticker) != 0:  # Check if 'ticker' is not an empty Series
-                        # ticker_value = ticker[0]  # Assuming you want the first value from 'ticker'
+            CIK_screen = int(CIK)
+            ticker = tickers_cik['ticker'].loc[tickers_cik['cik_str'] == CIK_screen].values
+            if len(tickers) != 0:  # If ticker list defined by user is not empty, we look for tickers of interest
+                if len(ticker) != 0:
                         ticker = ticker[0]
-                        is_in_scope = ticker in tickers.values
-                        if is_in_scope:
+                        if ticker in tickers:
                                 print(f'Adding {ticker} to results')
-                               # Append the data to the dictionaries
+                        # Append the data to the dictionaries
                                 data['Company'].append(title)
                                 data['Ticker'].append(ticker)
                                 data['CIK'].append(CIK)
                                 data['Link'].append(link)
                                 data['Description'].append(form)
+            else: # if ticker list is emppty, Append all the data to the dictionaries
+                print(f'Adding {ticker} to results')
+                data['Company'].append(title)
+                data['Ticker'].append(ticker)
+                data['CIK'].append(CIK)
+                data['Link'].append(link)
+                data['Description'].append(form)
                 
 # Create a DataFrame from the dictionaries
 daily_RSS_feed = pd.DataFrame(data)
 
-daily_RSS_feed.to_csv(f'{file_path_output}/{today}.csv')
+daily_RSS_feed.to_csv(f'{file_path_output }/{today}.csv')
+        
+
 
         
