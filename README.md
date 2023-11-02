@@ -1,5 +1,5 @@
 # EDGAR
-Free tools for the efficient and consistent retrieval of corporate and financial data from the SEC. Note: this is under construction - I aim to have everything accessible by Nov 1 2023, so come back soon :)
+Free tools for the efficient and consistent retrieval of corporate and financial data from the SEC. 
 
 # What is EDGAR?
 
@@ -19,7 +19,7 @@ The current table is created by the following method:
   - Scraping of all calculation sheets related to each filing associated with a publicly traded company
   - Create a dictionary matching the most commonly used GAAP tags with a plain English term 
   - For a given company, for each year:
-    - Determine what GAAP tags are listed under each cashflow / income / balance sheet heading (or whatever alternative terms the company happens to use)
+    - Determine what GAAP tags are listed under each cashflow / income / balance sheet headings (or whatever alternative terms the company happens to use) in the calculation sheet 
     - For each tag:
       - Obtain all the data associated with the tag in the company's bulk download folder for the desired year, and the preceding one 
       - Determine whether the data is duration or point in time
@@ -32,17 +32,17 @@ The current table is created by the following method:
     - Match the GAAP tags with their plain English term
     - Keep a database of orphan tags, and add them into the dictionary, manually
    
-The quality of any programatically produced fincial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. The dataset I have created is of comparable accuracy to what you can find on Yahoo Finance, but spans a wider time frame, and is good enough for me to use in my own projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info). 
+The quality of any programatically produced finacial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. The dataset I have created is of comparable accuracy to what you can find on Yahoo Finance, but spans a wider time frame, and is good enough for me to use in my own projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info). 
 
 I believe we can keep improving this dataset – with your help! Please report inconsistencies to me and I will do my best to improve the existing method. I also am designing an entirely new method that I will implement early next year, based on the scraping of tables embedded in yearly/quarterly reports. 
 
 # Text Search all EDGAR Filings
 
-If you're interested in finding all the documents mentioning a certain person or a phrase in the EDGAR database, you can do that via text search. The problem is that there is no way to programmatically access the results. As a solution, I've built a [search and scraping script](EDGAR_text_search.py) in Python that allows you to search for up to two distinct phrases, to modify the desired time frame, and to search only quarterly/yearly reports if desired. Note that the method I have created is reliable up to the limit of 10,000 search results. So I recommend doing a few manual searches first to tailor the parameters until you get an acceptable quantity of results.
+If you're interested in finding all the documents mentioning a certain person or a phrase in the EDGAR database, you can do that via text search. The problem is that there is no way to programmatically access the results. As a solution, I've built a [search and scraping script](EDGAR_text_search.py) in Python that allows you to search for up to 3 distinct phrases, to modify the desired time frame, and to search only quarterly/yearly reports if desired. Note that the method I have created is reliable up to the limit of 10,000 search results. So I recommend doing a few manual searches first to tailor the parameters until you get an acceptable quantity of results.
 
 The script will give you a .CSV table with the date, name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. 
 
-Let me know how it works! In a few months I will provide an updated version that automatically breaks over-ambitious searches into manageable time frames, and I will try to include whatever other reasonable suggestions I receive. 
+Let me know how it works! In a few months I will provide an updated version that automatically breaks over-ambitious searches into manageable time frames, and I will also try to include whatever other reasonable suggestions I receive. 
 
 # RSS Feed Customizer
 
