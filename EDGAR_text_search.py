@@ -14,7 +14,7 @@ import time
 
 file_path_output = "" # enter directory where search results will be downloaded, e.g. "Documents/EDGAR/search results/"
 
-exact_match = True # if True, searches for the entire search term as written, as opposed to individual wors within the search term
+exact_match = True # if True, searches for the entire search term as written, as opposed to individual words within the search term
 
 search_term = "Sam Bankman Fried" # up to 3 words
 annual_quarterly_reports = True
@@ -68,7 +68,6 @@ result_page_id = ""
 text_search_url = text_search_url+'&page='
 
 for page in range(0,1000):
-
     url = f'{text_search_url}{page_num}'
     print(url)
 
@@ -78,15 +77,13 @@ for page in range(0,1000):
     time.sleep(rest_time)
 
     # define result page id #  use to identify 10,000 + results, and shorten date scope
-
     result_page_id_element = driver.find_element(By.ID,'show-result-count')
     result_page_id_element = result_page_id_element.text
 
     # loop through search results on given page
     search_result_table_list = []
 
-    for elements in driver.find_elements(By.TAG_NAME, "tr"):
-        
+    for elements in driver.find_elements(By.TAG_NAME, "tr"):        
         # get HTML element text
         html_string = elements.get_attribute('innerHTML')
         # print(html_string)
@@ -105,7 +102,6 @@ for page in range(0,1000):
         data_adsh = data_adsh_match.group(1) if data_adsh_match else None
 
         if data_adsh is not None:
-
             # Find file_name
             file_name_match = re.search(file_name_pattern, html_string)
             file_name = file_name_match.group(1) if file_name_match else None
@@ -246,5 +242,3 @@ else:
     file_name = search_term.replace(" ", "_")
 
     full_search_results.to_csv(f'{file_path_output}{file_name}_{start_date}_{end_date}.csv')
-
-
