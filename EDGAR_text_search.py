@@ -4,17 +4,13 @@
 # This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-import os
 import pandas as pd
-import requests
 import random
-import json
 import re
 import time
-from bs4 import BeautifulSoup # needs to be installed in your venv
-from selenium import webdriver # needs to be installed in your venv
-from selenium.webdriver.common.by import By # needs to be installed in your venv
-from datetime import datetime, timedelta # needs to be installed in your venv
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from datetime import datetime, timedelta
 
 ###################
 ### User inputs ###
@@ -23,13 +19,13 @@ exact_match = False # select False if you want search to capture combinations of
 
 search_term = "synergies" # up to 3 words accepted
 annual_quarterly_reports = True # select False if you want all filings
-start_date = "2012-01-01"
-end_date = "2023-11-20"
+start_date = "2023-11-01"
+end_date = "2023-11-02"
 headers = {'user-agent': ""} # enter your email address here
 
 driver = webdriver.Chrome() # if you don't have Chrome, you need to select a different browser for the web driver
 
-file_path_output = "" # put the desired directory here for search results e.g. Documents/EDGAR-filings/
+file_path_output = "./filings/" # put the desired directory here for search results e.g. Documents/EDGAR-filings/
 
 ###################
 ### definitions ###

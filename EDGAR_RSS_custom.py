@@ -4,21 +4,21 @@
 # This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 import os
-import pandas as pd # install pandas
+import pandas as pd
 import requests
 import json
-from bs4 import BeautifulSoup # install lxml beautifulsoup4
+from bs4 import BeautifulSoup
 import re
 from datetime import datetime
 
 ####################
-### User inpouts ###
+### User inputs ###
 
 # enter your directories / headers here
 
-file_path_input = ""  # e.g. "Documents/EDGAR/assets/ – in this directory, you need to place the file downloaded here: https://www.sec.gov/files/company_tickers.json
-file_path_output = "" # e.g. "Documents/EDGAR/RSS/" – this is where the files will be downloaded
-headers = {'user-agent': " "}  # enter (your?) email address
+file_path_input = "./assets/"  # e.g. "Documents/EDGAR/assets/ – in this directory, you need to place the file downloaded here: https://www.sec.gov/files/company_tickers.json
+file_path_output = "./RSS/" # e.g. "Documents/EDGAR/RSS/" – this is where the files will be downloaded
+headers = {'user-agent': ""}  # enter (your?) email address
 
 # enter tickers of interest
 
