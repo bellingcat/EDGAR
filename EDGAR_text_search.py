@@ -19,8 +19,8 @@ exact_match = False # select False if you want search to capture combinations of
 
 search_term = "synergies" # up to 3 words accepted
 annual_quarterly_reports = True # select False if you want all filings
-start_date = "2012-01-01"
-end_date = "2023-11-20"
+start_date = "2023-11-01"
+end_date = "2023-11-02"
 headers = {'user-agent': ""} # enter your email address here
 
 driver = webdriver.Chrome() # if you don't have Chrome, you need to select a different browser for the web driver
