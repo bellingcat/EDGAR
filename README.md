@@ -48,6 +48,35 @@ Let me know how it works! In a few months I will provide an updated version that
 
 EDGAR has three RSS feeds, and I wrote a [RSS feed parsing script](EDGAR_RSS_custom.py)  that allows you to filter the feed to return only company/tickers of interest. The output is similar to the text search script in that it returns a .CSV with the name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. Here too, I would be happy to improve the tool according to your proposals. 
 
+# Installation
 
+## Use a Python Virtual Environment
+This helps manage python package versions, for more information [see here](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments)
 
+`python -m venv .venv`
 
+Then on UNIX or Mac, activate the venv with:
+
+`source .venv/bin/activate`
+
+On Windows, activate with:
+
+`.venv\Scripts\activate`
+
+## Package installation
+
+To install the Python packages needed to run these scripts use
+
+`pip install -r requirements.txt`
+
+# Running the scripts
+
+Before running the scripts, you will need to edit some of the code. Each script has a section titled `User inputs`, which is the only section that should need editing.
+
+Once you have edited the code, you can run each script with:
+
+`python EDGAR_text_search.py`
+
+and
+
+`python EDGAR_RSS_custom.py`
