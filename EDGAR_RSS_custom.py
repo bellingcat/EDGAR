@@ -16,8 +16,8 @@ from datetime import datetime
 
 # enter your directories / headers here
 
-file_path_input = ""  # e.g. "Documents/EDGAR/assets/ – in this directory, you need to place the file downloaded here: https://www.sec.gov/files/company_tickers.json
-file_path_output = "" # e.g. "Documents/EDGAR/RSS/" – this is where the files will be downloaded
+file_path_input = "./assets/"  # e.g. "Documents/EDGAR/assets/ – in this directory, you need to place the file downloaded here: https://www.sec.gov/files/company_tickers.json
+file_path_output = "./RSS/" # e.g. "Documents/EDGAR/RSS/" – this is where the files will be downloaded
 headers = {'user-agent': ""}  # enter (your?) email address
 
 # enter tickers of interest

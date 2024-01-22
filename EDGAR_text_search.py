@@ -25,7 +25,7 @@ headers = {'user-agent': ""} # enter your email address here
 
 driver = webdriver.Chrome() # if you don't have Chrome, you need to select a different browser for the web driver
 
-file_path_output = "" # put the desired directory here for search results e.g. Documents/EDGAR-filings/
+file_path_output = "./filings/" # put the desired directory here for search results e.g. Documents/EDGAR-filings/
 
 ###################
 ### definitions ###

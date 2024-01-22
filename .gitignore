@@ -1,4 +1,5 @@
 .venv
 assets
 RSS
+filings
 *.csv
