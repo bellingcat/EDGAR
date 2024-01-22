@@ -12,7 +12,7 @@ import re
 from datetime import datetime
 
 ####################
-### User inpouts ###
+### User inputs ###
 
 # enter your directories / headers here
 
