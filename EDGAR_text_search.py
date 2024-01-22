@@ -4,14 +4,10 @@
 # This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-import os
 import pandas as pd
-import requests
 import random
-import json
 import re
 import time
-from bs4 import BeautifulSoup # needs to be installed in your venv
 from selenium import webdriver # needs to be installed in your venv
 from selenium.webdriver.common.by import By # needs to be installed in your venv
 from datetime import datetime, timedelta # needs to be installed in your venv
