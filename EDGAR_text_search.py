@@ -8,9 +8,9 @@ import pandas as pd
 import random
 import re
 import time
-from selenium import webdriver # needs to be installed in your venv
-from selenium.webdriver.common.by import By # needs to be installed in your venv
-from datetime import datetime, timedelta # needs to be installed in your venv
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from datetime import datetime, timedelta
 
 ###################
 ### User inputs ###
