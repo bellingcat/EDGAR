@@ -11,7 +11,7 @@ To _programatically_ access EDGAR data in a consistent and reliable manner is a 
 
 # Table of Cleaned Financial Data
 
-I've built a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and available here for download as a .CSV file. You can open this file in EXCEL, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
+I've built a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and [available here for download as a .CSV file](https://edgar.marketinference.com/). You can open this file in EXCEL, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
 
 The current table is created by the following method:
 
