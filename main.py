@@ -1,11 +1,8 @@
-import time
 import urllib.parse
-
-from bs4 import BeautifulSoup
-from selenium import webdriver
 from datetime import date, timedelta
-from typing import List, Dict, Optional, Any, Union
-import requests
+from typing import List, Optional, Union
+
+from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.webdriver import WebDriver as EdgeWebDriver
