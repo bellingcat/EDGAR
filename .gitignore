@@ -4,3 +4,4 @@ RSS
 filings
 *.csv
 .idea
+.DS_Store

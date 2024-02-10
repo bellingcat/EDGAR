@@ -13,3 +13,5 @@ FILING_CATEGORIES_MAPPING = {
     "tender_offers_and_going_private_tx": "form-cat9",
     "trust_indentures": "form-cat10",
 }
+
+RESULTS_TABLE_SELECTOR = "/html/body/div[3]/div[2]/div[2]/table/tbody"
