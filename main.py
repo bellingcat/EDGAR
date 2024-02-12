@@ -12,7 +12,6 @@ if __name__ == "__main__":
     is_exact_search = True
     browser_name = "chrome"
     browser = create_browser_driver(browser_name, headless=False)
-    print(f"{browser_name.capitalize()} browser successfully created")
     results = custom_text_search(
         driver=browser,
         search_keywords=words,

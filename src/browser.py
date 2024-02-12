@@ -11,6 +11,7 @@ from selenium.webdriver.ie.webdriver import WebDriver as IeWebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.safari.webdriver import WebDriver as SafariWebDriver
 from tenacity import retry, wait_fixed, stop_after_attempt
+from fake_useragent import UserAgent
 
 BrowserDriver = Union[
     ChromeWebDriver, SafariWebDriver, FirefoxWebDriver, EdgeWebDriver, IeWebDriver
@@ -111,10 +112,21 @@ def create_browser_driver(browser_name: str, headless: bool = True) -> BrowserDr
     :return: the created WebDriver
     """
 
+    ua = UserAgent()
+
     browser_name = browser_name.lower().strip()
 
     if browser_name == CHROME:
         options = ChromeOptions()
+
+        # Passing user-agent is required in headless mode to prevent the driver from crashing,
+        # and is recommended to use for SEC website requests in general
+        ua = ua.chrome
+        options.add_argument(
+            f"--user-agent={ua}"
+        )
+
+        # Disabling any performance-impacting options
         options.add_argument("--disable-gpu")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-in-process-stack-traces")
@@ -125,12 +137,8 @@ def create_browser_driver(browser_name: str, headless: bool = True) -> BrowserDr
 
         if headless:
             options.add_argument("--headless=new")
-        # Passing user-agent is required in headless mode to prevent the driver from crashing,
-        # and is recommended to use for SEC website requests in general
-        # TODO - Add a random user-agent to prevent detection
-        options.add_argument(
-            "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3456.110 Safari/537.3"
-        )
+
+        print(f"Creating {browser_name.capitalize()} browser with User Agent: {ua}")
         return webdriver.Chrome(options=options)
     elif browser_name == SAFARI:
         return webdriver.Safari()
