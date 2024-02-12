@@ -1,8 +1,6 @@
 import json
 
-from src.browser import (
-    create_browser_driver,
-)
+from src.browser import create_browser_driver
 from src.edgar import custom_text_search
 
 if __name__ == "__main__":

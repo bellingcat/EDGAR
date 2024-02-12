@@ -20,3 +20,4 @@ def none_when_error(func: Callable[..., Any]) -> Callable[..., Any]:
             return None
 
     return wrapper
+

@@ -22,6 +22,10 @@ FIREFOX = "firefox"
 EDGE = "edge"
 IE = "ie"
 
+start_urls = [
+    f'http://quotes.toscrape.com/page/{i}/' for i in range(1, 11)
+]
+
 
 def fetch_page(
     driver: Union[
@@ -137,7 +141,11 @@ def create_browser_driver(browser_name: str, headless: bool = True) -> BrowserDr
     elif browser_name == IE:
         return webdriver.Ie()
     else:
-        raise ValueError(f"Unsupported browser: {browser_name}")
+        raise UnsupportedBrowserError(f"Unsupported browser: {browser_name}")
+
+
+class UnsupportedBrowserError(Exception):
+    pass
 
 
 class ResultsTableNotFoundError(Exception):

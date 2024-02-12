@@ -13,8 +13,25 @@ from src.browser import (
     PageCheckFailedError,
     ResultsTableNotFoundError,
 )
-from src.constants import FILING_CATEGORIES_MAPPING, BASE_URL, RESULTS_TABLE_SELECTOR
 from src.utils import none_when_error
+
+BASE_URL = "https://www.sec.gov/edgar/search/#/"
+
+FILING_CATEGORIES_MAPPING = {
+    "all_except_section_16": "form-cat0",
+    "all_annual_quarterly_and_current_reports": "form-cat1",
+    "all_section_16": "form-cat2",
+    "beneficial_ownership_reports": "form-cat3",
+    "exempt_offerings": "form-cat4",
+    "registration_statements": "form-cat5",
+    "filing_review_correspondence": "form-cat6",
+    "sec_orders_and_notices": "form-cat7",
+    "proxy_materials": "form-cat8",
+    "tender_offers_and_going_private_tx": "form-cat9",
+    "trust_indentures": "form-cat10",
+}
+
+RESULTS_TABLE_SELECTOR = "/html/body/div[3]/div[2]/div[2]/table/tbody"
 
 
 def check_number_of_pages(driver: BrowserDriver) -> int:
@@ -41,9 +58,7 @@ def parse_table_rows(rows: List[WebElement]) -> List[dict]:
         )(r)
         parsed_rows.append(
             {
-                "filing_type": none_when_error(
-                    lambda row: row.find_element(By.CLASS_NAME, "filetype").text
-                )(r),
+                "filing_type": none_when_error(lambda row: row.find_element(By.CLASS_NAME, "filetype").text)(r),
                 "filed_at": none_when_error(
                     lambda row: row.find_element(By.CLASS_NAME, "filed").text
                 )(r),
@@ -265,7 +280,7 @@ def custom_text_search(
         print(f"Error: {e}")
         raise
 
-    # Add the results from the first page
+    # Get the results from the first page
     results.extend(
         extract_html_table_rows(driver, By.XPATH, RESULTS_TABLE_SELECTOR)(
             parse_table_rows

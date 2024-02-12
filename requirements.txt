@@ -1,7 +1,9 @@
-pandas
-requests
-beautifulsoup4
+pandas~=2.0.3
+requests~=2.31.0
+beautifulsoup4~=4.12.3
 requests-html
-selenium
+selenium~=4.17.2
 lxml
 fake-useragent
+tenacity~=8.2.3
+bs4~=0.0.2
