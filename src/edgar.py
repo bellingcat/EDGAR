@@ -65,7 +65,7 @@ def parse_table_rows(rows: List[WebElement]) -> List[dict]:
             {
                 "filing_type": filing_type.text,
                 "filed_at": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "filed").text)(r),
-                "end_date": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "enddate").text)(r),
+                "reporting_for": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "enddate").text)(r),
                 "entity_name": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "entity-name").text)(r),
                 "company_cik": cik,
                 "place_of_business": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "biz-location").get_attribute("innerText"))(r),
