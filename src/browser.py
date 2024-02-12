@@ -55,7 +55,7 @@ def fetch_page(
         print(f"Requesting URL: {url}")
         driver.get(url)
         print(
-            f"Waiting for {wait_for_request_secs} seconds for the request to complete..."
+            f"Waiting {wait_for_request_secs} seconds for the request to complete..."
         )
         time.sleep(wait_for_request_secs)
         if not check_method():

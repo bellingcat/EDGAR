@@ -13,7 +13,7 @@ from src.browser import (
     PageCheckFailedError,
     ResultsTableNotFoundError,
 )
-from src.utils import none_when_error
+from src.utils import try_or_none
 
 BASE_URL = "https://www.sec.gov/edgar/search/#/"
 
@@ -51,49 +51,25 @@ def parse_table_rows(rows: List[WebElement]) -> List[dict]:
 
     parsed_rows = []
     for r in rows:
-        file_link_tag = none_when_error(
-            lambda row: row.find_element(By.CLASS_NAME, "file-num").find_element(
-                By.TAG_NAME, "a"
-            )
-        )(r)
+        file_link_tag = try_or_none(lambda row: row.find_element(By.CLASS_NAME, "file-num").find_element(By.TAG_NAME, "a"))(r)
+        filing_type = try_or_none(lambda row: row.find_element(By.CLASS_NAME, "filetype"))(r)
+        filing_type_link = filing_type.find_element(By.CLASS_NAME, "preview-file")
+        data_adsh = filing_type_link.get_attribute("data-adsh")
+        data_file_name = filing_type_link.get_attribute("data-file-name")
         parsed_rows.append(
             {
-                "filing_type": none_when_error(lambda row: row.find_element(By.CLASS_NAME, "filetype").text)(r),
-                "filed_at": none_when_error(
-                    lambda row: row.find_element(By.CLASS_NAME, "filed").text
-                )(r),
-                "end_date": none_when_error(
-                    lambda row: row.find_element(By.CLASS_NAME, "enddate").text
-                )(r),
-                "entity_name": none_when_error(
-                    lambda row: row.find_element(By.CLASS_NAME, "entity-name").text
-                )(r),
-                "company_cik": none_when_error(
-                    lambda row: row.find_element(By.CLASS_NAME, "cik").get_attribute(
-                        "innerText"
-                    )
-                )(r),
-                "business_location": none_when_error(
-                    lambda row: row.find_element(
-                        By.CLASS_NAME, "biz-location"
-                    ).get_attribute("innerText")
-                )(r),
-                "incorporated_location": none_when_error(
-                    lambda row: row.find_element(
-                        By.CLASS_NAME, "incorporated"
-                    ).get_attribute("innerText")
-                )(r),
-                "file_link": none_when_error(
-                    lambda row: file_link_tag.get_attribute("href")
-                )(r),
-                "file_num": none_when_error(
-                    lambda row: file_link_tag.get_attribute("innerText")
-                )(r),
-                "film_num": none_when_error(
-                    lambda row: row.find_element(
-                        By.CLASS_NAME, "film-num"
-                    ).get_attribute("innerText")
-                )(r),
+                "filing_type": filing_type.text,
+                "filed_at": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "filed").text)(r),
+                "end_date": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "enddate").text)(r),
+                "entity_name": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "entity-name").text)(r),
+                "company_cik": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "cik").get_attribute("innerText"))(r),
+                "business_location": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "biz-location").get_attribute("innerText"))(r),
+                "incorporated_location": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "incorporated").get_attribute("innerText"))(r),
+                "file_link": try_or_none(lambda row: file_link_tag.get_attribute("href"))(r),
+                "file_num": try_or_none(lambda row: file_link_tag.get_attribute("innerText"))(r),
+                "film_num": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "film-num").get_attribute("innerText"))(r),
+                "data_adsh": data_adsh,
+                "data_file_name": data_file_name,
             }
         )
     return parsed_rows

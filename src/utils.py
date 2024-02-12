@@ -1,7 +1,7 @@
 from typing import Callable, Any
 
 
-def none_when_error(func: Callable[..., Any]) -> Callable[..., Any]:
+def try_or_none(func: Callable[..., Any]) -> Callable[..., Any]:
     """
     Decorator that returns None when an exception occurs in the decorated function.
 
