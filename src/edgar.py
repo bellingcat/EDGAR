@@ -54,22 +54,27 @@ def parse_table_rows(rows: List[WebElement]) -> List[dict]:
         file_link_tag = try_or_none(lambda row: row.find_element(By.CLASS_NAME, "file-num").find_element(By.TAG_NAME, "a"))(r)
         filing_type = try_or_none(lambda row: row.find_element(By.CLASS_NAME, "filetype"))(r)
         filing_type_link = filing_type.find_element(By.CLASS_NAME, "preview-file")
+        cik = try_or_none(lambda row: row.find_element(By.CLASS_NAME, "cik").get_attribute("innerText").split(" ")[1])(r)
+        cik_cleaned = cik.strip("0")
         data_adsh = filing_type_link.get_attribute("data-adsh")
+        data_adsh_no_dash = data_adsh.replace("-", "")
         data_file_name = filing_type_link.get_attribute("data-file-name")
+        filing_details_url = f"https://www.sec.gov/Archives/edgar/data/{cik_cleaned}/{data_adsh_no_dash}/{data_adsh}-index.html"
+        filing_doc_url = f"https://www.sec.gov/Archives/edgar/data/{cik_cleaned}/{data_adsh_no_dash}/{data_file_name}"
         parsed_rows.append(
             {
                 "filing_type": filing_type.text,
                 "filed_at": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "filed").text)(r),
                 "end_date": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "enddate").text)(r),
                 "entity_name": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "entity-name").text)(r),
-                "company_cik": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "cik").get_attribute("innerText"))(r),
-                "business_location": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "biz-location").get_attribute("innerText"))(r),
+                "company_cik": cik,
+                "place_of_business": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "biz-location").get_attribute("innerText"))(r),
                 "incorporated_location": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "incorporated").get_attribute("innerText"))(r),
-                "file_link": try_or_none(lambda row: file_link_tag.get_attribute("href"))(r),
                 "file_num": try_or_none(lambda row: file_link_tag.get_attribute("innerText"))(r),
                 "film_num": try_or_none(lambda row: row.find_element(By.CLASS_NAME, "film-num").get_attribute("innerText"))(r),
-                "data_adsh": data_adsh,
-                "data_file_name": data_file_name,
+                "file_num_search_url": try_or_none(lambda row: file_link_tag.get_attribute("href"))(r),
+                "filing_details_url": filing_details_url,
+                "filing_document_url": filing_doc_url
             }
         )
     return parsed_rows
@@ -169,7 +174,7 @@ def paginate_results(
 
             fetch_page(
                 driver, f"{BASE_URL}{request_args}", wait_for_request_secs, stop_after_n
-            )
+            )(lambda: driver.find_element(By.XPATH, RESULTS_TABLE_SELECTOR).text.strip() != "")
 
             page_results = extract_html_table_rows(
                 driver, By.XPATH, RESULTS_TABLE_SELECTOR
