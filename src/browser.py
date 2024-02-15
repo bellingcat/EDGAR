@@ -24,6 +24,8 @@ SAFARI = "safari"
 FIREFOX = "firefox"
 EDGE = "edge"
 
+ACCEPTED_BROWSERS = [CHROME, SAFARI, FIREFOX, EDGE]
+
 
 def fetch_page(
     driver: BrowserDriver,
