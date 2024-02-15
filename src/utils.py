@@ -1,4 +1,20 @@
-from typing import Callable, Any
+from datetime import date
+from typing import Callable, Any, Iterator
+
+
+def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
+    """
+    Generator returning a list of N dates at regular intervals between start and end dates
+
+    :param start: start date to generate intervals from
+    :param end: end date until which we should generate intervals
+    :param n: number of intervals to generate
+    :return:
+    """
+    diff = (end - start) / n
+    for i in range(n):
+        yield start + diff * i
+    yield end
 
 
 def try_or_none(func: Callable[..., Any]) -> Callable[..., Any]:
@@ -20,4 +36,3 @@ def try_or_none(func: Callable[..., Any]) -> Callable[..., Any]:
             return None
 
     return wrapper
-

@@ -1,5 +1,7 @@
+import sys
 import time
-from typing import Union, Callable, Any, List, Dict
+from contextlib import contextmanager
+from typing import Union, Callable, Any, List, Dict, Iterator
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -23,15 +25,9 @@ FIREFOX = "firefox"
 EDGE = "edge"
 IE = "ie"
 
-start_urls = [
-    f'http://quotes.toscrape.com/page/{i}/' for i in range(1, 11)
-]
-
 
 def fetch_page(
-    driver: Union[
-        ChromeWebDriver, SafariWebDriver, FirefoxWebDriver, EdgeWebDriver, IeWebDriver
-    ],
+    driver: BrowserDriver,
     url: str,
     wait_for_request_secs: int,
     stop_after_n: int,
@@ -71,7 +67,7 @@ def fetch_page(
 def extract_html_table_rows(
     driver: BrowserDriver, by: str, table_body_selector: str
 ) -> Callable[
-    [Callable[[List[WebElement]], List[Dict[str, Any]]]], List[Dict[str, Any]]
+    [Callable[[List[WebElement]], List[Dict[str, Any]]]], Iterator[Dict[str, Any]]
 ]:
     """
     Curried function that extracts the rows of an HTML table and parses them into a list of dictionaries.
@@ -85,7 +81,7 @@ def extract_html_table_rows(
 
     def wrapper(
         parse_func: Callable[[List[WebElement]], List[Dict[str, Any]]]
-    ) -> List[Dict[str, Any]]:
+    ) -> Iterator[Dict[str, Any]]:
         table_body = driver.find_element(by, table_body_selector)
         if table_body is None:
             raise ResultsTableNotFoundError(
@@ -95,20 +91,29 @@ def extract_html_table_rows(
         rows: List[WebElement] = table_body.find_elements(By.TAG_NAME, "tr")
         print(f"Fetched {len(rows)} rows")
 
-        parsed_rows = parse_func(rows)
+        parsed_rows: List[Dict[str, Any]] = parse_func(rows)
         print(f"Parsed {len(parsed_rows)} rows")
 
-        return parsed_rows
+        for r in parsed_rows:
+            yield r
 
     return wrapper
 
 
-def create_browser_driver(browser_name: str, headless: bool = True) -> BrowserDriver:
+class BrowserOptionUnsupportedError(Exception):
+    pass
+
+
+@contextmanager
+def create_browser_driver(browser_name: str, headless: bool) -> BrowserDriver:
     """
-    Creates a Selenium WebDriver based on the given browser name, fails with a ValueError if the browser name is not supported.
+    Context manager creating a Selenium WebDriver based on the given browser name,
+    exits if the browser is not supported.
+    Accepted browsers are: Chrome, Safari, Firefox, Edge.
+    Browser is automatically quit when leaving context manager.
 
     :param browser_name: name of the browser to create the WebDriver for, should be one of "chrome", "safari", "firefox", "edge", or "ie"
-    :param headless: whether to run the browser in headless mode or not, defaults to True
+    :param headless: whether to run the browser in headless mode or not
     :return: the created WebDriver
     """
 
@@ -116,44 +121,57 @@ def create_browser_driver(browser_name: str, headless: bool = True) -> BrowserDr
 
     browser_name = browser_name.lower().strip()
 
-    if browser_name == CHROME:
-        options = ChromeOptions()
+    try:
+        if browser_name == CHROME:
+            options = ChromeOptions()
+            user_agent = ua.chrome
+            options.add_argument(
+                f"--user-agent={user_agent}"
+            )
 
-        # Passing user-agent is required in headless mode to prevent the driver from crashing,
-        # and is recommended to use for SEC website requests in general
-        ua = ua.chrome
-        options.add_argument(
-            f"--user-agent={ua}"
-        )
-
-        # Disabling any performance-impacting options
-        options.add_argument("--disable-gpu")
-        options.add_argument("--disable-extensions")
-        options.add_argument("--disable-in-process-stack-traces")
-        options.add_argument("--disable-logging")
-        options.add_argument("--disable-crash-reporter")
-        options.add_argument("--log-level=3")
-        options.add_argument("--output=/dev/null")
-
-        if headless:
-            options.add_argument("--headless=new")
-
-        print(f"Creating {browser_name.capitalize()} browser with User Agent: {ua}")
-        return webdriver.Chrome(options=options)
-    elif browser_name == SAFARI:
-        return webdriver.Safari()
-    elif browser_name == FIREFOX:
-        return webdriver.Firefox()
-    elif browser_name == EDGE:
-        return webdriver.Edge()
-    elif browser_name == IE:
-        return webdriver.Ie()
-    else:
-        raise UnsupportedBrowserError(f"Unsupported browser: {browser_name}")
-
-
-class UnsupportedBrowserError(Exception):
-    pass
+            # TODO -> Check potential non-essential performance-impacting options and disable them
+            options.add_argument("--disable-gpu")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-in-process-stack-traces")
+            options.add_argument("--disable-logging")
+            options.add_argument("--disable-crash-reporter")
+            options.add_argument("--log-level=3")
+            options.add_argument("--output=/dev/null")
+            if headless:
+                options.add_argument("--headless=new")
+            driver = webdriver.Chrome(options=options)
+        elif browser_name == SAFARI:
+            if headless:
+                raise BrowserOptionUnsupportedError("As of May 2023, Safari does not support headless mode, "
+                                                    "see https://github.com/SeleniumHQ/selenium/issues/12046")
+            options = webdriver.SafariOptions()
+            user_agent = ua.safari
+            options.add_argument(f"--user-agent={user_agent}")
+            driver = webdriver.Safari()
+        elif browser_name == FIREFOX:
+            options = webdriver.FirefoxOptions()
+            if headless:
+                options.add_argument("--headless")
+            user_agent = ua.firefox
+            options.add_argument(f"--user-agent={user_agent}")
+            driver = webdriver.Firefox(options=options)
+        elif browser_name == EDGE:
+            options = webdriver.EdgeOptions()
+            if headless:
+                options.headless = True
+            user_agent = ua.edge
+            options.add_argument(f"--user-agent={user_agent}")
+            driver = webdriver.Edge(options=options)
+        else:
+            print(f"Unsupported browser: {browser_name}")
+            driver = None
+            sys.exit(1)
+        print(f"Creating {browser_name.capitalize()} browser with User Agent: {user_agent}")
+        yield driver
+    finally:
+        if driver:
+            print("Closing browser ...")
+            driver.quit()
 
 
 class ResultsTableNotFoundError(Exception):
