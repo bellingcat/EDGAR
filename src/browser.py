@@ -23,7 +23,6 @@ CHROME = "chrome"
 SAFARI = "safari"
 FIREFOX = "firefox"
 EDGE = "edge"
-IE = "ie"
 
 
 def fetch_page(

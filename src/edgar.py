@@ -42,18 +42,18 @@ class SecEdgarScraper:
         self.search_requests = []
         self.driver = driver
 
-    def parse_number_of_results(self) -> int:
+    def _parse_number_of_results(self) -> int:
         num_results = int(self.driver.find_element(By.ID, "show-result-count").text.replace(",", "").split(" ")[0])
         return num_results
 
-    def compute_number_of_pages(self) -> int:
-        num_results = self.parse_number_of_results()
+    def _compute_number_of_pages(self) -> int:
+        num_results = self._parse_number_of_results()
         num_pages = ceil(num_results / 100)
         print(f"Found {num_results} / 100 = {num_pages} pages")
         return num_pages
 
     @staticmethod
-    def parse_table_rows(rows: List[WebElement]) -> List[dict]:
+    def _parse_table_rows(rows: List[WebElement]) -> List[dict]:
         """
         Parses the given list of table rows into a list of dictionaries.
 
@@ -98,7 +98,7 @@ class SecEdgarScraper:
         return parsed_rows
 
     @staticmethod
-    def generate_request_args(
+    def _generate_request_args(
             search_keywords: List[str],
             entity_identifier: Optional[str],
             filing_category: Optional[str],
@@ -149,7 +149,7 @@ class SecEdgarScraper:
 
         return request_args
 
-    def fetch_search_request_results(
+    def _fetch_search_request_results(
             self,
             search_request: str,
             wait_for_request_secs: int,
@@ -170,7 +170,7 @@ class SecEdgarScraper:
         )(lambda: self.driver.find_element(By.XPATH, RESULTS_TABLE_SELECTOR).text.strip() != "")
 
         # Get number of pages
-        num_pages = self.compute_number_of_pages()
+        num_pages = self._compute_number_of_pages()
 
         for i in range(1, num_pages + 1):
             paginated_url = f"{BASE_URL}{search_request}&page={i}"
@@ -181,7 +181,7 @@ class SecEdgarScraper:
 
                 page_results = extract_html_table_rows(
                     self.driver, By.XPATH, RESULTS_TABLE_SELECTOR
-                )(self.parse_table_rows)
+                )(self._parse_table_rows)
                 yield page_results
             except PageCheckFailedError as e:
                 print(
@@ -202,15 +202,15 @@ class SecEdgarScraper:
                 print(f"Error: {e}")
                 continue
 
-    def generate_search_requests(self,
-                                 search_keywords: List[str],
-                                 entity_identifier: Optional[str] = None,
-                                 filing_category: Optional[str] = None,
-                                 exact_search: bool = False,
-                                 start_date: date = date.today() - timedelta(days=365 * 5),
-                                 end_date: date = date.today(),
-                                 wait_for_request_secs: int = 8,
-                                 stop_after_n: int = 3) -> None:
+    def _generate_search_requests(self,
+                                  search_keywords: List[str],
+                                  entity_identifier: Optional[str],
+                                  filing_category: Optional[str],
+                                  exact_search: bool,
+                                  start_date: date,
+                                  end_date: date,
+                                  wait_for_request_secs: int,
+                                  stop_after_n: int) -> None:
 
         """
         Generates search requests for the given parameters and date range, recursiverly
@@ -224,11 +224,11 @@ class SecEdgarScraper:
         :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
         :param wait_for_request_secs: Number of seconds to wait for the request to complete, defaults to 8
         :param stop_after_n: Number of times to retry the request before failing, defaults to 3
-        :return:
+        :return: None
         """
 
         # Fetch first page, verify that the request was successful by checking the result count value on the page
-        request_args = self.generate_request_args(
+        request_args = self._generate_request_args(
             search_keywords=search_keywords,
             entity_identifier=entity_identifier,
             filing_category=filing_category,
@@ -265,7 +265,7 @@ class SecEdgarScraper:
                     start = d if i == 0 else d + timedelta(days=1)
                     end = dates[i + 1]
                     print(f"Trying to generate search requests for date range {start} -> {end} ...")
-                    self.generate_search_requests(
+                    self._generate_search_requests(
                         search_keywords=search_keywords,
                         entity_identifier=entity_identifier,
                         filing_category=filing_category,
@@ -281,13 +281,13 @@ class SecEdgarScraper:
     def custom_text_search(
             self,
             search_keywords: List[str],
-            entity_identifier: Optional[str] = None,
-            filing_category: Optional[str] = None,
-            exact_search: bool = False,
-            start_date: date = date.today() - timedelta(days=365 * 5),
-            end_date: date = date.today(),
-            wait_for_request_secs: int = 8,
-            stop_after_n: int = 3,
+            entity_identifier: Optional[str],
+            filing_category: Optional[str],
+            exact_search: bool,
+            start_date: date,
+            end_date: date,
+            wait_for_request_secs: int,
+            stop_after_n: int,
     ) -> None:
         """
         Searches the SEC website for filings based on the given parameters, using Selenium for JavaScript support.
@@ -303,7 +303,7 @@ class SecEdgarScraper:
         :return: None
         """
 
-        self.generate_search_requests(
+        self._generate_search_requests(
             search_keywords=search_keywords,
             entity_identifier=entity_identifier,
             filing_category=filing_category,
@@ -318,7 +318,7 @@ class SecEdgarScraper:
 
             # Run generated search requests and paginate through results
             try:
-                results: Iterator[Iterator[dict[str, Any]]] = self.fetch_search_request_results(
+                results: Iterator[Iterator[dict[str, Any]]] = self._fetch_search_request_results(
                     search_request=r,
                     wait_for_request_secs=wait_for_request_secs,
                     stop_after_n=stop_after_n,
@@ -366,6 +366,15 @@ class SecEdgarScraper:
         print(f"Successfully wrote data to {filename}.")
 
     def fetch_first_page_results_number(self, url: str, wait_for_request_secs: int, stop_after_n: int) -> int:
+        """
+        Fetches the first page of results for the given URL and returns the number of results.
+
+        :param url: URL to fetch the first page of results from
+        :param wait_for_request_secs: number of seconds to wait for the request to complete
+        :param stop_after_n: stop after n retries
+        :return: number of results
+        """
+
         # If we cannot fetch the first page after retries, abort
         try:
             fetch_page(self.driver, url, wait_for_request_secs, stop_after_n)(
@@ -379,7 +388,7 @@ class SecEdgarScraper:
 
         # If we cannot get number of results after retries, abort
         try:
-            num_results = self.parse_number_of_results()
+            num_results = self._parse_number_of_results()
             return num_results
         except Exception as e:
             print(f"Failed to parse number of results for URL {url}, aborting...")
