@@ -30,7 +30,9 @@ class SecEdgarScraperCli:
         if stop_after_n < 0:
             raise ValueError("stop_after_n cannot be negative")
         if browser_name not in ACCEPTED_BROWSERS:
-            raise ValueError("Browser name must be either 'chrome' or 'firefox'")
+            raise ValueError(f"Browser name must be one of: {', '.join(ACCEPTED_BROWSERS)}")
+        if not destination.endswith(".csv"):
+            raise ValueError("Destination file must be a CSV file with a .csv extension")
 
     def text_search(
             self,
