@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from src.browser import create_browser_driver, ACCEPTED_BROWSERS
 from src.constants import SUPPORTED_OUTPUT_EXTENSIONS, TEXT_SEARCH_FILING_CATEGORIES_MAPPING
+from src.rss import daily_rss_feed
 from src.text_search import EdgarTextSearcher
 
 
@@ -109,3 +110,7 @@ class SecEdgarScraperCli:
                 retries=retries,
                 destination=output,
             )
+
+    @staticmethod
+    def rss(*tickers: str, output: str) -> None:
+        daily_rss_feed(list(tickers), output)
