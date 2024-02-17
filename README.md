@@ -1,4 +1,5 @@
 # EDGAR
+
 Free tools for the efficient and consistent retrieval of corporate and financial data from the SEC. 
 
 # What is EDGAR?
@@ -32,51 +33,105 @@ The current table is created by the following method:
     - Match the GAAP tags with their plain English term
     - Keep a database of orphan tags, and add them into the dictionary, manually
    
-The quality of any programatically produced finacial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. The dataset I have created is of comparable accuracy to what you can find on Yahoo Finance, but spans a wider time frame, and is good enough for me to use in my own projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info). 
+The quality of any programmatically produced financial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. The dataset I have created is of comparable accuracy to what you can find on Yahoo Finance, but spans a wider time frame, and is good enough for me to use in my own projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info). 
 
 I believe we can keep improving this dataset – with your help! Please report inconsistencies to me and I will do my best to improve the existing method. I also am designing an entirely new method that I will implement early next year, based on the scraping of tables embedded in yearly/quarterly reports. 
 
 # Text Search all EDGAR Filings
 
-If you're interested in finding all the documents mentioning a certain person or a phrase in the EDGAR database, you can do that via text search. The problem is that there is no way to programmatically access the results. As a solution, I've built a [search and scraping script](EDGAR_text_search.py) in Python that allows you to search for up to 3 distinct phrases, to modify the desired time frame, and to search only quarterly/yearly reports if desired. Note that the method I have created is reliable up to the limit of 10,000 search results. So I recommend doing a few manual searches first to tailor the parameters until you get an acceptable quantity of results.
+## What is the EDGAR text search tool?
 
-The script will give you a .CSV table with the date, name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. 
+If you're interested in finding all the documents mentioning a certain person or a phrase in the EDGAR database, you can do that via the [full text search page](https://www.sec.gov/edgar/search/#)
 
-Let me know how it works! In a few months I will provide an updated version that automatically breaks over-ambitious searches into manageable time frames, and I will also try to include whatever other reasonable suggestions I receive. 
+Since the SEC does not expose an API endpoint enabling programmatic usage of this functionality, we built a Python tool allowing users to replicate the search behavior of the EDGAR text search page, and to download results to a file.
+
+The tool takes the form of a CLI (soon available as Python library as well) that takes a search query, spawns a (headless by default) browser, and downloads the search results. 
+Search results are then parsed and saved in a CSV or a JSONLines file.
+
+## Features
+
+### Search parameters
+
+Most search parameters from the EDGAR text search page are supported, including:
+- `Document word or phrase` (mandatory)
+- `Company name, ticker or CIK, or individual's name` (optional)
+- `Filing category` (optional)
+- `Filed from` and `Filed to` dates (optional)
+
+Currently unsupported search parameters are:
+- `Filed date ranges` (since the same behavior can be achieved with `Filed from` and `Filed to` dates)
+- `Principal executive offices in` (though it could be added in the future by hardcoding the list of supported values)
+
+### Output formats
+
+Currently supported outputs formats are:
+- CSV
+- JSONLines (one JSON object per line)
+
+Output format is determined by the file extension of the output file path. 
+Accepted values are `.csv` and `.jsonl` (case-insensitive).
+
+### Browsers
+
+Currently supported browsers are:
+- Chrome (default)
+- Firefox
+- Edge
+- Safari
+
+However, maximum stealthiness is achieved with Chrome, and we recommend using it 
+unless you have a good reason to use another browser.
+
+### Retries
+
+The tool supports retries in case of failed requests. Retries can be configured with the `--retries` argument, and the wait time between retries will be a random number between `--min_wait` and `--max_wait` arguments.
+
+### Stealth
+
+- Randomizes User-Agent when browser is created.
+- (Only for Chrome as of now) Disables bot-related features such as navigator.webdriver property and Chrome's automation extension.
+- Randomizes the wait time between requests / retries.
+
+## Installation
+
+At the moment, the tool is not available on PyPI yet, hence you need to clone the repository and run the script manually.
+
+```bash
+# Clone the repository and move to the cloned directory
+git clone https://github.com/bellingcat/EDGAR.git
+cd EDGAR
+
+# Create virtual environment and install the required dependencies
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Example usage
+
+```bash
+# Display help message describing all supported arguments along with 
+# their usage, aliases and eventual default values (type q to exit)
+python3 main.py text_search --help
+
+# Basic usage with export to CSV
+python3 main.py text_search John Doe --start_date "2021-01-01" --end_date "2021-12-31" --exact_search --output "results.csv"
+
+# More advanced usage specifying more arguments, with export to JSONLines
+python3 main.py text_search John Doe --start_date "2021-01-01" --end_date "2021-12-31" --exact_search \
+          --output "results.jsonl" --filing_type "all_annual_quarterly_and_current_reports" --entity_id "1234567890" \
+          --min_wait 5.0 --max_wait 7.0 --retries 3 --browser "firefox" --headless
+          
+# Same but using aliases when possible (more aliases will be added in the future)
+python3 main.py text_search John Doe -s "2021-01-01" --end_date "2021-12-31" --exact_search \
+          -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" --entity_id "1234567890" \
+          --min_wait 5.0 --max_wait 7.0 -r 3 -b "firefox" -h
+
+```
+
+**Note**: combining text search parameters with `entity_id` parameter seems to increase the risk of failed requests
+on the SEC page due to an apparent bug, we recommend to either avoid doing so (you can specify an empty string for search keywords using `""` and use only) or setting the number of retries accordingly if you do so.
 
 # RSS Feed Customizer
 
 EDGAR has three RSS feeds, and I wrote a [RSS feed parsing script](EDGAR_RSS_custom.py)  that allows you to filter the feed to return only company/tickers of interest. The output is similar to the text search script in that it returns a .CSV with the name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. Here too, I would be happy to improve the tool according to your proposals. 
-
-# Installation
-
-## Use a Python Virtual Environment
-This helps manage python package versions, for more information [see here](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments)
-
-`python -m venv .venv`
-
-Then on UNIX or Mac, activate the venv with:
-
-`source .venv/bin/activate`
-
-On Windows, activate with:
-
-`.venv\Scripts\activate`
-
-## Package installation
-
-To install the Python packages needed to run these scripts use
-
-`pip install -r requirements.txt`
-
-# Running the scripts
-
-Before running the scripts, you will need to edit some of the code. Each script has a section titled `User inputs`, which is the only section that should need editing.
-
-Once you have edited the code, you can run each script with:
-
-`python EDGAR_text_search.py`
-
-and
-
-`python EDGAR_RSS_custom.py`

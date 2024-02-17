@@ -1,8 +1,10 @@
 import sys
 import time
 from contextlib import contextmanager
+from random import uniform
 from typing import Union, Callable, Any, List, Dict, Iterator
 
+from fake_useragent import UserAgent
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
@@ -13,7 +15,6 @@ from selenium.webdriver.ie.webdriver import WebDriver as IeWebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.safari.webdriver import WebDriver as SafariWebDriver
 from tenacity import retry, wait_fixed, stop_after_attempt
-from fake_useragent import UserAgent
 
 BrowserDriver = Union[
     ChromeWebDriver, SafariWebDriver, FirefoxWebDriver, EdgeWebDriver, IeWebDriver
@@ -30,7 +31,8 @@ ACCEPTED_BROWSERS = [CHROME, SAFARI, FIREFOX, EDGE]
 def fetch_page(
     driver: BrowserDriver,
     url: str,
-    wait_for_request_secs: int,
+    min_wait_seconds: float,
+    max_wait_seconds: float,
     stop_after_n: int,
 ) -> Callable[[Callable[..., Any]], None]:
     """
@@ -39,23 +41,25 @@ def fetch_page(
 
     :param driver: Selenium WebDriver
     :param url: URL to fetch
-    :param wait_for_request_secs: how long to wait for the request to complete before executing the check method
+    :param min_wait_seconds: minimum wait time for the request to complete before executing the check method
+    :param max_wait_seconds: maximum wait time for the request to complete before executing the check method
     :param stop_after_n: how many times to retry the request before failing
     :return: wrapper function that takes a check method and retries the request if the page load fails
     """
 
     @retry(
-        wait=wait_fixed(wait_for_request_secs),
+        wait=wait_fixed(uniform(min_wait_seconds, max_wait_seconds)),
         stop=stop_after_attempt(stop_after_n),
         reraise=True,
     )
     def wrapper(check_method: Callable) -> None:
         print(f"Requesting URL: {url}")
         driver.get(url)
+        randomized_wait = uniform(min_wait_seconds, max_wait_seconds)
         print(
-            f"Waiting {wait_for_request_secs} seconds for the request to complete..."
+            f"Waiting {randomized_wait} seconds for the request to complete..."
         )
-        time.sleep(wait_for_request_secs)
+        time.sleep(randomized_wait)
         if not check_method():
             raise PageCheckFailedError(
                 "Page check failed, page load seems to have failed"
@@ -126,21 +130,20 @@ def create_browser_driver(browser_name: str, headless: bool) -> BrowserDriver:
         if browser_name == CHROME:
             options = ChromeOptions()
             user_agent = ua.chrome
+
+            # Setting the user agent
             options.add_argument(
                 f"--user-agent={user_agent}"
             )
 
-            # TODO -> Check potential non-essential performance-impacting options and disable them
-            options.add_argument("--disable-gpu")
-            options.add_argument("--disable-extensions")
-            options.add_argument("--disable-in-process-stack-traces")
-            options.add_argument("--disable-logging")
-            options.add_argument("--disable-crash-reporter")
-            options.add_argument("--log-level=3")
-            options.add_argument("--output=/dev/null")
+            # Browser stealthiness options
+            options.add_argument("--disable-blink-features=AutomationControlled")
+            options.add_experimental_option("excludeSwitches", ["enable-automation"])
+            options.add_experimental_option("useAutomationExtension", False)
             if headless:
                 options.add_argument("--headless=new")
             driver = webdriver.Chrome(options=options)
+            driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         elif browser_name == SAFARI:
             if headless:
                 raise BrowserOptionUnsupportedError("As of May 2023, Safari does not support headless mode, "

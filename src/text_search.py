@@ -4,6 +4,7 @@ from datetime import date, timedelta
 from math import ceil
 from typing import List, Optional, Dict, Any, Iterator
 
+import jsonlines
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
@@ -14,29 +15,12 @@ from src.browser import (
     PageCheckFailedError,
     ResultsTableNotFoundError,
 )
+from src.constants import SUPPORTED_OUTPUT_EXTENSIONS, TEXT_SEARCH_BASE_URL, TEXT_SEARCH_FILING_CATEGORIES_MAPPING, \
+    TEXT_SEARCH_RESULTS_TABLE_XPATH, TEXT_SEARCH_SPLIT_BATCHES_NUMBER
 from src.utils import try_or_none, split_date_range_in_n
 
-BASE_URL = "https://www.sec.gov/edgar/search/#/"
 
-FILING_CATEGORIES_MAPPING = {
-    "all_except_section_16": "form-cat0",
-    "all_annual_quarterly_and_current_reports": "form-cat1",
-    "all_section_16": "form-cat2",
-    "beneficial_ownership_reports": "form-cat3",
-    "exempt_offerings": "form-cat4",
-    "registration_statements": "form-cat5",
-    "filing_review_correspondence": "form-cat6",
-    "sec_orders_and_notices": "form-cat7",
-    "proxy_materials": "form-cat8",
-    "tender_offers_and_going_private_tx": "form-cat9",
-    "trust_indentures": "form-cat10",
-}
-
-RESULTS_TABLE_SELECTOR = "/html/body/div[3]/div[2]/div[2]/table/tbody"
-DEFAULT_BATCHES_NUMBER = 2
-
-
-class SecEdgarScraper:
+class EdgarTextSearcher:
 
     def __init__(self, driver: BrowserDriver):
         self.search_requests = []
@@ -142,7 +126,7 @@ class SecEdgarScraper:
         if entity_id:
             request_args["entityName"] = entity_id
         if filing_type:
-            request_args["category"] = FILING_CATEGORIES_MAPPING[filing_type]
+            request_args["category"] = TEXT_SEARCH_FILING_CATEGORIES_MAPPING[filing_type]
 
         # URL-encode the request arguments
         request_args = urllib.parse.urlencode(request_args)
@@ -152,35 +136,37 @@ class SecEdgarScraper:
     def _fetch_search_request_results(
             self,
             search_request_url_args: str,
-            wait_seconds: int,
+            min_wait_seconds: float,
+            max_wait_seconds: float,
             retries: int,
     ) -> Iterator[Iterator[Dict[str, Any]]]:
         """
         Fetches the results for the given search request and paginates through the results.
 
         :param search_request_url_args: URL-encoded request arguments string to concatenate to the SEC website URL
-        :param wait_seconds: amount of time to wait for the request to complete
+        :param min_wait_seconds: minimum number of seconds to wait for the request to complete
+        :param max_wait_seconds: maximum number of seconds to wait for the request to complete
         :param retries: number of times to retry the request before failing
         :return: Iterator of dictionaries representing the parsed table rows
         """
 
         # Fetch first page, verify that the request was successful by checking the results table appears on the page
         fetch_page(
-            self.driver, f"{BASE_URL}{search_request_url_args}", wait_seconds, retries
-        )(lambda: self.driver.find_element(By.XPATH, RESULTS_TABLE_SELECTOR).text.strip() != "")
+            self.driver, f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}", min_wait_seconds, max_wait_seconds, retries
+        )(lambda: self.driver.find_element(By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH).text.strip() != "")
 
         # Get number of pages
         num_pages = self._compute_number_of_pages()
 
         for i in range(1, num_pages + 1):
-            paginated_url = f"{BASE_URL}{search_request_url_args}&page={i}"
+            paginated_url = f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}&page={i}"
             try:
                 fetch_page(
-                    self.driver, paginated_url, wait_seconds, retries
-                )(lambda: self.driver.find_element(By.XPATH, RESULTS_TABLE_SELECTOR).text.strip() != "")
+                    self.driver, paginated_url, min_wait_seconds, max_wait_seconds, retries
+                )(lambda: self.driver.find_element(By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH).text.strip() != "")
 
                 page_results = extract_html_table_rows(
-                    self.driver, By.XPATH, RESULTS_TABLE_SELECTOR
+                    self.driver, By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH
                 )(self._parse_table_rows)
                 yield page_results
             except PageCheckFailedError as e:
@@ -209,21 +195,23 @@ class SecEdgarScraper:
                                   exact_search: bool,
                                   start_date: date,
                                   end_date: date,
-                                  wait_seconds: int,
+                                  min_wait_seconds: float,
+                                  max_wait_seconds: float,
                                   retries: int) -> None:
 
         """
-        Generates search requests for the given parameters and date range, recursiverly
-        splitting the date range in two if the number of results is 10000 or more.
+        Generates search requests for the given parameters and date range,
+        recursively splitting the date range in two if the number of results is 10000 or more.
+
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
-        :param filing_type: Filing category to select from the dropdown menu, defaults to None
-        :param exact_search: Whether to perform an exact search on the search_keywords argument or not,
-        defaults to False in order to return the maximum amount of search results by default
-        :param start_date: Start date for the custom date range, defaults to 5 years ago to replicate the default behavior of the SEC website
-        :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
-        :param wait_seconds: Number of seconds to wait for the request to complete, defaults to 8
-        :param retries: Number of times to retry the request before failing, defaults to 3
+        :param filing_type: Filing category to select from the dropdown menu
+        :param exact_search: Whether to perform an exact search on the search_keywords argument or not
+        :param start_date: Start date for the custom date range
+        :param end_date: End date for the custom date range
+        :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
+        :param max_wait_seconds: Maximum number of seconds to wait for the request to complete
+        :param retries: Number of times to retry the request before failing
         :return: None
         """
 
@@ -237,13 +225,13 @@ class SecEdgarScraper:
             end_date=end_date,
             page_number=1,
         )
-        url = f"{BASE_URL}{request_args}"
+        url = f"{TEXT_SEARCH_BASE_URL}{request_args}"
 
         # Try to fetch the first page and parse the number of results
         # In rare cases when the results are not empty, but the number of results cannot be parsed,
         # set num_results to 10000 in order to split the date range in two and continue
         try:
-            num_results = self.fetch_first_page_results_number(url, wait_seconds, retries)
+            num_results = self._fetch_first_page_results_number(url, min_wait_seconds, max_wait_seconds, retries)
         except ValueError as ve:
             print(f"Setting search results for range {start_date} -> {end_date} to 10000 due to error "
                   f"while parsing result number for seemingly non-empty results: {ve}")
@@ -256,7 +244,7 @@ class SecEdgarScraper:
                   f"returning search request string...")
             self.search_requests.append(request_args)
         else:
-            num_batches = min(((end_date - start_date).days, DEFAULT_BATCHES_NUMBER))
+            num_batches = min(((end_date - start_date).days, TEXT_SEARCH_SPLIT_BATCHES_NUMBER))
             print(
                 f"10000 results or more for date range {start_date} -> {end_date}, splitting in {num_batches} intervals")
             dates = list(split_date_range_in_n(start_date, end_date, num_batches))
@@ -272,7 +260,8 @@ class SecEdgarScraper:
                         exact_search=exact_search,
                         start_date=start,
                         end_date=end,
-                        wait_seconds=wait_seconds,
+                        min_wait_seconds=min_wait_seconds,
+                        max_wait_seconds=max_wait_seconds,
                         retries=retries,
                     )
                 except IndexError:
@@ -286,7 +275,8 @@ class SecEdgarScraper:
             exact_search: bool,
             start_date: date,
             end_date: date,
-            wait_seconds: int,
+            min_wait_seconds: float,
+            max_wait_seconds: float,
             retries: int,
             destination: str
     ) -> None:
@@ -295,12 +285,13 @@ class SecEdgarScraper:
 
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
-        :param filing_type: Filing category to select from the dropdown menu, defaults to None
-        :param exact_search: Whether to perform an exact search on the search_keywords argument or not, defaults to False in order to return the maximum amount of search results by default
-        :param start_date: Start date for the custom date range, defaults to 5 years ago to replicate the default behavior of the SEC website
-        :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
-        :param wait_seconds: Number of seconds to wait for the request to complete, defaults to 10
-        :param retries: Number of times to retry the request before failing, defaults to 3
+        :param filing_type: Filing category to select from the dropdown menu
+        :param exact_search: Whether to perform an exact search on the search_keywords argument or not
+        :param start_date: Start date for the custom date range
+        :param end_date: End date for the custom date range
+        :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
+        :param max_wait_seconds: Maximum number of seconds to wait for the request to complete
+        :param retries: Number of times to retry the request before failing
         :param destination: Name of the CSV file to write the results to
         """
 
@@ -311,7 +302,8 @@ class SecEdgarScraper:
             exact_search=exact_search,
             start_date=start_date,
             end_date=end_date,
-            wait_seconds=wait_seconds,
+            min_wait_seconds=min_wait_seconds,
+            max_wait_seconds=max_wait_seconds,
             retries=retries,
         )
 
@@ -321,17 +313,42 @@ class SecEdgarScraper:
             try:
                 results: Iterator[Iterator[dict[str, Any]]] = self._fetch_search_request_results(
                     search_request_url_args=r,
-                    wait_seconds=wait_seconds,
+                    min_wait_seconds=min_wait_seconds,
+                    max_wait_seconds=max_wait_seconds,
                     retries=retries,
                 )
-                self.write_results_to_csv(results, destination)
+                self.write_results(results, destination)
 
             except Exception as e:
                 print(f"Unexpected error occurred while fetching search request results for request parameters '{r}': {e}")
                 print(f"Skipping...")
 
+    def write_results(self, data: Iterator[Iterator[Dict[str, Any]]], filename: str) -> None:
+
+        if filename.lower().endswith(".csv"):
+            self._write_results_to_csv(data, filename)
+        elif filename.lower().endswith(".jsonl"):
+            self._write_results_to_jsonlines(data, filename)
+        else:
+            raise ValueError(f"Unsupported file extension for destination file: {filename} (should be one of {','.join(SUPPORTED_OUTPUT_EXTENSIONS)})")
+
     @staticmethod
-    def write_results_to_csv(data: Iterator[Iterator[Dict[str, Any]]], filename: str) -> None:
+    def _write_results_to_jsonlines(data: Iterator[Iterator[Dict[str, Any]]], filename: str) -> None:
+
+        """
+        Writes the given generator of dictionaries to a JSON Lines file. Assumes all dictionaries have the same keys.
+
+        :param data: Iterator of iterators of dictionaries to write to the JSON Lines file
+        :param filename: Name of the JSON Lines file to write to
+        """
+
+        with jsonlines.open(filename, mode='w') as writer:
+            for results_list_iterators in data:
+                for r in results_list_iterators:
+                    writer.write(r)
+
+    @staticmethod
+    def _write_results_to_csv(data: Iterator[Iterator[Dict[str, Any]]], filename: str) -> None:
         """
         Writes the given generator of dictionaries to a CSV file. Assumes all dictionaries have the same keys,
         and that the keys are the column names. If file is already present, it appends the data to the file.
@@ -340,8 +357,8 @@ class SecEdgarScraper:
 
         :param data: Iterator of iterators of dictionaries to write to the CSV file
         :param filename: Name of the CSV file to write to
-        :return: None
         """
+
         fieldnames = [
             "filing_type",
             "filed_at",
@@ -366,20 +383,21 @@ class SecEdgarScraper:
                     writer.writerow(r)
         print(f"Successfully wrote data to {filename}.")
 
-    def fetch_first_page_results_number(self, url: str, wait_seconds: int, retries: int) -> int:
+    def _fetch_first_page_results_number(self, url: str, min_wait_seconds: float, max_wait_seconds: float, retries: int) -> int:
         """
         Fetches the first page of results for the given URL and returns the number of results.
 
         :param url: URL to fetch the first page of results from
-        :param wait_seconds: number of seconds to wait for the request to complete
-        :param retries: stop after n retries
-        :return: number of results
+        :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
+        :param max_wait_seconds: Maximum number of seconds to wait for the request to complete
+        :param retries: Number of times to retry the request before failing
+        :return: Number of results found for the given URL
         """
 
         # If we cannot fetch the first page after retries, abort
         try:
-            fetch_page(self.driver, url, wait_seconds, retries)(
-                lambda: self.driver.find_element(By.XPATH, RESULTS_TABLE_SELECTOR).text.strip() != ""
+            fetch_page(self.driver, url, min_wait_seconds, max_wait_seconds, retries)(
+                lambda: self.driver.find_element(By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH).text.strip() != ""
             )
         except PageCheckFailedError:
             print(f"No results found for first page at URL {url}, aborting...")

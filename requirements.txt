@@ -1,10 +1,9 @@
+beautifulsoup4~=4.12.3
+selenium~=4.17.2
+fake-useragent~=1.4.0
+tenacity~=8.2.3
+fire~=0.5.0
+jsonlines~=4.0.0
 pandas~=2.0.3
 requests~=2.31.0
-beautifulsoup4~=4.12.3
-requests-html
-selenium~=4.17.2
-lxml
-fake-useragent
-tenacity~=8.2.3
 bs4~=0.0.2
-fire~=0.5.0
