@@ -1,16 +1,149 @@
 # EDGAR
 
-Free tools for the efficient and consistent retrieval of corporate and financial data from the SEC. 
+CLI tool and resources enabling efficient and consistent retrieval of corporate and financial data from the SEC. 
 
-# What is EDGAR?
+## What is EDGAR?
 
-EDGAR is a database of corporate filings maintained by the United States Securities and Exchange Commission (SEC). These filings contain a wealth of quantitative and qualitative information on every legal entity that issues non-exempt securities in the United States. Whether you are looking to study the fundamentals of your favorite stocks, or to track the corporate webs weaved by a person or company of interest, EDGAR is the place to do it.
+EDGAR is a database of corporate filings maintained by the United States Securities and Exchange Commission (SEC). 
+These filings contain a wealth of quantitative and qualitative information on every legal entity that issues non-exempt securities in the United States. 
+Whether you are looking to study the fundamentals of your favorite stocks, or to track the corporate webs weaved by a person or company of interest, EDGAR is the place to do it.
 
 But there's a catch. 
 
-To _programatically_ access EDGAR data in a consistent and reliable manner is a complex problem. Most people who have found solutions to this problem charge a fee for it, or only provide a limited free access to the obtained data. Thanks to funding from investigative journalism organization Bellingcat, I was able to devote six months to studying the EDGAR database, determining the most likely use cases for researchers and investors, and building tools that can help people exploit this incredible, free resource.
+To _programatically_ access EDGAR data in a consistent and reliable manner is a complex problem. 
+Most people who have found solutions to this problem charge a fee for it, or only provide limited free access to the obtained data. 
+Thanks to funding from investigative journalism organization Bellingcat, I was able to devote six months to studying the EDGAR database, determining the most likely use cases for researchers and investors, and building a tool that can help people exploit this incredible, free resource.
 
-# Table of Cleaned Financial Data
+## Installation
+
+At the moment, the tool is not available on PyPI yet, hence you need to clone the repository and run the script manually.
+
+```bash
+# Clone the repository and move to the cloned directory
+git clone https://github.com/bellingcat/EDGAR.git
+cd EDGAR
+
+# Create virtual environment and install the required dependencies
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Text Search all EDGAR Filings
+
+### What is the EDGAR text search tool?
+
+If you're interested in finding all the documents mentioning a certain person ? company or a phrase in the EDGAR database, you can do that via the [full text search page](https://www.sec.gov/edgar/search/#)
+
+Since the SEC does not make it easy to get all the information you might need, we built a Python tool that lets you download the search results to a file without having to go through all the pages of results by hand.
+
+This is a command line tool that takes a search query, opens a web browser in the background, and downloads the search results into a CSV file that can be opened in a spreadsheet program (such as Excel).
+
+### Features
+
+#### Search parameters
+
+Most search parameters from the EDGAR text search page are supported, including:
+- `Document word or phrase` (mandatory)
+- `Company name, ticker or CIK, or individual's name` (optional)
+- `Filing category` (optional)
+- `Filed from` and `Filed to` dates (optional)
+
+Currently unsupported search parameters are:
+- `Filed date ranges` (since the same behavior can be achieved with `Filed from` and `Filed to` dates)
+- `Principal executive offices in` (though it could be added in the future by hardcoding the list of supported values)
+
+#### Pagination
+
+The tool supports pagination, and will automatically download all available search results.
+
+In addition, it works around a limitation of the SEC website that only displays the first 10000 results,
+by automatically splitting date ranges into smaller ones until the number of results is below 10000, ensuring
+that all results are downloaded.
+
+#### Output formats
+
+Currently supported outputs formats are:
+- CSV
+- JSONLines (one JSON object per line)
+
+Output format is determined by the file extension of the output file path. 
+Accepted values are `.csv` and `.jsonl` (case-insensitive).
+
+#### Browsers
+
+Currently supported browsers are:
+- Chrome (default)
+- Firefox
+- Edge
+- Safari
+
+#### Retries
+
+The tool supports retries in case of failed requests. Retries can be configured with the `--retries` argument, and the wait time between retries will be a random number between `--min_wait` and `--max_wait` arguments.
+
+### Example usage
+
+```bash
+# Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
+python3 main.py text_search --help
+
+# Basic usage with export to CSV
+python3 main.py text_search John Doe --start_date "2021-01-01" --end_date "2021-12-31" --exact_search --output "results.csv"
+
+# More advanced usage specifying more arguments, with export to JSON
+python3 main.py text_search John Doe --start_date "2021-01-01" --end_date "2021-12-31" --exact_search \
+          --output "results.json" --filing_type "all_annual_quarterly_and_current_reports" --entity_id "1234567890" \
+          --min_wait 5.0 --max_wait 7.0 --retries 3 --browser "firefox" --headless
+          
+# Same but using aliases when possible (more aliases will be added in the future) and exporting to JSONLines
+python3 main.py text_search John Doe -s "2021-01-01" --end_date "2021-12-31" --exact_search \
+          -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" --entity_id "1234567890" \
+          --min_wait 5.0 --max_wait 7.0 -r 3 -b "firefox" -h
+```
+
+**Note**: combining text search parameters with `entity_id` parameter seems to increase the risk of failed requests
+on the SEC page due to an apparent bug, we recommend to either avoid doing so (you can specify an empty string for search keywords using `""` and use only entity ID) or setting the number of retries accordingly if you do so.
+
+## RSS Feed customized retrieval
+
+### What is the RSS feed customized retrieval tool ?
+
+EDGAR also includes RSS feeds, hence we wrote a RSS feed retrieval and parsing command
+that allows you to filter the filings feed by ticker.
+
+The output is a CSV file containing the company and filings' metadata, 
+which can be opened in a spreadsheet program (such as Excel).
+
+### Features
+
+#### Companies CIK to Ticker mapping
+
+Since the RSS feed uses CIKs instead of tickers, the tool includes a mapping of CIKs to tickers, which is used to filter the feed by ticker.
+This mapping is obtained from the [SEC website](https://www.sec.gov/files/company_tickers.json) and is updated on user request.
+
+#### Periodic retrieval
+
+The RSS feed data returns the last 200 filings and is updated every 10 minutes (which doesn't mean all tickers are updated every 10 minutes).
+Our tool can fetch the feed either once on-demand, or at regular intervals.
+
+### Example usage
+
+```bash
+# Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
+python3 main.py rss_feed --help
+
+# Basic one-off usage with export to CSV
+python3 main.py rss_feed --ticker "ABCD" --output "rss_feed.csv"
+
+# Periodic usage specifying 10 minutes interval duration, with export to JSON
+python3 main.py rss_feed --ticker "ABCD" --output "rss_feed.json" --every_n_minutes 10
+
+# Same example as above, using aliases and exporting to JSONLines (.jsonl)
+python3 main.py rss_feed -t "ABCD" -o "rss_feed.jsonl" -e 10
+```
+
+## Table of Cleaned Financial Data
 
 I've built a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and [available here for download as a .CSV file](https://edgar.marketinference.com/). You can open this file in EXCEL, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
 
@@ -36,110 +169,3 @@ The current table is created by the following method:
 The quality of any programmatically produced financial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. The dataset I have created is of comparable accuracy to what you can find on Yahoo Finance, but spans a wider time frame, and is good enough for me to use in my own projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info). 
 
 I believe we can keep improving this dataset – with your help! Please report inconsistencies to me and I will do my best to improve the existing method. I also am designing an entirely new method that I will implement early next year, based on the scraping of tables embedded in yearly/quarterly reports. 
-
-# Text Search all EDGAR Filings
-
-## What is the EDGAR text search tool?
-
-If you're interested in finding all the documents mentioning a certain person or a phrase in the EDGAR database, you can do that via the [full text search page](https://www.sec.gov/edgar/search/#)
-
-Since the SEC does not expose an API endpoint enabling programmatic usage of this functionality, we built a Python tool allowing users to replicate the search behavior of the EDGAR text search page, and to download results to a file.
-
-The tool takes the form of a CLI (soon available as Python library as well) that takes a search query, spawns a (headless by default) browser, and downloads the search results. 
-Search results are then parsed and saved in a CSV or a JSONLines file.
-
-## Features
-
-### Search parameters
-
-Most search parameters from the EDGAR text search page are supported, including:
-- `Document word or phrase` (mandatory)
-- `Company name, ticker or CIK, or individual's name` (optional)
-- `Filing category` (optional)
-- `Filed from` and `Filed to` dates (optional)
-
-Currently unsupported search parameters are:
-- `Filed date ranges` (since the same behavior can be achieved with `Filed from` and `Filed to` dates)
-- `Principal executive offices in` (though it could be added in the future by hardcoding the list of supported values)
-
-### Pagination
-
-The tool supports pagination, and will automatically download all available search results.
-
-In addition, it works around a limitation of the SEC website that only displays the first 10000 results,
-by automatically splitting date ranges into smaller ones until the number of results is below 10000, ensuring
-that all results are downloaded.
-
-### Output formats
-
-Currently supported outputs formats are:
-- CSV
-- JSONLines (one JSON object per line)
-
-Output format is determined by the file extension of the output file path. 
-Accepted values are `.csv` and `.jsonl` (case-insensitive).
-
-### Browsers
-
-Currently supported browsers are:
-- Chrome (default)
-- Firefox
-- Edge
-- Safari
-
-However, maximum stealthiness is achieved with Chrome, and we recommend using it 
-unless you have a good reason to use another browser.
-
-### Retries
-
-The tool supports retries in case of failed requests. Retries can be configured with the `--retries` argument, and the wait time between retries will be a random number between `--min_wait` and `--max_wait` arguments.
-
-### Stealth
-
-- Randomizes User-Agent when browser is created.
-- (Only for Chrome as of now) Disables bot-related features such as navigator.webdriver property and Chrome's automation extension.
-- Randomizes the wait time between requests / retries.
-
-## Installation
-
-At the moment, the tool is not available on PyPI yet, hence you need to clone the repository and run the script manually.
-
-```bash
-# Clone the repository and move to the cloned directory
-git clone https://github.com/bellingcat/EDGAR.git
-cd EDGAR
-
-# Create virtual environment and install the required dependencies
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-## Example usage
-
-```bash
-# Display help message describing all supported arguments along with 
-# their usage, aliases and eventual default values (type q to exit)
-python3 main.py text_search --help
-
-# Basic usage with export to CSV
-python3 main.py text_search John Doe --start_date "2021-01-01" --end_date "2021-12-31" --exact_search --output "results.csv"
-
-# More advanced usage specifying more arguments, with export to JSONLines
-python3 main.py text_search John Doe --start_date "2021-01-01" --end_date "2021-12-31" --exact_search \
-          --output "results.jsonl" --filing_type "all_annual_quarterly_and_current_reports" --entity_id "1234567890" \
-          --min_wait 5.0 --max_wait 7.0 --retries 3 --browser "firefox" --headless
-          
-# Same but using aliases when possible (more aliases will be added in the future)
-python3 main.py text_search John Doe -s "2021-01-01" --end_date "2021-12-31" --exact_search \
-          -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" --entity_id "1234567890" \
-          --min_wait 5.0 --max_wait 7.0 -r 3 -b "firefox" -h
-
-```
-
-**Note**: combining text search parameters with `entity_id` parameter seems to increase the risk of failed requests
-on the SEC page due to an apparent bug, we recommend to either avoid doing so (you can specify an empty string for search keywords using `""` and use only) or setting the number of retries accordingly if you do so.
-
-# RSS Feed Customizer
-
-EDGAR has three RSS feeds, and I wrote a [RSS feed parsing script](EDGAR_RSS_custom.py)  that allows you to filter the feed to return only company/tickers of interest. The output is similar to the text search script in that it returns a .CSV with the name of the company, place of registration, place of business, ticker symbol, filing type, filing link, and document link. Here too, I would be happy to improve the tool according to your proposals. 

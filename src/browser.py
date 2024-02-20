@@ -1,10 +1,10 @@
 import sys
 import time
+import uuid
 from contextlib import contextmanager
 from random import uniform
 from typing import Union, Callable, Any, List, Dict, Iterator
 
-from fake_useragent import UserAgent
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.webdriver import WebDriver as ChromeWebDriver
@@ -120,28 +120,18 @@ def create_browser_driver(browser_name: str, headless: bool) -> BrowserDriver:
     :return: the created WebDriver
     """
 
-    ua = UserAgent()
-
+    # TODO: possibly move this line out of this function to keep it context-agnostic
+    user_agent = f"BellingcatEDGARTool_{uuid.uuid4()} contact-tech@bellingcat.com"
     browser_name = browser_name.lower().strip()
 
     try:
         if browser_name == CHROME:
             options = ChromeOptions()
-            user_agent = ua.chrome
-
             # Setting the user agent
             options.add_argument(f"--user-agent={user_agent}")
-
-            # Browser stealthiness options
-            options.add_argument("--disable-blink-features=AutomationControlled")
-            options.add_experimental_option("excludeSwitches", ["enable-automation"])
-            options.add_experimental_option("useAutomationExtension", False)
             if headless:
                 options.add_argument("--headless=new")
             driver = webdriver.Chrome(options=options)
-            driver.execute_script(
-                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-            )
         elif browser_name == SAFARI:
             if headless:
                 raise BrowserOptionUnsupportedError(
@@ -149,21 +139,18 @@ def create_browser_driver(browser_name: str, headless: bool) -> BrowserDriver:
                     "see https://github.com/SeleniumHQ/selenium/issues/12046"
                 )
             options = webdriver.SafariOptions()
-            user_agent = ua.safari
             options.add_argument(f"--user-agent={user_agent}")
             driver = webdriver.Safari()
         elif browser_name == FIREFOX:
             options = webdriver.FirefoxOptions()
             if headless:
                 options.add_argument("--headless")
-            user_agent = ua.firefox
             options.add_argument(f"--user-agent={user_agent}")
             driver = webdriver.Firefox(options=options)
         elif browser_name == EDGE:
             options = webdriver.EdgeOptions()
             if headless:
                 options.headless = True
-            user_agent = ua.edge
             options.add_argument(f"--user-agent={user_agent}")
             driver = webdriver.Edge(options=options)
         else:

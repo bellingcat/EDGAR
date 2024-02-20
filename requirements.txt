@@ -1,12 +1,10 @@
 beautifulsoup4~=4.12.3
 selenium~=4.17.2
-fake-useragent~=1.4.0
 tenacity~=8.2.3
 fire~=0.5.0
 jsonlines~=4.0.0
 pandas~=2.0.3
 requests~=2.31.0
-bs4~=0.0.2
 chardet~=5.2.0
 html5lib~=1.1
 xmltodict~=0.13.0

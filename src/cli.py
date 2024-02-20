@@ -18,24 +18,24 @@ def _validate_text_search_args(
     filing_type: Optional[str],
     min_wait_secs: float,
     max_wait_secs: float,
-    stop_after_n: int,
+    retries: int,
     browser_name: str,
     destination: str,
 ) -> None:
     """
-    Validate the CLI arguments, raises an error if the arguments are invalid.
+    Validate the text search CLI arguments, raises an error if the arguments are invalid.
     """
 
     if not search_keywords:
         raise ValueError("At least one search keyword is required")
     if start_date > end_date:
         raise ValueError("start_date cannot be after end_date")
-    if min_wait_secs <= 0:
-        raise ValueError("wait_for_request_secs cannot be negative or null")
+    if min_wait_secs < 0.1:
+        raise ValueError("wait_for_request_secs cannot be inferior to 0.1 seconds")
     if max_wait_secs < min_wait_secs:
         raise ValueError("max_wait_secs cannot be less than min_wait_secs")
-    if stop_after_n < 0:
-        raise ValueError("stop_after_n cannot be negative")
+    if retries < 0:
+        raise ValueError("retries cannot be negative")
     if browser_name.lower() not in ACCEPTED_BROWSERS:
         raise ValueError(f"Browser name must be one of: {', '.join(ACCEPTED_BROWSERS)}")
     if not any(
@@ -58,7 +58,7 @@ class SecEdgarScraperCli:
     @staticmethod
     def text_search(
         *keywords: str,
-        output: str,
+        output: str = f"edgar_search_results_{datetime.now().strftime('%d%m%Y_%H%M%S')}.csv",
         entity_id: Optional[str] = None,
         filing_type: Optional[str] = None,
         exact_search: bool = False,
@@ -105,7 +105,7 @@ class SecEdgarScraperCli:
             filing_type=filing_type,
             min_wait_secs=min_wait,
             max_wait_secs=max_wait,
-            stop_after_n=retries,
+            retries=retries,
             browser_name=browser,
             destination=output,
         )
@@ -151,7 +151,7 @@ class SecEdgarScraperCli:
             while True:
                 fetch_rss_feed(tickers, output, refresh_tickers_mapping)
                 print(
-                    f"Sleeping for {every_n_mins} minutes before fetching the RSS feed again ..."
+                    f"Sleeping for {every_n_mins} minute(s) before fetching the RSS feed again ..."
                 )
                 time.sleep(every_n_mins * 60)
         else:

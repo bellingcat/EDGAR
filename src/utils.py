@@ -16,7 +16,6 @@ def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
         yield start + diff * i
     yield end
 
-
 def safe_get(d: Dict, *keys) -> Any:
     """
     Safely get a value from a nested dictionary without raising a KeyError
@@ -31,7 +30,6 @@ def safe_get(d: Dict, *keys) -> Any:
         except KeyError:
             return None
     return d
-
 
 def default_if_fails(
     func: Callable[..., Any], default: Any = None

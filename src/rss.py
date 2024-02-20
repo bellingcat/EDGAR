@@ -1,15 +1,15 @@
 import json
+import uuid
 from pathlib import Path
 from typing import List, Any, Dict, Iterator
 
 import requests
 import xmltodict
-from fake_useragent import UserAgent
 from requests import Response
 
 from src.constants import RSS_FEED_CSV_FIELDS_NAMES
-from src.utils import default_if_fails, safe_get
 from src.io import write_results_to_file
+from src.utils import default_if_fails, safe_get
 
 RSS_FEED_DATA_DIRECTORY = Path(__file__).resolve().parents[1] / "data"
 RSS_FEED_URL = "https://www.sec.gov/Archives/edgar/xbrlrss.all.xml"
@@ -153,10 +153,8 @@ def fetch_rss_feed(
     tickers = [x.upper() for x in tickers]
     print(f"Fetching RSS feed for tickers: {', '.join(tickers)}")
 
-    # Set random user agent to prevent detection
-    ua = UserAgent().random
-    print(f"Setting User Agent to {ua}")
-    headers = {"User-Agent": ua}
+    # Create a User-Agent header
+    headers = {"User-Agent": f"BellingcatEDGARTool_{uuid.uuid4()} contact-tech@bellingcat.com"}
 
     # Fetch the company tickers file if needed/requested
     _fetch_company_tickers(headers, refresh_tickers_mapping)
