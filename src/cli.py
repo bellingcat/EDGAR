@@ -127,7 +127,7 @@ class SecEdgarScraperCli:
     @staticmethod
     def rss(
         *tickers: str,
-        output: str,
+        output: str = f"edgar_rss_feed_{datetime.now().strftime('%d%m%Y_%H%M%S')}.csv",
         refresh_tickers_mapping: bool = False,
         every_n_mins: Optional[int] = None,
     ) -> None:

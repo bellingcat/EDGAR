@@ -22,6 +22,13 @@ def _fetch_company_tickers(
     request_headers: Dict[str, Any], refresh_tickers_mapping: bool
 ) -> None:
 
+    """
+    Fetch the company tickers file from SEC website and save it to the data directory
+
+    :param request_headers: headers to use for the request
+    :param refresh_tickers_mapping: whether to refresh the tickers mapping file or not
+    """
+
     # If tickers file is not present or refresh is requested, download the tickers file
     if not RSS_COMPANY_TICKERS_FILE_PATH.exists() or refresh_tickers_mapping:
         print(f"Downloading tickers file at {RSS_COMPANY_TICKERS_URL} ...")
@@ -148,6 +155,14 @@ def fetch_rss_feed(
     output_file: str,
     refresh_tickers_mapping: bool,
 ) -> None:
+
+    """
+    Fetch the latest RSS feed data for the given company tickers and save it to either a CSV, JSON, or JSONLines file.
+
+    :param tickers: list of company tickers to filter the RSS feed for
+    :param output_file: name of the output file to save the results to
+    :param refresh_tickers_mapping: whether to refresh the tickers mapping file or not
+    """
 
     # Create the data directory if it doesn't exist
     RSS_FEED_DATA_DIRECTORY.mkdir(parents=True, exist_ok=True)
