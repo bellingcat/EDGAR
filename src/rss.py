@@ -62,7 +62,7 @@ def parse_rss_feed_data(
     :param response: response object containing the RSS feed data
     :param tickers: list of tickers to filter the parsed data with
     :param tickers_mapping: mapping of CIK numbers to company tickers
-    :return:
+    :return: Iterator of parsed dicts for each item in the RSS feed
     """
 
     # Parse RSS feed data and get all items
@@ -149,6 +149,9 @@ def fetch_rss_feed(
     refresh_tickers_mapping: bool,
 ) -> None:
 
+    # Create the data directory if it doesn't exist
+    RSS_FEED_DATA_DIRECTORY.mkdir(parents=True, exist_ok=True)
+
     # Uppercase and print the tickers to be fetched
     tickers = [x.upper() for x in tickers]
     print(f"Fetching RSS feed for tickers: {', '.join(tickers)}")
@@ -179,4 +182,3 @@ def fetch_rss_feed(
     write_results_to_file(
         (parsed_feed for _ in range(1)), output_file, RSS_FEED_CSV_FIELDS_NAMES
     )
-    print(f"Successfully saved RSS feed data to {output_file}.")
