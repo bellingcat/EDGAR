@@ -56,9 +56,7 @@ def fetch_page(
         print(f"Requesting URL: {url}")
         driver.get(url)
         randomized_wait = uniform(min_wait_seconds, max_wait_seconds)
-        print(
-            f"Waiting {randomized_wait} seconds for the request to complete..."
-        )
+        print(f"Waiting {randomized_wait} seconds for the request to complete...")
         time.sleep(randomized_wait)
         if not check_method():
             raise PageCheckFailedError(
@@ -132,9 +130,7 @@ def create_browser_driver(browser_name: str, headless: bool) -> BrowserDriver:
             user_agent = ua.chrome
 
             # Setting the user agent
-            options.add_argument(
-                f"--user-agent={user_agent}"
-            )
+            options.add_argument(f"--user-agent={user_agent}")
 
             # Browser stealthiness options
             options.add_argument("--disable-blink-features=AutomationControlled")
@@ -143,11 +139,15 @@ def create_browser_driver(browser_name: str, headless: bool) -> BrowserDriver:
             if headless:
                 options.add_argument("--headless=new")
             driver = webdriver.Chrome(options=options)
-            driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+            driver.execute_script(
+                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+            )
         elif browser_name == SAFARI:
             if headless:
-                raise BrowserOptionUnsupportedError("As of May 2023, Safari does not support headless mode, "
-                                                    "see https://github.com/SeleniumHQ/selenium/issues/12046")
+                raise BrowserOptionUnsupportedError(
+                    "As of May 2023, Safari does not support headless mode, "
+                    "see https://github.com/SeleniumHQ/selenium/issues/12046"
+                )
             options = webdriver.SafariOptions()
             user_agent = ua.safari
             options.add_argument(f"--user-agent={user_agent}")
@@ -170,7 +170,9 @@ def create_browser_driver(browser_name: str, headless: bool) -> BrowserDriver:
             print(f"Unsupported browser: {browser_name}")
             driver = None
             sys.exit(1)
-        print(f"Creating {browser_name.capitalize()} browser with User Agent: {user_agent}")
+        print(
+            f"Creating {browser_name.capitalize()} browser with User Agent: {user_agent}"
+        )
         yield driver
     finally:
         if driver:

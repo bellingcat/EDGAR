@@ -62,6 +62,14 @@ Currently unsupported search parameters are:
 - `Filed date ranges` (since the same behavior can be achieved with `Filed from` and `Filed to` dates)
 - `Principal executive offices in` (though it could be added in the future by hardcoding the list of supported values)
 
+### Pagination
+
+The tool supports pagination, and will automatically download all available search results.
+
+In addition, it works around a limitation of the SEC website that only displays the first 10000 results,
+by automatically splitting date ranges into smaller ones until the number of results is below 10000, ensuring
+that all results are downloaded.
+
 ### Output formats
 
 Currently supported outputs formats are:

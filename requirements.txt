@@ -8,3 +8,5 @@ pandas~=2.0.3
 requests~=2.31.0
 bs4~=0.0.2
 chardet~=5.2.0
+html5lib~=1.1
+xmltodict~=0.13.0

@@ -1,22 +1,26 @@
+import time
 from datetime import date, timedelta, datetime
 from typing import List, Optional
 
 from src.browser import create_browser_driver, ACCEPTED_BROWSERS
-from src.constants import SUPPORTED_OUTPUT_EXTENSIONS, TEXT_SEARCH_FILING_CATEGORIES_MAPPING
-from src.rss import daily_rss_feed
+from src.constants import (
+    SUPPORTED_OUTPUT_EXTENSIONS,
+    TEXT_SEARCH_FILING_CATEGORIES_MAPPING,
+)
+from src.rss import fetch_rss_feed
 from src.text_search import EdgarTextSearcher
 
 
-def _validate_args(
-        search_keywords: List[str],
-        start_date: date,
-        end_date: date,
-        filing_type: Optional[str],
-        min_wait_secs: float,
-        max_wait_secs: float,
-        stop_after_n: int,
-        browser_name: str,
-        destination: str,
+def _validate_text_search_args(
+    search_keywords: List[str],
+    start_date: date,
+    end_date: date,
+    filing_type: Optional[str],
+    min_wait_secs: float,
+    max_wait_secs: float,
+    stop_after_n: int,
+    browser_name: str,
+    destination: str,
 ) -> None:
     """
     Validate the CLI arguments, raises an error if the arguments are invalid.
@@ -34,35 +38,44 @@ def _validate_args(
         raise ValueError("stop_after_n cannot be negative")
     if browser_name.lower() not in ACCEPTED_BROWSERS:
         raise ValueError(f"Browser name must be one of: {', '.join(ACCEPTED_BROWSERS)}")
-    if not any(destination.lower().endswith(ext) for ext in SUPPORTED_OUTPUT_EXTENSIONS):
-        raise ValueError(f"Destination file must have one of the following extensions: {', '.join(SUPPORTED_OUTPUT_EXTENSIONS)}")
-    if filing_type and filing_type.lower() not in TEXT_SEARCH_FILING_CATEGORIES_MAPPING.keys():
-        raise ValueError(f"Filing type must be one of: {', '.join(TEXT_SEARCH_FILING_CATEGORIES_MAPPING.keys())}")
+    if not any(
+        destination.lower().endswith(ext) for ext in SUPPORTED_OUTPUT_EXTENSIONS
+    ):
+        raise ValueError(
+            f"Destination file must have one of the following extensions: {', '.join(SUPPORTED_OUTPUT_EXTENSIONS)}"
+        )
+    if (
+        filing_type
+        and filing_type.lower() not in TEXT_SEARCH_FILING_CATEGORIES_MAPPING.keys()
+    ):
+        raise ValueError(
+            f"Filing type must be one of: {', '.join(TEXT_SEARCH_FILING_CATEGORIES_MAPPING.keys())}"
+        )
 
 
 class SecEdgarScraperCli:
 
     @staticmethod
     def text_search(
-            *keywords: str,
-            output: str,
-            entity_id: Optional[str] = None,
-            filing_type: Optional[str] = None,
-            exact_search: bool = False,
-            start_date: str = (date.today() - timedelta(days=365 * 5)).strftime("%Y-%m-%d"),
-            end_date: str = date.today().strftime("%Y-%m-%d"),
-            min_wait: float = 5.0,
-            max_wait: float = 8.0,
-            retries: int = 3,
-            browser: str = "chrome",
-            headless: bool = True,
+        *keywords: str,
+        output: str,
+        entity_id: Optional[str] = None,
+        filing_type: Optional[str] = None,
+        exact_search: bool = False,
+        start_date: str = (date.today() - timedelta(days=365 * 5)).strftime("%Y-%m-%d"),
+        end_date: str = date.today().strftime("%Y-%m-%d"),
+        min_wait: float = 5.0,
+        max_wait: float = 8.0,
+        retries: int = 3,
+        browser: str = "chrome",
+        headless: bool = True,
     ) -> None:
-
         """
-        Perform a custom text search on the SEC EDGAR website and save the results to either a CSV or JSONLines file.
+        Perform a custom text search on the SEC EDGAR website and save the results to either a CSV, JSON,
+        or JSONLines file.
 
         :param keywords: list of keywords to search for
-        :param output: Name of the output file to save the results to (CSV or JSONLines format)
+        :param output: Name of the output file to save the results to
         :param entity_id: CIK or name or ticker of the company to search for
         :param filing_type: type of filing to search for
         :param exact_search: whether to perform an exact search or not
@@ -85,7 +98,7 @@ class SecEdgarScraperCli:
             headless = bool(headless)
         except Exception as e:
             raise ValueError(f"Invalid argument type or format: {e}")
-        _validate_args(
+        _validate_text_search_args(
             search_keywords=keywords,
             start_date=start_date,
             end_date=end_date,
@@ -112,5 +125,34 @@ class SecEdgarScraperCli:
             )
 
     @staticmethod
-    def rss(*tickers: str, output: str) -> None:
-        daily_rss_feed(list(tickers), output)
+    def rss(
+        *tickers: str,
+        output: str,
+        refresh_tickers_mapping: bool = False,
+        every_n_mins: Optional[int] = None,
+    ) -> None:
+        """
+        Fetch the latest RSS feed data for the given company tickers and save it to either a CSV, JSON,
+        or JSONLines file.
+        :param tickers: List of company tickers to fetch the RSS feed for
+        :param output: Name of the output file to save the results to
+        :param refresh_tickers_mapping: Whether to refresh the company tickers mapping file or not
+        :param every_n_mins: If set, fetch the RSS feed every n minutes
+        """
+        try:
+            tickers = list(tickers)
+            refresh_tickers_mapping = bool(refresh_tickers_mapping)
+            if every_n_mins:
+                every_n_mins = int(every_n_mins)
+        except Exception as e:
+            raise ValueError(f"Invalid argument type or format: {e}")
+
+        if every_n_mins:
+            while True:
+                fetch_rss_feed(tickers, output, refresh_tickers_mapping)
+                print(
+                    f"Sleeping for {every_n_mins} minutes before fetching the RSS feed again ..."
+                )
+                time.sleep(every_n_mins * 60)
+        else:
+            fetch_rss_feed(tickers, output, refresh_tickers_mapping)
