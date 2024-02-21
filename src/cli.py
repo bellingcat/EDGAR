@@ -31,7 +31,7 @@ def _validate_text_search_args(
     if start_date > end_date:
         raise ValueError("start_date cannot be after end_date")
     if min_wait_secs < 0.1:
-        raise ValueError("wait_for_request_secs cannot be inferior to 0.1 seconds")
+        raise ValueError("wait_for_request_secs cannot be less than 0.1 seconds")
     if max_wait_secs < min_wait_secs:
         raise ValueError("max_wait_secs cannot be less than min_wait_secs")
     if retries < 0:
@@ -74,18 +74,18 @@ class SecEdgarScraperCli:
         Perform a custom text search on the SEC EDGAR website and save the results to either a CSV, JSON,
         or JSONLines file.
 
-        :param keywords: list of keywords to search for
+        :param keywords: List of keywords to search for
         :param output: Name of the output file to save the results to
         :param entity_id: CIK or name or ticker of the company to search for
-        :param filing_type: type of filing to search for
-        :param exact_search: whether to perform an exact search or not
-        :param start_date: start date of the search
-        :param end_date: end date of the search
-        :param min_wait: minimum wait time for the request to complete before checking the page or retrying a request
-        :param max_wait: maximum wait time for the request to complete before checking the page or retrying a request
-        :param retries: how many times to retry requests before failing
-        :param browser: name of the browser to use for the search
-        :param headless: whether to run the browser in headless mode or not
+        :param filing_type: Type of filing to search for
+        :param exact_search: Whether to exactly match the sequence of keywords or not
+        :param start_date: Start date of the search
+        :param end_date: End date of the search
+        :param min_wait: Minimum wait time for the request to complete before checking the page or retrying a request
+        :param max_wait: Maximum wait time for the request to complete before checking the page or retrying a request
+        :param retries: How many times to retry requests before failing
+        :param browser: Name of the browser to use for the search
+        :param headless: Whether to run the browser in headless mode or not
         """
         try:
             keywords = list(keywords)
