@@ -21,9 +21,8 @@ from src.constants import (
     TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
     TEXT_SEARCH_CSV_FIELDS_NAMES,
 )
-from src.utils import safe_func, split_date_range_in_n
+from src.utils import safe_func, split_date_range_in_n, split_html_by_line
 from src.io import write_results_to_file
-
 
 class EdgarTextSearcher:
 
@@ -32,7 +31,6 @@ class EdgarTextSearcher:
         self.driver = driver
 
     def _parse_number_of_results(self) -> int:
-
         """
         Parses the number of results found from the search results page.
         :return: Number of results found
@@ -46,7 +44,6 @@ class EdgarTextSearcher:
         return num_results
 
     def _compute_number_of_pages(self) -> int:
-
         """
         Computes the number of pages to paginate through based on the number of results found.
 
@@ -69,72 +66,100 @@ class EdgarTextSearcher:
 
         parsed_rows = []
         for r in rows:
-            file_link_tag = safe_func(
-                lambda row: row.find_element(By.CLASS_NAME, "file-num").find_element(
+
+            # Fetching file numbers and links
+            file_links_tags: List[WebElement] = safe_func(
+                lambda row: row.find_element(By.CLASS_NAME, "file-num").find_elements(
                     By.TAG_NAME, "a"
                 )
             )(r)
-            filing_type = safe_func(
+            file_nums: str = "\n".join([x.get_attribute("innerText") for x in file_links_tags])
+
+            # Handling cases of multiple CIKs by splitting by line break tag
+            ciks: List[str] = safe_func(
+                lambda row: [
+                    # Removing 'CIK ' prefix from CIK number
+                    x.strip().split(" ")[1]
+                    for x in split_html_by_line(row.find_element(By.CLASS_NAME, "cik"))
+                ]
+            )(r)
+
+            # Removing leading zeros from CIKs because they are not present in the URLs we are building
+            ciks_cleaned: List[str] = safe_func(lambda: [c.strip("0") for c in ciks])()
+
+            # Fetching data-adsh attribute from the filing type link
+            filing_type: WebElement = safe_func(
                 lambda row: row.find_element(By.CLASS_NAME, "filetype")
             )(r)
             filing_type_link = safe_func(
                 lambda: filing_type.find_element(By.CLASS_NAME, "preview-file")
             )()
-            cik = safe_func(
-                lambda row: row.find_element(By.CLASS_NAME, "cik")
-                .get_attribute("innerText")
-                .split(" ")[1]
-            )(r)
-            cik_cleaned = safe_func(lambda: cik.strip("0"))()
             data_adsh = safe_func(lambda: filing_type_link.get_attribute("data-adsh"))()
-            data_adsh_no_dash = safe_func(lambda: data_adsh.replace("-", ""))()
             data_file_name = safe_func(
                 lambda: filing_type_link.get_attribute("data-file-name")
             )()
-            filing_details_url = f"https://www.sec.gov/Archives/edgar/data/{cik_cleaned}/{data_adsh_no_dash}/{data_adsh}-index.html"
-            filing_doc_url = f"https://www.sec.gov/Archives/edgar/data/{cik_cleaned}/{data_adsh_no_dash}/{data_file_name}"
+
+            # Removing dashes from data_adsh because they are not present in the URLs we are building
+            data_adsh_no_dash = safe_func(lambda: data_adsh.replace("-", ""))()
+
+            # Building URLs for filing details and documents
+            filing_details_urls: List[str] = [
+                f"https://www.sec.gov/Archives/edgar/data/{cik}/{data_adsh_no_dash}/{data_adsh}-index.html"
+                for cik in ciks_cleaned
+            ]
+            filing_doc_urls: List[str] = [
+                f"https://www.sec.gov/Archives/edgar/data/{cik}/{data_adsh_no_dash}/{data_file_name}"
+                for cik in ciks_cleaned
+            ]
             parsed_rows.append(
                 {
-                    "filing_type": safe_func(lambda: filing_type.text)(),
+                    "filing_type": safe_func(lambda: filing_type.text.strip())(),
                     "filed_at": safe_func(
-                        lambda row: row.find_element(By.CLASS_NAME, "filed").text
+                        lambda row: row.find_element(
+                            By.CLASS_NAME, "filed"
+                        ).text.strip()
                     )(r),
                     "reporting_for": safe_func(
-                        lambda row: row.find_element(By.CLASS_NAME, "enddate").text
+                        lambda row: row.find_element(
+                            By.CLASS_NAME, "enddate"
+                        ).text.strip()
                     )(r),
+                    # Handling cases of multiple entity names by joining them with a line break
                     "entity_name": safe_func(
-                        lambda row: row.find_element(By.CLASS_NAME, "entity-name").text
+                        lambda row: "\n".join(
+                            [
+                                x.strip()
+                                for x in split_html_by_line(row.find_element(By.CLASS_NAME, "entity-name"))
+                            ]
+                        )
                     )(r),
-                    "company_cik": cik,
-                    "place_of_business": safe_func(
-                        lambda row: row.find_element(
-                            By.CLASS_NAME, "biz-location"
-                        ).get_attribute("innerText")
-                    )(r),
+                    "company_cik": "\n".join(ciks),
+                    "place_of_business": safe_func(lambda row: "\n".join(split_html_by_line(row.find_element(By.CLASS_NAME, "biz-location"))))(r),
                     "incorporated_location": safe_func(
-                        lambda row: row.find_element(
-                            By.CLASS_NAME, "incorporated"
-                        ).get_attribute("innerText")
+                        lambda row: "\n".join(split_html_by_line(row.find_element(By.CLASS_NAME, "incorporated")))
                     )(r),
                     "file_num": safe_func(
-                        lambda row: file_link_tag.get_attribute("innerText")
+                        lambda row: file_nums
                     )(r),
                     "film_num": safe_func(
-                        lambda row: row.find_element(
+                        lambda row: "\n".join(split_html_by_line(row.find_element(
                             By.CLASS_NAME, "film-num"
-                        ).get_attribute("innerText")
+                        )))
                     )(r),
                     "file_num_search_url": safe_func(
-                        lambda row: file_link_tag.get_attribute("href")
+                        lambda row: "\n".join([
+                            x.get_attribute("href") for x in file_links_tags
+                        ])
                     )(r),
+                    # Handling cases of multiple links by joining them with a line break
                     "filing_details_url": (
-                        filing_details_url
-                        if (cik_cleaned and data_adsh_no_dash and data_adsh)
+                        "\n".join(filing_details_urls)
+                        if (ciks_cleaned and data_adsh_no_dash and data_adsh)
                         else None
                     ),
                     "filing_document_url": (
-                        filing_doc_url
-                        if (cik_cleaned and data_adsh_no_dash and data_file_name)
+                        "\n".join(filing_doc_urls)
+                        if (ciks_cleaned and data_adsh_no_dash and data_file_name)
                         else None
                     ),
                 }
@@ -441,9 +466,13 @@ class EdgarTextSearcher:
                 != ""
             )
         except PageCheckFailedError as e:
-            print(f"First page check at URL failed due to {e.__class__.__name__}: \n{e}")
+            print(
+                f"First page check at URL failed due to {e.__class__.__name__}: \n{e}"
+            )
             print(f"No results found for first page at URL {url}, aborting...")
-            print(f"Please verify that the search/wait/retry parameters are correct and try again.")
+            print(
+                f"Please verify that the search/wait/retry parameters are correct and try again."
+            )
             print(f"We recommend disabling headless mode for debugging purposes.")
             raise
 

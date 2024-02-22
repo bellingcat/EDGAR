@@ -1,5 +1,7 @@
 from datetime import date
-from typing import Callable, Any, Iterator, Dict, TypeVar, Optional
+from typing import Callable, Any, Iterator, Dict, TypeVar, Optional, List
+
+from selenium.webdriver.remote.webelement import WebElement
 
 
 def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
@@ -36,7 +38,9 @@ def safe_get(d: Dict, *keys) -> Any:
 T = TypeVar("T")
 
 
-def safe_func(func: Callable[..., T], default: Optional[T] = None) -> Callable[..., Optional[T]]:
+def safe_func(
+    func: Callable[..., T], default: Optional[T] = None
+) -> Callable[..., Optional[T]]:
     """
     Decorator that returns None when an exception occurs in the decorated function.
 
@@ -55,3 +59,15 @@ def safe_func(func: Callable[..., T], default: Optional[T] = None) -> Callable[.
             return default
 
     return wrapper
+
+
+def split_html_by_line(element: WebElement) -> List[str]:
+    """
+    Handles line breaks in the given WebElement's innerHTML attribute.
+    This fixes an issue due to innerText trimming line breaks.
+
+    :param element: WebElement to handle line breaks for
+    :return: InnerHTML with line breaks replaced by a space
+    """
+
+    return element.get_attribute("innerHTML").split("<br>")

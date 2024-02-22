@@ -60,7 +60,10 @@ def _fetch_company_tickers(
 
 
 def parse_rss_feed_data(
-    response: Response, tickers: List[str], tickers_mapping: Dict[str, List[str]], files_urls_as_text: bool
+    response: Response,
+    tickers: List[str],
+    tickers_mapping: Dict[str, List[str]],
+    files_urls_as_text: bool,
 ) -> Iterator[Dict[str, Any]]:
     """
     Parse the RSS feed data and yield the parsed data for each item
@@ -149,7 +152,9 @@ def parse_rss_feed_data(
         }
 
         # Process files URLs
-        files_urls = safe_get(i, "edgar:xbrlFiling", "edgar:xbrlFiles", "edgar:xbrlFile")
+        files_urls = safe_get(
+            i, "edgar:xbrlFiling", "edgar:xbrlFiles", "edgar:xbrlFile"
+        )
         if files_urls_as_text:
             files_urls = "\n".join([f.get("@edgar:url") for f in files_urls])
         parsed_line["xbrl_files"] = files_urls
@@ -197,7 +202,10 @@ def fetch_rss_feed(
     # Parse the RSS feed data
     print("Parsing RSS feed XML data...")
     parsed_feed: Iterator[Dict[str, Any]] = parse_rss_feed_data(
-        response, tickers, cik_to_ticker_mapping, True if output_file.lower().endswith(".csv") else False
+        response,
+        tickers,
+        cik_to_ticker_mapping,
+        True if output_file.lower().endswith(".csv") else False,
     )
 
     # Store the parsed data (simulating a generator to reuse the write_results_to_file function used in text search)

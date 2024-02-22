@@ -35,7 +35,6 @@ def write_results_to_file(
     print(f"Successfully wrote data to {file_name}.")
 
 
-
 def _write_results_to_json(
     data: Iterator[Iterator[Dict[str, Any]]], file_name: str
 ) -> None:
