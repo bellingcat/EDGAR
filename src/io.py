@@ -45,6 +45,8 @@ def _write_results_to_json(
     :param data: Iterator of iterators of dictionaries to write to the JSON file
     :param file_name: Name of the JSON Lines file to write to
     """
+
+    # Note: we're losing lazy evaluation here by converting the generator to a list prior to writing to the file
     results = []
     for results_list_iterators in data:
         for r in results_list_iterators:
