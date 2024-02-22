@@ -21,8 +21,9 @@ from src.constants import (
     TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
     TEXT_SEARCH_CSV_FIELDS_NAMES,
 )
-from src.utils import safe_func, split_date_range_in_n, split_html_by_line
+from src.utils import safe_func, split_date_range_in_n
 from src.io import write_results_to_file
+
 
 class EdgarTextSearcher:
 
@@ -56,9 +57,21 @@ class EdgarTextSearcher:
         return num_pages
 
     @staticmethod
-    def _parse_table_rows(rows: List[WebElement]) -> List[dict]:
+    def split_html_by_line(element: WebElement) -> List[str]:
+        """
+        Handles line breaks in the given WebElement's innerHTML attribute.
+        This fixes an issue due to innerText trimming line breaks.
+
+        :param element: WebElement to handle line breaks for
+        :return: InnerHTML with line breaks replaced by a space
+        """
+
+        return element.get_attribute("innerHTML").split("<br>")
+
+    def _parse_table_rows(self, rows: List[WebElement]) -> List[dict]:
         """
         Parses the given list of table rows into a list of dictionaries.
+        Handles multiline rows by joining the text with a line break.
 
         :param rows: List of table rows to parse
         :return: List of dictionaries representing the parsed table rows
@@ -73,27 +86,46 @@ class EdgarTextSearcher:
                     By.TAG_NAME, "a"
                 )
             )(r)
-            file_nums: str = "\n".join([x.get_attribute("innerText") for x in file_links_tags])
+            file_nums: str = safe_func(
+                lambda: "\n".join(
+                    [x.get_attribute("innerText") for x in file_links_tags]
+                )
+            )()
+            film_nums = safe_func(
+                lambda row: "\n".join(
+                    self.split_html_by_line(row.find_element(By.CLASS_NAME, "film-num"))
+                )
+            )(r)
+            film_nums_search_urls = safe_func(
+                lambda row: "\n".join(
+                    [x.get_attribute("href") for x in file_links_tags]
+                )
+            )(r)
 
             # Handling cases of multiple CIKs by splitting by line break tag
             ciks: List[str] = safe_func(
                 lambda row: [
                     # Removing 'CIK ' prefix from CIK number
                     x.strip().split(" ")[1]
-                    for x in split_html_by_line(row.find_element(By.CLASS_NAME, "cik"))
+                    for x in self.split_html_by_line(
+                        row.find_element(By.CLASS_NAME, "cik")
+                    )
                 ]
             )(r)
 
             # Removing leading zeros from CIKs because they are not present in the URLs we are building
             ciks_cleaned: List[str] = safe_func(lambda: [c.strip("0") for c in ciks])()
 
-            # Fetching data-adsh attribute from the filing type link
+            # Fetching filing type and link
             filing_type: WebElement = safe_func(
                 lambda row: row.find_element(By.CLASS_NAME, "filetype")
             )(r)
             filing_type_link = safe_func(
                 lambda: filing_type.find_element(By.CLASS_NAME, "preview-file")
             )()
+            filing_type: str = safe_func(lambda: filing_type.text.strip())()
+
+            # Fetching data-adsh and data-file-name attributes from the filing type link
             data_adsh = safe_func(lambda: filing_type_link.get_attribute("data-adsh"))()
             data_file_name = safe_func(
                 lambda: filing_type_link.get_attribute("data-file-name")
@@ -107,61 +139,68 @@ class EdgarTextSearcher:
                 f"https://www.sec.gov/Archives/edgar/data/{cik}/{data_adsh_no_dash}/{data_adsh}-index.html"
                 for cik in ciks_cleaned
             ]
+            filing_details_urls: str = (
+                "\n".join(filing_details_urls)
+                if (ciks_cleaned and data_adsh_no_dash and data_adsh)
+                else None
+            )
             filing_doc_urls: List[str] = [
                 f"https://www.sec.gov/Archives/edgar/data/{cik}/{data_adsh_no_dash}/{data_file_name}"
                 for cik in ciks_cleaned
             ]
+            filing_doc_urls: str = (
+                "\n".join(filing_doc_urls)
+                if (ciks_cleaned and data_adsh_no_dash and data_file_name)
+                else None
+            )
+
+            filed_at = safe_func(
+                lambda row: row.find_element(By.CLASS_NAME, "filed").text.strip()
+            )(r)
+            end_date = safe_func(
+                lambda row: row.find_element(By.CLASS_NAME, "enddate").text.strip()
+            )(r)
+            entity_names = safe_func(
+                lambda row: "\n".join(
+                    [
+                        x.strip()
+                        for x in self.split_html_by_line(
+                            row.find_element(By.CLASS_NAME, "entity-name")
+                        )
+                    ]
+                )
+            )(r)
+
+            cik = "\n".join(ciks)
+            places_of_business = safe_func(
+                lambda row: "\n".join(
+                    self.split_html_by_line(
+                        row.find_element(By.CLASS_NAME, "biz-location")
+                    )
+                )
+            )(r)
+            incorporated = safe_func(
+                lambda row: "\n".join(
+                    self.split_html_by_line(
+                        row.find_element(By.CLASS_NAME, "incorporated")
+                    )
+                )
+            )(r)
+
             parsed_rows.append(
                 {
-                    "filing_type": safe_func(lambda: filing_type.text.strip())(),
-                    "filed_at": safe_func(
-                        lambda row: row.find_element(
-                            By.CLASS_NAME, "filed"
-                        ).text.strip()
-                    )(r),
-                    "reporting_for": safe_func(
-                        lambda row: row.find_element(
-                            By.CLASS_NAME, "enddate"
-                        ).text.strip()
-                    )(r),
-                    # Handling cases of multiple entity names by joining them with a line break
-                    "entity_name": safe_func(
-                        lambda row: "\n".join(
-                            [
-                                x.strip()
-                                for x in split_html_by_line(row.find_element(By.CLASS_NAME, "entity-name"))
-                            ]
-                        )
-                    )(r),
-                    "company_cik": "\n".join(ciks),
-                    "place_of_business": safe_func(lambda row: "\n".join(split_html_by_line(row.find_element(By.CLASS_NAME, "biz-location"))))(r),
-                    "incorporated_location": safe_func(
-                        lambda row: "\n".join(split_html_by_line(row.find_element(By.CLASS_NAME, "incorporated")))
-                    )(r),
-                    "file_num": safe_func(
-                        lambda row: file_nums
-                    )(r),
-                    "film_num": safe_func(
-                        lambda row: "\n".join(split_html_by_line(row.find_element(
-                            By.CLASS_NAME, "film-num"
-                        )))
-                    )(r),
-                    "file_num_search_url": safe_func(
-                        lambda row: "\n".join([
-                            x.get_attribute("href") for x in file_links_tags
-                        ])
-                    )(r),
-                    # Handling cases of multiple links by joining them with a line break
-                    "filing_details_url": (
-                        "\n".join(filing_details_urls)
-                        if (ciks_cleaned and data_adsh_no_dash and data_adsh)
-                        else None
-                    ),
-                    "filing_document_url": (
-                        "\n".join(filing_doc_urls)
-                        if (ciks_cleaned and data_adsh_no_dash and data_file_name)
-                        else None
-                    ),
+                    "filing_type": filing_type,
+                    "filed_at": filed_at,
+                    "reporting_for": end_date,
+                    "entity_name": entity_names,
+                    "company_cik": cik,
+                    "place_of_business": places_of_business,
+                    "incorporated_location": incorporated,
+                    "file_num": file_nums,
+                    "film_num": film_nums,
+                    "file_num_search_url": film_nums_search_urls,
+                    "filing_details_url": filing_details_urls,
+                    "filing_document_url": filing_doc_urls,
                 }
             )
         return parsed_rows

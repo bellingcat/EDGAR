@@ -59,15 +59,3 @@ def safe_func(
             return default
 
     return wrapper
-
-
-def split_html_by_line(element: WebElement) -> List[str]:
-    """
-    Handles line breaks in the given WebElement's innerHTML attribute.
-    This fixes an issue due to innerText trimming line breaks.
-
-    :param element: WebElement to handle line breaks for
-    :return: InnerHTML with line breaks replaced by a space
-    """
-
-    return element.get_attribute("innerHTML").split("<br>")
