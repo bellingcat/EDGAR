@@ -35,7 +35,7 @@ pip install -r requirements.txt
 
 If you're interested in finding all the documents mentioning a certain person ? company or a phrase in the EDGAR database, you can do that via the [full text search page](https://www.sec.gov/edgar/search/#)
 
-Since the SEC does not make it easy to get all the information you might need, we built a Python tool that lets you download the search results to a file without having to go through all the pages of results by hand.
+Since it easy to get all the information you might need from the SEC, we built a Python tool that lets you download the search results to a file without having to go through all the pages of results by hand.
 
 This is a command line tool that takes a search query, opens a web browser in the background, and downloads the search results into a CSV file that can be opened in a spreadsheet program (such as Excel).
 
@@ -86,20 +86,21 @@ The tool supports retries in case of failed requests. Retries can be configured 
 
 ```bash
 # Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
-python3 main.py text_search --help
+python main.py text_search --help
 
-# Basic usage with export to CSV
-python3 main.py text_search John Doe --start_date "2021-01-01" --end_date "2021-12-31" --exact_search --output "results.csv"
+# Basic usage (defaults to searching the last 5 years of records)
+python main.py text_search John Doe
+
+# Usage with date range and export to custom CSV file
+python main.py text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
 
 # More advanced usage specifying more arguments, with export to JSON
-python3 main.py text_search John Doe --start_date "2021-01-01" --end_date "2021-12-31" --exact_search \
-          --output "results.json" --filing_type "all_annual_quarterly_and_current_reports" --entity_id "1234567890" \
+python main.py text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --exact_search --output "results.json"\
+          --filing_type "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
           --min_wait 5.0 --max_wait 7.0 --retries 3 --browser "firefox" --headless
           
-# Same but using aliases when possible (more aliases will be added in the future) and exporting to JSONLines
-python3 main.py text_search John Doe -s "2021-01-01" --end_date "2021-12-31" --exact_search \
-          -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" --entity_id "1234567890" \
-          --min_wait 5.0 --max_wait 7.0 -r 3 -b "firefox" -h
+# Using aliases where supported and exporting to JSONLines
+python main.py text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -b "firefox" -h
 ```
 
 **Note**: combining text search parameters with `entity_id` parameter seems to increase the risk of failed requests
@@ -131,16 +132,16 @@ Our tool can fetch the feed either once on-demand, or at regular intervals.
 
 ```bash
 # Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
-python3 main.py rss_feed --help
+python main.py rss --help
 
 # Basic one-off usage with export to CSV
-python3 main.py rss_feed --ticker "ABCD" --output "rss_feed.csv"
+python main.py rss "GOOG" --output "rss_feed.csv"
 
 # Periodic usage specifying 10 minutes interval duration, with export to JSON
-python3 main.py rss_feed --ticker "ABCD" --output "rss_feed.json" --every_n_minutes 10
+python main.py rss "AAPL" "GOOG" "MSFT" --output "rss_feed.json" --every_n_mins 10
 
 # Same example as above, using aliases and exporting to JSONLines (.jsonl)
-python3 main.py rss_feed -t "ABCD" -o "rss_feed.jsonl" -e 10
+python main.py rss "AAPL" "GOOG" "MSFT" -o "rss_feed.jsonl" -e 10
 ```
 
 ## Table of Cleaned Financial Data
