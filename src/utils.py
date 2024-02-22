@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Callable, Any, Iterator, Dict
+from typing import Callable, Any, Iterator, Dict, TypeVar, Optional
 
 
 def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
@@ -16,6 +16,7 @@ def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
         yield start + diff * i
     yield end
 
+
 def safe_get(d: Dict, *keys) -> Any:
     """
     Safely get a value from a nested dictionary without raising a KeyError
@@ -31,9 +32,11 @@ def safe_get(d: Dict, *keys) -> Any:
             return None
     return d
 
-def default_if_fails(
-    func: Callable[..., Any], default: Any = None
-) -> Callable[..., Any]:
+
+T = TypeVar("T")
+
+
+def safe_func(func: Callable[..., T], default: Optional[T] = None) -> Callable[..., Optional[T]]:
     """
     Decorator that returns None when an exception occurs in the decorated function.
 

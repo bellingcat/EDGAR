@@ -1,3 +1,4 @@
+import itertools
 import urllib.parse
 from datetime import date, timedelta
 from math import ceil
@@ -20,7 +21,7 @@ from src.constants import (
     TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
     TEXT_SEARCH_CSV_FIELDS_NAMES,
 )
-from src.utils import default_if_fails, split_date_range_in_n
+from src.utils import safe_func, split_date_range_in_n
 from src.io import write_results_to_file
 
 
@@ -31,6 +32,12 @@ class EdgarTextSearcher:
         self.driver = driver
 
     def _parse_number_of_results(self) -> int:
+
+        """
+        Parses the number of results found from the search results page.
+        :return: Number of results found
+        """
+
         num_results = int(
             self.driver.find_element(By.ID, "show-result-count")
             .text.replace(",", "")
@@ -39,6 +46,13 @@ class EdgarTextSearcher:
         return num_results
 
     def _compute_number_of_pages(self) -> int:
+
+        """
+        Computes the number of pages to paginate through based on the number of results found.
+
+        :return: Number of pages to paginate through
+        """
+
         num_results = self._parse_number_of_results()
         num_pages = ceil(num_results / 100)
         print(f"Found {num_results} / 100 = {num_pages} pages")
@@ -55,62 +69,74 @@ class EdgarTextSearcher:
 
         parsed_rows = []
         for r in rows:
-            file_link_tag = default_if_fails(
+            file_link_tag = safe_func(
                 lambda row: row.find_element(By.CLASS_NAME, "file-num").find_element(
                     By.TAG_NAME, "a"
                 )
             )(r)
-            filing_type = default_if_fails(
+            filing_type = safe_func(
                 lambda row: row.find_element(By.CLASS_NAME, "filetype")
             )(r)
-            filing_type_link = filing_type.find_element(By.CLASS_NAME, "preview-file")
-            cik = default_if_fails(
+            filing_type_link = safe_func(
+                lambda: filing_type.find_element(By.CLASS_NAME, "preview-file")
+            )()
+            cik = safe_func(
                 lambda row: row.find_element(By.CLASS_NAME, "cik")
                 .get_attribute("innerText")
                 .split(" ")[1]
             )(r)
-            cik_cleaned = cik.strip("0")
-            data_adsh = filing_type_link.get_attribute("data-adsh")
-            data_adsh_no_dash = data_adsh.replace("-", "")
-            data_file_name = filing_type_link.get_attribute("data-file-name")
+            cik_cleaned = safe_func(lambda: cik.strip("0"))()
+            data_adsh = safe_func(lambda: filing_type_link.get_attribute("data-adsh"))()
+            data_adsh_no_dash = safe_func(lambda: data_adsh.replace("-", ""))()
+            data_file_name = safe_func(
+                lambda: filing_type_link.get_attribute("data-file-name")
+            )()
             filing_details_url = f"https://www.sec.gov/Archives/edgar/data/{cik_cleaned}/{data_adsh_no_dash}/{data_adsh}-index.html"
             filing_doc_url = f"https://www.sec.gov/Archives/edgar/data/{cik_cleaned}/{data_adsh_no_dash}/{data_file_name}"
             parsed_rows.append(
                 {
-                    "filing_type": filing_type.text,
-                    "filed_at": default_if_fails(
+                    "filing_type": safe_func(lambda: filing_type.text)(),
+                    "filed_at": safe_func(
                         lambda row: row.find_element(By.CLASS_NAME, "filed").text
                     )(r),
-                    "reporting_for": default_if_fails(
+                    "reporting_for": safe_func(
                         lambda row: row.find_element(By.CLASS_NAME, "enddate").text
                     )(r),
-                    "entity_name": default_if_fails(
+                    "entity_name": safe_func(
                         lambda row: row.find_element(By.CLASS_NAME, "entity-name").text
                     )(r),
                     "company_cik": cik,
-                    "place_of_business": default_if_fails(
+                    "place_of_business": safe_func(
                         lambda row: row.find_element(
                             By.CLASS_NAME, "biz-location"
                         ).get_attribute("innerText")
                     )(r),
-                    "incorporated_location": default_if_fails(
+                    "incorporated_location": safe_func(
                         lambda row: row.find_element(
                             By.CLASS_NAME, "incorporated"
                         ).get_attribute("innerText")
                     )(r),
-                    "file_num": default_if_fails(
+                    "file_num": safe_func(
                         lambda row: file_link_tag.get_attribute("innerText")
                     )(r),
-                    "film_num": default_if_fails(
+                    "film_num": safe_func(
                         lambda row: row.find_element(
                             By.CLASS_NAME, "film-num"
                         ).get_attribute("innerText")
                     )(r),
-                    "file_num_search_url": default_if_fails(
+                    "file_num_search_url": safe_func(
                         lambda row: file_link_tag.get_attribute("href")
                     )(r),
-                    "filing_details_url": filing_details_url,
-                    "filing_document_url": filing_doc_url,
+                    "filing_details_url": (
+                        filing_details_url
+                        if (cik_cleaned and data_adsh_no_dash and data_adsh)
+                        else None
+                    ),
+                    "filing_document_url": (
+                        filing_doc_url
+                        if (cik_cleaned and data_adsh_no_dash and data_file_name)
+                        else None
+                    ),
                 }
             )
         return parsed_rows
@@ -261,7 +287,6 @@ class EdgarTextSearcher:
         :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
         :param max_wait_seconds: Maximum number of seconds to wait for the request to complete
         :param retries: Number of times to retry the request before failing
-        :return: None
         """
 
         # Fetch first page, verify that the request was successful by checking the result count value on the page
@@ -367,11 +392,12 @@ class EdgarTextSearcher:
             retries=retries,
         )
 
+        search_requests_results: List[Iterator[Iterator[Dict[str, Any]]]] = []
         for r in self.search_requests:
 
             # Run generated search requests and paginate through results
             try:
-                results: Iterator[Iterator[Dict[str, Any]]] = (
+                all_pages_results: Iterator[Iterator[Dict[str, Any]]] = (
                     self._fetch_search_request_results(
                         search_request_url_args=r,
                         min_wait_seconds=min_wait_seconds,
@@ -379,15 +405,19 @@ class EdgarTextSearcher:
                         retries=retries,
                     )
                 )
-                write_results_to_file(
-                    results, destination, TEXT_SEARCH_CSV_FIELDS_NAMES
-                )
+                search_requests_results.append(all_pages_results)
 
             except Exception as e:
                 print(
                     f"Unexpected error occurred while fetching search request results for request parameters '{r}': {e}"
                 )
                 print(f"Skipping...")
+
+        write_results_to_file(
+            itertools.chain(*search_requests_results),
+            destination,
+            TEXT_SEARCH_CSV_FIELDS_NAMES,
+        )
 
     def _fetch_first_page_results_number(
         self, url: str, min_wait_seconds: float, max_wait_seconds: float, retries: int
@@ -410,11 +440,10 @@ class EdgarTextSearcher:
                 ).text.strip()
                 != ""
             )
-        except PageCheckFailedError:
+        except PageCheckFailedError as e:
+            print(f"First page check at URL failed due to {e.__class__.__name__}: \n{e}")
             print(f"No results found for first page at URL {url}, aborting...")
-            print(
-                f"Please verify that the search/wait/retry parameters are correct and try again."
-            )
+            print(f"Please verify that the search/wait/retry parameters are correct and try again.")
             print(f"We recommend disabling headless mode for debugging purposes.")
             raise
 

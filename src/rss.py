@@ -9,7 +9,7 @@ from requests import Response
 
 from src.constants import RSS_FEED_CSV_FIELDS_NAMES
 from src.io import write_results_to_file
-from src.utils import default_if_fails, safe_get
+from src.utils import safe_func, safe_get
 
 RSS_FEED_DATA_DIRECTORY = Path(__file__).resolve().parents[1] / "data"
 RSS_FEED_URL = "https://www.sec.gov/Archives/edgar/xbrlrss.all.xml"
@@ -21,7 +21,6 @@ UNKNOWN_TICKER_PLACEHOLDER = "UNKNOWN"
 def _fetch_company_tickers(
     request_headers: Dict[str, Any], refresh_tickers_mapping: bool
 ) -> None:
-
     """
     Fetch the company tickers file from SEC website and save it to the data directory
 
@@ -61,7 +60,7 @@ def _fetch_company_tickers(
 
 
 def parse_rss_feed_data(
-    response: Response, tickers: List[str], tickers_mapping: Dict[str, List[str]]
+    response: Response, tickers: List[str], tickers_mapping: Dict[str, List[str]], files_urls_as_text: bool
 ) -> Iterator[Dict[str, Any]]:
     """
     Parse the RSS feed data and yield the parsed data for each item
@@ -69,6 +68,9 @@ def parse_rss_feed_data(
     :param response: response object containing the RSS feed data
     :param tickers: list of tickers to filter the parsed data with
     :param tickers_mapping: mapping of CIK numbers to company tickers
+    :param files_urls_as_text: whether to group the XBRL files URLs in a newline-separated string or not.
+    This results in the loss of part of the file information, but is more convenient e.g. for CSV format.
+
     :return: Iterator of parsed dicts for each item in the RSS feed
     """
 
@@ -80,7 +82,7 @@ def parse_rss_feed_data(
 
         # Removing leading zeros from CIK because it's not present in the SEC company tickers file,
         # while it is present in the RSS feed data
-        trimmed_cik = default_if_fails(lambda c: c.lstrip("0"))(cik)
+        trimmed_cik = safe_func(lambda c: c.lstrip("0"))(cik)
 
         # Try fetching the ticker from the tickers mapping using trimmed CIK
         matching_tickers_for_item_cik: List[str] = tickers_mapping.get(trimmed_cik, [])
@@ -120,7 +122,7 @@ def parse_rss_feed_data(
                 continue
 
         # If current item is not skipped, parse it and yield the parsed data
-        parsed = {
+        parsed_line = {
             "company_name": safe_get(i, "edgar:xbrlFiling", "edgar:companyName"),
             "cik": cik,
             "trimmed_cik": trimmed_cik,
@@ -144,10 +146,15 @@ def parse_rss_feed_data(
             ),
             "assigned_sic": safe_get(i, "edgar:xbrlFiling", "edgar:assignedSic"),
             "fiscal_year_end": safe_get(i, "edgar:xbrlFiling", "edgar:fiscalYearEnd"),
-            "xbrl_files": safe_get(i, "edgar:xbrlFiling", "edgar:xbrlFiles"),
         }
 
-        yield parsed
+        # Process files URLs
+        files_urls = safe_get(i, "edgar:xbrlFiling", "edgar:xbrlFiles", "edgar:xbrlFile")
+        if files_urls_as_text:
+            files_urls = "\n".join([f.get("@edgar:url") for f in files_urls])
+        parsed_line["xbrl_files"] = files_urls
+
+        yield parsed_line
 
 
 def fetch_rss_feed(
@@ -155,7 +162,6 @@ def fetch_rss_feed(
     output_file: str,
     refresh_tickers_mapping: bool,
 ) -> None:
-
     """
     Fetch the latest RSS feed data for the given company tickers and save it to either a CSV, JSON, or JSONLines file.
 
@@ -172,7 +178,9 @@ def fetch_rss_feed(
     print(f"Fetching RSS feed for tickers: {', '.join(tickers)}")
 
     # Create a User-Agent header
-    headers = {"User-Agent": f"BellingcatEDGARTool_{uuid.uuid4()} contact-tech@bellingcat.com"}
+    headers = {
+        "User-Agent": f"BellingcatEDGARTool_{uuid.uuid4()} contact-tech@bellingcat.com"
+    }
 
     # Fetch the company tickers file if needed/requested
     _fetch_company_tickers(headers, refresh_tickers_mapping)
@@ -189,7 +197,7 @@ def fetch_rss_feed(
     # Parse the RSS feed data
     print("Parsing RSS feed XML data...")
     parsed_feed: Iterator[Dict[str, Any]] = parse_rss_feed_data(
-        response, tickers, cik_to_ticker_mapping
+        response, tickers, cik_to_ticker_mapping, True if output_file.lower().endswith(".csv") else False
     )
 
     # Store the parsed data (simulating a generator to reuse the write_results_to_file function used in text search)

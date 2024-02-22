@@ -9,8 +9,6 @@ from src.constants import (
 )
 
 
-
-
 def write_results_to_file(
     data: Iterator[Iterator[Dict[str, Any]]],
     file_name: str,
@@ -19,11 +17,11 @@ def write_results_to_file(
     """
     Writes the given generator of dictionaries to a file with the given name. The file type is inferred from the file
     extension, and the data is written accordingly.
-    :param data:
-    :param file_name:
-    :param field_names:
-    :return:
+    :param data: Iterator of iterators of dictionaries to write to the file
+    :param file_name: Name of the file to write to
+    :param field_names: List of field names to use as the header for the CSV file
     """
+
     if file_name.lower().endswith(".csv"):
         _write_results_to_csv(data, field_names, file_name)
     elif file_name.lower().endswith(".jsonl"):
@@ -34,6 +32,9 @@ def write_results_to_file(
         raise ValueError(
             f"Unsupported file extension for destination file: {file_name} (should be one of {','.join(SUPPORTED_OUTPUT_EXTENSIONS)})"
         )
+    print(f"Successfully wrote data to {file_name}.")
+
+
 
 def _write_results_to_json(
     data: Iterator[Iterator[Dict[str, Any]]], file_name: str
@@ -48,9 +49,9 @@ def _write_results_to_json(
     for results_list_iterators in data:
         for r in results_list_iterators:
             results.append(r)
-    with open(file_name, "a") as f:
+    with open(file_name, "w") as f:
         f.write(json.dumps(results, indent=4))
-    print(f"Successfully wrote data to {file_name}.")
+
 
 def _write_results_to_jsonlines(
     data: Iterator[Iterator[Dict[str, Any]]], file_name: str
@@ -88,4 +89,3 @@ def _write_results_to_csv(
         for results_list_iterators in data:
             for r in results_list_iterators:
                 writer.writerow(r)
-    print(f"Successfully wrote data to {file_name}.")
