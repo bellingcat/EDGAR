@@ -23,7 +23,7 @@ from src.constants import (
     TEXT_SEARCH_CSV_FIELDS_NAMES,
 )
 from src.io import write_results_to_file
-from src.utils import split_date_range_in_n
+from src.utils import split_date_range_in_n, unpack_singleton_list
 
 
 class EdgarTextSearcher:
@@ -115,7 +115,7 @@ class EdgarTextSearcher:
             for cik in ciks_trimmed
         ]
         filing_details_urls: str = (
-            "\n".join(filing_details_urls)
+            unpack_singleton_list(filing_details_urls)
             if (ciks_trimmed and data_adsh_no_dash and data_adsh)
             else None
         )
@@ -123,7 +123,7 @@ class EdgarTextSearcher:
             f"https://www.sec.gov/Archives/edgar/data/{cik}/{data_adsh_no_dash}/{data_file_name}"
             for cik in ciks_trimmed
         ]
-        filing_doc_urls: str = "\n".join(filing_doc_urls)
+        filing_doc_urls: str = unpack_singleton_list(filing_doc_urls)
         filed_at = soup.find("td", class_="filed").text.strip()
         end_date = soup.find("td", class_="enddate").text.strip()
         entity_names = [
@@ -146,14 +146,14 @@ class EdgarTextSearcher:
             "filing_type": filing_type,
             "filed_at": filed_at,
             "reporting_for": end_date,
-            "entity_name": "\n".join(entity_names),
-            "company_cik": "\n".join(ciks),
-            "company_cik_trimmed": "\n".join(ciks_trimmed),
-            "place_of_business": "\n".join(places_of_business),
-            "incorporated_location": "\n".join(incorporated_locations),
-            "file_num": "\n".join(file_nums),
-            "file_num_search_url": "\n".join(file_nums_search_urls),
-            "film_num": "\n".join(film_nums),
+            "entity_name": unpack_singleton_list(entity_names),
+            "company_cik": unpack_singleton_list(ciks),
+            "company_cik_trimmed": unpack_singleton_list(ciks_trimmed),
+            "place_of_business": unpack_singleton_list(places_of_business),
+            "incorporated_location": unpack_singleton_list(incorporated_locations),
+            "file_num": unpack_singleton_list(file_nums),
+            "file_num_search_url": unpack_singleton_list(file_nums_search_urls),
+            "film_num": unpack_singleton_list(film_nums),
             "filing_details_url": filing_details_urls,
             "filing_document_url": filing_doc_urls,
         }

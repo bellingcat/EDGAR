@@ -33,3 +33,6 @@ def safe_get(d: Dict, *keys) -> Any:
         except KeyError:
             return None
     return d
+
+def unpack_singleton_list(l: List) -> str | List:
+    return l if len(l)!=1 else l[0]

@@ -9,7 +9,7 @@ from requests import Response
 
 from src.constants import RSS_FEED_CSV_FIELDS_NAMES
 from src.io import write_results_to_file
-from src.utils import safe_get
+from src.utils import safe_get, unpack_singleton_list
 
 RSS_FEED_DATA_DIRECTORY = Path(__file__).resolve().parents[1] / "data"
 RSS_FEED_URL = "https://www.sec.gov/Archives/edgar/xbrlrss.all.xml"
@@ -156,7 +156,7 @@ def parse_rss_feed_data(
             i, "edgar:xbrlFiling", "edgar:xbrlFiles", "edgar:xbrlFile"
         )
         if files_urls_as_text:
-            files_urls = "\n".join([f.get("@edgar:url") for f in files_urls])
+            files_urls = unpack_singleton_list([f.get("@edgar:url") for f in files_urls])
         parsed_line["xbrl_files"] = files_urls
 
         yield parsed_line
