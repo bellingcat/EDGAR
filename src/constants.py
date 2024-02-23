@@ -1,4 +1,4 @@
-SUPPORTED_OUTPUT_EXTENSIONS = [".csv", ".jsonl"]
+SUPPORTED_OUTPUT_EXTENSIONS = [".csv", ".jsonl", ".json"]
 TEXT_SEARCH_BASE_URL = "https://www.sec.gov/edgar/search/#/"
 TEXT_SEARCH_FILING_CATEGORIES_MAPPING = {
     "all_except_section_16": "form-cat0",
