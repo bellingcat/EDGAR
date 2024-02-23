@@ -9,7 +9,7 @@ from requests import Response
 
 from src.constants import RSS_FEED_CSV_FIELDS_NAMES
 from src.io import write_results_to_file
-from src.utils import safe_func, safe_get
+from src.utils import safe_get
 
 RSS_FEED_DATA_DIRECTORY = Path(__file__).resolve().parents[1] / "data"
 RSS_FEED_URL = "https://www.sec.gov/Archives/edgar/xbrlrss.all.xml"
@@ -85,7 +85,7 @@ def parse_rss_feed_data(
 
         # Removing leading zeros from CIK because it's not present in the SEC company tickers file,
         # while it is present in the RSS feed data
-        trimmed_cik = safe_func(lambda c: c.lstrip("0"))(cik)
+        trimmed_cik = cik.lstrip("0") if isinstance(cik, str) else None
 
         # Try fetching the ticker from the tickers mapping using trimmed CIK
         matching_tickers_for_item_cik: List[str] = tickers_mapping.get(trimmed_cik, [])

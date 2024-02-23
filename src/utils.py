@@ -33,29 +33,3 @@ def safe_get(d: Dict, *keys) -> Any:
         except KeyError:
             return None
     return d
-
-
-T = TypeVar("T")
-
-
-def safe_func(
-    func: Callable[..., T], default: Optional[T] = None
-) -> Callable[..., Optional[T]]:
-    """
-    Decorator that returns None when an exception occurs in the decorated function.
-
-    :param func: Function to decorate
-    :param default: Default value to return when an exception occurs
-    :return: Decorated function
-    """
-
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            print(
-                f"Function {func.__name__} raised a {e.__class__.__name__} error, returning {default}: {e}"
-            )
-            return default
-
-    return wrapper
