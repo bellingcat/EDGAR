@@ -179,7 +179,7 @@ class EdgarTextSearcher:
                 parsed_rows.append(parsed)
             except Exception as e:
                 print(
-                    f"{e.__class__.__name__} error occurred while parsing row {i} for URL {search_request_url}, skipping ..."
+                    f"{e.__class__.__name__} error occurred while parsing row {i + 1} for URL {search_request_url}, skipping ..."
                 )
                 continue
         return parsed_rows
