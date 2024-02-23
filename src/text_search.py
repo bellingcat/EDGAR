@@ -71,7 +71,6 @@ class EdgarTextSearcher:
 
     @staticmethod
     def _parse_row(row: WebElement) -> Dict[str, Any]:
-
         """
         Parses the given table row into a dictionary.
 
@@ -80,19 +79,27 @@ class EdgarTextSearcher:
         """
 
         # Fetching outerHTML and parsing it with BeautifulSoup
-        html = row.get_attribute('outerHTML')
-        soup = BeautifulSoup(html, 'html.parser').find('tr')
+        html = row.get_attribute("outerHTML")
+        soup = BeautifulSoup(html, "html.parser").find("tr")
 
         # Fetching file numbers and links
-        file_nums_tags = soup.find("td", class_="file-num").find_all('a', href=True)
+        file_nums_tags = soup.find("td", class_="file-num").find_all("a", href=True)
         file_nums = [x.text for x in file_nums_tags]
         file_nums_search_urls = [x.get("href") for x in file_nums_tags]
 
         # Fetching film numbers
-        film_nums = [x.text for x in soup.find("td", class_="film-num") if x.text and "<br/>" not in x]
+        film_nums = [
+            x.text
+            for x in soup.find("td", class_="film-num")
+            if x.text and "<br/>" not in x
+        ]
 
         # Fetching and cleaning CIKs
-        ciks = [x.text.replace("CIK ", "").strip() for x in soup.find("td", class_="cik") if "CIK" in x]
+        ciks = [
+            x.text.replace("CIK ", "").strip()
+            for x in soup.find("td", class_="cik")
+            if "CIK" in x
+        ]
         ciks_trimmed: List[str] = [c.strip("0") for c in ciks]
 
         # Fetching filing type and link
@@ -119,12 +126,21 @@ class EdgarTextSearcher:
         filing_doc_urls: str = "\n".join(filing_doc_urls)
         filed_at = soup.find("td", class_="filed").text.strip()
         end_date = soup.find("td", class_="enddate").text.strip()
-        entity_names = [x.text.strip().replace("\n", "") for x in soup.find("td", class_="entity-name") if
-                        x.text and "<br/>" not in x]
-        places_of_business = [x.text.strip() for x in soup.find("td", class_="biz-location") if
-                              x.text and "<br/>" not in x]
-        incorporated_locations = [x.text.strip() for x in soup.find("td", class_="incorporated") if
-                                  x.text and "<br/>" not in x]
+        entity_names = [
+            x.text.strip().replace("\n", "")
+            for x in soup.find("td", class_="entity-name")
+            if x.text and "<br/>" not in x
+        ]
+        places_of_business = [
+            x.text.strip()
+            for x in soup.find("td", class_="biz-location")
+            if x.text and "<br/>" not in x
+        ]
+        incorporated_locations = [
+            x.text.strip()
+            for x in soup.find("td", class_="incorporated")
+            if x.text and "<br/>" not in x
+        ]
 
         parsed = {
             "filing_type": filing_type,
@@ -144,7 +160,9 @@ class EdgarTextSearcher:
 
         return parsed
 
-    def _parse_table_rows(self, rows: List[WebElement], search_request_url: str) -> List[dict]:
+    def _parse_table_rows(
+        self, rows: List[WebElement], search_request_url: str
+    ) -> List[dict]:
         """
         Parses the given list of table rows into a list of dictionaries.
         Handles multiline rows by joining the text with a line break.
@@ -160,7 +178,9 @@ class EdgarTextSearcher:
                 parsed = self._parse_row(r)
                 parsed_rows.append(parsed)
             except Exception as e:
-                print(f"{e.__class__.__name__} error occurred while parsing row {i} for URL {search_request_url}, skipping ...")
+                print(
+                    f"{e.__class__.__name__} error occurred while parsing row {i} for URL {search_request_url}, skipping ..."
+                )
                 continue
         return parsed_rows
 
