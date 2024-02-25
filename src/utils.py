@@ -1,7 +1,5 @@
 from datetime import date
-from typing import Callable, Any, Iterator, Dict, TypeVar, Optional, List
-
-from selenium.webdriver.remote.webelement import WebElement
+from typing import Any, Iterator, Dict, List, Union
 
 
 def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
@@ -34,5 +32,5 @@ def safe_get(d: Dict, *keys) -> Any:
             return None
     return d
 
-def unpack_singleton_list(l: List) -> str | List:
+def unpack_singleton_list(l: List) -> Union[str, List[str]]:
     return l if len(l)!=1 else l[0]

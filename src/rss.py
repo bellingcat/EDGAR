@@ -1,7 +1,7 @@
 import json
 import uuid
 from pathlib import Path
-from typing import List, Any, Dict, Iterator
+from typing import List, Any, Dict, Iterator, Tuple
 
 import requests
 import xmltodict
@@ -58,12 +58,82 @@ def _fetch_company_tickers(
             "Company tickers file found and no refresh requested, skipping download ..."
         )
 
+def resolve_item_cik_and_ticker(item: Dict[str, Any], tickers_mapping: Dict[str, List[str]]) ->  Tuple[str, str, List[str]]:
+
+    """
+    Resolve the CIK and ticker for a given item in the RSS feed
+
+    :param item: item to resolve the CIK and ticker for
+    :param tickers_mapping: mapping of CIK numbers to company tickers
+    :return: Tuple of CIK, trimmed CIK, and matching tickers for the item
+    """
+
+    # Fetch the CIK number for current item
+    cik = safe_get(item, "edgar:xbrlFiling", "edgar:cikNumber")
+
+    # Removing leading zeros from CIK because it's not present in the SEC company tickers file,
+    # while it is present in the RSS feed data
+    trimmed_cik = cik.lstrip("0") if isinstance(cik, str) else None
+
+    # Try fetching the ticker from the tickers mapping using trimmed CIK
+    matching_tickers_for_item_cik: List[str] = tickers_mapping.get(trimmed_cik, [])
+
+    return cik, trimmed_cik, matching_tickers_for_item_cik
+
+def resolve_item_fields(item: Dict[str, Any], cik: str, trimmed_cik: str, ticker: str) -> Dict[str, Any]:
+
+    """
+    Resolve the fields for a given item in the RSS feed
+
+    :param item: item to resolve the fields for
+    :param cik: CIK number for the current item
+    :param trimmed_cik: Trimmed CIK number for the current item
+    :param ticker: Ticker for the current item
+
+    :return: Item with resolved fields
+    """
+
+    # If current item is not skipped, parse it and yield the parsed data
+    parsed_line = {
+        "company_name": safe_get(item, "edgar:xbrlFiling", "edgar:companyName"),
+        "cik": cik,
+        "trimmed_cik": trimmed_cik,
+        "ticker": ticker,
+        "published_date": item.get("pubDate"),
+        "title": item.get("title"),
+        "link": item.get("link"),
+        "description": item.get("description"),
+        "form": safe_get(item, "edgar:xbrlFiling", "edgar:formType"),
+        "filing_date": safe_get(item, "edgar:xbrlFiling", "edgar:filingDate"),
+        "file_number": safe_get(item, "edgar:xbrlFiling", "edgar:fileNumber"),
+        "accession_number": safe_get(
+            item, "edgar:xbrlFiling", "edgar:accessionNumber"
+        ),
+        "acceptance_date": safe_get(
+            item, "edgar:xbrlFiling", "edgar:acceptanceDatetime"
+        ),
+        "period": safe_get(item, "edgar:xbrlFiling", "edgar:period"),
+        "assistant_director": safe_get(
+            item, "edgar:xbrlFiling", "edgar:assistantDirector"
+        ),
+        "assigned_sic": safe_get(item, "edgar:xbrlFiling", "edgar:assignedSic"),
+        "fiscal_year_end": safe_get(item, "edgar:xbrlFiling", "edgar:fiscalYearEnd"),
+    }
+
+    # Process files URLs
+    files_urls = safe_get(
+        item, "edgar:xbrlFiling", "edgar:xbrlFiles", "edgar:xbrlFile"
+    )
+
+    files_urls = unpack_singleton_list([f.get("@edgar:url") for f in files_urls])
+    parsed_line["xbrl_files"] = files_urls
+
+    return parsed_line
 
 def parse_rss_feed_data(
     response: Response,
     tickers: List[str],
     tickers_mapping: Dict[str, List[str]],
-    files_urls_as_text: bool,
 ) -> Iterator[Dict[str, Any]]:
     """
     Parse the RSS feed data and yield the parsed data for each item
@@ -71,7 +141,6 @@ def parse_rss_feed_data(
     :param response: response object containing the RSS feed data
     :param tickers: list of tickers to filter the parsed data with
     :param tickers_mapping: mapping of CIK numbers to company tickers
-    :param files_urls_as_text: whether to group the XBRL files URLs in a newline-separated string or not.
     This results in the loss of part of the file information, but is more convenient e.g. for CSV format.
 
     :return: Iterator of parsed dicts for each item in the RSS feed
@@ -80,86 +149,32 @@ def parse_rss_feed_data(
     # Parse RSS feed data and get all items
     items = xmltodict.parse(response.content)["rss"]["channel"]["item"]
     for i in items:
-        # Fetch the CIK number for current item
-        cik = safe_get(i, "edgar:xbrlFiling", "edgar:cikNumber")
 
-        # Removing leading zeros from CIK because it's not present in the SEC company tickers file,
-        # while it is present in the RSS feed data
-        trimmed_cik = cik.lstrip("0") if isinstance(cik, str) else None
+        try:
 
-        # Try fetching the ticker from the tickers mapping using trimmed CIK
-        matching_tickers_for_item_cik: List[str] = tickers_mapping.get(trimmed_cik, [])
+            # Resolve the CIK and ticker for the current item
+            cik, trimmed_cik, matching_tickers_for_item_cik = resolve_item_cik_and_ticker(i, tickers_mapping)
 
-        # If tickers are provided by user, try extracting the matched ticker from the tickers mapping
-        matched_ticker_str = next(
-            (t for t in tickers if t in matching_tickers_for_item_cik), None
-        )
-
-        # If no matched ticker is found or no tickers are provided by user, concatenate the matching tickers
-        # for the current CIK into a single string, if no matching tickers are found, use UNKNOWN as placeholder
-        matched_ticker_str = (
-            matched_ticker_str
-            or "/".join(matching_tickers_for_item_cik)
-            or UNKNOWN_TICKER_PLACEHOLDER
-        )
-
-        # Figure out whether to continue execution or discard current item based on the tickers
-        # selection eventually provided by the user
-        if tickers:
-            # If trimmed CIK is not found in the tickers mapping, log and skip the current item
-            if not matching_tickers_for_item_cik:
-                print(
-                    f"CIK {trimmed_cik} not found in tickers mapping, skipping item since we cannot tell "
-                    f"whether it comes from one of the specified tickers..."
-                )
-                continue
-            elif matched_ticker_str == UNKNOWN_TICKER_PLACEHOLDER:
-                print(
-                    f"CIK {trimmed_cik} could not be matched with any ticker, skipping item ..."
-                )
-                continue
-            elif matched_ticker_str not in tickers:
-                print(
-                    f"Matched ticker(s) {matched_ticker_str} for CIK {trimmed_cik} not in specified tickers, skipping item ..."
-                )
+            # If tickers are provided by user, skip the current item if it doesn't match any of the specified tickers
+            if tickers and not any(x for x in matching_tickers_for_item_cik if x in tickers):
                 continue
 
-        # If current item is not skipped, parse it and yield the parsed data
-        parsed_line = {
-            "company_name": safe_get(i, "edgar:xbrlFiling", "edgar:companyName"),
-            "cik": cik,
-            "trimmed_cik": trimmed_cik,
-            "ticker": matched_ticker_str,
-            "published_date": i.get("pubDate"),
-            "title": i.get("title"),
-            "link": i.get("link"),
-            "description": i.get("description"),
-            "form": safe_get(i, "edgar:xbrlFiling", "edgar:formType"),
-            "filing_date": safe_get(i, "edgar:xbrlFiling", "edgar:filingDate"),
-            "file_number": safe_get(i, "edgar:xbrlFiling", "edgar:fileNumber"),
-            "accession_number": safe_get(
-                i, "edgar:xbrlFiling", "edgar:accessionNumber"
-            ),
-            "acceptance_date": safe_get(
-                i, "edgar:xbrlFiling", "edgar:acceptanceDatetime"
-            ),
-            "period": safe_get(i, "edgar:xbrlFiling", "edgar:period"),
-            "assistant_director": safe_get(
-                i, "edgar:xbrlFiling", "edgar:assistantDirector"
-            ),
-            "assigned_sic": safe_get(i, "edgar:xbrlFiling", "edgar:assignedSic"),
-            "fiscal_year_end": safe_get(i, "edgar:xbrlFiling", "edgar:fiscalYearEnd"),
-        }
+            # If tickers are provided by user, try extracting the matched ticker from the tickers mapping
+            # If no matched ticker is found or no tickers are provided by user, concatenate the matching tickers
+            # for the current CIK into a single string, if no matching tickers are found, use UNKNOWN as placeholder
+            matched_ticker_str = (
+                next((x for x in matching_tickers_for_item_cik if x in tickers), None)
+                or "/".join(matching_tickers_for_item_cik)
+                or UNKNOWN_TICKER_PLACEHOLDER
+            )
 
-        # Process files URLs
-        files_urls = safe_get(
-            i, "edgar:xbrlFiling", "edgar:xbrlFiles", "edgar:xbrlFile"
-        )
-        if files_urls_as_text:
-            files_urls = unpack_singleton_list([f.get("@edgar:url") for f in files_urls])
-        parsed_line["xbrl_files"] = files_urls
+            # Parse the current item
+            parsed_item = resolve_item_fields(i, cik, trimmed_cik, matched_ticker_str)
 
-        yield parsed_line
+            yield parsed_item
+
+        except Exception as e:
+            print(f"{e.__class__} occurred while parsing RSS feed item, skipping it: {e.args}")
 
 
 def fetch_rss_feed(
@@ -205,7 +220,6 @@ def fetch_rss_feed(
         response,
         tickers,
         cik_to_ticker_mapping,
-        True if output_file.lower().endswith(".csv") else False,
     )
 
     # Store the parsed data (simulating a generator to reuse the write_results_to_file function used in text search)
