@@ -12,7 +12,8 @@ But there's a catch.
 
 To _programatically_ access EDGAR data in a consistent and reliable manner is a complex problem. 
 Most people who have found solutions to this problem charge a fee for it, or only provide limited free access to the obtained data. 
-Thanks to funding from investigative journalism organization Bellingcat, I was able to devote six months to studying the EDGAR database, determining the most likely use cases for researchers and investors, and building a tool that can help people exploit this incredible, free resource.
+
+This tool was initially developed as part of the Bellingcat Tech Fellowship program, we hope it helps you utilise this incredible, free resource.
 
 ## Installation
 
@@ -33,9 +34,9 @@ pip install -r requirements.txt
 
 ### What is the EDGAR text search tool?
 
-If you're interested in finding all the documents mentioning a certain person ? company or a phrase in the EDGAR database, you can do that via the [full text search page](https://www.sec.gov/edgar/search/#)
+If you're interested in finding all the documents mentioning a certain person, company or phrase in the EDGAR database, you can do that via the [full text search page](https://www.sec.gov/edgar/search/#)
 
-Since it easy to get all the information you might need from the SEC, we built a Python tool that lets you download the search results to a file without having to go through all the pages of results by hand.
+It isn't always easy to get the information you might need from the SEC, so this Python tool lets you download the search results to a file without having to go through all the pages of results by hand.
 
 This is a command line tool that takes a search query, opens a web browser in the background, and downloads the search results into a CSV file that can be opened in a spreadsheet program (such as Excel).
 
@@ -110,11 +111,9 @@ on the SEC page due to an apparent bug, we recommend to either avoid doing so (y
 
 ### What is the RSS feed customized retrieval tool ?
 
-EDGAR also includes RSS feeds, hence we wrote a RSS feed retrieval and parsing command
-that allows you to filter the filings feed by ticker.
+The SEC also publish a live feed of filings, and this part of the tool lets you monitor particular tickers for new filings, so you can get to-the-minute updates.
 
-The output is a CSV file containing the company and filings' metadata, 
-which can be opened in a spreadsheet program (such as Excel).
+The output is a CSV file containing the company and filings' metadata, which can be opened in a spreadsheet program (such as Excel).
 
 ### Features
 
@@ -126,7 +125,7 @@ This mapping is obtained from the [SEC website](https://www.sec.gov/files/compan
 #### Periodic retrieval
 
 The RSS feed data returns the last 200 filings and is updated every 10 minutes (which doesn't mean all tickers are updated every 10 minutes).
-Our tool can fetch the feed either once on-demand, or at regular intervals.
+The tool can fetch the feed either once on-demand, or at regular intervals.
 
 ### Example usage
 
@@ -146,7 +145,7 @@ python main.py rss "AAPL" "GOOG" "MSFT" -o "rss_feed.jsonl" -e 10
 
 ## Table of Cleaned Financial Data
 
-I've built a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and [available here for download as a .CSV file](https://edgar.marketinference.com/). You can open this file in EXCEL, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
+I've built a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and [available here for download as a .CSV file](https://edgar.marketinference.com/). You can open this file in Excel, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
 
 The current table is created by the following method:
 
