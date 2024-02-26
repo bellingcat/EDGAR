@@ -19,14 +19,30 @@ This tool was initially developed as part of the Bellingcat Tech Fellowship prog
 
 At the moment, the tool is not available on PyPI yet, hence you need to clone the repository and run the script manually.
 
+Clone the repository and move to the cloned directory
 ```bash
-# Clone the repository and move to the cloned directory
 git clone https://github.com/bellingcat/EDGAR.git
 cd EDGAR
+```
 
-# Create virtual environment and install the required dependencies
+Create a virtual environment
+
+```bash
 python -m venv .venv
-source .venv/bin/activate
+```
+
+On UNIX or Mac activate the virtual environment with
+```bash
+source .venv/bin/activate 
+```
+
+On Windows activate the virtual environment with
+```bash
+.venv\Scripts\activate
+```
+
+Then install the dependencies with
+```bash
 pip install -r requirements.txt
 ```
 
