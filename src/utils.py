@@ -32,5 +32,6 @@ def safe_get(d: Dict, *keys) -> Any:
             return None
     return d
 
+
 def unpack_singleton_list(l: List) -> Union[str, List[str]]:
-    return l if len(l)!=1 else l[0]
+    return l if len(l) != 1 else l[0]
