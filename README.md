@@ -2,6 +2,7 @@
 
 CLI tool and resources enabling efficient and consistent retrieval of corporate and financial data from the SEC. 
 
+
 ## What is EDGAR?
 
 EDGAR is a database of corporate filings maintained by the United States Securities and Exchange Commission (SEC). 
@@ -10,7 +11,7 @@ Whether you are looking to study the fundamentals of your favorite stocks, or to
 
 But there's a catch. 
 
-To _programatically_ access EDGAR data in a consistent and reliable manner is a complex problem. 
+To _programmatically_ access EDGAR data in a consistent and reliable manner is a complex problem. 
 Most people who have found solutions to this problem charge a fee for it, or only provide limited free access to the obtained data. 
 
 This tool was initially developed as part of the Bellingcat Tech Fellowship program, we hope it helps you utilise this incredible, free resource.
@@ -24,6 +25,11 @@ Clone the repository and move to the cloned directory
 git clone https://github.com/bellingcat/EDGAR.git
 cd EDGAR
 ```
+
+### Option 1: Use a Python Virtual Environment
+
+This method is best if you just want to use EDGAR. See option 2, using Pipenv,
+if you would like to contribute.
 
 Create a virtual environment
 
@@ -45,6 +51,52 @@ Then install the dependencies with
 ```bash
 pip install -r requirements.txt
 ```
+
+### Option 2: Use Pipenv to Manage Your Python Virtual Environment
+
+This workflow is better for those looking to contribute to EDGAR.
+
+<details>
+  <summary>Click to expand</summary>
+
+[Pipenv](https://pipenv.pypa.io/en/latest/) is a Python virtualenv management tool.
+It automatically creates and manages a virtualenv for the project, handles adding and removing packages,
+and generates deterministic builds via `Pipfile.lock`.
+
+The recommended Python version for this project is Python 3.12, which you can download from https://www.python.org/downloads/
+
+You can install and activate your Pipenv managed virtual environment by running the following:
+
+```shell
+pip3.12 install pipenv  # Installs Pipenv
+pipenv install  # Installs all dependencies
+pipenv shell  # Activates the Python virtual environment
+```
+
+You can always deactivate the virtual environment by typing `deactivate` in your terminal.
+```shell
+deactivate
+```
+
+You can see all available `Pipenv` commands by typing `pipenv` in your terminal.
+Type `pipenv scripts` to see available scripts.
+
+```shell
+(EDGAR) ➜  EDGAR git:(main) ✗ pipenv scripts
+Command  Script
+-------  -------
+format   black .
+```
+
+Which you can then run via `pipenv run <script name>`
+
+```shell
+(EDGAR) ➜  EDGAR git:(main) ✗ pipenv run format
+All done! ✨ 🍰 ✨
+9 files left unchanged.
+```
+
+</details>
 
 ## Text Search all EDGAR Filings
 
