@@ -1,4 +1,5 @@
 import itertools
+import sys
 import urllib.parse
 from datetime import date, timedelta
 from math import ceil
@@ -266,7 +267,8 @@ class EdgarTextSearcher:
             lambda: self.driver.find_element(
                 By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH
             ).text.strip()
-            != ""
+            != "",
+            f"First search request failed for URL {TEXT_SEARCH_BASE_URL}{search_request_url_args}, skipping request...",
         )
 
         # Get number of pages
@@ -285,7 +287,8 @@ class EdgarTextSearcher:
                     lambda: self.driver.find_element(
                         By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH
                     ).text.strip()
-                    != ""
+                    != "",
+                    f"Search request failed for page {i} at URL {paginated_url}, skipping page...",
                 )
 
                 page_results = extract_html_table_rows(
@@ -293,16 +296,13 @@ class EdgarTextSearcher:
                 )(lambda x: self._parse_table_rows(x, paginated_url))
                 yield page_results
             except PageCheckFailedError as e:
-                print(f"Failed to fetch page at URL {paginated_url}, skipping...")
-                print(f"Error: {e}")
+                print(e)
                 continue
-            except ResultsTableNotFoundError as e:
-                print(f"Did not find results table at URL {paginated_url}, skipping...")
-                print(f"Error: {e}")
+            except ResultsTableNotFoundError:
+                print(f"Could not find results table on page {i} at URL {paginated_url}, skipping page...")
                 continue
             except Exception as e:
-                print(f"Unexpected error occurred while fetching page {i}, skipping...")
-                print(f"Error: {e}")
+                print(f"Unexpected {e.__class__.__name__} error occurred while fetching page {i} at URL {paginated_url}, skipping page: {e}")
                 continue
 
     def _generate_search_requests(
@@ -452,9 +452,8 @@ class EdgarTextSearcher:
 
             except Exception as e:
                 print(
-                    f"Unexpected error occurred while fetching search request results for request parameters '{r}': {e}"
+                    f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{r}': {e}"
                 )
-                print(f"Skipping...")
 
         write_results_to_file(
             itertools.chain(*search_requests_results),
@@ -481,24 +480,20 @@ class EdgarTextSearcher:
                 lambda: self.driver.find_element(
                     By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH
                 ).text.strip()
-                != ""
+                != "",
+                f"No results found on first page at URL {url}, aborting...\n"
+                f"Please verify that the search/wait/retry parameters are correct and try again.\n"
+                f"We recommend disabling headless mode for debugging purposes."
             )
         except PageCheckFailedError as e:
-            print(
-                f"First page check at URL failed due to {e.__class__.__name__}: \n{e}"
-            )
-            print(f"No results found for first page at URL {url}, aborting...")
-            print(
-                f"Please verify that the search/wait/retry parameters are correct and try again."
-            )
-            print(f"We recommend disabling headless mode for debugging purposes.")
-            raise
+            print(e)
+            sys.exit(1)
 
         # If we cannot get number of results after retries, abort
         try:
             num_results = self._parse_number_of_results()
             return num_results
         except Exception as e:
-            print(f"Failed to parse number of results for URL {url}, aborting...")
-            print(f"Error: {e}")
-            raise
+            print(f"Execution aborting due to a {e.__class__.__name__} error raised "
+                  f"while parsing number of results for first page at URL {url}: {e}")
+            sys.exit(1)
