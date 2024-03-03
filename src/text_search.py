@@ -268,7 +268,7 @@ class EdgarTextSearcher:
                 By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH
             ).text.strip()
             != "",
-            f"First search request failed for URL {TEXT_SEARCH_BASE_URL}{search_request_url_args}, skipping request...",
+            f"First search request failed for URL {TEXT_SEARCH_BASE_URL}{search_request_url_args} ...",
         )
 
         # Get number of pages
