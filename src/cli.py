@@ -61,7 +61,6 @@ class SecEdgarScraperCli:
         output: str = f"edgar_search_results_{datetime.now().strftime('%d%m%Y_%H%M%S')}.csv",
         entity_id: Optional[str] = None,
         filing_type: Optional[str] = None,
-        exact_search: bool = False,
         start_date: str = (date.today() - timedelta(days=365 * 5)).strftime("%Y-%m-%d"),
         end_date: str = date.today().strftime("%Y-%m-%d"),
         min_wait: float = 5.0,
@@ -78,7 +77,6 @@ class SecEdgarScraperCli:
         :param output: Name of the output file to save the results to
         :param entity_id: CIK or name or ticker of the company to search for
         :param filing_type: Type of filing to search for
-        :param exact_search: Whether to exactly match the sequence of keywords or not
         :param start_date: Start date of the search
         :param end_date: End date of the search
         :param min_wait: Minimum wait time for the request to complete before checking the page or retrying a request
@@ -89,7 +87,6 @@ class SecEdgarScraperCli:
         """
         try:
             keywords = list(keywords)
-            exact_search = bool(exact_search)
             start_date = datetime.strptime(start_date, "%Y-%m-%d")
             end_date = datetime.strptime(end_date, "%Y-%m-%d")
             min_wait = float(min_wait)
@@ -115,7 +112,6 @@ class SecEdgarScraperCli:
                 keywords=keywords,
                 entity_id=entity_id,
                 filing_type=filing_type,
-                exact_search=exact_search,
                 start_date=start_date,
                 end_date=end_date,
                 min_wait_seconds=min_wait,
