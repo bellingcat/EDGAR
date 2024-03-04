@@ -69,7 +69,7 @@ You can install and activate your Pipenv managed virtual environment by running 
 
 ```shell
 pip3.12 install pipenv  # Installs Pipenv
-pipenv install  # Installs all dependencies
+pipenv install --dev # Installs all prod & dev dependencies
 pipenv shell  # Activates the Python virtual environment
 ```
 
