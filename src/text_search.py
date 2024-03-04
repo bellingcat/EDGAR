@@ -189,7 +189,6 @@ class EdgarTextSearcher:
         keywords: List[str],
         entity_id: Optional[str],
         filing_type: Optional[str],
-        exact_search: bool,
         start_date: date,
         end_date: date,
         page_number: int,
@@ -200,7 +199,6 @@ class EdgarTextSearcher:
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
         :param filing_type: Filing category to select from the dropdown menu, defaults to None
-        :param exact_search: Whether to perform an exact search on the search_keywords argument or not, defaults to False in order to return the maximum amount of search results by default
         :param start_date: Start date for the custom date range, defaults to 5 years ago to replicate the default behavior of the SEC website
         :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
         :param page_number: Page number to request, defaults to 1
@@ -214,7 +212,6 @@ class EdgarTextSearcher:
 
         # Join search keywords into a single string
         keywords = " ".join(keywords)
-        keywords = f'"{keywords}"' if exact_search else keywords
 
         # Generate request arguments
         request_args = {
@@ -310,7 +307,6 @@ class EdgarTextSearcher:
         keywords: List[str],
         entity_id: Optional[str],
         filing_type: Optional[str],
-        exact_search: bool,
         start_date: date,
         end_date: date,
         min_wait_seconds: float,
@@ -324,7 +320,6 @@ class EdgarTextSearcher:
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
         :param filing_type: Filing category to select from the dropdown menu
-        :param exact_search: Whether to perform an exact search on the search_keywords argument or not
         :param start_date: Start date for the custom date range
         :param end_date: End date for the custom date range
         :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
@@ -337,7 +332,6 @@ class EdgarTextSearcher:
             keywords=keywords,
             entity_id=entity_id,
             filing_type=filing_type,
-            exact_search=exact_search,
             start_date=start_date,
             end_date=end_date,
             page_number=1,
@@ -385,7 +379,6 @@ class EdgarTextSearcher:
                         keywords=keywords,
                         entity_id=entity_id,
                         filing_type=filing_type,
-                        exact_search=exact_search,
                         start_date=start,
                         end_date=end,
                         min_wait_seconds=min_wait_seconds,
@@ -400,7 +393,6 @@ class EdgarTextSearcher:
         keywords: List[str],
         entity_id: Optional[str],
         filing_type: Optional[str],
-        exact_search: bool,
         start_date: date,
         end_date: date,
         min_wait_seconds: float,
@@ -414,7 +406,6 @@ class EdgarTextSearcher:
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
         :param filing_type: Filing category to select from the dropdown menu
-        :param exact_search: Whether to perform an exact search on the search_keywords argument or not
         :param start_date: Start date for the custom date range
         :param end_date: End date for the custom date range
         :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
@@ -427,7 +418,6 @@ class EdgarTextSearcher:
             keywords=keywords,
             entity_id=entity_id,
             filing_type=filing_type,
-            exact_search=exact_search,
             start_date=start_date,
             end_date=end_date,
             min_wait_seconds=min_wait_seconds,

@@ -108,11 +108,14 @@ python main.py text_search --help
 # Basic usage (defaults to searching the last 5 years of records)
 python main.py text_search John Doe
 
+# Basic usage with a combination of exact and partial search parameters
+python main.py text_search \"John Doe\" Pharmaceuticals Chemicals
+
 # Usage with date range and export to custom CSV file
 python main.py text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
 
 # More advanced usage specifying more arguments, with export to JSON
-python main.py text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --exact_search --output "results.json"\
+python main.py text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
           --filing_type "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
           --min_wait 5.0 --max_wait 7.0 --retries 3 --browser "firefox" --headless
           
