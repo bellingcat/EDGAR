@@ -58,8 +58,10 @@ def _fetch_company_tickers(
             "Company tickers file found and no refresh requested, skipping download ..."
         )
 
-def resolve_item_cik_and_ticker(item: Dict[str, Any], tickers_mapping: Dict[str, List[str]]) ->  Tuple[str, str, List[str]]:
 
+def resolve_item_cik_and_ticker(
+    item: Dict[str, Any], tickers_mapping: Dict[str, List[str]]
+) -> Tuple[str, str, List[str]]:
     """
     Resolve the CIK and ticker for a given item in the RSS feed
 
@@ -80,8 +82,10 @@ def resolve_item_cik_and_ticker(item: Dict[str, Any], tickers_mapping: Dict[str,
 
     return cik, trimmed_cik, matching_tickers_for_item_cik
 
-def resolve_item_fields(item: Dict[str, Any], cik: str, trimmed_cik: str, ticker: str) -> Dict[str, Any]:
 
+def resolve_item_fields(
+    item: Dict[str, Any], cik: str, trimmed_cik: str, ticker: str
+) -> Dict[str, Any]:
     """
     Resolve the fields for a given item in the RSS feed
 
@@ -106,9 +110,7 @@ def resolve_item_fields(item: Dict[str, Any], cik: str, trimmed_cik: str, ticker
         "form": safe_get(item, "edgar:xbrlFiling", "edgar:formType"),
         "filing_date": safe_get(item, "edgar:xbrlFiling", "edgar:filingDate"),
         "file_number": safe_get(item, "edgar:xbrlFiling", "edgar:fileNumber"),
-        "accession_number": safe_get(
-            item, "edgar:xbrlFiling", "edgar:accessionNumber"
-        ),
+        "accession_number": safe_get(item, "edgar:xbrlFiling", "edgar:accessionNumber"),
         "acceptance_date": safe_get(
             item, "edgar:xbrlFiling", "edgar:acceptanceDatetime"
         ),
@@ -121,14 +123,13 @@ def resolve_item_fields(item: Dict[str, Any], cik: str, trimmed_cik: str, ticker
     }
 
     # Process files URLs
-    files_urls = safe_get(
-        item, "edgar:xbrlFiling", "edgar:xbrlFiles", "edgar:xbrlFile"
-    )
+    files_urls = safe_get(item, "edgar:xbrlFiling", "edgar:xbrlFiles", "edgar:xbrlFile")
 
     files_urls = unpack_singleton_list([f.get("@edgar:url") for f in files_urls])
     parsed_line["xbrl_files"] = files_urls
 
     return parsed_line
+
 
 def parse_rss_feed_data(
     response: Response,
@@ -153,10 +154,14 @@ def parse_rss_feed_data(
         try:
 
             # Resolve the CIK and ticker for the current item
-            cik, trimmed_cik, matching_tickers_for_item_cik = resolve_item_cik_and_ticker(i, tickers_mapping)
+            cik, trimmed_cik, matching_tickers_for_item_cik = (
+                resolve_item_cik_and_ticker(i, tickers_mapping)
+            )
 
             # If tickers are provided by user, skip the current item if it doesn't match any of the specified tickers
-            if tickers and not any(x for x in matching_tickers_for_item_cik if x in tickers):
+            if tickers and not any(
+                x for x in matching_tickers_for_item_cik if x in tickers
+            ):
                 continue
 
             # If tickers are provided by user, try extracting the matched ticker from the tickers mapping
@@ -174,7 +179,9 @@ def parse_rss_feed_data(
             yield parsed_item
 
         except Exception as e:
-            print(f"{e.__class__} occurred while parsing RSS feed item, skipping it: {e.args}")
+            print(
+                f"{e.__class__} occurred while parsing RSS feed item, skipping it: {e.args}"
+            )
 
 
 def fetch_rss_feed(
