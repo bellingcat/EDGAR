@@ -1,4 +1,4 @@
-from src.cli import SecEdgarScraperCli
+from edgar_tool.cli import SecEdgarScraperCli
 import fire
 
 if __name__ == "__main__":

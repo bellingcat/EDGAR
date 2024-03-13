@@ -4,7 +4,7 @@ from typing import List, Dict, Any, Iterator
 
 import jsonlines
 
-from src.constants import (
+from edgar_tool.constants import (
     SUPPORTED_OUTPUT_EXTENSIONS,
 )
 
