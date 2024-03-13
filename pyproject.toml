@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "edgar-tool"
-version = "1.0.0"
+version = "1.0.1"
 description = "Tool for the retrieval of corporate and financial data from the SEC."
 authors = ["Bellingcat"]
 license = "GNU General Public License v3 (GPLv3)"
