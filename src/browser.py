@@ -3,7 +3,7 @@ import time
 import uuid
 from contextlib import contextmanager
 from random import uniform
-from typing import Union, Callable, Any, List, Dict, Iterator
+from typing import Union, Callable, Any, List, Dict, Iterator, Optional
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -34,7 +34,7 @@ def fetch_page(
     min_wait_seconds: float,
     max_wait_seconds: float,
     stop_after_n: int,
-) -> Callable[[Callable[..., Any]], None]:
+) -> Callable[[Callable[..., Any], Optional[str]], None]:
     """
     Curried function that fetches the given URL and retries the request if the page load fails.
     Example usage: fetch_page(driver, url, 10, 3)(lambda: driver.find_element(By.ID, 'foo').text != "failed")
@@ -52,7 +52,7 @@ def fetch_page(
         stop=stop_after_attempt(stop_after_n),
         reraise=True,
     )
-    def wrapper(check_method: Callable) -> None:
+    def wrapper(check_method: Callable, err_msg: Optional[str] = None) -> None:
         print(f"Requesting URL: {url}")
         driver.get(url)
         randomized_wait = uniform(min_wait_seconds, max_wait_seconds)
@@ -60,7 +60,7 @@ def fetch_page(
         time.sleep(randomized_wait)
         if not check_method():
             raise PageCheckFailedError(
-                "Page check failed, page load seems to have failed"
+                err_msg or f"Page check failed for url {url}"
             )
         print(f"Successfully fetched URL: {url}")
 
