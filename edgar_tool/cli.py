@@ -2,13 +2,13 @@ import time
 from datetime import date, timedelta, datetime
 from typing import List, Optional
 
-from src.browser import create_browser_driver, ACCEPTED_BROWSERS
-from src.constants import (
+from edgar_tool.browser import create_browser_driver, ACCEPTED_BROWSERS
+from edgar_tool.constants import (
     SUPPORTED_OUTPUT_EXTENSIONS,
     TEXT_SEARCH_FILING_CATEGORIES_MAPPING,
 )
-from src.rss import fetch_rss_feed
-from src.text_search import EdgarTextSearcher
+from edgar_tool.rss import fetch_rss_feed
+from edgar_tool.text_search import EdgarTextSearcher
 
 
 def _validate_text_search_args(

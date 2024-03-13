@@ -47,9 +47,9 @@ On Windows activate the virtual environment with
 .venv\Scripts\activate
 ```
 
-Then install the dependencies with
+Then install the tool with
 ```bash
-pip install -r requirements.txt
+pip install .
 ```
 
 ### Option 2: Use Pipenv to Manage Your Python Virtual Environment
@@ -155,24 +155,24 @@ The tool supports retries in case of failed requests. Retries can be configured 
 
 ```bash
 # Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
-python main.py text_search --help
+python -m edgar_tool text_search --help
 
 # Basic usage (defaults to searching the last 5 years of records)
-python main.py text_search John Doe
+python -m edgar_tool text_search John Doe
 
 # Basic usage with a combination of exact and partial search parameters
-python main.py text_search \"John Doe\" Pharmaceuticals Chemicals
+python -m edgar_tool text_search \"John Doe\" Pharmaceuticals Chemicals
 
 # Usage with date range and export to custom CSV file
-python main.py text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
+python -m edgar_tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
 
 # More advanced usage specifying more arguments, with export to JSON
-python main.py text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
+python -m edgar_tool text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
           --filing_type "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
           --min_wait 5.0 --max_wait 7.0 --retries 3 --browser "firefox" --headless
           
 # Using aliases where supported and exporting to JSONLines
-python main.py text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -b "firefox" -h
+python -m edgar_tool text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -b "firefox" -h
 ```
 
 **Note**: combining text search parameters with `entity_id` parameter seems to increase the risk of failed requests
@@ -202,16 +202,16 @@ The tool can fetch the feed either once on-demand, or at regular intervals.
 
 ```bash
 # Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
-python main.py rss --help
+python -m edgar_tool rss --help
 
 # Basic one-off usage with export to CSV
-python main.py rss "GOOG" --output "rss_feed.csv"
+python -m edgar_tool rss "GOOG" --output "rss_feed.csv"
 
 # Periodic usage specifying 10 minutes interval duration, with export to JSON
-python main.py rss "AAPL" "GOOG" "MSFT" --output "rss_feed.json" --every_n_mins 10
+python -m edgar_tool rss "AAPL" "GOOG" "MSFT" --output "rss_feed.json" --every_n_mins 10
 
 # Same example as above, using aliases and exporting to JSONLines (.jsonl)
-python main.py rss "AAPL" "GOOG" "MSFT" -o "rss_feed.jsonl" -e 10
+python -m edgar_tool rss "AAPL" "GOOG" "MSFT" -o "rss_feed.jsonl" -e 10
 ```
 
 ## Table of Cleaned Financial Data
