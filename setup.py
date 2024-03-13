@@ -52,6 +52,7 @@ setup(
     ),
     package_data={"edgar_tool": ["py.typed"]},
     install_requires=read_requirements("requirements.txt"),
+    extras_require={"dev": read_requirements("dev-requirements.txt")},
     python_requires=">=3.12",
     entry_points={
         "console_scripts": [

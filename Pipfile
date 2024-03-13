@@ -16,7 +16,15 @@ html5lib = "~=1.1"
 xmltodict = "~=0.13"
 
 [dev-packages]
-black = "24.2.0"
+flake8 = "*"
+mypy = ">=0.961"
+black = "==24.2.0"
+isort = ">=5.10.1"
+twine = ">=1.11.0"
+setuptools = "*"
+wheel = "*"
+packaging = "*"
+python-dotenv = ">=0.21.1"
 
 [requires]
 python_version = "3.12"
