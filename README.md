@@ -47,9 +47,9 @@ On Windows activate the virtual environment with
 .venv\Scripts\activate
 ```
 
-Then install the dependencies with
+Then install the tool with
 ```bash
-pip install -r requirements.txt
+pip install .
 ```
 
 ### Option 2: Use Pipenv to Manage Your Python Virtual Environment
