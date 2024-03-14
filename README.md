@@ -1,106 +1,29 @@
 # EDGAR
 
-CLI tool and resources enabling efficient and consistent retrieval of corporate and financial data from the SEC. 
+Python tool to search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC). 
 
+## What is EDGAR? 
 
-## What is EDGAR?
-
-EDGAR is a database of corporate filings maintained by the United States Securities and Exchange Commission (SEC). 
+EDGAR is a database of corporate filings maintained by the SEC. 
 These filings contain a wealth of quantitative and qualitative information on every legal entity that issues non-exempt securities in the United States. 
 Whether you are looking to study the fundamentals of your favorite stocks, or to track the corporate webs weaved by a person or company of interest, EDGAR is the place to do it.
 
-But there's a catch. 
-
-To _programmatically_ access EDGAR data in a consistent and reliable manner is a complex problem. 
-Most people who have found solutions to this problem charge a fee for it, or only provide limited free access to the obtained data. 
-
 This tool was initially developed as part of the Bellingcat Tech Fellowship program, we hope it helps you utilise this incredible, free resource.
 
-## Installation
+## Installation :magic_wand:
 
-At the moment, the tool is not available on PyPI yet, hence you need to clone the repository and run the script manually.
+[![PyPI - Version](https://img.shields.io/pypi/v/edgar-tool)
+](https://pypi.org/project/edgar-tool/)
 
-Clone the repository and move to the cloned directory
-```bash
-git clone https://github.com/bellingcat/EDGAR.git
-cd EDGAR
-```
-
-### Option 1: Use a Python Virtual Environment
-
-This method is best if you just want to use EDGAR. See option 2, using Pipenv,
-if you would like to contribute.
-
-Create a virtual environment
+You can install this tool directly from the [official PyPi release](https://pypi.org/project/edgar-tool/).
 
 ```bash
-python -m venv .venv
+pip install edgar-tool
 ```
 
-On UNIX or Mac activate the virtual environment with
-```bash
-source .venv/bin/activate 
-```
+## Usage - Text Search :mag_right:
 
-On Windows activate the virtual environment with
-```bash
-.venv\Scripts\activate
-```
-
-Then install the tool with
-```bash
-pip install .
-```
-
-### Option 2: Use Pipenv to Manage Your Python Virtual Environment
-
-This workflow is better for those looking to contribute to EDGAR.
-
-<details>
-  <summary>Click to expand</summary>
-
-[Pipenv](https://pipenv.pypa.io/en/latest/) is a Python virtualenv management tool.
-It automatically creates and manages a virtualenv for the project, handles adding and removing packages,
-and generates deterministic builds via `Pipfile.lock`.
-
-The recommended Python version for this project is Python 3.12, which you can download from https://www.python.org/downloads/
-
-You can install and activate your Pipenv managed virtual environment by running the following:
-
-```shell
-pip3.12 install pipenv  # Installs Pipenv
-pipenv install --dev # Installs all prod & dev dependencies
-pipenv shell  # Activates the Python virtual environment
-```
-
-You can always deactivate the virtual environment by typing `deactivate` in your terminal.
-```shell
-deactivate
-```
-
-You can see all available `Pipenv` commands by typing `pipenv` in your terminal.
-Type `pipenv scripts` to see available scripts.
-
-```shell
-(EDGAR) ➜  EDGAR git:(main) ✗ pipenv scripts
-Command  Script
--------  -------
-format   black .
-```
-
-Which you can then run via `pipenv run <script name>`
-
-```shell
-(EDGAR) ➜  EDGAR git:(main) ✗ pipenv run format
-All done! ✨ 🍰 ✨
-9 files left unchanged.
-```
-
-</details>
-
-## Text Search all EDGAR Filings
-
-### What is the EDGAR text search tool?
+### What is the text search tool?
 
 If you're interested in finding all the documents mentioning a certain person, company or phrase in the EDGAR database, you can do that via the [full text search page](https://www.sec.gov/edgar/search/#)
 
@@ -108,7 +31,37 @@ It isn't always easy to get the information you might need from the SEC, so this
 
 This is a command line tool that takes a search query, opens a web browser in the background, and downloads the search results into a CSV file that can be opened in a spreadsheet program (such as Excel).
 
-### Features
+### Examples
+
+```bash
+# Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
+edgar-tool text_search --help
+
+# Basic usage (defaults to searching the last 5 years of records)
+edgar-tool text_search John Doe
+
+# Basic usage with a combination of exact and partial search parameters
+edgar-tool text_search \"John Doe\" Pharmaceuticals Chemicals
+
+# Usage with date range and export to custom CSV file
+edgar-tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
+
+# More advanced usage specifying more arguments, with export to JSON
+edgar-tool text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
+          --filing_type "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
+          --min_wait 5.0 --max_wait 7.0 --retries 3 --browser "firefox" --headless
+          
+# Using aliases where supported and exporting to JSONLines
+edgar-tool text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -b "firefox" -h
+```
+
+> [!WARNING]
+> Combining text search parameters with `entity_id` parameter seems to increase the risk of failed requests on the SEC page due to an apparent bug, we recommend to either avoid doing so (you can specify an empty string for search keywords using `""` and use only entity ID) or setting the number of retries accordingly if you do so.
+
+### Detailed Feature Information
+
+<details>
+<summary>Expand to view detailed feature information</summary>
 
 #### Search parameters
 
@@ -121,14 +74,6 @@ Most search parameters from the EDGAR text search page are supported, including:
 Currently unsupported search parameters are:
 - `Filed date ranges` (since the same behavior can be achieved with `Filed from` and `Filed to` dates)
 - `Principal executive offices in` (though it could be added in the future by hardcoding the list of supported values)
-
-#### Pagination
-
-The tool supports pagination, and will automatically download all available search results.
-
-In addition, it works around a limitation of the SEC website that only displays the first 10000 results,
-by automatically splitting date ranges into smaller ones until the number of results is below 10000, ensuring
-that all results are downloaded.
 
 #### Output formats
 
@@ -151,42 +96,36 @@ Currently supported browsers are:
 
 The tool supports retries in case of failed requests. Retries can be configured with the `--retries` argument, and the wait time between retries will be a random number between `--min_wait` and `--max_wait` arguments.
 
-### Example usage
+</details>
 
-```bash
-# Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
-python -m edgar_tool text_search --help
-
-# Basic usage (defaults to searching the last 5 years of records)
-python -m edgar_tool text_search John Doe
-
-# Basic usage with a combination of exact and partial search parameters
-python -m edgar_tool text_search \"John Doe\" Pharmaceuticals Chemicals
-
-# Usage with date range and export to custom CSV file
-python -m edgar_tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
-
-# More advanced usage specifying more arguments, with export to JSON
-python -m edgar_tool text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
-          --filing_type "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
-          --min_wait 5.0 --max_wait 7.0 --retries 3 --browser "firefox" --headless
-          
-# Using aliases where supported and exporting to JSONLines
-python -m edgar_tool text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -b "firefox" -h
-```
-
-**Note**: combining text search parameters with `entity_id` parameter seems to increase the risk of failed requests
-on the SEC page due to an apparent bug, we recommend to either avoid doing so (you can specify an empty string for search keywords using `""` and use only entity ID) or setting the number of retries accordingly if you do so.
-
-## RSS Feed customized retrieval
+## Usage - RSS Feed :card_index:
 
 ### What is the RSS feed customized retrieval tool ?
 
-The SEC also publish a live feed of filings, and this part of the tool lets you monitor particular tickers for new filings, so you can get to-the-minute updates.
+The SEC publish a live feed of filings and this part of the tool lets you monitor particular tickers for new filings, so you can get to-the-minute updates.
 
 The output is a CSV file containing the company and filings' metadata, which can be opened in a spreadsheet program (such as Excel).
 
-### Features
+### Examples
+
+```bash
+# Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
+edgar-tool rss --help
+
+# Basic one-off usage with export to CSV
+edgar-tool rss "GOOG" --output "rss_feed.csv"
+
+# Periodic usage specifying 10 minutes interval duration, with export to JSON
+edgar-tool rss "AAPL" "GOOG" "MSFT" --output "rss_feed.json" --every_n_mins 10
+
+# Same example as above, using aliases and exporting to JSONLines (.jsonl)
+edgar-tool rss "AAPL" "GOOG" "MSFT" -o "rss_feed.jsonl" -e 10
+```
+
+### Detailed Feature Information
+
+<details>
+<summary>Expand to view detailed feature information</summary>
 
 #### Companies CIK to Ticker mapping
 
@@ -198,25 +137,22 @@ This mapping is obtained from the [SEC website](https://www.sec.gov/files/compan
 The RSS feed data returns the last 200 filings and is updated every 10 minutes (which doesn't mean all tickers are updated every 10 minutes).
 The tool can fetch the feed either once on-demand, or at regular intervals.
 
-### Example usage
+</details>
 
-```bash
-# Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
-python -m edgar_tool rss --help
+## Table of Cleaned Financial Data :bank:
 
-# Basic one-off usage with export to CSV
-python -m edgar_tool rss "GOOG" --output "rss_feed.csv"
+There is also a table of data containing most income statements, balance sheets, and cash flow statements for every company traded publicly in the U.S. 
 
-# Periodic usage specifying 10 minutes interval duration, with export to JSON
-python -m edgar_tool rss "AAPL" "GOOG" "MSFT" --output "rss_feed.json" --every_n_mins 10
+This table is updated intermittently and is [available here for download as a .CSV file](https://edgar.marketinference.com/). You can open this file in Excel, use it as a data source for your own code, or use the simple Python script to access time series for the desired data points. 
 
-# Same example as above, using aliases and exporting to JSONLines (.jsonl)
-python -m edgar_tool rss "AAPL" "GOOG" "MSFT" -o "rss_feed.jsonl" -e 10
-```
+The quality of any programmatically produced financial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. It should, however, be of comparable accuracy to what you can find on Yahoo Finance and spans a wider time frame.
 
-## Table of Cleaned Financial Data
+George Dyer, the former Bellingcat tech fellow who developed the first version of this tool, describes it as: "good enough use in projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info)". 
 
-I've built a table containing most income statement, balance sheet, and cash flow statement data for every company traded publicly in the U.S. This table is updated periodically, and [available here for download as a .CSV file](https://edgar.marketinference.com/). You can open this file in Excel, use it as a data source for your own code, or use my simple Python script to access time series for the desired data points. 
+Please report any inconsistencies in the data to George and he will do his best to refine the existing method.
+
+<details>
+<summary>Expand to view the full method</summary>
 
 The current table is created by the following method:
 
@@ -236,7 +172,34 @@ The current table is created by the following method:
     - For some particularly problematic data points such as debts I use addition between related data points to ensure consistency (this is why the debt amounts are not always perfectly accurate, but almost always in the ballpark)
     - Match the GAAP tags with their plain English term
     - Keep a database of orphan tags, and add them into the dictionary, manually
-   
-The quality of any programmatically produced financial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. The dataset I have created is of comparable accuracy to what you can find on Yahoo Finance, but spans a wider time frame, and is good enough for me to use in my own projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info). 
 
-I believe we can keep improving this dataset – with your help! Please report inconsistencies to me and I will do my best to improve the existing method. I also am designing an entirely new method that I will implement early next year, based on the scraping of tables embedded in yearly/quarterly reports. 
+</details>
+
+## Development :octocat:
+
+<details>
+<summary>Expand to view information for developers</summary>
+
+This section describes how to install the project to run it from source, for example if you want to build new features.
+
+```bash
+# Clone the repository
+git clone https://github.com/bellingcat/EDGAR.git
+
+# Change directory to the project folder
+cd EDGAR
+```
+
+This project uses [Poetry](https://python-poetry.org/docs) for dependency management and packaging.
+
+```bash
+# Install poetry if you haven't already
+pip install poetry
+
+# Install dependencies
+poetry install
+
+# Run the tool
+poetry run edgar-tool --help
+```
+</details>
