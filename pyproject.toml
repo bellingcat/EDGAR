@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "edgar-tool"
 version = "1.0.1"
-description = "Tool for the retrieval of corporate and financial data from the SEC."
+description = "Search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC)."
 authors = ["Bellingcat"]
 license = "GNU General Public License v3 (GPLv3)"
 readme = "README.md"
