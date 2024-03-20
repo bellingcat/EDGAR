@@ -29,7 +29,7 @@ If you're interested in finding all the documents mentioning a certain person, c
 
 It isn't always easy to get the information you might need from the SEC, so this Python tool lets you download the search results to a file without having to go through all the pages of results by hand.
 
-This is a command line tool that takes a search query, opens a web browser in the background, and downloads the search results into a CSV file that can be opened in a spreadsheet program (such as Excel).
+This is a command line tool that takes a search query, queries a server, and downloads the search results into a CSV file that can be opened in a spreadsheet program (such as Excel).
 
 ### Examples
 
@@ -49,10 +49,10 @@ edgar-tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "202
 # More advanced usage specifying more arguments, with export to JSON
 edgar-tool text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
           --filing_type "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
-          --min_wait 5.0 --max_wait 7.0 --retries 3 --browser "firefox" --headless
+          --min_wait 5.0 --max_wait 7.0 --retries 3
           
 # Using aliases where supported and exporting to JSONLines
-edgar-tool text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -b "firefox" -h
+edgar-tool text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -h
 ```
 
 > [!WARNING]
@@ -83,14 +83,6 @@ Currently supported outputs formats are:
 
 Output format is determined by the file extension of the output file path. 
 Accepted values are `.csv` and `.jsonl` (case-insensitive).
-
-#### Browsers
-
-Currently supported browsers are:
-- Chrome (default)
-- Firefox
-- Edge
-- Safari
 
 #### Retries
 

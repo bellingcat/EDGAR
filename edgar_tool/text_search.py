@@ -380,7 +380,7 @@ class EdgarTextSearcher:
         destination: str,
     ) -> None:
         """
-        Searches the SEC website for filings based on the given parameters, using Selenium for JavaScript support.
+        Searches the SEC website for filings based on the given parameters.
 
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
