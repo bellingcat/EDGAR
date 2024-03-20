@@ -60,7 +60,7 @@ class SecEdgarScraperCli:
     @staticmethod
     def text_search(
         *keywords: str,
-        output: str = f"edgar_search_results_{datetime.now().strftime('%d%m%Y_%H%M%S')}.csv",
+        output: str = f"edgar_search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
         entity_id: Optional[str] = None,
         filing_type: Optional[str] = None,
         start_date: str = (date.today() - timedelta(days=365 * 5)).strftime("%Y-%m-%d"),
