@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Any, Iterator, Dict, List, Union
+from typing import Any, Iterator, Dict, List, Union, Optional
 
 
 def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
@@ -33,5 +33,5 @@ def safe_get(d: Dict, *keys) -> Any:
     return d
 
 
-def unpack_singleton_list(l: List) -> Union[str, List[str]]:
-    return l if len(l) != 1 else l[0]
+def unpack_singleton_list(l: Optional[List]) -> Union[str, List[str]]:
+    return l  if (l is None) or (len(l) != 1) else l[0]
