@@ -1,4 +1,5 @@
 import itertools
+import re
 import sys
 import urllib.parse
 from datetime import date, timedelta
@@ -16,6 +17,8 @@ from edgar_tool.constants import (
     TEXT_SEARCH_FILING_CATEGORIES_MAPPING,
     TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
     TEXT_SEARCH_CSV_FIELDS_NAMES,
+    TEXT_SEARCH_FORM_MAPPING,
+    TEXT_SEARCH_LOCATIONS_MAPPING
 )
 from edgar_tool.io import write_results_to_file
 from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
@@ -71,6 +74,11 @@ class EdgarTextSearcher:
 
         # Fetching filing type
         filing_type = _source.get("file_type")
+        
+        # Get form and human readable name
+        root_form = _source.get("root_form")
+        form_name = TEXT_SEARCH_FORM_MAPPING.get(root_form, {}).get("title","")
+
         # Build adsh for url
         data_adsh = _source.get("adsh","")
         data_adsh_no_dash = data_adsh.replace("-", "")
@@ -93,17 +101,41 @@ class EdgarTextSearcher:
 
         filed_at = _source.get("file_date")
         end_date = _source.get("period_ending")
-        entity_names = [name.replace("\n", "") for name in _source.get("display_names",[])]
-        
+        entity_names = [
+            name.replace("\n", "").rsplit("  (CIK ", maxsplit=1)[0] # Remove Newlines and CIK from name
+            for name in _source.get("display_names",[])]
+
+        # Extract tickers from entity names
+        ticker_regex = r"\(([A-Z\s,\-]+)\)+$"
+
+        tickers = [
+            ticker.group(1)
+            for name in entity_names
+            if (ticker := re.search(ticker_regex, name)) and ticker is not None
+        ]   
+        tickers = tickers if len(tickers) != 0 else None
+
+        # Remove tickers from entity names
+        entity_names = [re.sub(ticker_regex, "", name).strip() for name in entity_names]
+
         places_of_business = _source.get("biz_locations")
+        places_of_business = [
+            f"{split[0]}, {TEXT_SEARCH_LOCATIONS_MAPPING.get(split[1])}"
+            for place in places_of_business 
+            if (split := place.rsplit(", ", maxsplit=1))
+        ]
 
         incorporated_locations = _source.get("inc_states")
+        incorporated_locations = [TEXT_SEARCH_LOCATIONS_MAPPING.get(inc_loc) for inc_loc in incorporated_locations]
 
         parsed = {
             "filing_type": filing_type,
+            "root_form": root_form,
+            "form_name": form_name,
             "filed_at": filed_at,
             "reporting_for": end_date,
             "entity_name": unpack_singleton_list(entity_names),
+            "ticker": unpack_singleton_list(tickers),
             "company_cik": unpack_singleton_list(ciks),
             "company_cik_trimmed": unpack_singleton_list(ciks_trimmed),
             "place_of_business": unpack_singleton_list(places_of_business),
