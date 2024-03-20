@@ -65,8 +65,9 @@ class SecEdgarScraperCli:
         filing_type: Optional[str] = None,
         start_date: str = (date.today() - timedelta(days=365 * 5)).strftime("%Y-%m-%d"),
         end_date: str = date.today().strftime("%Y-%m-%d"),
-        min_wait: float = 5.0,
-        max_wait: float = 8.0,
+        # todo: deprecate min_wait and max_wait
+        min_wait: float = 0.1,
+        max_wait: float = 0.15,
         retries: int = 3,
         browser: Optional[str] = None,
         headless: Optional[bool] = None,
