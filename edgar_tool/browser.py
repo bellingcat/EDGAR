@@ -31,7 +31,9 @@ def fetch_page(
     )
     def wrapper(check_method: Callable, err_msg: Optional[str] = None) -> None:
         print(f"Requesting URL: {url}")
-        headers = {'User-Agent':f"BellingcatEDGARTool_{uuid.uuid4()} contact-tech@bellingcat.com"}
+        headers = {
+            "User-Agent": f"BellingcatEDGARTool_{uuid.uuid4()} contact-tech@bellingcat.com"
+        }
         res = requests.get(url, headers=headers)
         json_response = res.json()
         randomized_wait = uniform(min_wait_seconds, max_wait_seconds)
@@ -42,9 +44,7 @@ def fetch_page(
                 err_msg or f"Error for url {url}, with code {res.status_code}"
             )
         if not check_method(json_response):
-            raise PageCheckFailedError(
-                err_msg or f"Page check failed for url {url}"
-            )
+            raise PageCheckFailedError(err_msg or f"Page check failed for url {url}")
         print(f"Successfully fetched URL: {url}")
         return json_response
 

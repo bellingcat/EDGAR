@@ -18,7 +18,7 @@ from edgar_tool.constants import (
     TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
     TEXT_SEARCH_CSV_FIELDS_NAMES,
     TEXT_SEARCH_FORM_MAPPING,
-    TEXT_SEARCH_LOCATIONS_MAPPING
+    TEXT_SEARCH_LOCATIONS_MAPPING,
 )
 from edgar_tool.io import write_results_to_file
 from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
@@ -35,7 +35,9 @@ class EdgarTextSearcher:
         Parses the number of results found from the search results page.
         :return: Number of results found
         """
-        num_results = int(self.json_response.get("hits", {}).get("total", {}).get("value"))
+        num_results = int(
+            self.json_response.get("hits", {}).get("total", {}).get("value")
+        )
         return num_results
 
     def _compute_number_of_pages(self) -> int:
@@ -58,12 +60,15 @@ class EdgarTextSearcher:
         :param row: Table row to parse
         :return: Dictionary representing the parsed table row
         """
-        _id = row.get("_id","").split(":")[-1]
-        _source = row.get("_source",{})
+        _id = row.get("_id", "").split(":")[-1]
+        _source = row.get("_source", {})
 
         # Fetching file numbers and links
         file_nums = _source.get("file_num", [])
-        file_nums_search_urls = [f"https://www.sec.gov/cgi-bin/browse-edgar/?filenum={file_num}&action=getcompany" for file_num in file_nums]
+        file_nums_search_urls = [
+            f"https://www.sec.gov/cgi-bin/browse-edgar/?filenum={file_num}&action=getcompany"
+            for file_num in file_nums
+        ]
 
         # Fetching film numbers
         film_nums = _source.get("film_num")
@@ -74,13 +79,13 @@ class EdgarTextSearcher:
 
         # Fetching filing type
         filing_type = _source.get("file_type")
-        
+
         # Get form and human readable name
         root_form = _source.get("root_form")
-        form_name = TEXT_SEARCH_FORM_MAPPING.get(root_form, {}).get("title","")
+        form_name = TEXT_SEARCH_FORM_MAPPING.get(root_form, {}).get("title", "")
 
         # Build adsh for url
-        data_adsh = _source.get("adsh","")
+        data_adsh = _source.get("adsh", "")
         data_adsh_no_dash = data_adsh.replace("-", "")
 
         # Building URLs for filing details and documents
@@ -102,8 +107,11 @@ class EdgarTextSearcher:
         filed_at = _source.get("file_date")
         end_date = _source.get("period_ending")
         entity_names = [
-            name.replace("\n", "").rsplit("  (CIK ", maxsplit=1)[0] # Remove Newlines and CIK from name
-            for name in _source.get("display_names",[])]
+            name.replace("\n", "").rsplit("  (CIK ", maxsplit=1)[
+                0
+            ]  # Remove Newlines and CIK from name
+            for name in _source.get("display_names", [])
+        ]
 
         # Extract tickers from entity names
         ticker_regex = r"\(([A-Z\s,\-]+)\)+$"
@@ -112,7 +120,7 @@ class EdgarTextSearcher:
             ticker.group(1)
             for name in entity_names
             if (ticker := re.search(ticker_regex, name)) and ticker is not None
-        ]   
+        ]
         tickers = tickers if len(tickers) != 0 else None
 
         # Remove tickers from entity names
@@ -121,12 +129,15 @@ class EdgarTextSearcher:
         places_of_business = _source.get("biz_locations")
         places_of_business = [
             f"{split[0]}, {TEXT_SEARCH_LOCATIONS_MAPPING.get(split[1])}"
-            for place in places_of_business 
+            for place in places_of_business
             if (split := place.rsplit(", ", maxsplit=1))
         ]
 
         incorporated_locations = _source.get("inc_states")
-        incorporated_locations = [TEXT_SEARCH_LOCATIONS_MAPPING.get(inc_loc) for inc_loc in incorporated_locations]
+        incorporated_locations = [
+            TEXT_SEARCH_LOCATIONS_MAPPING.get(inc_loc)
+            for inc_loc in incorporated_locations
+        ]
 
         parsed = {
             "filing_type": filing_type,
@@ -149,9 +160,7 @@ class EdgarTextSearcher:
 
         return parsed
 
-    def _parse_table_rows(
-        self, search_request_url: str
-    ) -> List[dict]:
+    def _parse_table_rows(self, search_request_url: str) -> List[dict]:
         """
         Parses the given list of table rows into a list of dictionaries.
         Handles multiline rows by joining the text with a line break.
@@ -248,7 +257,8 @@ class EdgarTextSearcher:
             max_wait_seconds,
             retries,
         )(
-            lambda json_response : json_response.get('error') is None and json_response.get('hits',{}).get('hits',0) != 0,
+            lambda json_response: json_response.get("error") is None
+            and json_response.get("hits", {}).get("hits", 0) != 0,
             f"First search request failed for URL {TEXT_SEARCH_BASE_URL}{search_request_url_args} ...",
         )
 
@@ -264,7 +274,7 @@ class EdgarTextSearcher:
                     max_wait_seconds,
                     retries,
                 )(
-                    lambda json_response : json_response.get('error') is None,
+                    lambda json_response: json_response.get("error") is None,
                     f"Search request failed for page {i} at URL {paginated_url}, skipping page...",
                 )
                 if self.json_response.get("hits", {}).get("hits", 0) == 0:
@@ -275,10 +285,14 @@ class EdgarTextSearcher:
                 print(e)
                 continue
             except ResultsTableNotFoundError:
-                print(f"Could not find results table on page {i} at URL {paginated_url}, skipping page...")
+                print(
+                    f"Could not find results table on page {i} at URL {paginated_url}, skipping page..."
+                )
                 continue
             except Exception as e:
-                print(f"Unexpected {e.__class__.__name__} error occurred while fetching page {i} at URL {paginated_url}, skipping page: {e}")
+                print(
+                    f"Unexpected {e.__class__.__name__} error occurred while fetching page {i} at URL {paginated_url}, skipping page: {e}"
+                )
                 continue
 
     def _generate_search_requests(
@@ -451,7 +465,7 @@ class EdgarTextSearcher:
                 max_wait_seconds,
                 retries,
             )(
-                lambda json_response : json_response.get('hits',{}).get('hits',0) != 0,
+                lambda json_response: json_response.get("hits", {}).get("hits", 0) != 0,
                 f"No results found on first page at URL {url}, aborting...\n"
                 f"Please verify that the search/wait/retry parameters are correct and try again.",
             )
@@ -464,6 +478,8 @@ class EdgarTextSearcher:
             num_results = self._parse_number_of_results()
             return num_results
         except Exception as e:
-            print(f"Execution aborting due to a {e.__class__.__name__} error raised "
-                  f"while parsing number of results for first page at URL {url}: {e}")
+            print(
+                f"Execution aborting due to a {e.__class__.__name__} error raised "
+                f"while parsing number of results for first page at URL {url}: {e}"
+            )
             sys.exit(1)
