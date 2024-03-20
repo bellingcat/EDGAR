@@ -5,21 +5,15 @@ from datetime import date, timedelta
 from math import ceil
 from typing import List, Optional, Dict, Any, Iterator
 
-from bs4 import BeautifulSoup
-from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
 
 from edgar_tool.browser import (
-    BrowserDriver,
     fetch_page,
-    extract_html_table_rows,
     PageCheckFailedError,
     ResultsTableNotFoundError,
 )
 from edgar_tool.constants import (
     TEXT_SEARCH_BASE_URL,
     TEXT_SEARCH_FILING_CATEGORIES_MAPPING,
-    TEXT_SEARCH_RESULTS_TABLE_XPATH,
     TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
     TEXT_SEARCH_CSV_FIELDS_NAMES,
 )
@@ -29,21 +23,16 @@ from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
 
 class EdgarTextSearcher:
 
-    def __init__(self, driver: BrowserDriver):
+    def __init__(self):
         self.search_requests = []
-        self.driver = driver
+        self.json_response = {}
 
     def _parse_number_of_results(self) -> int:
         """
         Parses the number of results found from the search results page.
         :return: Number of results found
         """
-
-        num_results = int(
-            self.driver.find_element(By.ID, "show-result-count")
-            .text.replace(",", "")
-            .split(" ")[0]
-        )
+        num_results = int(self.json_response.get("hits", {}).get("total", {}).get("value"))
         return num_results
 
     def _compute_number_of_pages(self) -> int:
@@ -59,55 +48,31 @@ class EdgarTextSearcher:
         return num_pages
 
     @staticmethod
-    def split_html_by_line(element: WebElement) -> List[str]:
-        """
-        Handles line breaks in the given WebElement's innerHTML attribute.
-        This fixes an issue due to innerText trimming line breaks.
-
-        :param element: WebElement to handle line breaks for
-        :return: InnerHTML with line breaks replaced by a space
-        """
-
-        return element.get_attribute("innerHTML").split("<br>")
-
-    @staticmethod
-    def _parse_row(row: WebElement) -> Dict[str, Any]:
+    def _parse_row(row: Dict[str, Any]) -> Dict[str, Any]:
         """
         Parses the given table row into a dictionary.
 
         :param row: Table row to parse
         :return: Dictionary representing the parsed table row
         """
-
-        # Fetching outerHTML and parsing it with BeautifulSoup
-        html = row.get_attribute("outerHTML")
-        soup = BeautifulSoup(html, "html.parser").find("tr")
+        _id = row.get("_id","").split(":")[-1]
+        _source = row.get("_source",{})
 
         # Fetching file numbers and links
-        file_nums_tags = soup.find("td", class_="file-num").find_all("a", href=True)
-        file_nums = [x.text for x in file_nums_tags]
-        file_nums_search_urls = [x.get("href") for x in file_nums_tags]
+        file_nums = _source.get("file_num", [])
+        file_nums_search_urls = [f"https://www.sec.gov/cgi-bin/browse-edgar/?filenum={file_num}&action=getcompany" for file_num in file_nums]
 
         # Fetching film numbers
-        film_nums = [
-            x.text
-            for x in soup.find("td", class_="film-num")
-            if x.text and "<br/>" not in x
-        ]
+        film_nums = _source.get("film_num")
 
         # Fetching and cleaning CIKs
-        ciks = [
-            x.text.replace("CIK ", "").strip()
-            for x in soup.find("td", class_="cik")
-            if "CIK" in x
-        ]
+        ciks = _source.get("ciks")
         ciks_trimmed: List[str] = [c.strip("0") for c in ciks]
 
-        # Fetching filing type and link
-        filing_type = soup.find("td", class_="filetype").find("a", href=True)
-        data_file_name = filing_type.get("data-file-name")
-        data_adsh = filing_type.get("data-adsh")
-        filing_type = filing_type.text.strip()
+        # Fetching filing type
+        filing_type = _source.get("file_type")
+        # Build adsh for url
+        data_adsh = _source.get("adsh","")
         data_adsh_no_dash = data_adsh.replace("-", "")
 
         # Building URLs for filing details and documents
@@ -117,31 +82,22 @@ class EdgarTextSearcher:
         ]
         filing_details_urls: str = (
             unpack_singleton_list(filing_details_urls)
-            if (ciks_trimmed and data_adsh_no_dash and data_adsh)
+            if (ciks_trimmed and data_adsh)
             else None
         )
         filing_doc_urls: List[str] = [
-            f"https://www.sec.gov/Archives/edgar/data/{cik}/{data_adsh_no_dash}/{data_file_name}"
+            f"https://www.sec.gov/Archives/edgar/data/{cik}/{data_adsh_no_dash}/{_id}"
             for cik in ciks_trimmed
         ]
         filing_doc_urls: str = unpack_singleton_list(filing_doc_urls)
-        filed_at = soup.find("td", class_="filed").text.strip()
-        end_date = soup.find("td", class_="enddate").text.strip()
-        entity_names = [
-            x.text.strip().replace("\n", "")
-            for x in soup.find("td", class_="entity-name")
-            if x.text and "<br/>" not in x
-        ]
-        places_of_business = [
-            x.text.strip()
-            for x in soup.find("td", class_="biz-location")
-            if x.text and "<br/>" not in x
-        ]
-        incorporated_locations = [
-            x.text.strip()
-            for x in soup.find("td", class_="incorporated")
-            if x.text and "<br/>" not in x
-        ]
+
+        filed_at = _source.get("file_date")
+        end_date = _source.get("period_ending")
+        entity_names = [name.replace("\n", "") for name in _source.get("display_names",[])]
+        
+        places_of_business = _source.get("biz_locations")
+
+        incorporated_locations = _source.get("inc_states")
 
         parsed = {
             "filing_type": filing_type,
@@ -162,16 +118,16 @@ class EdgarTextSearcher:
         return parsed
 
     def _parse_table_rows(
-        self, rows: List[WebElement], search_request_url: str
+        self, search_request_url: str
     ) -> List[dict]:
         """
         Parses the given list of table rows into a list of dictionaries.
         Handles multiline rows by joining the text with a line break.
 
-        :param rows: List of table rows to parse
         :param search_request_url: URL of the search request to log in case of errors
         :return: List of dictionaries representing the parsed table rows
         """
+        rows = self.json_response.get("hits", {}).get("hits", [])
 
         parsed_rows = []
         for i, r in enumerate(rows):
@@ -254,17 +210,13 @@ class EdgarTextSearcher:
         """
 
         # Fetch first page, verify that the request was successful by checking the results table appears on the page
-        fetch_page(
-            self.driver,
+        self.json_response = fetch_page(
             f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}",
             min_wait_seconds,
             max_wait_seconds,
             retries,
         )(
-            lambda: self.driver.find_element(
-                By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH
-            ).text.strip()
-            != "",
+            lambda json_response : json_response.get('error') is None and json_response.get('hits',{}).get('hits',0) != 0,
             f"First search request failed for URL {TEXT_SEARCH_BASE_URL}{search_request_url_args} ...",
         )
 
@@ -274,23 +226,18 @@ class EdgarTextSearcher:
         for i in range(1, num_pages + 1):
             paginated_url = f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}&page={i}"
             try:
-                fetch_page(
-                    self.driver,
+                self.json_response = fetch_page(
                     paginated_url,
                     min_wait_seconds,
                     max_wait_seconds,
                     retries,
                 )(
-                    lambda: self.driver.find_element(
-                        By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH
-                    ).text.strip()
-                    != "",
+                    lambda json_response : json_response.get('error') is None,
                     f"Search request failed for page {i} at URL {paginated_url}, skipping page...",
                 )
-
-                page_results = extract_html_table_rows(
-                    self.driver, By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH
-                )(lambda x: self._parse_table_rows(x, paginated_url))
+                if self.json_response.get("hits", {}).get("hits", 0) == 0:
+                    raise ResultsTableNotFoundError()
+                page_results = self._parse_table_rows(paginated_url)
                 yield page_results
             except PageCheckFailedError as e:
                 print(e)
@@ -466,14 +413,15 @@ class EdgarTextSearcher:
 
         # If we cannot fetch the first page after retries, abort
         try:
-            fetch_page(self.driver, url, min_wait_seconds, max_wait_seconds, retries)(
-                lambda: self.driver.find_element(
-                    By.XPATH, TEXT_SEARCH_RESULTS_TABLE_XPATH
-                ).text.strip()
-                != "",
+            self.json_response = fetch_page(
+                url,
+                min_wait_seconds,
+                max_wait_seconds,
+                retries,
+            )(
+                lambda json_response : json_response.get('hits',{}).get('hits',0) != 0,
                 f"No results found on first page at URL {url}, aborting...\n"
-                f"Please verify that the search/wait/retry parameters are correct and try again.\n"
-                f"We recommend disabling headless mode for debugging purposes."
+                f"Please verify that the search/wait/retry parameters are correct and try again.",
             )
         except PageCheckFailedError as e:
             print(e)

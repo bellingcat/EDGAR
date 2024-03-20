@@ -1,5 +1,5 @@
 SUPPORTED_OUTPUT_EXTENSIONS = [".csv", ".jsonl", ".json"]
-TEXT_SEARCH_BASE_URL = "https://www.sec.gov/edgar/search/#/"
+TEXT_SEARCH_BASE_URL = "https://efts.sec.gov/LATEST/search-index?"
 TEXT_SEARCH_FILING_CATEGORIES_MAPPING = {
     "all_except_section_16": "form-cat0",
     "all_annual_quarterly_and_current_reports": "form-cat1",
@@ -13,7 +13,6 @@ TEXT_SEARCH_FILING_CATEGORIES_MAPPING = {
     "tender_offers_and_going_private_tx": "form-cat9",
     "trust_indentures": "form-cat10",
 }
-TEXT_SEARCH_RESULTS_TABLE_XPATH = "/html/body/div[3]/div[2]/div[2]/table/tbody"
 TEXT_SEARCH_SPLIT_BATCHES_NUMBER = 2
 TEXT_SEARCH_CSV_FIELDS_NAMES = [
     "filing_type",

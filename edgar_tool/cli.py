@@ -1,8 +1,7 @@
 import time
 from datetime import date, timedelta, datetime
 from typing import List, Optional
-
-from edgar_tool.browser import create_browser_driver, ACCEPTED_BROWSERS
+from warnings import warn
 from edgar_tool.constants import (
     SUPPORTED_OUTPUT_EXTENSIONS,
     TEXT_SEARCH_FILING_CATEGORIES_MAPPING,
@@ -19,7 +18,8 @@ def _validate_text_search_args(
     min_wait_secs: float,
     max_wait_secs: float,
     retries: int,
-    browser_name: str,
+    browser_name: Optional[str],
+    headless: Optional[bool],
     destination: str,
 ) -> None:
     """
@@ -36,8 +36,10 @@ def _validate_text_search_args(
         raise ValueError("max_wait_secs cannot be less than min_wait_secs")
     if retries < 0:
         raise ValueError("retries cannot be negative")
-    if browser_name.lower() not in ACCEPTED_BROWSERS:
-        raise ValueError(f"Browser name must be one of: {', '.join(ACCEPTED_BROWSERS)}")
+    if browser_name is not None:
+        warn("browser argument is deprecated and is ignored")
+    if headless is not None:
+        warn("headless argument is deprecated and is ignored")
     if not any(
         destination.lower().endswith(ext) for ext in SUPPORTED_OUTPUT_EXTENSIONS
     ):
@@ -66,8 +68,8 @@ class SecEdgarScraperCli:
         min_wait: float = 5.0,
         max_wait: float = 8.0,
         retries: int = 3,
-        browser: str = "chrome",
-        headless: bool = True,
+        browser: Optional[str] = None,
+        headless: Optional[bool] = None,
     ) -> None:
         """
         Perform a custom text search on the SEC EDGAR website and save the results to either a CSV, JSON,
@@ -82,8 +84,8 @@ class SecEdgarScraperCli:
         :param min_wait: Minimum wait time for the request to complete before checking the page or retrying a request
         :param max_wait: Maximum wait time for the request to complete before checking the page or retrying a request
         :param retries: How many times to retry requests before failing
-        :param browser: Name of the browser to use for the search
-        :param headless: Whether to run the browser in headless mode or not
+        :param browser: Deprecated and not used
+        :param headless: Deprecated and not used
         """
         try:
             keywords = list(keywords)
@@ -92,7 +94,6 @@ class SecEdgarScraperCli:
             min_wait = float(min_wait)
             max_wait = float(max_wait)
             retries = int(retries)
-            headless = bool(headless)
         except Exception as e:
             raise ValueError(f"Invalid argument type or format: {e}")
         _validate_text_search_args(
@@ -104,21 +105,21 @@ class SecEdgarScraperCli:
             max_wait_secs=max_wait,
             retries=retries,
             browser_name=browser,
+            headless=headless,
             destination=output,
         )
-        with create_browser_driver(browser, headless=headless) as driver:
-            scraper = EdgarTextSearcher(driver=driver)
-            scraper.text_search(
-                keywords=keywords,
-                entity_id=entity_id,
-                filing_type=filing_type,
-                start_date=start_date,
-                end_date=end_date,
-                min_wait_seconds=min_wait,
-                max_wait_seconds=max_wait,
-                retries=retries,
-                destination=output,
-            )
+        scraper = EdgarTextSearcher()
+        scraper.text_search(
+            keywords=keywords,
+            entity_id=entity_id,
+            filing_type=filing_type,
+            start_date=start_date,
+            end_date=end_date,
+            min_wait_seconds=min_wait,
+            max_wait_seconds=max_wait,
+            retries=retries,
+            destination=output,
+        )
 
     @staticmethod
     def rss(
