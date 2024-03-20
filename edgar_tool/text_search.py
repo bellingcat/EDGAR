@@ -172,7 +172,7 @@ class EdgarTextSearcher:
 
         # Generate request arguments
         request_args = {
-            "q": urllib.parse.quote(keywords),
+            "q": keywords,
             "dateRange": "custom",
             "startdt": start_date.strftime("%Y-%m-%d"),
             "enddt": end_date.strftime("%Y-%m-%d"),
