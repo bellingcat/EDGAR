@@ -7,7 +7,7 @@ from math import ceil
 from typing import List, Optional, Dict, Any, Iterator
 
 
-from edgar_tool.browser import (
+from edgar_tool.page_fetcher import (
     fetch_page,
     PageCheckFailedError,
     ResultsTableNotFoundError,

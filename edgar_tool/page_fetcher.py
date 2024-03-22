@@ -35,7 +35,6 @@ def fetch_page(
             "User-Agent": f"BellingcatEDGARTool_{uuid.uuid4()} contact-tech@bellingcat.com"
         }
         res = requests.get(url, headers=headers)
-        json_response = res.json()
         randomized_wait = uniform(min_wait_seconds, max_wait_seconds)
         print(f"Waiting {randomized_wait} seconds for the request to complete...")
         time.sleep(randomized_wait)
@@ -46,6 +45,7 @@ def fetch_page(
         if not check_method(json_response):
             raise PageCheckFailedError(err_msg or f"Page check failed for url {url}")
         print(f"Successfully fetched URL: {url}")
+        json_response = res.json()
         return json_response
 
     return wrapper
