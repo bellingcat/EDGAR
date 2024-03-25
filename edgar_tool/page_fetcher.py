@@ -42,10 +42,10 @@ def fetch_page(
             raise PageCheckFailedError(
                 err_msg or f"Error for url {url}, with code {res.status_code}"
             )
+        json_response = res.json()
         if not check_method(json_response):
             raise PageCheckFailedError(err_msg or f"Page check failed for url {url}")
         print(f"Successfully fetched URL: {url}")
-        json_response = res.json()
         return json_response
 
     return wrapper
