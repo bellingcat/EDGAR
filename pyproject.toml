@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "edgar-tool"
-version = "1.0.1"
+version = "1.1.0"
 description = "Search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC)."
 authors = ["Bellingcat"]
 license = "GNU General Public License v3 (GPLv3)"
@@ -24,15 +24,10 @@ edgar-tool = "edgar_tool.main:main_entrypoint"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-beautifulsoup4 = "^4.12"
-selenium = "^4.17"
 tenacity = "^8.2"
 fire = "^0.5"
 jsonlines = "^4.0"
-pandas = "^2.0"
 requests = "^2.31"
-chardet = "^5.2"
-html5lib = "^1.1"
 xmltodict = "^0.13"
 
 [tool.poetry.group.dev.dependencies]

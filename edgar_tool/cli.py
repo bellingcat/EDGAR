@@ -1,14 +1,15 @@
+import sys
 import time
 from datetime import date, timedelta, datetime
 from typing import List, Optional
-
-from edgar_tool.browser import create_browser_driver, ACCEPTED_BROWSERS
+from warnings import warn
 from edgar_tool.constants import (
     SUPPORTED_OUTPUT_EXTENSIONS,
     TEXT_SEARCH_FILING_CATEGORIES_MAPPING,
 )
 from edgar_tool.rss import fetch_rss_feed
 from edgar_tool.text_search import EdgarTextSearcher
+from edgar_tool.page_fetcher import NoResultsFoundError
 
 
 def _validate_text_search_args(
@@ -19,7 +20,8 @@ def _validate_text_search_args(
     min_wait_secs: float,
     max_wait_secs: float,
     retries: int,
-    browser_name: str,
+    browser_name: Optional[str],
+    headless: Optional[bool],
     destination: str,
 ) -> None:
     """
@@ -36,8 +38,10 @@ def _validate_text_search_args(
         raise ValueError("max_wait_secs cannot be less than min_wait_secs")
     if retries < 0:
         raise ValueError("retries cannot be negative")
-    if browser_name.lower() not in ACCEPTED_BROWSERS:
-        raise ValueError(f"Browser name must be one of: {', '.join(ACCEPTED_BROWSERS)}")
+    if browser_name is not None:
+        warn("browser argument is deprecated and is ignored")
+    if headless is not None:
+        warn("headless argument is deprecated and is ignored")
     if not any(
         destination.lower().endswith(ext) for ext in SUPPORTED_OUTPUT_EXTENSIONS
     ):
@@ -58,16 +62,17 @@ class SecEdgarScraperCli:
     @staticmethod
     def text_search(
         *keywords: str,
-        output: str = f"edgar_search_results_{datetime.now().strftime('%d%m%Y_%H%M%S')}.csv",
+        output: str = f"edgar_search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
         entity_id: Optional[str] = None,
         filing_type: Optional[str] = None,
         start_date: str = (date.today() - timedelta(days=365 * 5)).strftime("%Y-%m-%d"),
         end_date: str = date.today().strftime("%Y-%m-%d"),
-        min_wait: float = 5.0,
-        max_wait: float = 8.0,
+        # todo: deprecate min_wait and max_wait
+        min_wait: float = 0.1,
+        max_wait: float = 0.15,
         retries: int = 3,
-        browser: str = "chrome",
-        headless: bool = True,
+        browser: Optional[str] = None,
+        headless: Optional[bool] = None,
     ) -> None:
         """
         Perform a custom text search on the SEC EDGAR website and save the results to either a CSV, JSON,
@@ -82,8 +87,8 @@ class SecEdgarScraperCli:
         :param min_wait: Minimum wait time for the request to complete before checking the page or retrying a request
         :param max_wait: Maximum wait time for the request to complete before checking the page or retrying a request
         :param retries: How many times to retry requests before failing
-        :param browser: Name of the browser to use for the search
-        :param headless: Whether to run the browser in headless mode or not
+        :param browser: Deprecated and not used
+        :param headless: Deprecated and not used
         """
         try:
             keywords = list(keywords)
@@ -92,7 +97,6 @@ class SecEdgarScraperCli:
             min_wait = float(min_wait)
             max_wait = float(max_wait)
             retries = int(retries)
-            headless = bool(headless)
         except Exception as e:
             raise ValueError(f"Invalid argument type or format: {e}")
         _validate_text_search_args(
@@ -104,10 +108,11 @@ class SecEdgarScraperCli:
             max_wait_secs=max_wait,
             retries=retries,
             browser_name=browser,
+            headless=headless,
             destination=output,
         )
-        with create_browser_driver(browser, headless=headless) as driver:
-            scraper = EdgarTextSearcher(driver=driver)
+        scraper = EdgarTextSearcher()
+        try:
             scraper.text_search(
                 keywords=keywords,
                 entity_id=entity_id,
@@ -119,6 +124,8 @@ class SecEdgarScraperCli:
                 retries=retries,
                 destination=output,
             )
+        except NoResultsFoundError as e:
+            sys.exit(2)
 
     @staticmethod
     def rss(
