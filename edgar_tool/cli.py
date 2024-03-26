@@ -1,3 +1,4 @@
+import sys
 import time
 from datetime import date, timedelta, datetime
 from typing import List, Optional
@@ -8,6 +9,7 @@ from edgar_tool.constants import (
 )
 from edgar_tool.rss import fetch_rss_feed
 from edgar_tool.text_search import EdgarTextSearcher
+from edgar_tool.page_fetcher import NoResultsFoundError
 
 
 def _validate_text_search_args(
@@ -110,17 +112,20 @@ class SecEdgarScraperCli:
             destination=output,
         )
         scraper = EdgarTextSearcher()
-        scraper.text_search(
-            keywords=keywords,
-            entity_id=entity_id,
-            filing_type=filing_type,
-            start_date=start_date,
-            end_date=end_date,
-            min_wait_seconds=min_wait,
-            max_wait_seconds=max_wait,
-            retries=retries,
-            destination=output,
-        )
+        try:
+            scraper.text_search(
+                keywords=keywords,
+                entity_id=entity_id,
+                filing_type=filing_type,
+                start_date=start_date,
+                end_date=end_date,
+                min_wait_seconds=min_wait,
+                max_wait_seconds=max_wait,
+                retries=retries,
+                destination=output,
+            )
+        except NoResultsFoundError as e:
+            sys.exit(2)
 
     @staticmethod
     def rss(

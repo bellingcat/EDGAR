@@ -11,6 +11,7 @@ from edgar_tool.page_fetcher import (
     fetch_page,
     PageCheckFailedError,
     ResultsTableNotFoundError,
+    NoResultsFoundError
 )
 from edgar_tool.constants import (
     TEXT_SEARCH_BASE_URL,
@@ -36,7 +37,7 @@ class EdgarTextSearcher:
         :return: Number of results found
         """
         num_results = int(
-            self.json_response.get("hits", {}).get("total", {}).get("value")
+            self.json_response.get("hits", {}).get("total", {}).get("value", 0)
         )
         return num_results
 
@@ -347,7 +348,9 @@ class EdgarTextSearcher:
 
         # If we have 10000 results, split date range in two separate requests and fetch first page again, do so until
         # we have a set of date ranges for which none of the requests have 10000 results
-        if num_results < 10000:
+        if num_results == 0:
+            print(f"No results found for query in date range {start_date} -> {end_date}.")      
+        elif num_results < 10000:
             print(
                 f"Less than 10000 ({num_results}) results found for range {start_date} -> {end_date}, "
                 f"returning search request string..."
@@ -437,7 +440,8 @@ class EdgarTextSearcher:
                 print(
                     f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{r}': {e}"
                 )
-
+        if(search_requests_results == []):
+            raise NoResultsFoundError(f"No results found for the search query")
         write_results_to_file(
             itertools.chain(*search_requests_results),
             destination,
