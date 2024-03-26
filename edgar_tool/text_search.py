@@ -129,7 +129,7 @@ class EdgarTextSearcher:
 
         places_of_business = _source.get("biz_locations")
         places_of_business = [
-            f"{split[0]}, {TEXT_SEARCH_LOCATIONS_MAPPING.get(split[1])}"
+            f"{split[0]}, {TEXT_SEARCH_LOCATIONS_MAPPING.get(split[1])}" if len(split) == 2 else f"{split[0]}"
             for place in places_of_business
             if (split := place.rsplit(", ", maxsplit=1))
         ]
