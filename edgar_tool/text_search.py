@@ -16,6 +16,7 @@ from edgar_tool.page_fetcher import (
 from edgar_tool.constants import (
     TEXT_SEARCH_BASE_URL,
     TEXT_SEARCH_FILING_CATEGORIES_MAPPING,
+    TEXT_SEARCH_CATEGORY_FORM_GROUPINGS,
     TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
     TEXT_SEARCH_CSV_FIELDS_NAMES,
     TEXT_SEARCH_FORM_MAPPING,
@@ -188,6 +189,7 @@ class EdgarTextSearcher:
         keywords: List[str],
         entity_id: Optional[str],
         filing_type: Optional[str],
+        filing_form_group: Optional[str],
         start_date: date,
         end_date: date,
         page_number: int,
@@ -198,6 +200,7 @@ class EdgarTextSearcher:
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
         :param filing_type: Filing category to select from the dropdown menu, defaults to None
+        :param filing_form_group: Group to select within the filing category dropdown menu, defaults to None
         :param start_date: Start date for the custom date range, defaults to 5 years ago to replicate the default behavior of the SEC website
         :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
         :param page_number: Page number to request, defaults to 1
@@ -228,6 +231,11 @@ class EdgarTextSearcher:
             request_args["category"] = TEXT_SEARCH_FILING_CATEGORIES_MAPPING[
                 filing_type
             ]
+        if filing_form_group:
+            request_args["forms"] = ",".join(
+                TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form_group]
+            )
+            request_args["forms"] = request_args["forms"].replace(" ", "-")
 
         # URL-encode the request arguments
         request_args = urllib.parse.urlencode(request_args)
@@ -301,6 +309,7 @@ class EdgarTextSearcher:
         keywords: List[str],
         entity_id: Optional[str],
         filing_type: Optional[str],
+        filing_form_group: Optional[str],
         start_date: date,
         end_date: date,
         min_wait_seconds: float,
@@ -326,6 +335,7 @@ class EdgarTextSearcher:
             keywords=keywords,
             entity_id=entity_id,
             filing_type=filing_type,
+            filing_form_group=filing_form_group,
             start_date=start_date,
             end_date=end_date,
             page_number=1,
@@ -349,7 +359,7 @@ class EdgarTextSearcher:
         # If we have 10000 results, split date range in two separate requests and fetch first page again, do so until
         # we have a set of date ranges for which none of the requests have 10000 results
         if num_results == 0:
-            print(f"No results found for query in date range {start_date} -> {end_date}.")      
+            print(f"No results found for query in date range {start_date} -> {end_date}.")
         elif num_results < 10000:
             print(
                 f"Less than 10000 ({num_results}) results found for range {start_date} -> {end_date}, "
@@ -375,6 +385,7 @@ class EdgarTextSearcher:
                         keywords=keywords,
                         entity_id=entity_id,
                         filing_type=filing_type,
+                        filing_form_group=filing_form_group,
                         start_date=start,
                         end_date=end,
                         min_wait_seconds=min_wait_seconds,
@@ -389,6 +400,7 @@ class EdgarTextSearcher:
         keywords: List[str],
         entity_id: Optional[str],
         filing_type: Optional[str],
+        filing_form_group: Optional[str],
         start_date: date,
         end_date: date,
         min_wait_seconds: float,
@@ -402,6 +414,7 @@ class EdgarTextSearcher:
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
         :param filing_type: Filing category to select from the dropdown menu
+        :param filing_form_group: Group to select within the filing category dropdown menu
         :param start_date: Start date for the custom date range
         :param end_date: End date for the custom date range
         :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
@@ -414,6 +427,7 @@ class EdgarTextSearcher:
             keywords=keywords,
             entity_id=entity_id,
             filing_type=filing_type,
+            filing_form_group=filing_form_group,
             start_date=start_date,
             end_date=end_date,
             min_wait_seconds=min_wait_seconds,
