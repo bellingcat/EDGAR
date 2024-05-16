@@ -8,7 +8,7 @@ from edgar_tool.cli import SecEdgarScraperCli
 def test_text_search(keywords, start_date, end_date, filing_type=None, filing_form_group=None, output=None):
     # Default output filename if not provided
     if output is None:
-        output = f"edgar_test_results_{date.today().strftime('%Y%m%d_%H%M%S')}.csv"
+        output = f"edgar_test_results_{date.today().strftime('%Y%m%d_%H%M%S')}_test_both.csv"
 
     # Instantiate the CLI class
     cli = SecEdgarScraperCli()
@@ -36,7 +36,6 @@ test_text_search(keywords,
                  start_date,
                  end_date,
                  filing_type="all_annual_quarterly_and_current_reports",
-                 filing_form_group="All annual, quarterly, and current reports")
+                 filing_form_group="Insider equity awards, transactions, and ownership (Section 16 Reports)"
+                 )
 
-# Example test with a different date range
-test_text_search(keywords, start_date - timedelta(days=365), end_date)
