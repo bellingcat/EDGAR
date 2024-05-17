@@ -1389,7 +1389,6 @@ TEXT_SEARCH_FORM_MAPPING = {
     },
 }
 
-# These groupings are not yet used, but are included for completeness
 TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
     #    "Exclude insider equity awards, transactions, and ownership (Section 16 Reports)": ["-3","-4","-5"], # todo: work out how to exclude these
     "all_annual_quarterly_and_current_reports": [
