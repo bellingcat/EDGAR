@@ -15,7 +15,6 @@ TEXT_SEARCH_FILING_CATEGORIES_MAPPING = {
 }
 TEXT_SEARCH_SPLIT_BATCHES_NUMBER = 2
 TEXT_SEARCH_CSV_FIELDS_NAMES = [
-    "filing_type",
     "root_form",
     "form_name",
     "filed_at",
@@ -1393,7 +1392,7 @@ TEXT_SEARCH_FORM_MAPPING = {
 # These groupings are not yet used, but are included for completeness
 TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
     #    "Exclude insider equity awards, transactions, and ownership (Section 16 Reports)": ["-3","-4","-5"], # todo: work out how to exclude these
-    "All annual, quarterly, and current reports": [
+    "all_annual_quarterly_and_current_reports": [
         "1-K",
         "1-SA",
         "1-U",
@@ -1454,13 +1453,13 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "SD",
         "SP 15D2",
     ],
-    "Insider equity awards, transactions, and ownership (Section 16 Reports)": [
+    "all_section_16": [
         "3",
         "4",
         "5",
     ],
-    "Beneficial ownership reports": ["SC 13D", "SC 13G", "SC14D1F"],
-    "Exempt offerings": [
+    "beneficial_ownership_reports": ["SC 13D", "SC 13G", "SC14D1F"],
+    "exempt_offerings": [
         "1-A",
         "1-A POS",
         "1-A-W",
@@ -1472,7 +1471,7 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "D",
         "DOS",
     ],
-    "Registration statements and prospectuses": [
+    "registration_statements": [
         "10-12B",
         "10-12G",
         "18-12B",
@@ -1562,9 +1561,9 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "SUPPL",
         "UNDER",
     ],
-    "Filing review correspondence": ["CORRESP", "DOSLTR", "DRSLTR", "UPLOAD"],
-    "SEC orders and notices": ["40-APP", "CT ORDER", "EFFECT", "QUALIF", "REVOKED"],
-    "Proxy materials": [
+    "filing_review_correspondence": ["CORRESP", "DOSLTR", "DRSLTR", "UPLOAD"],
+    "sec_orders_and_notices": ["40-APP", "CT ORDER", "EFFECT", "QUALIF", "REVOKED"],
+    "proxy_materials": [
         "ARS",
         "DEF 14A",
         "DEF 14C",
@@ -1593,7 +1592,7 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "PX14A6N",
         "SC 14N",
     ],
-    "Tender offers and going private transactions": [
+    "tender_offers_and_going_private_tx": [
         "CB",
         "SC 13E1",
         "SC 13E3",
@@ -1606,5 +1605,19 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "SC14D9C",
         "SC14D9F",
     ],
-    "Trust indenture filings": ["305B2", "T-3"],
+    "trust_indentures": ["305B2", "T-3"],
+}
+
+# These are the verbose descriptions of the categories that are used in the CLI, not used in the filtering
+TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING = {
+    "all_annual_quarterly_and_current_reports": "All annual, quarterly, and current reports",
+    "all_section_16": "Insider equity awards, transactions, and ownership (Section 16 Reports)",
+    "beneficial_ownership_reports": "Beneficial ownership reports",
+    "exempt_offerings": "Exempt offerings",
+    "registration_statements": "Registration statements and prospectuses",
+    "filing_review_correspondence": "Filing review correspondence",
+    "sec_orders_and_notices": "SEC orders and notices",
+    "proxy_materials": "Proxy materials",
+    "tender_offers_and_going_private_tx": "Tender offers and going private transactions",
+    "trust_indentures": "Trust indenture filings",
 }
