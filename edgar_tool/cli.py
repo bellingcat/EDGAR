@@ -60,14 +60,14 @@ def _validate_text_search_args(
         raise ValueError(
             "single_forms can only be used when filing_form is specified"
         )
-
-    invalid_forms = [form for form in single_forms if form.lower() not in [
-            entry.lower() for entry in TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.get(filing_form, [])]]
-
-    if single_forms and filing_form and invalid_forms:
-        raise ValueError(
-            f"Single forms must be one of: {TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]}"
-        )
+    if single_forms:
+        invalid_forms = [
+            form for form in single_forms if form not in TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
+        ]
+        if filing_form and invalid_forms:
+            raise ValueError(
+                f"Single forms must be one of: {TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]}"
+            )
 
 
 class SecEdgarScraperCli:
