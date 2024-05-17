@@ -184,6 +184,7 @@ class EdgarTextSearcher:
         keywords: List[str],
         entity_id: Optional[str],
         filing_form: Optional[str],
+        single_forms: Optional[List[str]],
         start_date: date,
         end_date: date,
         page_number: int,
@@ -220,10 +221,13 @@ class EdgarTextSearcher:
         # Add optional parameters
         if entity_id:
             request_args["entityName"] = entity_id
-        if filing_form:
+        if filing_form and not single_forms:
             request_args["forms"] = ",".join(
                 TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
             )
+            request_args["forms"] = request_args["forms"].replace(" ", "-")
+        if filing_form and single_forms:
+            request_args["forms"] = ",".join(single_forms)
             request_args["forms"] = request_args["forms"].replace(" ", "-")
 
         # URL-encode the request arguments
@@ -298,6 +302,7 @@ class EdgarTextSearcher:
         keywords: List[str],
         entity_id: Optional[str],
         filing_form: Optional[str],
+        single_forms: Optional[List[str]],
         start_date: date,
         end_date: date,
         min_wait_seconds: float,
@@ -318,14 +323,10 @@ class EdgarTextSearcher:
         """
 
         # Fetch first page, verify that the request was successful by checking the result count value on the page
-        request_args = self._generate_request_args(
-            keywords=keywords,
-            entity_id=entity_id,
-            filing_form=filing_form,
-            start_date=start_date,
-            end_date=end_date,
-            page_number=1,
-        )
+        request_args = self._generate_request_args(keywords=keywords, entity_id=entity_id,
+                                                   filing_form=filing_form, single_forms=single_forms,
+                                                   start_date=start_date, end_date=end_date,
+                                                   page_number=1)
         url = f"{TEXT_SEARCH_BASE_URL}{request_args}"
 
         # Try to fetch the first page and parse the number of results
@@ -367,16 +368,12 @@ class EdgarTextSearcher:
                     print(
                         f"Trying to generate search requests for date range {start} -> {end} ..."
                     )
-                    self._generate_search_requests(
-                        keywords=keywords,
-                        entity_id=entity_id,
-                        filing_form=filing_form,
-                        start_date=start,
-                        end_date=end,
-                        min_wait_seconds=min_wait_seconds,
-                        max_wait_seconds=max_wait_seconds,
-                        retries=retries,
-                    )
+                    self._generate_search_requests(keywords=keywords, entity_id=entity_id,
+                                                   filing_form=filing_form, single_forms=single_forms,
+                                                   start_date=start, end_date=end,
+                                                   min_wait_seconds=min_wait_seconds,
+                                                   max_wait_seconds=max_wait_seconds,
+                                                   retries=retries)
                 except IndexError:
                     pass
 
@@ -385,6 +382,7 @@ class EdgarTextSearcher:
         keywords: List[str],
         entity_id: Optional[str],
         filing_form: Optional[str],
+        single_forms: Optional[List[str]],
         start_date: date,
         end_date: date,
         min_wait_seconds: float,
@@ -398,6 +396,7 @@ class EdgarTextSearcher:
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
         :param filing_form: Form group to search for
+        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), filing_form must be specified if this is used
         :param start_date: Start date for the custom date range
         :param end_date: End date for the custom date range
         :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
@@ -406,16 +405,11 @@ class EdgarTextSearcher:
         :param destination: Name of the CSV file to write the results to
         """
 
-        self._generate_search_requests(
-            keywords=keywords,
-            entity_id=entity_id,
-            filing_form=filing_form,
-            start_date=start_date,
-            end_date=end_date,
-            min_wait_seconds=min_wait_seconds,
-            max_wait_seconds=max_wait_seconds,
-            retries=retries,
-        )
+        self._generate_search_requests(keywords=keywords, entity_id=entity_id,
+                                       filing_form=filing_form, single_forms=single_forms,
+                                       start_date=start_date, end_date=end_date,
+                                       min_wait_seconds=min_wait_seconds,
+                                       max_wait_seconds=max_wait_seconds, retries=retries)
 
         search_requests_results: List[Iterator[Iterator[Dict[str, Any]]]] = []
         for r in self.search_requests:

@@ -17,6 +17,7 @@ def _validate_text_search_args(
     start_date: date,
     end_date: date,
     filing_form: Optional[str],
+    single_forms: Optional[List[str]],
     min_wait_secs: float,
     max_wait_secs: float,
     retries: int,
@@ -55,6 +56,18 @@ def _validate_text_search_args(
         raise ValueError(
             f"Filing form group must be one of: {'; '.join(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())}"
     )
+    if single_forms and not filing_form:
+        raise ValueError(
+            "single_forms can only be used when filing_form is specified"
+        )
+
+    invalid_forms = [form for form in single_forms if form.lower() not in [
+            entry.lower() for entry in TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.get(filing_form, [])]]
+
+    if single_forms and filing_form and invalid_forms:
+        raise ValueError(
+            f"Single forms must be one of: {TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]}"
+        )
 
 
 class SecEdgarScraperCli:
@@ -65,6 +78,7 @@ class SecEdgarScraperCli:
         output: str = f"edgar_search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
         entity_id: Optional[str] = None,
         filing_form: Optional[str] = None,
+        single_forms: Optional[List[str]] = None,
         start_date: str = (date.today() - timedelta(days=365 * 5)).strftime("%Y-%m-%d"),
         end_date: str = date.today().strftime("%Y-%m-%d"),
         # todo: deprecate min_wait and max_wait
@@ -82,7 +96,7 @@ class SecEdgarScraperCli:
         :param output: Name of the output file to save the results to
         :param entity_id: CIK or name or ticker of the company to search for
         :param filing_form: Form group to search for
-        :param forms: Subsets of forms to search for from the filing_form
+        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), filing_form must be specified if this is used
         :param start_date: Start date of the search
         :param end_date: End date of the search
         :param min_wait: Minimum wait time for the request to complete before checking the page or retrying a request
@@ -100,23 +114,16 @@ class SecEdgarScraperCli:
             retries = int(retries)
         except Exception as e:
             raise ValueError(f"Invalid argument type or format: {e}")
-        _validate_text_search_args(
-            search_keywords=keywords,
-            start_date=start_date,
-            end_date=end_date,
-            filing_form=filing_form,
-            min_wait_secs=min_wait,
-            max_wait_secs=max_wait,
-            retries=retries,
-            browser_name=browser,
-            headless=headless,
-            destination=output,
-        )
+        _validate_text_search_args(search_keywords=keywords, start_date=start_date,
+                                   end_date=end_date, filing_form=filing_form, single_forms=single_forms,
+                                   min_wait_secs=min_wait, max_wait_secs=max_wait, retries=retries,
+                                   browser_name=browser, headless=headless, destination=output)
         scraper = EdgarTextSearcher()
         try:
             scraper.text_search(keywords=keywords, entity_id=entity_id, filing_form=filing_form,
-                                start_date=start_date, end_date=end_date, min_wait_seconds=min_wait,
-                                max_wait_seconds=max_wait, retries=retries, destination=output)
+                                single_forms=single_forms, start_date=start_date, end_date=end_date,
+                                min_wait_seconds=min_wait, max_wait_seconds=max_wait,
+                                retries=retries, destination=output)
         except NoResultsFoundError as e:
             sys.exit(2)
 

@@ -1608,7 +1608,8 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
     "trust_indentures": ["305B2", "T-3"],
 }
 
-# These are the verbose descriptions of the categories that are used in the CLI, not used in the filtering
+# These are the verbose descriptions of the categories that are used in the CLI,
+# not used in the CLI but included for completeness
 TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING = {
     "all_annual_quarterly_and_current_reports": "All annual, quarterly, and current reports",
     "all_section_16": "Insider equity awards, transactions, and ownership (Section 16 Reports)",
