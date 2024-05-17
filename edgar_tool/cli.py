@@ -114,16 +114,33 @@ class SecEdgarScraperCli:
             retries = int(retries)
         except Exception as e:
             raise ValueError(f"Invalid argument type or format: {e}")
-        _validate_text_search_args(search_keywords=keywords, start_date=start_date,
-                                   end_date=end_date, filing_form=filing_form, single_forms=single_forms,
-                                   min_wait_secs=min_wait, max_wait_secs=max_wait, retries=retries,
-                                   browser_name=browser, headless=headless, destination=output)
+        _validate_text_search_args(
+            search_keywords=keywords,
+            start_date=start_date,
+            end_date=end_date,
+            filing_form=filing_form,
+            single_forms=single_forms,
+            min_wait_secs=min_wait,
+            max_wait_secs=max_wait,
+            retries=retries,
+            browser_name=browser,
+            headless=headless,
+            destination=output
+        )
         scraper = EdgarTextSearcher()
         try:
-            scraper.text_search(keywords=keywords, entity_id=entity_id, filing_form=filing_form,
-                                single_forms=single_forms, start_date=start_date, end_date=end_date,
-                                min_wait_seconds=min_wait, max_wait_seconds=max_wait,
-                                retries=retries, destination=output)
+            scraper.text_search(
+            keywords=keywords,
+            entity_id=entity_id,
+            filing_form=filing_form,
+            single_forms=single_forms,
+            start_date=start_date,
+            end_date=end_date,
+            min_wait_seconds=min_wait,
+            max_wait_seconds=max_wait,
+            retries=retries,
+            destination=output
+            )
         except NoResultsFoundError as e:
             sys.exit(2)
 
