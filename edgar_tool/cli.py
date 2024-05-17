@@ -125,21 +125,21 @@ class SecEdgarScraperCli:
             retries=retries,
             browser_name=browser,
             headless=headless,
-            destination=output
+            destination=output,
         )
         scraper = EdgarTextSearcher()
         try:
             scraper.text_search(
-            keywords=keywords,
-            entity_id=entity_id,
-            filing_form=filing_form,
-            single_forms=single_forms,
-            start_date=start_date,
-            end_date=end_date,
-            min_wait_seconds=min_wait,
-            max_wait_seconds=max_wait,
-            retries=retries,
-            destination=output
+                keywords=keywords,
+                entity_id=entity_id,
+                filing_form=filing_form,
+                single_forms=single_forms,
+                start_date=start_date,
+                end_date=end_date,
+                min_wait_seconds=min_wait,
+                max_wait_seconds=max_wait,
+                retries=retries,
+                destination=output,
             )
         except NoResultsFoundError as e:
             sys.exit(2)

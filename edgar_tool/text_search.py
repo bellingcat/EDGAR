@@ -330,7 +330,7 @@ class EdgarTextSearcher:
             single_forms=single_forms,
             start_date=start_date,
             end_date=end_date,
-            page_number=1
+            page_number=1,
         )
         url = f"{TEXT_SEARCH_BASE_URL}{request_args}"
 
@@ -382,7 +382,7 @@ class EdgarTextSearcher:
                         end_date=end,
                         min_wait_seconds=min_wait_seconds,
                         max_wait_seconds=max_wait_seconds,
-                        retries=retries
+                        retries=retries,
                     )
                 except IndexError:
                     pass
@@ -424,7 +424,7 @@ class EdgarTextSearcher:
             end_date=end_date,
             min_wait_seconds=min_wait_seconds,
             max_wait_seconds=max_wait_seconds,
-            retries=retries
+            retries=retries,
         )
 
         search_requests_results: List[Iterator[Iterator[Dict[str, Any]]]] = []
