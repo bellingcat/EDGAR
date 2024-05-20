@@ -46,8 +46,8 @@ edgar-tool text_search \"John Doe\" Pharmaceuticals Chemicals
 # Usage with date range and export to custom CSV file
 edgar-tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
 
-# Usage with a partial set of filing forms
-edgar-tool text_search Hurricane Damage --filing_form "all_annual_quarterly_and_current_reports" --single_forms "['1-K', '1-SA']"
+# Usage with a partial set of filing forms + single forms 
+edgar-tool text_search Hurricane Damage --filing_form "registration_statements" --single_forms "['1-K', '1-SA']"
 
 # More advanced usage specifying more arguments, with export to JSON
 edgar-tool text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\

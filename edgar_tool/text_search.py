@@ -194,7 +194,8 @@ class EdgarTextSearcher:
 
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
-        :param filing_form: Group to select within the filing category dropdown menu, defaults to None
+        :param filing_form: Group to select within the filing category, defaults to None
+        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
         :param start_date: Start date for the custom date range, defaults to 5 years ago to replicate the default behavior of the SEC website
         :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
         :param page_number: Page number to request, defaults to 1
@@ -221,13 +222,24 @@ class EdgarTextSearcher:
         # Add optional parameters
         if entity_id:
             request_args["entityName"] = entity_id
+
+        # Case where only filing_form is specified
         if filing_form and not single_forms:
             request_args["forms"] = ",".join(
                 TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
             )
             request_args["forms"] = request_args["forms"].replace(" ", "-")
-        if filing_form and single_forms:
+
+        # Case where only single_forms are specified
+        if single_forms and not filing_form:
             request_args["forms"] = ",".join(single_forms)
+            request_args["forms"] = request_args["forms"].replace(" ", "-")
+
+        # Case where both filing_form and single_forms are specified
+        if filing_form and single_forms:
+            all_forms = TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form] + single_forms
+            all_forms = list(dict.fromkeys(all_forms))  # Remove potential duplicates
+            request_args["forms"] = ",".join(all_forms)
             request_args["forms"] = request_args["forms"].replace(" ", "-")
 
         # URL-encode the request arguments
@@ -315,6 +327,8 @@ class EdgarTextSearcher:
 
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
+        :param filing_form: Group to select within the filing category, defaults to None
+        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
         :param start_date: Start date for the custom date range
         :param end_date: End date for the custom date range
         :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
@@ -405,8 +419,8 @@ class EdgarTextSearcher:
 
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
-        :param filing_form: Form group to search for
-        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), filing_form must be specified if this is used
+        :param filing_form: Group to select within the filing category, defaults to None
+        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
         :param start_date: Start date for the custom date range
         :param end_date: End date for the custom date range
         :param min_wait_seconds: Minimum number of seconds to wait for the request to complete

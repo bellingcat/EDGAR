@@ -6,6 +6,7 @@ from warnings import warn
 from edgar_tool.constants import (
     SUPPORTED_OUTPUT_EXTENSIONS,
     TEXT_SEARCH_CATEGORY_FORM_GROUPINGS,
+    TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING,
 )
 from edgar_tool.rss import fetch_rss_feed
 from edgar_tool.text_search import EdgarTextSearcher
@@ -51,22 +52,18 @@ def _validate_text_search_args(
         )
     if (
         filing_form
-        and filing_form not in TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys()
+        and filing_form not in TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.keys()
     ):
         raise ValueError(
-            f"Filing form group must be one of: {'; '.join(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())}"
+            f"Filing form group must be one of: {'; '.join(TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.keys())}"
     )
-    if single_forms and not filing_form:
-        raise ValueError(
-            "single_forms can only be used when filing_form is specified"
-        )
     if single_forms:
-        invalid_forms = [
-            form for form in single_forms if form not in TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
-        ]
-        if filing_form and invalid_forms:
+        single_list = [item for sublist in TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.values() for item in
+                       sublist]
+        invalid_forms = [form for form in single_forms if form not in single_list]
+        if invalid_forms:
             raise ValueError(
-                f"Single forms must be one of: {TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]}"
+                f"Single forms must be one or more of: {single_list}"
             )
 
 
@@ -96,7 +93,7 @@ class SecEdgarScraperCli:
         :param output: Name of the output file to save the results to
         :param entity_id: CIK or name or ticker of the company to search for
         :param filing_form: Form group to search for
-        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), filing_form must be specified if this is used
+        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q'])
         :param start_date: Start date of the search
         :param end_date: End date of the search
         :param min_wait: Minimum wait time for the request to complete before checking the page or retrying a request
@@ -132,7 +129,7 @@ class SecEdgarScraperCli:
             scraper.text_search(
                 keywords=keywords,
                 entity_id=entity_id,
-                filing_form=filing_form,
+                filing_form=TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.get(filing_form),
                 single_forms=single_forms,
                 start_date=start_date,
                 end_date=end_date,
