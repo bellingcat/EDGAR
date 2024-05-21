@@ -223,25 +223,15 @@ class EdgarTextSearcher:
         if entity_id:
             request_args["entityName"] = entity_id
 
-        # Case where only filing_form is specified
-        if filing_form and not single_forms:
-            request_args["forms"] = ",".join(
-                TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
-            )
-            request_args["forms"] = request_args["forms"].replace(" ", "-")
+        # Handle forms and single forms
+        part_filing_form = [] if filing_form is None else TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
+        part_single_forms = [] if single_forms is None else single_forms
 
-        # Case where only single_forms are specified
-        if single_forms and not filing_form:
-            request_args["forms"] = ",".join(single_forms)
-            request_args["forms"] = request_args["forms"].replace(" ", "-")
-
-        # Case where both filing_form and single_forms are specified
-        if filing_form and single_forms:
-            all_forms = TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form] + single_forms
-            all_forms = list(dict.fromkeys(all_forms))  # Remove potential duplicates
-            request_args["forms"] = ",".join(all_forms)
-            request_args["forms"] = request_args["forms"].replace(" ", "-")
-
+        # Join the filing_forms and single forms and remove duplicates
+        forms = ",".join(list(set(part_filing_form + part_single_forms)))
+        if forms != "":
+            request_args["forms"] = forms
+ 
         # URL-encode the request arguments
         request_args = urllib.parse.urlencode(request_args)
 
