@@ -1608,16 +1608,15 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
 }
 
 # These are the verbose descriptions of the categories that are used in the CLI,
-# not used in the CLI but included for completeness
 TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING = {
-    "all_annual_quarterly_and_current_reports": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[0],
-    "all_section_16": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[1],
-    "beneficial_ownership_reports": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[2],
-    "exempt_offerings": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[3],
-    "registration_statements": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[4],
-    "filing_review_correspondence": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[5],
-    "sec_orders_and_notices": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[6],
-    "proxy_materials": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[7],
-    "tender_offers_and_going_private_tx": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[8],
-    "trust_indentures": list(TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.keys())[9],
+    "all_annual_quarterly_and_current_reports": "All annual, quarterly, and current reports",
+    "all_section_16": "Insider equity awards, transactions, and ownership (Section 16 Reports)",
+    "beneficial_ownership_reports": "Beneficial ownership reports",
+    "exempt_offerings": "Exempt offerings",
+    "registration_statements": "Registration statements and prospectuses",
+    "filing_review_correspondence": "Filing review correspondence",
+    "sec_orders_and_notices": "SEC orders and notices",
+    "proxy_materials": "Proxy materials",
+    "tender_offers_and_going_private_tx": "Tender offers and going private transactions",
+    "trust_indentures": "Trust indenture filings",
 }
