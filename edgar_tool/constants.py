@@ -15,7 +15,6 @@ TEXT_SEARCH_FILING_CATEGORIES_MAPPING = {
 }
 TEXT_SEARCH_SPLIT_BATCHES_NUMBER = 2
 TEXT_SEARCH_CSV_FIELDS_NAMES = [
-    "filing_type",
     "root_form",
     "form_name",
     "filed_at",
@@ -1390,7 +1389,6 @@ TEXT_SEARCH_FORM_MAPPING = {
     },
 }
 
-# These groupings are not yet used, but are included for completeness
 TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
     #    "Exclude insider equity awards, transactions, and ownership (Section 16 Reports)": ["-3","-4","-5"], # todo: work out how to exclude these
     "All annual, quarterly, and current reports": [
@@ -1607,4 +1605,18 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "SC14D9F",
     ],
     "Trust indenture filings": ["305B2", "T-3"],
+}
+
+# These are the verbose descriptions of the categories that are used in the CLI,
+TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING = {
+    "all_annual_quarterly_and_current_reports": "All annual, quarterly, and current reports",
+    "all_section_16": "Insider equity awards, transactions, and ownership (Section 16 Reports)",
+    "beneficial_ownership_reports": "Beneficial ownership reports",
+    "exempt_offerings": "Exempt offerings",
+    "registration_statements": "Registration statements and prospectuses",
+    "filing_review_correspondence": "Filing review correspondence",
+    "sec_orders_and_notices": "SEC orders and notices",
+    "proxy_materials": "Proxy materials",
+    "tender_offers_and_going_private_tx": "Tender offers and going private transactions",
+    "trust_indentures": "Trust indenture filings",
 }

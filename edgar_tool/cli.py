@@ -5,7 +5,8 @@ from typing import List, Optional
 from warnings import warn
 from edgar_tool.constants import (
     SUPPORTED_OUTPUT_EXTENSIONS,
-    TEXT_SEARCH_FILING_CATEGORIES_MAPPING,
+    TEXT_SEARCH_CATEGORY_FORM_GROUPINGS,
+    TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING,
 )
 from edgar_tool.rss import fetch_rss_feed
 from edgar_tool.text_search import EdgarTextSearcher
@@ -16,7 +17,8 @@ def _validate_text_search_args(
     search_keywords: List[str],
     start_date: date,
     end_date: date,
-    filing_type: Optional[str],
+    filing_form: Optional[str],
+    single_forms: Optional[List[str]],
     min_wait_secs: float,
     max_wait_secs: float,
     retries: int,
@@ -46,15 +48,23 @@ def _validate_text_search_args(
         destination.lower().endswith(ext) for ext in SUPPORTED_OUTPUT_EXTENSIONS
     ):
         raise ValueError(
-            f"Destination file must have one of the following extensions: {', '.join(SUPPORTED_OUTPUT_EXTENSIONS)}"
+            f"Destination file must have one of the following extensions: {'; '.join(SUPPORTED_OUTPUT_EXTENSIONS)}"
         )
     if (
-        filing_type
-        and filing_type.lower() not in TEXT_SEARCH_FILING_CATEGORIES_MAPPING.keys()
+        filing_form
+        and filing_form not in TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.keys()
     ):
         raise ValueError(
-            f"Filing type must be one of: {', '.join(TEXT_SEARCH_FILING_CATEGORIES_MAPPING.keys())}"
-        )
+            f"Filing form group must be one of: {'; '.join(TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.keys())}"
+    )
+    if single_forms:
+        single_list = [item for sublist in TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.values() for item in
+                       sublist]
+        invalid_forms = [form for form in single_forms if form not in single_list]
+        if invalid_forms:
+            raise ValueError(
+                f"Single forms must be one or more of: {single_list}"
+            )
 
 
 class SecEdgarScraperCli:
@@ -64,7 +74,8 @@ class SecEdgarScraperCli:
         *keywords: str,
         output: str = f"edgar_search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
         entity_id: Optional[str] = None,
-        filing_type: Optional[str] = None,
+        filing_form: Optional[str] = None,
+        single_forms: Optional[List[str]] = None,
         start_date: str = (date.today() - timedelta(days=365 * 5)).strftime("%Y-%m-%d"),
         end_date: str = date.today().strftime("%Y-%m-%d"),
         # todo: deprecate min_wait and max_wait
@@ -81,7 +92,8 @@ class SecEdgarScraperCli:
         :param keywords: List of keywords to search for
         :param output: Name of the output file to save the results to
         :param entity_id: CIK or name or ticker of the company to search for
-        :param filing_type: Type of filing to search for
+        :param filing_form: Form group to search for
+        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q'])
         :param start_date: Start date of the search
         :param end_date: End date of the search
         :param min_wait: Minimum wait time for the request to complete before checking the page or retrying a request
@@ -103,7 +115,8 @@ class SecEdgarScraperCli:
             search_keywords=keywords,
             start_date=start_date,
             end_date=end_date,
-            filing_type=filing_type,
+            filing_form=filing_form,
+            single_forms=single_forms,
             min_wait_secs=min_wait,
             max_wait_secs=max_wait,
             retries=retries,
@@ -116,7 +129,8 @@ class SecEdgarScraperCli:
             scraper.text_search(
                 keywords=keywords,
                 entity_id=entity_id,
-                filing_type=filing_type,
+                filing_form=TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.get(filing_form),
+                single_forms=single_forms,
                 start_date=start_date,
                 end_date=end_date,
                 min_wait_seconds=min_wait,
