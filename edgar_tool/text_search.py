@@ -194,7 +194,7 @@ class EdgarTextSearcher:
 
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
-        :param filing_form: Group to select within the filing category, defaults to None
+        :param filing_form: Group to select within the filing category dropdown menu, defaults to None
         :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
         :param start_date: Start date for the custom date range, defaults to 5 years ago to replicate the default behavior of the SEC website
         :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
@@ -327,7 +327,7 @@ class EdgarTextSearcher:
 
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
-        :param filing_form: Group to select within the filing category, defaults to None
+        :param filing_form: Group to select within the filing category dropdown menu, defaults to None
         :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
         :param start_date: Start date for the custom date range
         :param end_date: End date for the custom date range
@@ -419,7 +419,7 @@ class EdgarTextSearcher:
 
         :param keywords: Search keywords to input in the "Document word or phrase" field
         :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
-        :param filing_form: Group to select within the filing category, defaults to None
+        :param filing_form: Group to select within the filing category dropdown menu, defaults to None
         :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
         :param start_date: Start date for the custom date range
         :param end_date: End date for the custom date range
