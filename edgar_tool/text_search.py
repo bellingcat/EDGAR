@@ -484,8 +484,8 @@ class EdgarTextSearcher:
                 f"Please verify that the search/wait/retry parameters are correct and try again.",
             )
         except PageCheckFailedError as e:
-            print(e)
-            sys.exit(1)
+            print(e) 
+            raise NoResultsFoundError("No results found on the first page.") from e
 
         # If we cannot get number of results after retries, abort
         try:
@@ -496,4 +496,4 @@ class EdgarTextSearcher:
                 f"Execution aborting due to a {e.__class__.__name__} error raised "
                 f"while parsing number of results for first page at URL {url}: {e}"
             )
-            sys.exit(1)
+            raise
