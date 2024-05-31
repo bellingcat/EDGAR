@@ -495,6 +495,6 @@ class EdgarTextSearcher:
             return num_results
         except NoResultsFoundError as e:
             raise NoResultsFoundError(
-                f"\nExecution aborting due to a {e.__class__.__name_} error raised "
+                f"\nExecution aborting due to a {e.__class__.__name__} error raised "
                 f"while parsing number of results for first page at URL {url}: {e}"
             ) from e
