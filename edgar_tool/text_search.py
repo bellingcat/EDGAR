@@ -36,6 +36,9 @@ class EdgarTextSearcher:
         Parses the number of results found from the search results page.
         :return: Number of results found
         """
+        # Simulate an error
+        if True:
+            raise ValueError()
         num_results = int(
             self.json_response.get("hits", {}).get("total", {}).get("value", 0)
         )
