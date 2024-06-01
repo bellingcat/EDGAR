@@ -188,6 +188,8 @@ class EdgarTextSearcher:
         start_date: date,
         end_date: date,
         page_number: int,
+        peo_in: Optional[str],
+        inc_in: Optional[str],
     ) -> str:
         """
         Generates the request arguments for the SEC website based on the given parameters.
@@ -199,6 +201,8 @@ class EdgarTextSearcher:
         :param start_date: Start date for the custom date range, defaults to 5 years ago to replicate the default behavior of the SEC website
         :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
         :param page_number: Page number to request, defaults to 1
+        :param peo_in: Search principal executive offices in a location (e.g. "NY,OH")
+        :param inc_in: Search incorporated in a location (e.g. "NY,OH")
 
         :return: URL-encoded request arguments string to concatenate to the SEC website URL
         """
@@ -220,8 +224,20 @@ class EdgarTextSearcher:
         }
 
         # Add optional parameters
+        if peo_in and inc_in:
+            raise ValueError("use only one of peo_in or inc_in, not both") ## because SEC API doesn't support
+        else:
+            if peo_in:
+                request_args["locationCodes"] = peo_in
+            if inc_in:
+                request_args["locationCodes"] = inc_in
+                request_args["locationType"] = "incorporated"
+        
         if entity_id:
             request_args["entityName"] = entity_id
+            
+        print(request_args)
+
 
         # Handle forms and single forms
         part_filing_form = [] if filing_form is None else TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
@@ -310,6 +326,8 @@ class EdgarTextSearcher:
         min_wait_seconds: float,
         max_wait_seconds: float,
         retries: int,
+        peo_in: Optional[str],
+        inc_in: Optional[str],
     ) -> None:
         """
         Generates search requests for the given parameters and date range,
@@ -324,6 +342,8 @@ class EdgarTextSearcher:
         :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
         :param max_wait_seconds: Maximum number of seconds to wait for the request to complete
         :param retries: Number of times to retry the request before failing
+        :param peo_in: Search principal executive offices in a location (e.g. "NY,OH")
+        :param inc_in: Search incorporated in a location (e.g. "NY,OH")
         """
 
         # Fetch first page, verify that the request was successful by checking the result count value on the page
@@ -335,6 +355,8 @@ class EdgarTextSearcher:
             start_date=start_date,
             end_date=end_date,
             page_number=1,
+            peo_in=peo_in,
+            inc_in=inc_in,
         )
         url = f"{TEXT_SEARCH_BASE_URL}{request_args}"
 
@@ -403,6 +425,8 @@ class EdgarTextSearcher:
         max_wait_seconds: float,
         retries: int,
         destination: str,
+        peo_in: Optional[str],
+        inc_in: Optional[str],
     ) -> None:
         """
         Searches the SEC website for filings based on the given parameters.
@@ -417,6 +441,8 @@ class EdgarTextSearcher:
         :param max_wait_seconds: Maximum number of seconds to wait for the request to complete
         :param retries: Number of times to retry the request before failing
         :param destination: Name of the CSV file to write the results to
+        :param peo_in: Search principal executive offices in a location (e.g. "NY,OH")
+        :param inc_in: Search incorporated in a location (e.g. "NY,OH")
         """
 
         self._generate_search_requests(
@@ -429,6 +455,8 @@ class EdgarTextSearcher:
             min_wait_seconds=min_wait_seconds,
             max_wait_seconds=max_wait_seconds,
             retries=retries,
+            peo_in=peo_in,
+            inc_in=inc_in,
         )
 
         search_requests_results: List[Iterator[Iterator[Dict[str, Any]]]] = []
