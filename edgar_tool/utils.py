@@ -36,42 +36,46 @@ def safe_get(d: Dict, *keys) -> Any:
 def unpack_singleton_list(l: Optional[List]) -> Union[str, List[str]]:
     return l if (l is None) or (len(l) != 1) else l[0]
 
-def parse_location_input(location_input: str | tuple | None) -> str:
+def parse_location_input(location_input: str | tuple | None) -> str | None:
     """
     Handles text search input for --peo_in or --inc_in.
-    
-    If the input is a full location name, it converts it to its corresponding code 
-    (e.g., "Sierra Leone" => "T8"). If the input is multiple locations, it converts 
-    the tuple to a string representation of a list. This function removes whitespace 
-    from the output string, which can cause additional locations to be ignored. It raises 
-    a ValueError if the locations are not of the accepted types.
+
+    This function processes the input to ensure it is in an acceptable format 
+    for location searches. It supports single or multiple locations provided 
+    as a string or a tuple. If the input is a tuple, it converts the tuple to 
+    a comma-separated string. It also removes any whitespace from the output 
+    string to prevent errors during further processing.
+
+    Parameters:
+    location_input (str | tuple | None): The input location(s) to be parsed. 
+        It can be a single location as a string, multiple locations as a tuple 
+        of strings, or None.
+
+    Returns:
+    str: A string representation of the location(s) with no whitespace.
+
+    Raises:
+    ValueError: If the input is not a string, tuple, or None, or if any location 
+        in the input is not in the TEXT_SEARCH_LOCATIONS_MAPPING.
     """
-    
+
     if not isinstance(location_input, (str, tuple, type(None))):
         raise ValueError(
             f'peo_in and inc_in must use format like "NY" or "NY,OH,etc" '
-            f'and be one of {list(TEXT_SEARCH_LOCATIONS_MAPPING.keys())}'
+            f'and be one of {TEXT_SEARCH_LOCATIONS_MAPPING}'
         )
-
-    name2code = {value: key for key, value in TEXT_SEARCH_LOCATIONS_MAPPING.items()}
 
     if isinstance(location_input, tuple):
-        location_input = tuple(
-            name2code.get(value, value)  
-            for value in location_input
-        )
         for value in location_input:
             if value not in TEXT_SEARCH_LOCATIONS_MAPPING:
-                raise ValueError(f"{value} not in {list(TEXT_SEARCH_LOCATIONS_MAPPING.keys())}")
+                raise ValueError(f"{value} not in {TEXT_SEARCH_LOCATIONS_MAPPING}")
         location_input = ','.join(location_input)
-        
+
     elif isinstance(location_input, str):
-        if location_input in TEXT_SEARCH_LOCATIONS_MAPPING.values():
-            location_input = name2code[location_input]
-        elif location_input not in TEXT_SEARCH_LOCATIONS_MAPPING.keys():
-            raise ValueError(f"{location_input} not in {list(TEXT_SEARCH_LOCATIONS_MAPPING.keys())}")
+        if location_input not in TEXT_SEARCH_LOCATIONS_MAPPING:
+            raise ValueError(f"{location_input} not in {TEXT_SEARCH_LOCATIONS_MAPPING}")
 
     if location_input:
-        location_input = location_input.replace(" ","")
-        
+        location_input = location_input.replace(" ", "")
+
     return location_input

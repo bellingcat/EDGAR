@@ -145,7 +145,7 @@ class SecEdgarScraperCli:
                 max_wait_seconds=max_wait,
                 retries=retries,
                 destination=output,
-                peo_in = peo_in,
+                peo_in=peo_in,
                 inc_in=inc_in
             )
         except NoResultsFoundError as e:

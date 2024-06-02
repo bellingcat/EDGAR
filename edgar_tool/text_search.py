@@ -235,10 +235,6 @@ class EdgarTextSearcher:
         
         if entity_id:
             request_args["entityName"] = entity_id
-            
-        print(request_args)
-
-
         # Handle forms and single forms
         part_filing_form = [] if filing_form is None else TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
         part_single_forms = [] if single_forms is None else single_forms
@@ -409,6 +405,8 @@ class EdgarTextSearcher:
                         min_wait_seconds=min_wait_seconds,
                         max_wait_seconds=max_wait_seconds,
                         retries=retries,
+                        peo_in=peo_in,
+                        inc_in=inc_in,
                     )
                 except IndexError:
                     pass
@@ -444,7 +442,6 @@ class EdgarTextSearcher:
         :param peo_in: Search principal executive offices in a location (e.g. "NY,OH")
         :param inc_in: Search incorporated in a location (e.g. "NY,OH")
         """
-
         self._generate_search_requests(
             keywords=keywords,
             entity_id=entity_id,
