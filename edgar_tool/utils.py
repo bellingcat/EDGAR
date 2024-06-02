@@ -41,10 +41,13 @@ def parse_location_input(location_input: str | tuple | None) -> str | None:
     Handles text search input for --peo_in or --inc_in.
 
     This function processes the input to ensure it is in an acceptable format 
-    for location searches. It supports single or multiple locations provided 
-    as a string or a tuple. If the input is a tuple, it converts the tuple to 
-    a comma-separated string. It also removes any whitespace from the output 
-    string to prevent errors during further processing.
+    for location searches. Because CLI input like --peo_in "NY, OH" yields
+    python value ('NY','OH'), this function supports single or multiple locations 
+    provided as a string or a tuple. If the input is a tuple, it converts the tuple 
+    to a comma-separated string. It also removes any whitespace from the output 
+    string to prevent errors during further processing. Also validates that all
+    provided location codes are in the TEXT_SEARCH_LOCATIONS_MAPPING and prints
+    the list of acceptable codes if not.
 
     Parameters:
     location_input (str | tuple | None): The input location(s) to be parsed. 
