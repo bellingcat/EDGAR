@@ -7,7 +7,6 @@ from edgar_tool.constants import (
     SUPPORTED_OUTPUT_EXTENSIONS,
     TEXT_SEARCH_CATEGORY_FORM_GROUPINGS,
     TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING,
-    TEXT_SEARCH_LOCATIONS_MAPPING,
 )
 from edgar_tool.rss import fetch_rss_feed
 from edgar_tool.text_search import EdgarTextSearcher
