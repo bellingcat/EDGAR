@@ -36,10 +36,14 @@ class EdgarTextSearcher:
         Parses the number of results found from the search results page.
         :return: Number of results found
         """
-        num_results = int(
-            self.json_response.get("hits", {}).get("total", {}).get("value", 0)
-        )
-        return num_results
+        try:
+            num_results = int(
+                self.json_response.get("hits", {}).get("total", {}).get("value", 0)
+            )
+            return num_results
+
+        except NoResultsFoundError as e:
+            raise NoResultsFoundError("no results to parse") from e
 
     def _compute_number_of_pages(self) -> int:
         """
@@ -478,22 +482,19 @@ class EdgarTextSearcher:
                 min_wait_seconds,
                 max_wait_seconds,
                 retries,
-            )(
-                lambda json_response: json_response.get("hits", {}).get("hits", 0) != 0,
-                f"No results found on first page at URL {url}, aborting...\n"
-                f"Please verify that the search/wait/retry parameters are correct and try again.",
-            )
+            )(lambda json_response: json_response.get("hits", {}).get("hits", 0) != 0)
         except PageCheckFailedError as e:
-            print(e)
-            sys.exit(1)
+            raise PageCheckFailedError(
+                f"\n{e}. "
+                f"Please verify that the search/wait/retry parameters are correct and try again."
+            ) from e
 
         # If we cannot get number of results after retries, abort
         try:
             num_results = self._parse_number_of_results()
             return num_results
-        except Exception as e:
-            print(
-                f"Execution aborting due to a {e.__class__.__name__} error raised "
+        except NoResultsFoundError as e:
+            raise NoResultsFoundError(
+                f"\nExecution aborting due to a {e.__class__.__name__} error raised "
                 f"while parsing number of results for first page at URL {url}: {e}"
-            )
-            sys.exit(1)
+            ) from e

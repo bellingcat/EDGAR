@@ -23,7 +23,6 @@ def fetch_page(
     :param stop_after_n: how many times to retry the request before failing
     :return: wrapper function that takes a check method and retries the request if the page load fails
     """
-
     @retry(
         wait=wait_fixed(uniform(min_wait_seconds, max_wait_seconds)),
         stop=stop_after_attempt(stop_after_n),
