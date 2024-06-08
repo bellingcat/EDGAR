@@ -63,9 +63,9 @@ def replace_ignore_case_whitespace(s, location, replacement):
 def replace_substrings_in_string(s)->str:
     """
     Takes a string like "New York, OH" and returns a string with the full 
-    location names converted to codes such as "NY, OH". Returns an unmodified, but uppercase,
-    string if there are no location names present. Note that white spaces are
-    removed and matches are not case sensitive. 
+    location names converted to codes such as "NY,OH". Returns an unmodified
+    string if there are no full location names present. Note that matching
+    full location names shall be case and whitespace insensitive.
 
     Parameters:
     s (str): The original string.
@@ -78,8 +78,7 @@ def replace_substrings_in_string(s)->str:
     for location in locations2codes.keys():
         if location in s.replace(" ", "").lower():
             s = replace_ignore_case_whitespace(s,location, locations2codes[location])
-    ## Eliminate issues caused by casing and whitespaces
-    return s.replace(" ","").upper()
+    return s
     
 def parse_location_input(location_input: str | tuple | None) -> str | None:
     """
@@ -120,6 +119,8 @@ def parse_location_input(location_input: str | tuple | None) -> str | None:
     if isinstance(location_input,str):
         location_input = tuple(replace_substrings_in_string(location_input).split(','))
         for value in location_input:
+            # Eliminate issues caused by casing and whitespaces
+            value = value.replace(" ","").upper()
             if value not in TEXT_SEARCH_LOCATIONS_MAPPING.keys():
                 raise ValueError(f"{value} not in {TEXT_SEARCH_LOCATIONS_MAPPING}")
         location_input = ','.join(location_input)
