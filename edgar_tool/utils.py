@@ -1,6 +1,8 @@
+import re
 from datetime import date
 from typing import Any, Iterator, Dict, List, Union, Optional
 from edgar_tool.constants import TEXT_SEARCH_LOCATIONS_MAPPING
+
 
 def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
     """
@@ -42,12 +44,28 @@ def invert_dict(d:dict)->dict:
     """
     return {v: k for k, v in d.items()}
 
-def replace_substrings_in_string(s):
+def replace_ignore_case_whitespace(s, location, replacement):
+    """
+    Perform a case-insensitive and whitespace-insensitive replacement of a substring in a string.
+
+    Parameters:
+    s (str): The original string.
+    location (str): The substring to be replaced.
+    replacement (str): The replacement substring.
+
+    Returns:
+    str: The modified string with the replacements made.
+    """
+    # Create a regex pattern that ignores whitespace and is case-insensitive
+    location_pattern = re.compile(r'\s*'.join(re.escape(char) for char in location), re.IGNORECASE)
+    return location_pattern.sub(replacement, s)
+
+def replace_substrings_in_string(s)->str:
     """
     Takes a string like "New York, OH" and returns a string with the full 
-    location names converted to codes such as "NY, OH". Returns an unmodified 
-    string if there are no location names present. Note that white strings are
-    removed and all letters are converted to lowercase to avoid unwanted string mismatches. 
+    location names converted to codes such as "NY, OH". Returns an unmodified, but uppercase,
+    string if there are no location names present. Note that white spaces are
+    removed and matches are not case sensitive. 
 
     Parameters:
     s (str): The original string.
@@ -57,13 +75,12 @@ def replace_substrings_in_string(s):
     """
     locations2codes = invert_dict(TEXT_SEARCH_LOCATIONS_MAPPING)
     locations2codes = {k.replace(" ", "").lower(): v for k, v in locations2codes.items()}
-    s = s.replace(" ", "").lower()
     for location in locations2codes.keys():
-        if location in s:
-            s = s.replace(location, locations2codes[location])
-    return s.upper()
+        if location in s.replace(" ", "").lower():
+            s = replace_ignore_case_whitespace(s,location, locations2codes[location])
+    ## Eliminate issues caused by casing and whitespaces
+    return s.replace(" ","").upper()
     
-
 def parse_location_input(location_input: str | tuple | None) -> str | None:
     """
     Handles text search input for --peo_in or --inc_in.
@@ -101,10 +118,9 @@ def parse_location_input(location_input: str | tuple | None) -> str | None:
         location_input = ','.join(location_input)
     
     if isinstance(location_input,str):
-        ## regardless of input format, convert to tup because --peo_in "New York, OH" is interpreted as a string
         location_input = tuple(replace_substrings_in_string(location_input).split(','))
         for value in location_input:
-            if value not in TEXT_SEARCH_LOCATIONS_MAPPING and value not in TEXT_SEARCH_LOCATIONS_MAPPING.values():
+            if value not in TEXT_SEARCH_LOCATIONS_MAPPING.keys():
                 raise ValueError(f"{value} not in {TEXT_SEARCH_LOCATIONS_MAPPING}")
         location_input = ','.join(location_input)
 
