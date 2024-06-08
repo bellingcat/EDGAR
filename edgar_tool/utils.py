@@ -46,7 +46,8 @@ def replace_substrings_in_string(s):
     """
     Takes a string like "New York, OH" and returns a string with the full 
     location names converted to codes such as "NY, OH". Returns an unmodified 
-    string if there are no location names present. 
+    string if there are no location names present. Note that white strings are
+    removed and all letters are converted to lowercase to avoid unwanted string mismatches. 
 
     Parameters:
     s (str): The original string.
@@ -55,12 +56,12 @@ def replace_substrings_in_string(s):
     str: The modified string with substrings replaced.
     """
     locations2codes = invert_dict(TEXT_SEARCH_LOCATIONS_MAPPING)
-    locations2codes = {k.replace(" ", ""): v for k, v in locations2codes.items()}
-    s = s.replace(" ", "")
+    locations2codes = {k.replace(" ", "").lower(): v for k, v in locations2codes.items()}
+    s = s.replace(" ", "").lower()
     for location in locations2codes.keys():
         if location in s:
             s = s.replace(location, locations2codes[location])
-    return s
+    return s.upper()
     
 
 def parse_location_input(location_input: str | tuple | None) -> str | None:
