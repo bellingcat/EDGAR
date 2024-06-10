@@ -10,6 +10,7 @@ from edgar_tool.constants import (
 )
 from edgar_tool.rss import fetch_rss_feed
 from edgar_tool.text_search import EdgarTextSearcher
+from edgar_tool.utils import parse_location_input
 from edgar_tool.page_fetcher import NoResultsFoundError
 
 
@@ -84,6 +85,8 @@ class SecEdgarScraperCli:
         retries: int = 3,
         browser: Optional[str] = None,
         headless: Optional[bool] = None,
+        peo_in: Optional[str] = None,
+        inc_in: Optional[str] = None,
     ) -> None:
         """
         Perform a custom text search on the SEC EDGAR website and save the results to either a CSV, JSON,
@@ -101,6 +104,8 @@ class SecEdgarScraperCli:
         :param retries: How many times to retry requests before failing
         :param browser: Deprecated and not used
         :param headless: Deprecated and not used
+        :param peo_in: Search principal executive offices in a location (e.g. "NY,OH")
+        :param inc_in: Search incorporated in a location (e.g. "NY,OH")
         """
         try:
             keywords = list(keywords)
@@ -109,6 +114,8 @@ class SecEdgarScraperCli:
             min_wait = float(min_wait)
             max_wait = float(max_wait)
             retries = int(retries)
+            peo_in = parse_location_input(peo_in)
+            inc_in = parse_location_input(inc_in)
         except Exception as e:
             raise ValueError(f"Invalid argument type or format: {e}")
         _validate_text_search_args(
@@ -137,6 +144,8 @@ class SecEdgarScraperCli:
                 max_wait_seconds=max_wait,
                 retries=retries,
                 destination=output,
+                peo_in=peo_in,
+                inc_in=inc_in
             )
         except NoResultsFoundError as e:
             sys.exit(2)
