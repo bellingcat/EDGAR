@@ -49,9 +49,12 @@ edgar-tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "202
 # Usage with a partial set of filing forms + single forms 
 edgar-tool text_search Hurricane Damage --filing_form "registration_statements" --single_forms "['1-K', '1-SA']"
 
+# Usage specifying the location of incorporation
+edgar-tool text_search oil --inc_in "Egypt"
+
 # More advanced usage specifying more arguments, with export to JSON
 edgar-tool text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
-          --filing_type "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
+          --filing_form "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
           --min_wait 5.0 --max_wait 7.0 --retries 3
           
 # Using aliases where supported and exporting to JSONLines
@@ -73,10 +76,10 @@ Most search parameters from the EDGAR text search page are supported, including:
 - `Company name, ticker or CIK, or individual's name` (optional)
 - `Filing category` (optional)
 - `Filed from` and `Filed to` dates (optional)
+- `Principal executive offices in` or `Incorporated in` (optional)
 
 Currently unsupported search parameters are:
 - `Filed date ranges` (since the same behavior can be achieved with `Filed from` and `Filed to` dates)
-- `Principal executive offices in` (though it could be added in the future by hardcoding the list of supported values)
 
 #### Output formats
 
