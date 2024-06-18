@@ -191,7 +191,6 @@ class EdgarTextSearcher:
         single_forms: Optional[List[str]],
         start_date: date,
         end_date: date,
-        page_number: int,
         peo_in: Optional[str],
         inc_in: Optional[str],
     ) -> str:
@@ -204,7 +203,6 @@ class EdgarTextSearcher:
         :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
         :param start_date: Start date for the custom date range, defaults to 5 years ago to replicate the default behavior of the SEC website
         :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
-        :param page_number: Page number to request, defaults to 1
         :param peo_in: Search principal executive offices in a location (e.g. "NY,OH")
         :param inc_in: Search incorporated in a location (e.g. "NY,OH")
 
@@ -224,7 +222,6 @@ class EdgarTextSearcher:
             "dateRange": "custom",
             "startdt": start_date.strftime("%Y-%m-%d"),
             "enddt": end_date.strftime("%Y-%m-%d"),
-            "page": page_number,
         }
 
         # Add optional parameters
@@ -286,7 +283,7 @@ class EdgarTextSearcher:
         num_pages = self._compute_number_of_pages()
 
         for i in range(1, num_pages + 1):
-            paginated_url = f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}&page={i}"
+            paginated_url = f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}&page={i}&from={100*(i-1)}"
             try:
                 self.json_response = fetch_page(
                     paginated_url,
@@ -354,7 +351,6 @@ class EdgarTextSearcher:
             single_forms=single_forms,
             start_date=start_date,
             end_date=end_date,
-            page_number=1,
             peo_in=peo_in,
             inc_in=inc_in,
         )
