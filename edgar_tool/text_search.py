@@ -283,7 +283,7 @@ class EdgarTextSearcher:
         num_pages = self._compute_number_of_pages()
 
         for i in range(1, num_pages + 1):
-            paginated_url = f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}&page={i}"
+            paginated_url = f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}&page={i}&from={100*(i-1)}"
             try:
                 self.json_response = fetch_page(
                     paginated_url,
