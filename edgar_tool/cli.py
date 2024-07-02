@@ -132,23 +132,20 @@ class SecEdgarScraperCli:
             destination=output,
         )
         scraper = EdgarTextSearcher()
-        try:
-            scraper.text_search(
-                keywords=keywords,
-                entity_id=entity_id,
-                filing_form=TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.get(filing_form),
-                single_forms=single_forms,
-                start_date=start_date,
-                end_date=end_date,
-                min_wait_seconds=min_wait,
-                max_wait_seconds=max_wait,
-                retries=retries,
-                destination=output,
-                peo_in=peo_in,
-                inc_in=inc_in
-            )
-        except NoResultsFoundError as e:
-            sys.exit(2)
+        scraper.text_search(
+            keywords=keywords,
+            entity_id=entity_id,
+            filing_form=TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.get(filing_form),
+            single_forms=single_forms,
+            start_date=start_date,
+            end_date=end_date,
+            min_wait_seconds=min_wait,
+            max_wait_seconds=max_wait,
+            retries=retries,
+            destination=output,
+            peo_in=peo_in,
+            inc_in=inc_in
+        )
 
     @staticmethod
     def rss(
