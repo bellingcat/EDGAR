@@ -36,6 +36,7 @@ xmltodict = "^0.13"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
+tox = "^4.16.0"
 
 
 [build-system]
