@@ -38,31 +38,57 @@ This is a command line tool that takes a search query, queries a server, and dow
 
 ### Examples
 
-```bash
-# Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
+Display help message describing all supported arguments along with their usage, aliases and eventual default values (type `q` to exit)
+
+```shell
 edgar-tool text_search --help
+```
 
-# Basic usage (defaults to searching the last 5 years of records)
+Basic usage (defaults to searching the last 5 years of records)
+
+```shell
 edgar-tool text_search John Doe
+```
 
-# Basic usage with a combination of exact and partial search parameters
-edgar-tool text_search \"John Doe\" Pharmaceuticals Chemicals
+You can wrap a phrase in quotes if you want an exact match, just remember to wrap the phrase in single quotes.
+This works in both POSIX-compliant shells (Linux/Bash) and Windows PowerShell environments.
 
-# Usage with date range and export to custom CSV file
+For example, the following usage will search for the exact phrase `"John Doe"` and treat `Pharmaceuticals` and
+`Chemicals` as partial search parameters.
+
+```shell
+edgar-tool text_search '"John Doe"' Pharmaceuticals Chemicals
+```
+
+Usage with date range and export to custom CSV file
+
+```shell
 edgar-tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
+```
 
-# Usage with a partial set of filing forms + single forms 
+Usage with a partial set of filing forms + single forms
+
+```shell
 edgar-tool text_search Hurricane Damage --filing_form "registration_statements" --single_forms "['1-K', '1-SA']"
+```
 
-# Usage specifying the location of incorporation
+Usage specifying the location of incorporation
+
+```shell
 edgar-tool text_search oil --inc_in "Egypt"
+```
 
-# More advanced usage specifying more arguments, with export to JSON
+More advanced usage specifying more arguments, with export to JSON
+
+```shell
 edgar-tool text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
           --filing_form "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
           --min_wait 5.0 --max_wait 7.0 --retries 3
-          
-# Using aliases where supported and exporting to JSONLines
+```
+
+Using aliases where supported and exporting to JSONLines
+
+```shell
 edgar-tool text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -h
 ```
 
