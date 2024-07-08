@@ -204,5 +204,11 @@ poetry install
 
 # Run the tool
 poetry run edgar-tool --help
+
+# Run unit tests using your Poetry environment's Python interpreter
+poetry run pytest
+
+# Run unit tests with tox
+poetry run tox -- run-parallel
 ```
 </details>
