@@ -20,7 +20,7 @@ keywords=["scraper", "edgar", "finance", "sec"]
 "Bug Tracker" = "https://github.com/bellingcat/EDGAR/issues"
 
 [tool.poetry.scripts]
-edgar-tool = "edgar_tool.main:main_entrypoint"
+edgar-tool = "edgar_tool.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
