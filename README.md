@@ -50,14 +50,14 @@ Basic usage (defaults to searching the last 5 years of records)
 edgar-tool text_search John Doe
 ```
 
-You can wrap a phrase in quotes if you want an exact match, just remember to wrap the phrase in single quotes.
+You can wrap a phrase in quotes if you want an exact match.
 This works in both POSIX-compliant shells (Linux/Bash) and Windows PowerShell environments.
 
 For example, the following usage will search for the exact phrase `"John Doe"` and treat `Pharmaceuticals` and
 `Chemicals` as partial search parameters.
 
 ```shell
-edgar-tool text_search '"John Doe"' Pharmaceuticals Chemicals
+edgar-tool text_search "John Doe" Pharmaceuticals Chemicals
 ```
 
 Usage with date range and export to custom CSV file
