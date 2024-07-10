@@ -214,11 +214,11 @@ class EdgarTextSearcher:
             raise ValueError("start_date cannot be after end_date")
 
         # Join search keywords into a single string
-        keywords = " ".join(keywords)
+        keywords = " ".join([f'"{keyword}"' if " " in keyword else keyword for keyword in keywords])
 
         # Generate request arguments
         request_args = {
-            "q": urllib.parse.quote(keywords),
+            "q": keywords,
             "dateRange": "custom",
             "startdt": start_date.strftime("%Y-%m-%d"),
             "enddt": end_date.strftime("%Y-%m-%d"),
