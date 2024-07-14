@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     python3.11 python3.11-dev python3.11-venv \
     python3.12 python3.12-dev python3.12-venv curl
 
-# This installs pip from the primary version of Python we'll use
+# This installs pip for the primary version of Python we'll use
 # for development
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
 
