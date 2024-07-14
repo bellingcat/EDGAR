@@ -18,4 +18,4 @@ RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
 RUN python3.12 -m pip install --upgrade pip \
     && python3.12 -m pip install pipx \
     && python3.12 -m pipx ensurepath \
-    && pipx install poetry tox
+    && pipx install --global poetry tox
