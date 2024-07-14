@@ -17,6 +17,6 @@
             ]
         }
     },
-    "postCreateCommand": "python3 --version && poetry --version && tox --version",
+    "postCreateCommand": "poetry install",
     "remoteUser": "vscode"
 }
