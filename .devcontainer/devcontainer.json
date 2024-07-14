@@ -17,7 +17,6 @@
             ]
         }
     },
-    "postCreateCommand": "python3 --version",
-    "forwardPorts": [],
+    "postCreateCommand": "python3 --version && poetry --version && tox --version",
     "remoteUser": "vscode"
 }
