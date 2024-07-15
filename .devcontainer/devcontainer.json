@@ -1,5 +1,5 @@
 {
-    "name": "Python Dev Container",
+    "name": "Edgar Dev Container",
     "build": {
         "dockerfile": "Dockerfile"
     },
@@ -18,5 +18,5 @@
         }
     },
     "postCreateCommand": "poetry install",
-    "remoteUser": "vscode"
+    "remoteUser": "edgar"
 }
