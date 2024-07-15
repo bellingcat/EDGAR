@@ -14,6 +14,11 @@ RUN apt-get update && apt-get install -y \
 # for development
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
 
+# Set default python executable for when users run python or python3
+# on the command line
+RUN ln -sf usr/bin/python3.12 usr/bin/python
+RUN ln -sf usr/bin/python3.12 usr/bin/python3
+
 # Install pipx, poetry, and tox
 RUN python3.12 -m pip install --upgrade pip \
     && python3.12 -m pip install pipx \
