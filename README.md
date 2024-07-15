@@ -5,12 +5,12 @@
 --><a href="https://colab.research.google.com/github/bellingcat/EDGAR/blob/main/notebook/Bellingcat_EDGAR_Tool.ipynb"><img alt="Colab icon: Try it on Colab" src="https://img.shields.io/badge/Try%20it%20on%20Colab-%20?style=for-the-badge&logo=googlecolab&logoColor=fff&logoSize=auto&color=e8710a">
 </a>
 
-Python tool to search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC). 
+Python tool to search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC).
 
-## What is EDGAR? 
+## What is EDGAR?
 
-EDGAR is a database of corporate filings maintained by the SEC. 
-These filings contain a wealth of quantitative and qualitative information on every legal entity that issues non-exempt securities in the United States. 
+EDGAR is a database of corporate filings maintained by the SEC.
+These filings contain a wealth of quantitative and qualitative information on every legal entity that issues non-exempt securities in the United States.
 Whether you are looking to study the fundamentals of your favorite stocks, or to track the corporate webs weaved by a person or company of interest, EDGAR is the place to do it.
 
 This tool was initially developed as part of the Bellingcat Tech Fellowship program, we hope it helps you utilise this incredible, free resource.
@@ -51,7 +51,7 @@ edgar-tool text_search \"John Doe\" Pharmaceuticals Chemicals
 # Usage with date range and export to custom CSV file
 edgar-tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
 
-# Usage with a partial set of filing forms + single forms 
+# Usage with a partial set of filing forms + single forms
 edgar-tool text_search Hurricane Damage --filing_form "registration_statements" --single_forms "['1-K', '1-SA']"
 
 # Usage specifying the location of incorporation
@@ -61,7 +61,7 @@ edgar-tool text_search oil --inc_in "Egypt"
 edgar-tool text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
           --filing_form "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
           --min_wait 5.0 --max_wait 7.0 --retries 3
-          
+
 # Using aliases where supported and exporting to JSONLines
 edgar-tool text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -h
 ```
@@ -92,7 +92,7 @@ Currently supported outputs formats are:
 - CSV
 - JSONLines (one JSON object per line)
 
-Output format is determined by the file extension of the output file path. 
+Output format is determined by the file extension of the output file path.
 Accepted values are `.csv` and `.jsonl` (case-insensitive).
 
 #### Retries
@@ -144,13 +144,13 @@ The tool can fetch the feed either once on-demand, or at regular intervals.
 
 ## Table of Cleaned Financial Data :bank:
 
-There is also a table of data containing most income statements, balance sheets, and cash flow statements for every company traded publicly in the U.S. 
+There is also a table of data containing most income statements, balance sheets, and cash flow statements for every company traded publicly in the U.S.
 
-This table is updated intermittently and is [available here for download as a .CSV file](https://edgar.marketinference.com/). You can open this file in Excel, use it as a data source for your own code, or use the simple Python script to access time series for the desired data points. 
+This table is updated intermittently and is [available here for download as a .CSV file](https://edgar.marketinference.com/). You can open this file in Excel, use it as a data source for your own code, or use the simple Python script to access time series for the desired data points.
 
 The quality of any programmatically produced financial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. It should, however, be of comparable accuracy to what you can find on Yahoo Finance and spans a wider time frame.
 
-George Dyer, the former Bellingcat tech fellow who developed the first version of this tool, describes it as: "good enough use in projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info)". 
+George Dyer, the former Bellingcat tech fellow who developed the first version of this tool, describes it as: "good enough use in projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info)".
 
 Please report any inconsistencies in the data to George and he will do his best to refine the existing method.
 
@@ -161,11 +161,11 @@ The current table is created by the following method:
 
   - Monthly bulk download of all company facts data from EDGAR (this is the data set accessed by the official APIs)
   - Scraping of all calculation sheets related to each filing associated with a publicly traded company
-  - Create a dictionary matching the most commonly used GAAP tags with a plain English term 
+  - Create a dictionary matching the most commonly used GAAP tags with a plain English term
   - For a given company, for each year:
-    - Determine what GAAP tags are listed under each cashflow / income / balance sheet headings (or whatever alternative terms the company happens to use) in the calculation sheet 
+    - Determine what GAAP tags are listed under each cashflow / income / balance sheet headings (or whatever alternative terms the company happens to use) in the calculation sheet
     - For each tag:
-      - Obtain all the data associated with the tag in the company's bulk download folder for the desired year, and the preceding one 
+      - Obtain all the data associated with the tag in the company's bulk download folder for the desired year, and the preceding one
       - Determine whether the data is duration or point in time
       - Identify quarterly and yearly values based on the time data associated with each data point
       - Recalculate all quarterly values if the reported ones are cumulative
@@ -185,6 +185,8 @@ The current table is created by the following method:
 
 This section describes how to install the project to run it from source, for example if you want to build new features.
 
+### Developing locally
+
 ```bash
 # Clone the repository
 git clone https://github.com/bellingcat/EDGAR.git
@@ -201,7 +203,26 @@ pip install poetry
 
 # Install dependencies
 poetry install
+```
 
+Check out [Important commands](#important-commands) below for next steps.
+
+### Developing using a GitHub Codespace
+
+This project uses a custom Development Container supported by GitHub Codespaces. Creating a new Codespace automatically takes care of installing all supported Python interpreters, the Poetry package manager, and Python dependencies for you.
+
+To create a new Codespace:
+1. Click on the `<> Code` dropdown on the GitHub UI.
+2. Click the `+` icon to create a new Codespace.
+
+The Codespace will open for you automatically.
+![GitHub UI screenshot showing the buttons to click to create a new Codespace](<docs/create_codespace.png>)
+
+Check out [Important commands](#important-commands) below for next steps.
+
+### Important commands
+
+```bash
 # Run the tool
 poetry run edgar-tool --help
 
@@ -211,4 +232,5 @@ poetry run pytest
 # Run unit tests with tox
 poetry run tox -- run-parallel
 ```
+
 </details>
