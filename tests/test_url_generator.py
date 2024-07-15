@@ -6,7 +6,7 @@ parameters so that %-encoded characters, like a quote ("), are encoded
 as %2520 in the browser's URL instead of %20. This is a quirk with the
 SEC's search functionality. Local testing indicates that single-encoded
 URLs (which is the norm) and double-encoded URLs produce the same
-responses. 
+responses.
 
 I.e. this double-encoded URL produced on the SEC's EDGAR search page:
   https://www.sec.gov/edgar/search/#/q=%2522Insider%2520trading%2520report%2522
@@ -14,6 +14,7 @@ I.e. this double-encoded URL produced on the SEC's EDGAR search page:
 is functionally equivalent to our generated URL:
   https://www.sec.gov/edgar/search/#/q=%22Insider%20trading%20report%20
 """
+import pytest
 
 from edgar_tool import url_generator
 
@@ -44,3 +45,11 @@ def test_should_correctly_generate_search_url_for_exact_phrase():
 
     # THEN
     assert actual_url == expected_url
+
+@pytest.mark.parametrize('args', [
+    {"keywords": []},
+    {"entity": []},
+])
+def test_should_raise_if_keywords_or_entity_missing(args):
+    with pytest.raises(ValueError, match="Invalid search arguments. You must provide keywords or an entity."):
+        url_generator.generate_search_url_for_kwargs(args)

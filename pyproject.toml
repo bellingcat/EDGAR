@@ -33,6 +33,7 @@ fire = "^0.5"
 jsonlines = "^4.0"
 requests = "^2.31"
 xmltodict = "^0.13"
+pytest = "^8.2.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
