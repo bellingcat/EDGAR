@@ -99,3 +99,34 @@ def test_should_raise_if_date_range_select_invalid():
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
         url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+
+@pytest.mark.parametrize(
+    "date_kwargs,url_ending",
+    [
+        (
+            {
+                "date_range_select": "custom",
+                "start_date": datetime.date.fromisoformat("2024-07-10"),
+                "end_date": datetime.date.fromisoformat("2024-07-15"),
+            },
+            "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
+        ),
+        ({"date_range_select": "all"}, "&dateRange=all"),
+        ({"date_range_select": "10y"}, "&dateRange=10y"),
+        ({"date_range_select": "1y"}, "&dateRange=1y"),
+        ({"date_range_select": "30d"}, "&dateRange=30d"),
+    ],
+)
+def test_generates_correct_url_for_date(date_kwargs, url_ending):
+    # GIVEN
+    expected_url = (
+        f"https://www.sec.gov/edgar/search/#/q=%22Ford%20Motor%20Co%22{url_ending}"
+    )
+    test_kwargs = {**{"keywords": ["Ford Motor Co"]}, **date_kwargs}
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    assert actual_url == expected_url

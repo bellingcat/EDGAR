@@ -34,7 +34,13 @@ class _ValidSearchParams:
                     "You must provide both a start and end date if searching a custom date range."
                 )
             )
-        elif date_range_select and date_range_select not in {"all", "10y", "1y", "30d"}:
+        elif date_range_select and date_range_select not in {
+            "all",
+            "10y",
+            "1y",
+            "30d",
+            "custom",
+        }:
             raise ValueError(
                 (
                     "Invalid date_range_select. "
@@ -68,6 +74,19 @@ def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
     query_params = {
         "q": validated_params.keywords,
     }
+    if date_range_select := validated_params.date_range_select:
+        query_params.update(
+            {
+                "dateRange": date_range_select,
+            }
+        )
+        if date_range_select == "custom":
+            query_params.update(
+                {
+                    "startdt": validated_params.start_date.strftime("%Y-%m-%d"),
+                    "enddt": validated_params.end_date.strftime("%Y-%m-%d"),
+                }
+            )
     encoded_params = parse.urlencode(
         query_params, doseq=True, encoding="utf-8", quote_via=parse.quote
     )
