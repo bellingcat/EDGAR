@@ -34,6 +34,13 @@ class _ValidSearchParams:
                     "You must provide both a start and end date if searching a custom date range."
                 )
             )
+        elif date_range_select and date_range_select not in {"all", "10y", "1y", "30d"}:
+            raise ValueError(
+                (
+                    "Invalid date_range_select. "
+                    'Value must be one of "all", "10y", "1y", "30d", or "custom"'
+                )
+            )
 
         self._keywords = keywords
         self.entity = entity

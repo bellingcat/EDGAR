@@ -86,3 +86,16 @@ def test_should_raise_if_date_range_custom_but_missing_dates(date_kwarg):
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
         url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+
+def test_should_raise_if_date_range_select_invalid():
+    # GIVEN
+    expected_error_msg = (
+        "Invalid date_range_select. "
+        'Value must be one of "all", "10y", "1y", "30d", or "custom"'
+    )
+    test_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "1m"}
+
+    # WHEN / THEN
+    with pytest.raises(ValueError, match=expected_error_msg):
+        url_generator.generate_search_url_for_kwargs(test_kwargs)
