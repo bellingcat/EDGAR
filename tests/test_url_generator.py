@@ -14,6 +14,8 @@ I.e. this double-encoded URL produced on the SEC's EDGAR search page:
 is functionally equivalent to our generated URL:
   https://www.sec.gov/edgar/search/#/q=%22Insider%20trading%20report%20
 """
+
+import datetime
 import pytest
 
 from edgar_tool import url_generator
@@ -46,10 +48,41 @@ def test_should_correctly_generate_search_url_for_exact_phrase():
     # THEN
     assert actual_url == expected_url
 
-@pytest.mark.parametrize('args', [
-    {"keywords": []},
-    {"entity": []},
-])
-def test_should_raise_if_keywords_or_entity_missing(args):
-    with pytest.raises(ValueError, match="Invalid search arguments. You must provide keywords or an entity."):
-        url_generator.generate_search_url_for_kwargs(args)
+
+@pytest.mark.parametrize(
+    "test_kwarg",
+    [
+        {"keywords": []},
+        {"entity": []},
+    ],
+)
+def test_should_raise_if_keywords_or_entity_missing(test_kwarg):
+    # GIVEN
+    expected_error_msg = (
+        "Invalid search arguments. You must provide keywords or an entity."
+    )
+
+    # WHEN / THEN
+    with pytest.raises(ValueError, match=expected_error_msg):
+        url_generator.generate_search_url_for_kwargs(test_kwarg)
+
+
+@pytest.mark.parametrize(
+    "date_kwarg",
+    [
+        {"start_date": datetime.date.today()},
+        {"end_date": datetime.date.today()},
+    ],
+)
+def test_should_raise_if_date_range_custom_but_missing_dates(date_kwarg):
+    # GIVEN
+    expected_error_msg = (
+        "Invalid date parameters. "
+        "You must provide both a start and end date if searching a custom date range."
+    )
+    base_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "custom"}
+    test_kwargs = {**base_kwargs, **date_kwarg}
+
+    # WHEN / THEN
+    with pytest.raises(ValueError, match=expected_error_msg):
+        url_generator.generate_search_url_for_kwargs(test_kwargs)
