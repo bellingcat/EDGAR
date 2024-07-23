@@ -198,7 +198,7 @@ cd EDGAR
 This project uses [Poetry](https://python-poetry.org/docs) for dependency management and packaging.
 
 ```bash
-# Install poetry if you haven't already
+# Install Poetry if you haven't already
 pip install poetry
 
 # Install dependencies
@@ -216,6 +216,7 @@ To create a new Codespace:
 2. Click the `+` icon to create a new Codespace.
 
 The Codespace will open for you automatically.
+
 ![GitHub UI screenshot showing the buttons to click to create a new Codespace](<docs/create_codespace.png>)
 
 Check out [Important commands](#important-commands) below for next steps.
@@ -231,6 +232,43 @@ poetry run pytest
 
 # Run unit tests with tox
 poetry run tox -- run-parallel
+```
+
+You can skip having to write `poetry run` before each command by activating Poetry's virtual environment with `poetry shell`. Once activated the following code is equivalent to the above:
+
+```bash
+# Spawn shell within Poetry's virtual environment
+poetry shell
+
+# Run the tool
+edgar-tool --help
+
+# Run unit tests using your Poetry environment's Python interpreter
+pytest
+
+# Run unit tests with tox
+tox run-parallel
+```
+
+This is an actual example copy/pasted from a terminal:
+
+```console
+@edgar-dev ➜ /workspaces/EDGAR (main) $ pytest
+bash: pytest: command not found
+
+@edgar-dev ➜ /workspaces/EDGAR (main) $ poetry shell
+Spawning shell within /home/vscode/.cache/pypoetry/virtualenvs/edgar-tool-vrvn8V2D-py3.12
+(edgar-tool-py3.12) @edgar-dev ➜ /workspaces/EDGAR (main) $ pytest
+================= test session starts ==================
+platform linux -- Python 3.12.4, pytest-8.3.1, pluggy-1.5.0
+rootdir: /workspaces/EDGAR
+configfile: pyproject.toml
+collected 1 item
+
+tests/test_cli.py .                              [100%]
+
+================== 1 passed in 0.20s ===================
+(edgar-tool-py3.12) @edgar-dev ➜ /workspaces/EDGAR (main) $
 ```
 
 </details>
