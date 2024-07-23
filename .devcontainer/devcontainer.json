@@ -17,6 +17,5 @@
             ]
         }
     },
-    "postCreateCommand": "poetry install",
-    "remoteUser": "edgar"
+    "postCreateCommand": "poetry install"
 }
