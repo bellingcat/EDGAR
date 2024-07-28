@@ -38,6 +38,7 @@ pytest = "^8.2.2"
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
 tox = "^4.16.0"
+pytest = "^8.2.2"
 
 [build-system]
 requires = ["poetry-core"]

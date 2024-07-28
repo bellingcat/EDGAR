@@ -1,0 +1,21 @@
+{
+    "name": "Edgar Dev Container",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/bin/python3.12"
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.debugpy",
+                "ms-azuretools.vscode-docker",
+                "mechatroner.rainbow-csv"
+            ]
+        }
+    },
+    "postCreateCommand": "poetry install"
+}
