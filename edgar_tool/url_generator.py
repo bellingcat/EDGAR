@@ -3,10 +3,26 @@ from typing import Literal, TypedDict
 from urllib import parse
 
 
+filing_category_to_sec_form_id = {
+    "all": "",
+    "all_except_section_16": "form-cat0",
+    "all_annual_quarterly_and_current_reports": "form-cat1",
+    "all_section_16": "form-cat2",
+    "beneficial_ownership_reports": "form-cat3",
+    "exempt_offerings": "form-cat4",
+    "registration_statements": "form-cat5",
+    "filing_review_correspondence": "form-cat6",
+    "sec_orders_and_notices": "form-cat7",
+    "proxy_materials": "form-cat8",
+    "tender_offers_and_going_private_tx": "form-cat9",
+    "trust_indentures": "form-cat10",
+}
+
+
 class SearchQueryKwargs(TypedDict, total=False):
     keywords: list[str]
     entity: str
-    filing_form: str
+    filing_category: str
     single_forms: list[str]
     date_range_select: Literal["all", "10y", "1y", "30d", "custom"]
     start_date: datetime.date
@@ -50,7 +66,7 @@ class _ValidSearchParams:
 
         self._keywords = keywords
         self.entity = entity
-        self.filing_form = query_args.get("filing_form")
+        self._filing_category = query_args.get("filing_category", "all")
         self.single_forms = query_args.get("single_forms")
         self.date_range_select = date_range_select
         self.start_date = start_date
@@ -66,6 +82,28 @@ class _ValidSearchParams:
     def keywords(self):
         """Returns the keywords to search for, wrapping exact phrases in quotes."""
         return [f'"{phrase}"' if " " in phrase else phrase for phrase in self._keywords]
+
+    @property
+    def filing_category(self):
+        return self._filing_category
+
+    @keywords.getter
+    def filing_category(self):
+        filing_category_to_sec_form_id = {
+            "all": "",
+            "all_except_section_16": "form-cat0",
+            "all_annual_quarterly_and_current_reports": "form-cat1",
+            "all_section_16": "form-cat2",
+            "beneficial_ownership_reports": "form-cat3",
+            "exempt_offerings": "form-cat4",
+            "registration_statements": "form-cat5",
+            "filing_review_correspondence": "form-cat6",
+            "sec_orders_and_notices": "form-cat7",
+            "proxy_materials": "form-cat8",
+            "tender_offers_and_going_private_tx": "form-cat9",
+            "trust_indentures": "form-cat10",
+        }
+        return filing_category_to_sec_form_id[self._filing_category]
 
 
 def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
@@ -87,6 +125,8 @@ def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
                     "enddt": validated_params.end_date.strftime("%Y-%m-%d"),
                 }
             )
+    if validated_params.filing_category:
+        query_params["category"] = validated_params.filing_category
     encoded_params = parse.urlencode(
         query_params, doseq=True, encoding="utf-8", quote_via=parse.quote
     )

@@ -66,7 +66,9 @@ Usage with date range and export to custom CSV file
 edgar-tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
 ```
 
-# Usage with a partial set of filing forms + single forms
+### Usage with a partial set of filing forms + single forms
+
+```
 edgar-tool text_search Hurricane Damage --filing_form "registration_statements" --single_forms "['1-K', '1-SA']"
 ```
 

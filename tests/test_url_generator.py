@@ -118,12 +118,43 @@ def test_should_raise_if_date_range_select_invalid():
         ({"date_range_select": "30d"}, "&dateRange=30d"),
     ],
 )
-def test_generates_correct_url_for_date(date_kwargs, url_ending):
+def test_generates_correct_url_for_date_ranges(date_kwargs, url_ending):
+    """Tests that various date range options are correctly translated
+    into the seach URL."""
     # GIVEN
     expected_url = (
         f"https://www.sec.gov/edgar/search/#/q=%22Ford%20Motor%20Co%22{url_ending}"
     )
     test_kwargs = {**{"keywords": ["Ford Motor Co"]}, **date_kwargs}
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    assert actual_url == expected_url
+
+
+@pytest.mark.parametrize(
+    "filing_category, url_ending",
+    (
+        ("all", ""),
+        ("all_except_section_16", "&category=form-cat0"),
+        ("all_annual_quarterly_and_current_reports", "&category=form-cat1"),
+        ("all_section_16", "&category=form-cat2"),
+        ("beneficial_ownership_reports", "&category=form-cat3"),
+        ("exempt_offerings", "&category=form-cat4"),
+        ("registration_statements", "&category=form-cat5"),
+        ("filing_review_correspondence", "&category=form-cat6"),
+        ("sec_orders_and_notices", "&category=form-cat7"),
+        ("proxy_materials", "&category=form-cat8"),
+        ("tender_offers_and_going_private_tx", "&category=form-cat9"),
+        ("trust_indentures", "&category=form-cat10"),
+    ),
+)
+def test_generates_correct_url_for_filing_category(filing_category, url_ending):
+    # GIVEN
+    expected_url = f"https://www.sec.gov/edgar/search/#/q=Ignore{url_ending}"
+    test_kwargs = {"keywords": ["Ignore"], "filing_category": filing_category}
 
     # WHEN
     actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
