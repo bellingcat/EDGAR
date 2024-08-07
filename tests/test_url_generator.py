@@ -161,3 +161,52 @@ def test_generates_correct_url_for_filing_category(filing_category, url_ending):
 
     # THEN
     assert actual_url == expected_url
+
+
+@pytest.mark.parametrize(
+    "single_forms, url_ending",
+    (
+        (["1"], "&forms=1"),
+        (["CORRESP"], "&forms=CORRESP"),
+        (
+            ["F-4, PREC14A, SEC STAFF ACTION"],
+            "&forms=F-4%2C%20PREC14A%2C%20SEC%20STAFF%20ACTION",
+        ),
+    ),
+)
+def test_generates_correct_url_for_single_forms(single_forms, url_ending):
+    # GIVEN
+    expected_url = (
+        f"https://www.sec.gov/edgar/search/#/q=Ignore&category=custom{url_ending}"
+    )
+    test_kwargs = {"keywords": ["Ignore"], "single_forms": single_forms}
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    assert actual_url == expected_url
+
+
+def test_raises_an_exception_if_user_passes_both_filing_category_and_single_forms():
+    """When a user filters based on single form type the filing category is automatically
+    set to "custom." Therefore passing a filing category when using single forms both does
+    not make sense and will potentially give the user confusing results if the code ignores
+    the passed filing category and sets it as custom. It's best to raise an error and let
+    the user use either a filing category or single forms.
+    """
+    # GIVEN
+    test_kwargs = {
+        "keywords": ["Ignore"],
+        "single_forms": ["F-4, PREC14A, SEC STAFF ACTION"],
+        "filing_category": "beneficial_ownership_reports",
+    }
+    expected_error_msg = (
+        "Cannot specify both filing_category and single_forms. "
+        "Passing single_forms automatically sets the filing_category"
+        " to custom. Please choose one or the other."
+    )
+
+    # WHEN / THEN
+    with pytest.raises(ValueError, match=expected_error_msg):
+        url_generator.generate_search_url_for_kwargs(test_kwargs)

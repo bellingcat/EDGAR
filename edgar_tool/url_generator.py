@@ -50,8 +50,18 @@ class _ValidSearchParams:
 
         self._keywords = keywords
         self.entity = entity
-        self._filing_category = query_args.get("filing_category", "all")
-        self.single_forms = query_args.get("single_forms")
+
+        filing_category = query_args.get("filing_category", "custom")
+        single_forms = query_args.get("single_forms")
+        if filing_category != "custom" and single_forms:
+            raise ValueError(
+                "Cannot specify both filing_category and single_forms. "
+                "Passing single_forms automatically sets the filing_category"
+                " to custom. Please choose one or the other."
+            )
+
+        self._filing_category = filing_category
+        self.single_forms = single_forms
         self.date_range_select = date_range_select
         self.start_date = start_date
         self.end_date = end_date
@@ -87,7 +97,7 @@ class _ValidSearchParams:
             "tender_offers_and_going_private_tx": "form-cat9",
             "trust_indentures": "form-cat10",
         }
-        return filing_category_to_sec_form_id[self._filing_category]
+        return filing_category_to_sec_form_id.get(self._filing_category)
 
 
 def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
@@ -111,6 +121,9 @@ def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
             )
     if validated_params.filing_category:
         query_params["category"] = validated_params.filing_category
+    elif validated_params.single_forms:
+        query_params["category"] = "custom"
+        query_params["forms"] = validated_params.single_forms
     encoded_params = parse.urlencode(
         query_params, doseq=True, encoding="utf-8", quote_via=parse.quote
     )
