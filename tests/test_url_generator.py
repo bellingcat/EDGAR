@@ -212,4 +212,133 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
         url_generator.generate_search_url_for_kwargs(test_kwargs)
 
 
-# TODO: Test principle executive offices in and incorporated in parameters.
+@pytest.mark.parametrize(
+    "peo_in, expected_location_code",
+    [
+        # US States - All use 2-letter state & territory abbreviations (ISO 3166-2)
+        ("AL", "AL"),  # Alabama
+        ("AK", "AK"),  # Alaska
+        ("AZ", "AZ"),  # Arizona
+        ("AR", "AR"),  # Arkansas
+        ("CA", "CA"),  # California
+        ("CO", "CO"),  # Colorado
+        ("CT", "CT"),  # Connecticut
+        ("DE", "DE"),  # Delaware
+        ("DC", "DC"),  # District of Columbia
+        ("FL", "FL"),  # Florida
+        ("GA", "GA"),  # Georgia
+        ("HI", "HI"),  # Hawaii
+        ("ID", "ID"),  # Idaho
+        ("IL", "IL"),  # Illinois
+        ("IN", "IN"),  # Indiana
+        ("IA", "IA"),  # Iowa
+        ("KS", "KS"),  # Kansas
+        ("KY", "KY"),  # Kentucky
+        ("LA", "LA"),  # Louisiana
+        ("ME", "ME"),  # Maine
+        ("MD", "MD"),  # Maryland
+        ("MA", "MA"),  # Massachusetts
+        ("MI", "MI"),  # Michigan
+        ("MN", "MN"),  # Minnesota
+        ("MS", "MS"),  # Mississippi
+        ("MO", "MO"),  # Missouri
+        ("MT", "MT"),  # Montana
+        ("NE", "NE"),  # Nebraska
+        ("NV", "NV"),  # Nevada
+        ("NH", "NH"),  # New Hampshire
+        ("NJ", "NJ"),  # New Jersey
+        ("NM", "NM"),  # New Mexico
+        ("NY", "NY"),  # New York
+        ("NC", "NC"),  # North Carolina
+        ("ND", "ND"),  # North Dakota
+        ("OH", "OH"),  # Ohio
+        ("OK", "OK"),  # Oklahoma
+        ("OR", "OR"),  # Oregon
+        ("PA", "PA"),  # Pennsylvania
+        ("RI", "RI"),  # Rhode Island
+        ("SC", "SC"),  # South Carolina
+        ("SD", "SD"),  # South Dakota
+        ("TN", "TN"),  # Tennessee
+        ("TX", "TX"),  # Texas
+        ("UT", "UT"),  # Utah
+        ("VT", "VT"),  # Vermont
+        ("VA", "VA"),  # Virginia
+        ("WA", "WA"),  # Washington
+        ("WV", "WV"),  # West Virginia
+        ("WI", "WI"),  # Wisconsin
+        ("WY", "WY"),  # Wyoming
+        # Canadian Provinces - P.E.O. in to use internationally approved alpha codes (ISO 3166-2)
+        ("AB", "A0"),  # Alberta
+        ("BC", "A1"),  # British Columbia
+        ("CAN", "Z4"),  # Canada (Federal Level)
+        ("MB", "A2"),  # Manitoba
+        ("NB", "A3"),  # New Brunswick
+        ("NL", "A4"),  # Newfoundland and Labrador
+        ("NS", "A5"),  # Nova Scotia
+        ("ON", "A6"),  # Ontario
+        ("PE", "A7"),  # Prince Edward Island
+        ("QC", "A8"),  # Quebec
+        ("SK", "A9"),  # Saskatchewan
+        ("YT", "B0"),  # Yukon
+        # Other Countries - All use internationally approved 3-letter alpha codes (ISO 3166-1)
+        ("AFG", "B2"),  # Afghanistan
+        ("ALA", "Y6"),  # Aland Islands
+        ("ALB", "B3"),  # Albania
+        ("DZA", "B4"),  # Algeria
+        ("ASM", "B5"),  # American Samoa
+        ("AND", "B6"),  # Andorra
+        ("AGO", "B7"),  # Angola
+        ("AIA", "1A"),  # Anguilla
+        ("ATA", "B8"),  # Antarctica
+        ("ATG", "B9"),  # Antigua and Barbuda
+        ("ARG", "C1"),  # Argentina
+        ("ARM", "1B"),  # Armenia
+        ("ABW", "1C"),  # Aruba
+        ("AUS", "C3"),  # Australia
+        ("AUT", "C4"),  # Austria
+        ("AZE", "1D"),  # Azerbaijan
+        ("BHS", "C5"),  # Bahamas
+        ("BHR", "C6"),  # Bahrain
+        ("BGD", "C7"),  # Bangladesh
+        ("BRB", "C8"),  # Barbados
+        ("BLR", "1F"),  # Belarus
+        ("BEL", "C9"),  # Belgium
+        ("BLZ", "D1"),  # Belize
+        ("BEN", "G6"),  # Benin
+        ("BMU", "D0"),  # Bermuda
+        ("BTN", "D2"),  # Bhutan
+        ("BOL", "D3"),  # Bolivia
+        ("BIH", "1E"),  # Bosnia and Herzegovina
+        ("BWA", "B1"),  # Botswana
+        ("BVT", "D4"),  # Bouvet Island
+        ("BRA", "D5"),  # Brazil
+        ("IOT", "D6"),  # British Indian Ocean Territory
+        ("BRN", "D9"),  # Brunei Darussalam
+        ("BGR", "E0"),  # Bulgaria
+        ("BFA", "X2"),  # Burkina Faso
+        ("BDI", "E2"),  # Burundi
+        ("KHM", "E3"),  # Cambodia
+        ("CMR", "E4"),  # Cameroon
+        ("CPV", "E8"),  # Cape Verde
+        ("CYM", "E9"),  # Cayman Islands
+        ("CAF", "F0"),  # Central African Republic
+    ],
+)
+def test_should_correctly_generate_search_url_for_principal_executive_office_in(
+    peo_in, expected_location_code
+):
+    # GIVEN
+    expected_url = (
+        f"https://www.sec.gov/edgar/search/#/q=a&locationCode={expected_location_code}"
+    )
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(
+        {"keywords": ["a"], "peo_in": peo_in}
+    )
+
+    # THEN
+    assert actual_url == expected_url
+
+
+# TODO: Test incorporated in parameters.

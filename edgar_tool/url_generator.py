@@ -2,6 +2,8 @@ import datetime
 from typing import Literal, TypedDict
 from urllib import parse
 
+from edgar_tool.constants import PEO_IN_AND_INC_IN_TO_SEC_FORM_ID
+
 
 class SearchQueryKwargs(TypedDict, total=False):
     keywords: list[str]
@@ -11,8 +13,8 @@ class SearchQueryKwargs(TypedDict, total=False):
     date_range_select: Literal["all", "10y", "1y", "30d", "custom"]
     start_date: datetime.date
     end_date: datetime.date
-    peo_in: str
     inc_in: str
+    peo_in: str
 
 
 class _ValidSearchParams:
@@ -65,8 +67,8 @@ class _ValidSearchParams:
         self.date_range_select = date_range_select
         self.start_date = start_date
         self.end_date = end_date
-        self.peo_in = query_args.get("peo_in")
         self.inc_in = query_args.get("inc_in")
+        self.peo_in = query_args.get("peo_in")
 
     @property
     def keywords(self):
@@ -124,6 +126,10 @@ def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
     elif validated_params.single_forms:
         query_params["category"] = "custom"
         query_params["forms"] = validated_params.single_forms
+    if validated_params.peo_in:
+        query_params["locationCode"] = PEO_IN_AND_INC_IN_TO_SEC_FORM_ID[
+            validated_params.peo_in
+        ]
     encoded_params = parse.urlencode(
         query_params, doseq=True, encoding="utf-8", quote_via=parse.quote
     )
