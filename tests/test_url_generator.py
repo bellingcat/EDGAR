@@ -322,6 +322,209 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
         ("CPV", "E8"),  # Cape Verde
         ("CYM", "E9"),  # Cayman Islands
         ("CAF", "F0"),  # Central African Republic
+        ("TCD", "F2"),  # Chad
+        ("CHL", "F3"),  # Chile
+        ("CHN", "F4"),  # China
+        ("CXR", "F6"),  # Christmas Island
+        ("CCK", "F7"),  # Cocos (Keeling) Islands
+        ("COL", "F8"),  # Colombia
+        ("COM", "F9"),  # Comoros
+        ("COG", "G0"),  # Congo
+        ("COD", "Y3"),  # Congo, Democratic Republic of the
+        ("COK", "G1"),  # Cook Islands
+        ("CRI", "G2"),  # Costa Rica
+        ("CIV", "L7"),  # Cote d'Ivoire
+        ("HRV", "1M"),  # Croatia
+        ("CUB", "G3"),  # Cuba
+        ("CYP", "G4"),  # Cyprus
+        ("CZE", "2N"),  # Czech Republic
+        ("DNK", "G7"),  # Denmark
+        ("DJI", "1G"),  # Djibouti
+        ("DMA", "G9"),  # Dominica
+        ("DOM", "D8"),  # Dominican Republic
+        ("ECU", "H1"),  # Ecuador
+        ("EGY", "H2"),  # Egypt
+        ("SLV", "H3"),  # El Salvador
+        ("GNQ", "H4"),  # Equatorial Guinea
+        ("ERI", "1J"),  # Eritrea
+        ("EST", "1H"),  # Estonia
+        ("ETH", "H5"),  # Ethiopia
+        ("FLK", "H7"),  # Falkland Islands (Malvinas)
+        ("FRO", "H6"),  # Faroe Islands
+        ("FJI", "H8"),  # Fiji
+        ("FIN", "H9"),  # Finland
+        ("FRA", "I0"),  # France
+        ("GUF", "I3"),  # French Guiana
+        ("PYF", "I4"),  # French Polynesia
+        ("ATF", "2C"),  # French Southern Territories
+        ("GAB", "I5"),  # Gabon
+        ("GMB", "I6"),  # Gambia
+        ("GEO", "2Q"),  # Georgia
+        ("DEU", "2M"),  # Germany
+        ("GHA", "J0"),  # Ghana
+        ("GIB", "J1"),  # Gibraltar
+        ("GRC", "J3"),  # Greece
+        ("GRL", "J4"),  # Greenland
+        ("GRD", "J5"),  # Grenada
+        ("GLP", "J6"),  # Guadeloupe
+        ("GUM", "GU"),  # Guam
+        ("GTM", "J8"),  # Guatemala
+        ("GGY", "Y7"),  # Guernsey
+        ("GIN", "J9"),  # Guinea
+        ("GNB", "S0"),  # Guinea-Bissau
+        ("GUY", "K0"),  # Guyana
+        ("HTI", "K1"),  # Haiti
+        ("HMD", "K4"),  # Heard Island and McDonald Islands
+        ("VAT", "X4"),  # Holy See (Vatican City State)
+        ("HND", "K2"),  # Honduras
+        ("HKG", "K3"),  # Hong Kong
+        ("HUN", "K5"),  # Hungary
+        ("ISL", "K6"),  # Iceland
+        ("IND", "K7"),  # India
+        ("IDN", "K8"),  # Indonesia
+        ("IRN", "K9"),  # Iran
+        ("IRQ", "L0"),  # Iraq
+        ("IRL", "L2"),  # Ireland
+        ("IMN", "Y8"),  # Isle of Man
+        ("ISR", "L3"),  # Israel
+        ("ITA", "L6"),  # Italy
+        ("JAM", "L8"),  # Jamaica
+        ("JPN", "M0"),  # Japan
+        ("JEY", "Y9"),  # Jersey
+        ("JOR", "M2"),  # Jordan
+        ("KAZ", "1P"),  # Kazakhstan
+        ("KEN", "M3"),  # Kenya
+        ("KIR", "J2"),  # Kiribati
+        ("PRK", "M4"),  # Korea, Democratic People's Republic of
+        ("KOR", "M5"),  # Korea, Republic of
+        ("KWT", "M6"),  # Kuwait
+        ("KGZ", "1N"),  # Kyrgyzstan
+        ("LAO", "M7"),  # Lao People's Democratic Republic
+        ("LVA", "1R"),  # Latvia
+        ("LBN", "M8"),  # Lebanon
+        ("LSO", "M9"),  # Lesotho
+        ("LBR", "N0"),  # Liberia
+        ("LBY", "N1"),  # Libya
+        ("LIE", "N2"),  # Liechtenstein
+        ("LTU", "1Q"),  # Lithuania
+        ("LUX", "N4"),  # Luxembourg
+        ("MAC", "N5"),  # Macao
+        ("MKD", "1U"),  # Macedonia
+        ("MDG", "N6"),  # Madagascar
+        ("MWI", "N7"),  # Malawi
+        ("MYS", "N8"),  # Malaysia
+        ("MDV", "N9"),  # Maldives
+        ("MLI", "O0"),  # Mali
+        ("MLT", "O1"),  # Malta
+        ("MHL", "1T"),  # Marshall Islands
+        ("MTQ", "O2"),  # Martinique
+        ("MRT", "O3"),  # Mauritania
+        ("MUS", "O4"),  # Mauritius
+        ("MYT", "2P"),  # Mayotte
+        ("MEX", "O5"),  # Mexico
+        ("FSM", "1K"),  # Micronesia, Federated States of
+        ("MDA", "1S"),  # Moldova
+        ("MCO", "O9"),  # Monaco
+        ("MNG", "P0"),  # Mongolia
+        ("MNE", "Z5"),  # Montenegro
+        ("MSR", "P1"),  # Montserrat
+        ("MAR", "P2"),  # Morocco
+        ("MOZ", "P3"),  # Mozambique
+        ("MMR", "E1"),  # Myanmar
+        ("NAM", "T6"),  # Namibia
+        ("NRU", "P5"),  # Nauru
+        ("NPL", "P6"),  # Nepal
+        ("NLD", "P7"),  # Netherlands
+        ("ANT", "P8"),  # Netherlands Antilles
+        ("NCL", "1W"),  # New Caledonia
+        ("NZL", "Q2"),  # New Zealand
+        ("NIC", "Q3"),  # Nicaragua
+        ("NER", "Q4"),  # Niger
+        ("NGA", "Q5"),  # Nigeria
+        ("NIU", "Q6"),  # Niue
+        ("NFK", "Q7"),  # Norfolk Island
+        ("MNP", "1V"),  # Northern Mariana Islands
+        ("NOR", "Q8"),  # Norway
+        ("OMN", "P4"),  # Oman
+        ("PAK", "R0"),  # Pakistan
+        ("PLW", "1Y"),  # Palau
+        ("PSE", "1X"),  # Palestinian Territory
+        ("PAN", "R1"),  # Panama
+        ("PNG", "R2"),  # Papua New Guinea
+        ("PRY", "R4"),  # Paraguay
+        ("PER", "R5"),  # Peru
+        ("PHL", "R6"),  # Philippines
+        ("PCN", "R8"),  # Pitcairn
+        ("POL", "R9"),  # Poland
+        ("PRT", "S1"),  # Portugal
+        ("PRI", "PR"),  # Puerto Rico
+        ("QAT", "S3"),  # Qatar
+        ("REU", "S4"),  # Reunion
+        ("ROU", "S5"),  # Romania
+        ("RUS", "1Z"),  # Russian Federation
+        ("RWA", "S6"),  # Rwanda
+        ("BLM", "Z0"),  # Saint Barthelemy
+        ("SHN", "U8"),  # Saint Helena
+        ("KNA", "U7"),  # Saint Kitts and Nevis
+        ("LCA", "U9"),  # Saint Lucia
+        ("MAF", "Z1"),  # Saint Martin
+        ("SPM", "V0"),  # Saint Pierre and Miquelon
+        ("VCT", "V1"),  # Saint Vincent and the Grenadines
+        ("WSM", "Y0"),  # Samoa
+        ("SMR", "S8"),  # San Marino
+        ("STP", "S9"),  # Sao Tome and Principe
+        ("SAU", "T0"),  # Saudi Arabia
+        ("SEN", "T1"),  # Senegal
+        ("SRB", "Z2"),  # Serbia
+        ("SYC", "T2"),  # Seychelles
+        ("SLE", "T8"),  # Sierra Leone
+        ("SGP", "U0"),  # Singapore
+        ("SVK", "2B"),  # Slovakia
+        ("SVN", "2A"),  # Slovenia
+        ("SLB", "D7"),  # Solomon Islands
+        ("SOM", "U1"),  # Somalia
+        ("ZAF", "T3"),  # South Africa
+        ("SGS", "1L"),  # South Georgia and the South Sandwich Islands
+        ("ESP", "U3"),  # Spain
+        ("LKA", "F1"),  # Sri Lanka
+        ("SDN", "V2"),  # Sudan
+        ("SUR", "V3"),  # Suriname
+        ("SJM", "L9"),  # Svalbard and Jan Mayen
+        ("SWZ", "V6"),  # Kingdom of Eswatini (Formerly Swaziland)
+        ("SWE", "V7"),  # Sweden
+        ("CHE", "V8"),  # Switzerland
+        ("SYR", "V9"),  # Syrian Arab Republic (Syria)
+        ("TWN", "F5"),  # Taiwan
+        ("TJK", "2D"),  # Tajikistan
+        ("THA", "W1"),  # Thailand
+        ("TLS", "Z3"),  # Timor-Leste
+        ("TGO", "W2"),  # Togo
+        ("TKL", "W3"),  # Tokelau
+        ("TON", "W4"),  # Tonga
+        ("TTO", "W5"),  # Trinidad and Tobago
+        ("TUN", "W6"),  # Tunisia
+        ("TUR", "W8"),  # Turkey
+        ("TKM", "2E"),  # Turkmenistan
+        ("TCA", "W7"),  # Turks and Caicos Islands
+        ("TUV", "2G"),  # Tuvalu
+        ("UGA", "W9"),  # Uganda
+        ("UKR", "2H"),  # Ukraine
+        ("ARE", "C0"),  # United Arab Emirates
+        ("GBR", "X0"),  # United Kingdom
+        ("UMI", "2J"),  # United States Minor Outlying Islands
+        ("URY", "X3"),  # Uruguay
+        ("UZB", "2K"),  # Uzbekistan
+        ("VUT", "2L"),  # Vanuatu
+        ("VEN", "X5"),  # Venezuela
+        ("VNM", "Q1"),  # Vietnam
+        ("VGB", "D8"),  # British Virgin Islands
+        ("VIR", "VI"),  # U.S. Virgin Islands
+        ("WLF", "X8"),  # Wallis and Futuna
+        ("ESH", "Y1"),  # Western Sahara
+        ("YEM", "T7"),  # Yemen
+        ("ZMB", "Y4"),  # Zambia
+        ("ZWE", "Y5"),  # Zimbabwe
+        ("XX", "XX"),  # Unknown
     ],
 )
 def test_should_correctly_generate_search_url_for_principal_executive_office_in(
