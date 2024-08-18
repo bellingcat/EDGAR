@@ -544,4 +544,18 @@ def test_should_correctly_generate_search_url_for_principal_executive_office_in(
     assert actual_url == expected_url
 
 
+def test_should_raise_exception_if_location_code_invalid():
+    # GIVEN
+    expected_error_msg = (
+        "Invalid location code. "
+        "Please provide a valid 2-letter state abbreviation, "
+        "3-letter country code, or 'XX' for unknown."
+    )
+    test_kwargs = {"keywords": ["a"], "peo_in": "SUN"}
+
+    # WHEN / THEN
+    with pytest.raises(ValueError, match=expected_error_msg):
+        url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+
 # TODO: Test incorporated in parameters.

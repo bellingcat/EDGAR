@@ -67,8 +67,19 @@ class _ValidSearchParams:
         self.date_range_select = date_range_select
         self.start_date = start_date
         self.end_date = end_date
-        self.inc_in = query_args.get("inc_in")
-        self.peo_in = query_args.get("peo_in")
+
+        peo_in = query_args.get("peo_in")
+        if peo_in and peo_in not in PEO_IN_AND_INC_IN_TO_SEC_FORM_ID:
+            raise ValueError(
+                (
+                    "Invalid location code. "
+                    "Please provide a valid 2-letter state abbreviation, "
+                    "3-letter country code, or 'XX' for unknown."
+                )
+            )
+        inc_in = query_args.get("inc_in")
+        self.inc_in = inc_in
+        self.peo_in = peo_in
 
     @property
     def keywords(self):
