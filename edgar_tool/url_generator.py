@@ -69,7 +69,17 @@ class _ValidSearchParams:
         self.end_date = end_date
 
         peo_in = query_args.get("peo_in")
-        if peo_in and peo_in not in PEO_IN_AND_INC_IN_TO_SEC_FORM_ID:
+        inc_in = query_args.get("inc_in")
+        if peo_in and inc_in:
+            raise ValueError(
+                "Cannot specify both peo_in and inc_in. Please choose one or the other."
+            )
+        if (
+            peo_in
+            and peo_in not in PEO_IN_AND_INC_IN_TO_SEC_FORM_ID
+            or inc_in
+            and inc_in not in PEO_IN_AND_INC_IN_TO_SEC_FORM_ID
+        ):
             raise ValueError(
                 (
                     "Invalid location code. "
@@ -77,7 +87,6 @@ class _ValidSearchParams:
                     "3-letter country code, or 'XX' for unknown."
                 )
             )
-        inc_in = query_args.get("inc_in")
         self.inc_in = inc_in
         self.peo_in = peo_in
 
@@ -140,6 +149,11 @@ def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
     if validated_params.peo_in:
         query_params["locationCode"] = PEO_IN_AND_INC_IN_TO_SEC_FORM_ID[
             validated_params.peo_in
+        ]
+    elif validated_params.inc_in:
+        query_params["locationType"] = "incorporated"
+        query_params["locationCode"] = PEO_IN_AND_INC_IN_TO_SEC_FORM_ID[
+            validated_params.inc_in
         ]
     encoded_params = parse.urlencode(
         query_params, doseq=True, encoding="utf-8", quote_via=parse.quote

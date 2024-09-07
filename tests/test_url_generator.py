@@ -213,7 +213,7 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
 
 
 @pytest.mark.parametrize(
-    "peo_in, expected_location_code",
+    "abbreviation, expected_location_code",
     [
         # US States - All use 2-letter state & territory abbreviations (ISO 3166-2)
         ("AL", "AL"),  # Alabama
@@ -527,35 +527,60 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
         ("XX", "XX"),  # Unknown
     ],
 )
-def test_should_correctly_generate_search_url_for_principal_executive_office_in(
-    peo_in, expected_location_code
-):
-    # GIVEN
-    expected_url = (
-        f"https://www.sec.gov/edgar/search/#/q=a&locationCode={expected_location_code}"
-    )
+class TestPeoInAndIncIn:
+    def test_should_correctly_generate_search_url_for_peo_in(
+        self, abbreviation, expected_location_code
+    ):
+        # GIVEN
+        expected_url = f"https://www.sec.gov/edgar/search/#/q=a&locationCode={expected_location_code}"
 
-    # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs(
-        {"keywords": ["a"], "peo_in": peo_in}
-    )
+        # WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(
+            {"keywords": ["a"], "peo_in": abbreviation}
+        )
 
-    # THEN
-    assert actual_url == expected_url
+        # THEN
+        assert actual_url == expected_url
+
+    def test_should_correctly_generate_search_url_for_inc_in(
+        self, abbreviation, expected_location_code
+    ):
+        # GIVEN
+        expected_url = f"https://www.sec.gov/edgar/search/#/q=a&locationType=incorporated&locationCode={expected_location_code}"
+
+        # WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(
+            {"keywords": ["a"], "inc_in": abbreviation}
+        )
+
+        # THEN
+        assert actual_url == expected_url
 
 
-def test_should_raise_exception_if_location_code_invalid():
+@pytest.mark.parametrize("key", ["peo_in", "inc_in"])
+def test_should_raise_exception_if_location_code_invalid(key):
     # GIVEN
     expected_error_msg = (
         "Invalid location code. "
         "Please provide a valid 2-letter state abbreviation, "
         "3-letter country code, or 'XX' for unknown."
     )
-    test_kwargs = {"keywords": ["a"], "peo_in": "SUN"}
+    soviet_union = "SUN"
+    test_kwargs = {"keywords": ["a"], key: soviet_union}
 
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
         url_generator.generate_search_url_for_kwargs(test_kwargs)
 
 
-# TODO: Test incorporated in parameters.
+def test_should_raise_exception_if_both_peo_in_and_inc_in():
+    # GIVEN
+    expected_error_msg = (
+        "Cannot specify both peo_in and inc_in. Please choose one or the other."
+    )
+
+    test_kwargs = {"keywords": ["a"], "peo_in": "CA", "inc_in": "CA"}
+
+    # WHEN / THEN
+    with pytest.raises(ValueError, match=expected_error_msg):
+        url_generator.generate_search_url_for_kwargs(test_kwargs)
