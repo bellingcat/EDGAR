@@ -1,12 +1,10 @@
 import csv
 import json
-from typing import List, Dict, Any, Iterator
+from typing import Any, Dict, Iterator, List
 
 import jsonlines
 
-from edgar_tool.constants import (
-    SUPPORTED_OUTPUT_EXTENSIONS,
-)
+from edgar_tool.constants import SUPPORTED_OUTPUT_EXTENSIONS
 
 
 def write_results_to_file(

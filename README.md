@@ -203,13 +203,16 @@ pip install poetry
 
 # Install dependencies
 poetry install
+
+# Set up pre-commit hooks to keep your code formatted
+poetry run pre-commit install
 ```
 
 Check out [Important commands](#important-commands) below for next steps.
 
 ### Developing using a GitHub Codespace
 
-This project uses a custom Development Container supported by GitHub Codespaces. Creating a new Codespace automatically takes care of installing all supported Python interpreters, the Poetry package manager, and Python dependencies for you.
+This project uses a custom Development Container supported by GitHub Codespaces. Creating a new Codespace automatically takes care of installing all supported Python interpreters, the Poetry package manager, Python dependencies, and pre-commit hooks for you.
 
 To create a new Codespace:
 1. Click on the `<> Code` dropdown on the GitHub UI.

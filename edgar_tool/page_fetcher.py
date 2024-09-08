@@ -1,10 +1,10 @@
 import time
 import uuid
 from random import uniform
-from typing import Callable, Any, Optional
+from typing import Any, Callable, Optional
 
-from tenacity import retry, wait_fixed, stop_after_attempt
 import requests
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 
 def fetch_page(
@@ -23,6 +23,7 @@ def fetch_page(
     :param stop_after_n: how many times to retry the request before failing
     :return: wrapper function that takes a check method and retries the request if the page load fails
     """
+
     @retry(
         wait=wait_fixed(uniform(min_wait_seconds, max_wait_seconds)),
         stop=stop_after_attempt(stop_after_n),
@@ -56,6 +57,7 @@ class ResultsTableNotFoundError(Exception):
 
 class PageCheckFailedError(Exception):
     pass
+
 
 class NoResultsFoundError(Exception):
     pass
