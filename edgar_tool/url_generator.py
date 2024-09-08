@@ -2,7 +2,7 @@ import datetime
 from typing import Literal, TypedDict
 from urllib import parse
 
-from edgar_tool.constants import PEO_IN_AND_INC_IN_TO_SEC_FORM_ID
+from edgar_tool.constants import PEO_IN_AND_INC_IN_TO_SEC_FORM_ID, TEXT_SEARCH_BASE_URL
 
 
 class SearchQueryKwargs(TypedDict, total=False):
@@ -123,7 +123,6 @@ class _ValidSearchParams:
 
 
 def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
-    base_url = "https://www.sec.gov/edgar/search/#/"
     validated_params = _ValidSearchParams(**search_kwargs)
     query_params = {
         "q": validated_params.keywords,
@@ -158,4 +157,4 @@ def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
     encoded_params = parse.urlencode(
         query_params, doseq=True, encoding="utf-8", quote_via=parse.quote
     )
-    return parse.urljoin(base=base_url, url=encoded_params, allow_fragments=False)
+    return TEXT_SEARCH_BASE_URL + encoded_params

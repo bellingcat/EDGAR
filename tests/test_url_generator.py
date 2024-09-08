@@ -26,7 +26,7 @@ def test_should_correctly_generate_search_url_for_single_word():
     produces the correct search URL"""
     # GIVEN
     keywords = ["10-K"]
-    expected_url = "https://www.sec.gov/edgar/search/#/q=10-K"
+    expected_url = f"https://efts.sec.gov/LATEST/search-index?q=10-K"
 
     # WHEN
     actual_url = url_generator.generate_search_url_for_kwargs({"keywords": keywords})
@@ -39,7 +39,7 @@ def test_should_correctly_generate_search_url_for_exact_phrase():
     # GIVEN
     keywords = ["Insider trading report"]
     expected_url = (
-        "https://www.sec.gov/edgar/search/#/q=%22Insider%20trading%20report%22"
+        "https://efts.sec.gov/LATEST/search-index?q=%22Insider%20trading%20report%22"
     )
 
     # WHEN
@@ -122,9 +122,7 @@ def test_generates_correct_url_for_date_ranges(date_kwargs, url_ending):
     """Tests that various date range options are correctly translated
     into the seach URL."""
     # GIVEN
-    expected_url = (
-        f"https://www.sec.gov/edgar/search/#/q=%22Ford%20Motor%20Co%22{url_ending}"
-    )
+    expected_url = f"https://efts.sec.gov/LATEST/search-index?q=%22Ford%20Motor%20Co%22{url_ending}"
     test_kwargs = {**{"keywords": ["Ford Motor Co"]}, **date_kwargs}
 
     # WHEN
@@ -153,7 +151,7 @@ def test_generates_correct_url_for_date_ranges(date_kwargs, url_ending):
 )
 def test_generates_correct_url_for_filing_category(filing_category, url_ending):
     # GIVEN
-    expected_url = f"https://www.sec.gov/edgar/search/#/q=Ignore{url_ending}"
+    expected_url = f"https://efts.sec.gov/LATEST/search-index?q=Ignore{url_ending}"
     test_kwargs = {"keywords": ["Ignore"], "filing_category": filing_category}
 
     # WHEN
@@ -177,7 +175,7 @@ def test_generates_correct_url_for_filing_category(filing_category, url_ending):
 def test_generates_correct_url_for_single_forms(single_forms, url_ending):
     # GIVEN
     expected_url = (
-        f"https://www.sec.gov/edgar/search/#/q=Ignore&category=custom{url_ending}"
+        f"https://efts.sec.gov/LATEST/search-index?q=Ignore&category=custom{url_ending}"
     )
     test_kwargs = {"keywords": ["Ignore"], "single_forms": single_forms}
 
@@ -532,7 +530,7 @@ class TestPeoInAndIncIn:
         self, abbreviation, expected_location_code
     ):
         # GIVEN
-        expected_url = f"https://www.sec.gov/edgar/search/#/q=a&locationCode={expected_location_code}"
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationCode={expected_location_code}"
 
         # WHEN
         actual_url = url_generator.generate_search_url_for_kwargs(
@@ -546,7 +544,7 @@ class TestPeoInAndIncIn:
         self, abbreviation, expected_location_code
     ):
         # GIVEN
-        expected_url = f"https://www.sec.gov/edgar/search/#/q=a&locationType=incorporated&locationCode={expected_location_code}"
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationType=incorporated&locationCode={expected_location_code}"
 
         # WHEN
         actual_url = url_generator.generate_search_url_for_kwargs(
