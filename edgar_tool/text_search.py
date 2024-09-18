@@ -4,24 +4,23 @@ import sys
 import urllib.parse
 from datetime import date, timedelta
 from math import ceil
-from typing import List, Optional, Dict, Any, Iterator
+from typing import Any, Dict, Iterator, List, Optional
 
-
-from edgar_tool.page_fetcher import (
-    fetch_page,
-    PageCheckFailedError,
-    ResultsTableNotFoundError,
-    NoResultsFoundError
-)
 from edgar_tool.constants import (
     TEXT_SEARCH_BASE_URL,
     TEXT_SEARCH_CATEGORY_FORM_GROUPINGS,
-    TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
     TEXT_SEARCH_CSV_FIELDS_NAMES,
     TEXT_SEARCH_FORM_MAPPING,
     TEXT_SEARCH_LOCATIONS_MAPPING,
+    TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
 )
 from edgar_tool.io import write_results_to_file
+from edgar_tool.page_fetcher import (
+    NoResultsFoundError,
+    PageCheckFailedError,
+    ResultsTableNotFoundError,
+    fetch_page,
+)
 from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
 
 
@@ -130,7 +129,11 @@ class EdgarTextSearcher:
 
         places_of_business = _source.get("biz_locations")
         places_of_business = [
-            f"{split[0]}, {TEXT_SEARCH_LOCATIONS_MAPPING.get(split[1])}" if len(split) == 2 else f"{split[0]}"
+            (
+                f"{split[0]}, {TEXT_SEARCH_LOCATIONS_MAPPING.get(split[1])}"
+                if len(split) == 2
+                else f"{split[0]}"
+            )
             for place in places_of_business
             if (split := place.rsplit(", ", maxsplit=1))
         ]
@@ -226,25 +229,31 @@ class EdgarTextSearcher:
 
         # Add optional parameters
         if peo_in and inc_in:
-            raise ValueError("use only one of peo_in or inc_in, not both") ## because SEC API doesn't support
+            raise ValueError(
+                "use only one of peo_in or inc_in, not both"
+            )  ## because SEC API doesn't support
         else:
             if peo_in:
                 request_args["locationCodes"] = peo_in
             if inc_in:
                 request_args["locationCodes"] = inc_in
                 request_args["locationType"] = "incorporated"
-        
+
         if entity_id:
             request_args["entityName"] = entity_id
         # Handle forms and single forms
-        part_filing_form = [] if filing_form is None else TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
+        part_filing_form = (
+            []
+            if filing_form is None
+            else TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
+        )
         part_single_forms = [] if single_forms is None else single_forms
 
         # Join the filing_forms and single forms and remove duplicates
         forms = ",".join(list(set(part_filing_form + part_single_forms)))
         if forms != "":
             request_args["forms"] = forms
- 
+
         # URL-encode the request arguments
         request_args = urllib.parse.urlencode(request_args)
 
@@ -373,7 +382,9 @@ class EdgarTextSearcher:
         # If we have 10000 results, split date range in two separate requests and fetch first page again, do so until
         # we have a set of date ranges for which none of the requests have 10000 results
         if num_results == 0:
-            print(f"No results found for query in date range {start_date} -> {end_date}.")
+            print(
+                f"No results found for query in date range {start_date} -> {end_date}."
+            )
         elif num_results < 10000:
             print(
                 f"Less than 10000 ({num_results}) results found for range {start_date} -> {end_date}, "
@@ -475,7 +486,7 @@ class EdgarTextSearcher:
                 print(
                     f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{r}': {e}"
                 )
-        if(search_requests_results == []):
+        if search_requests_results == []:
             raise NoResultsFoundError(f"No results found for the search query")
         write_results_to_file(
             itertools.chain(*search_requests_results),

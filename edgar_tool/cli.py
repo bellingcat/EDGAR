@@ -1,17 +1,18 @@
 import sys
 import time
-from datetime import date, timedelta, datetime
+from datetime import date, datetime, timedelta
 from typing import List, Optional
 from warnings import warn
+
 from edgar_tool.constants import (
     SUPPORTED_OUTPUT_EXTENSIONS,
     TEXT_SEARCH_CATEGORY_FORM_GROUPINGS,
     TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING,
 )
+from edgar_tool.page_fetcher import NoResultsFoundError
 from edgar_tool.rss import fetch_rss_feed
 from edgar_tool.text_search import EdgarTextSearcher
 from edgar_tool.utils import parse_location_input
-from edgar_tool.page_fetcher import NoResultsFoundError
 
 
 def _validate_text_search_args(
@@ -57,15 +58,16 @@ def _validate_text_search_args(
     ):
         raise ValueError(
             f"Filing form group must be one of: {'; '.join(TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.keys())}"
-    )
+        )
     if single_forms:
-        single_list = [item for sublist in TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.values() for item in
-                       sublist]
+        single_list = [
+            item
+            for sublist in TEXT_SEARCH_CATEGORY_FORM_GROUPINGS.values()
+            for item in sublist
+        ]
         invalid_forms = [form for form in single_forms if form not in single_list]
         if invalid_forms:
-            raise ValueError(
-                f"Single forms must be one or more of: {single_list}"
-            )
+            raise ValueError(f"Single forms must be one or more of: {single_list}")
 
 
 class SecEdgarScraperCli:
@@ -135,7 +137,9 @@ class SecEdgarScraperCli:
         scraper.text_search(
             keywords=keywords,
             entity_id=entity_id,
-            filing_form=TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.get(filing_form),
+            filing_form=TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.get(
+                filing_form
+            ),
             single_forms=single_forms,
             start_date=start_date,
             end_date=end_date,
@@ -144,7 +148,7 @@ class SecEdgarScraperCli:
             retries=retries,
             destination=output,
             peo_in=peo_in,
-            inc_in=inc_in
+            inc_in=inc_in,
         )
 
     @staticmethod
