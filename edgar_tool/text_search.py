@@ -79,7 +79,7 @@ class EdgarTextSearcher:
 
         # Fetching and cleaning CIKs
         ciks = _source.get("ciks")
-        ciks_trimmed: List[str] = [c.strip("0") for c in ciks]
+        ciks_trimmed: List[str] = [c.lstrip("0") for c in ciks]
 
         # Get form and human readable name
         root_form = _source.get("root_form")
