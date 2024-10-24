@@ -24,7 +24,7 @@ keywords=["scraper", "edgar", "finance", "sec"]
 "Bug Tracker" = "https://github.com/bellingcat/EDGAR/issues"
 
 [tool.poetry.scripts]
-edgar-tool = "edgar_tool.main:main_entrypoint"
+edgar-tool = "edgar_tool.__main__:main"
 
 [tool.poetry.dependencies]
 fire = "^0.5"
@@ -33,6 +33,7 @@ python = "^3.9"
 requests = "^2.31"
 tenacity = "^8.2"
 xmltodict = "^0.13"
+pytest = "^8.2.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "24.3.0"

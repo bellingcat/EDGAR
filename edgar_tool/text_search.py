@@ -16,10 +16,10 @@ from edgar_tool.constants import (
 )
 from edgar_tool.io import write_results_to_file
 from edgar_tool.page_fetcher import (
-    NoResultsFoundError,
+    fetch_page,
     PageCheckFailedError,
     ResultsTableNotFoundError,
-    fetch_page,
+    NoResultsFoundError,
 )
 from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
 
@@ -217,7 +217,9 @@ class EdgarTextSearcher:
             raise ValueError("start_date cannot be after end_date")
 
         # Join search keywords into a single string
-        keywords = " ".join(keywords)
+        keywords = " ".join(
+            [f'"{keyword}"' if " " in keyword else keyword for keyword in keywords]
+        )
 
         # Generate request arguments
         request_args = {
