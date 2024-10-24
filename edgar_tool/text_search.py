@@ -82,8 +82,10 @@ class EdgarTextSearcher:
         ciks_trimmed: List[str] = [c.lstrip("0") for c in ciks]
 
         # Get form and human readable name
-        root_form = _source.get("root_form")
-        form_name = TEXT_SEARCH_FORM_MAPPING.get(root_form, {}).get("title", "")
+        root_forms = _source.get("root_forms")
+        form_name = [TEXT_SEARCH_FORM_MAPPING.get(form, {}).get("title", "") for form in root_forms]
+        root_forms = unpack_singleton_list(root_forms)
+        form_name = unpack_singleton_list(form_name)
 
         # Build adsh for url
         data_adsh = _source.get("adsh", "")
@@ -145,7 +147,7 @@ class EdgarTextSearcher:
         ]
 
         parsed = {
-            "root_form": root_form,
+            "root_form": root_forms,
             "form_name": form_name,
             "filed_at": filed_at,
             "reporting_for": end_date,
