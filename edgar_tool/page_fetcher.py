@@ -1,10 +1,10 @@
 import time
 import uuid
 from random import uniform
-from typing import Callable, Any, Optional
+from typing import Any, Callable, Optional
 
-from tenacity import retry, wait_fixed, stop_after_attempt
 import requests
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 
 def fetch_page(

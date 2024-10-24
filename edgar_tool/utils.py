@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import re
 from datetime import date
-from typing import Any, Iterator, Dict, List, Union, Optional
+from typing import Any, Dict, Iterator, List, Optional, Union
+
 from edgar_tool.constants import TEXT_SEARCH_LOCATIONS_MAPPING
 
 

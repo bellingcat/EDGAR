@@ -1,5 +1,6 @@
-from edgar_tool.cli import SecEdgarScraperCli
 import fire
+
+from edgar_tool.cli import SecEdgarScraperCli
 
 
 def main():

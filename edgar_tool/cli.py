@@ -1,17 +1,18 @@
 import sys
 import time
-from datetime import date, timedelta, datetime
+from datetime import date, datetime, timedelta
 from typing import List, Optional
 from warnings import warn
+
 from edgar_tool.constants import (
     SUPPORTED_OUTPUT_EXTENSIONS,
     TEXT_SEARCH_CATEGORY_FORM_GROUPINGS,
     TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING,
 )
+from edgar_tool.page_fetcher import NoResultsFoundError
 from edgar_tool.rss import fetch_rss_feed
 from edgar_tool.text_search import EdgarTextSearcher
 from edgar_tool.utils import parse_location_input
-from edgar_tool.page_fetcher import NoResultsFoundError
 
 
 def _validate_text_search_args(

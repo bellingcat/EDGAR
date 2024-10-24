@@ -17,5 +17,5 @@
             ]
         }
     },
-    "postCreateCommand": "poetry install"
+    "postCreateCommand": "poetry install && poetry run pre-commit install"
 }
