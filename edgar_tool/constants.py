@@ -1,3 +1,6 @@
+import enum
+from typing import Literal
+
 SUPPORTED_OUTPUT_EXTENSIONS = [".csv", ".jsonl", ".json"]
 TEXT_SEARCH_BASE_URL = "https://efts.sec.gov/LATEST/search-index?"
 TEXT_SEARCH_SPLIT_BATCHES_NUMBER = 2
@@ -1924,3 +1927,18 @@ TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING = {
     "tender_offers_and_going_private_tx": "Tender offers and going private transactions",
     "trust_indentures": "Trust indenture filings",
 }
+
+
+class FilingCategory(str, enum.Enum):
+    all_annual_quarterly_and_current_reports = (
+        "all_annual_quarterly_and_current_reports"
+    )
+    all_section_16 = "all_section_16"
+    beneficial_ownership_reports = "beneficial_ownership_reports"
+    exempt_offerings = "exempt_offerings"
+    registration_statements = "registration_statements"
+    filing_review_correspondence = "filing_review_correspondence"
+    sec_orders_and_notices = "sec_orders_and_notices"
+    proxy_materials = "proxy_materials"
+    tender_offers_and_going_private_tx = "tender_offers_and_going_private_tx"
+    trust_indentures = "trust_indentures"
