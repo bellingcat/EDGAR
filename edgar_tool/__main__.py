@@ -1,3 +1,4 @@
+import time
 from datetime import date, datetime
 from typing import Optional
 
@@ -5,12 +6,18 @@ import typer
 from dateutil.relativedelta import relativedelta
 from typing_extensions import Annotated
 
-from edgar_tool import constants, text_search
+import edgar_tool
 
-app = typer.Typer()
+app = typer.Typer(no_args_is_help=True)
 
 
-@app.command(no_args_is_help=True)
+@app.command(
+    no_args_is_help=True,
+    help=(
+        "Perform a custom text search on the SEC EDGAR website and save the results "
+        "to either a CSV, JSON, or JSONLines file."
+    ),
+)
 def text_search(
     text: Annotated[
         list[str],
@@ -52,11 +59,15 @@ def text_search(
     ],
     entity_id: Annotated[
         str,
-        typer.Option(help="Company name, ticker, CIK number or individual's name."),
+        typer.Option(
+            help="Company name, ticker, CIK number or individual's name.",
+        ),
     ] = None,
     filing_category: Annotated[
-        constants.FilingCategory,
-        typer.Option(help="Form group to search for."),
+        edgar_tool.constants.FilingCategory,
+        typer.Option(
+            help="Form group to search for.",
+        ),
     ] = None,
     single_form: Annotated[
         list[str],
@@ -117,8 +128,8 @@ def text_search(
         ),
     ] = 3,
 ):
-    scraper = text_search.EdgarTextSearcher()
-    scraper.text_search(
+    text_searcher = edgar_tool.text_search.EdgarTextSearcher()
+    text_searcher.search(
         keywords=text,
         entity_id=entity_id,
         filing_form=filing_category,
@@ -134,8 +145,56 @@ def text_search(
     )
 
 
+@app.command(
+    no_args_is_help=True,
+    help=(
+        "Fetch the latest RSS feed data for the given company tickers and save it to "
+        "either a CSV, JSON, or JSONLines file."
+    ),
+)
+def rss(
+    tickers: Annotated[
+        list[str],
+        typer.Argument(
+            help="List of company tickers to fetch the RSS feed for",
+        ),
+    ],
+    output: Annotated[
+        str,
+        typer.Option(
+            "--output",
+            "-o",
+            help="Name of the output file to save the results to",
+        ),
+    ] = f"edgar_rss_feed_{datetime.now().strftime('%d%m%Y_%H%M%S')}.csv",
+    refresh_tickers_mapping: Annotated[
+        bool,
+        typer.Option(
+            "--refresh-tickers-mapping",
+            "-rtm",
+            help="Whether to refresh the company tickers mapping file or not",
+        ),
+    ] = False,
+    every_n_mins: Annotated[
+        Optional[int],
+        typer.Option(
+            "--every-n-mins",
+            help="If set, fetch the RSS feed every n minutes",
+        ),
+    ] = None,
+) -> None:
+    if every_n_mins:
+        while True:
+            rss.fetch_rss_feed(tickers, output, refresh_tickers_mapping)
+            print(
+                f"Sleeping for {every_n_mins} minute(s) before fetching the RSS feed again ..."
+            )
+            time.sleep(every_n_mins * 60)
+    rss.fetch_rss_feed(tickers, output, refresh_tickers_mapping)
+
+
 def main():
-    typer.run(text_search)
+    app()
 
 
 if __name__ == "__main__":

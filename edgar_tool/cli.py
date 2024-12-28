@@ -134,7 +134,7 @@ class SecEdgarScraperCli:
             destination=output,
         )
         scraper = EdgarTextSearcher()
-        scraper.text_search(
+        scraper.search(
             keywords=keywords,
             entity_id=entity_id,
             filing_form=TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING.get(
@@ -150,36 +150,3 @@ class SecEdgarScraperCli:
             peo_in=peo_in,
             inc_in=inc_in,
         )
-
-    @staticmethod
-    def rss(
-        *tickers: str,
-        output: str = f"edgar_rss_feed_{datetime.now().strftime('%d%m%Y_%H%M%S')}.csv",
-        refresh_tickers_mapping: bool = False,
-        every_n_mins: Optional[int] = None,
-    ) -> None:
-        """
-        Fetch the latest RSS feed data for the given company tickers and save it to either a CSV, JSON,
-        or JSONLines file.
-        :param tickers: List of company tickers to fetch the RSS feed for
-        :param output: Name of the output file to save the results to
-        :param refresh_tickers_mapping: Whether to refresh the company tickers mapping file or not
-        :param every_n_mins: If set, fetch the RSS feed every n minutes
-        """
-        try:
-            tickers = list(tickers)
-            refresh_tickers_mapping = bool(refresh_tickers_mapping)
-            if every_n_mins:
-                every_n_mins = int(every_n_mins)
-        except Exception as e:
-            raise ValueError(f"Invalid argument type or format: {e}")
-
-        if every_n_mins:
-            while True:
-                fetch_rss_feed(tickers, output, refresh_tickers_mapping)
-                print(
-                    f"Sleeping for {every_n_mins} minute(s) before fetching the RSS feed again ..."
-                )
-                time.sleep(every_n_mins * 60)
-        else:
-            fetch_rss_feed(tickers, output, refresh_tickers_mapping)

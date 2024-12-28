@@ -1696,9 +1696,25 @@ TEXT_SEARCH_FORM_MAPPING = {
     },
 }
 
+
+class FilingCategory(str, enum.Enum):
+    all_annual_quarterly_and_current_reports = (
+        "all_annual_quarterly_and_current_reports"
+    )
+    all_section_16 = "all_section_16"
+    beneficial_ownership_reports = "beneficial_ownership_reports"
+    exempt_offerings = "exempt_offerings"
+    registration_statements = "registration_statements"
+    filing_review_correspondence = "filing_review_correspondence"
+    sec_orders_and_notices = "sec_orders_and_notices"
+    proxy_materials = "proxy_materials"
+    tender_offers_and_going_private_tx = "tender_offers_and_going_private_tx"
+    trust_indentures = "trust_indentures"
+
+
 TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
     #    "Exclude insider equity awards, transactions, and ownership (Section 16 Reports)": ["-3","-4","-5"], # todo: work out how to exclude these
-    "All annual, quarterly, and current reports": [
+    FilingCategory.all_annual_quarterly_and_current_reports: [
         "1-K",
         "1-SA",
         "1-U",
@@ -1759,13 +1775,13 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "SD",
         "SP 15D2",
     ],
-    "Insider equity awards, transactions, and ownership (Section 16 Reports)": [
+    FilingCategory.all_section_16: [
         "3",
         "4",
         "5",
     ],
-    "Beneficial ownership reports": ["SC 13D", "SC 13G", "SC14D1F"],
-    "Exempt offerings": [
+    FilingCategory.beneficial_ownership_reports: ["SC 13D", "SC 13G", "SC14D1F"],
+    FilingCategory.exempt_offerings: [
         "1-A",
         "1-A POS",
         "1-A-W",
@@ -1777,7 +1793,7 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "D",
         "DOS",
     ],
-    "Registration statements and prospectuses": [
+    FilingCategory.registration_statements: [
         "10-12B",
         "10-12G",
         "18-12B",
@@ -1867,9 +1883,20 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "SUPPL",
         "UNDER",
     ],
-    "Filing review correspondence": ["CORRESP", "DOSLTR", "DRSLTR", "UPLOAD"],
-    "SEC orders and notices": ["40-APP", "CT ORDER", "EFFECT", "QUALIF", "REVOKED"],
-    "Proxy materials": [
+    FilingCategory.filing_review_correspondence: [
+        "CORRESP",
+        "DOSLTR",
+        "DRSLTR",
+        "UPLOAD",
+    ],
+    FilingCategory.sec_orders_and_notices: [
+        "40-APP",
+        "CT ORDER",
+        "EFFECT",
+        "QUALIF",
+        "REVOKED",
+    ],
+    FilingCategory.proxy_materials: [
         "ARS",
         "DEF 14A",
         "DEF 14C",
@@ -1898,7 +1925,7 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "PX14A6N",
         "SC 14N",
     ],
-    "Tender offers and going private transactions": [
+    FilingCategory.tender_offers_and_going_private_tx: [
         "CB",
         "SC 13E1",
         "SC 13E3",
@@ -1911,7 +1938,7 @@ TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
         "SC14D9C",
         "SC14D9F",
     ],
-    "Trust indenture filings": ["305B2", "T-3"],
+    FilingCategory.trust_indentures: ["305B2", "T-3"],
 }
 
 # These are the verbose descriptions of the categories that are used in the CLI,
@@ -1927,18 +1954,3 @@ TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING = {
     "tender_offers_and_going_private_tx": "Tender offers and going private transactions",
     "trust_indentures": "Trust indenture filings",
 }
-
-
-class FilingCategory(str, enum.Enum):
-    all_annual_quarterly_and_current_reports = (
-        "all_annual_quarterly_and_current_reports"
-    )
-    all_section_16 = "all_section_16"
-    beneficial_ownership_reports = "beneficial_ownership_reports"
-    exempt_offerings = "exempt_offerings"
-    registration_statements = "registration_statements"
-    filing_review_correspondence = "filing_review_correspondence"
-    sec_orders_and_notices = "sec_orders_and_notices"
-    proxy_materials = "proxy_materials"
-    tender_offers_and_going_private_tx = "tender_offers_and_going_private_tx"
-    trust_indentures = "trust_indentures"

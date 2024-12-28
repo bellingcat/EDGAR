@@ -1,6 +1,5 @@
 import itertools
 import re
-import sys
 import urllib.parse
 from datetime import date, timedelta
 from math import ceil
@@ -13,6 +12,7 @@ from edgar_tool.constants import (
     TEXT_SEARCH_FORM_MAPPING,
     TEXT_SEARCH_LOCATIONS_MAPPING,
     TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
+    FilingCategory,
 )
 from edgar_tool.io import write_results_to_file
 from edgar_tool.page_fetcher import (
@@ -25,7 +25,6 @@ from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
 
 
 class EdgarTextSearcher:
-
     def __init__(self):
         self.search_requests = []
         self.json_response = {}
@@ -252,7 +251,7 @@ class EdgarTextSearcher:
         part_filing_form = (
             []
             if filing_form is None
-            else TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
+            else TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[FilingCategory(filing_form)]
         )
         part_single_forms = [] if single_forms is None else single_forms
 
@@ -429,7 +428,7 @@ class EdgarTextSearcher:
                 except IndexError:
                     pass
 
-    def text_search(
+    def search(
         self,
         keywords: List[str],
         entity_id: Optional[str],
