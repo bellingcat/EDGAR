@@ -13,6 +13,15 @@ from .text_search import EdgarTextSearcher
 app = typer.Typer(no_args_is_help=True)
 
 
+def output_callback(value: str):
+    if not value.endswith(("csv", "json", "json1")):
+        raise typer.BadParameter(
+            f"Unsupported file extension for destination file: {value} "
+            "(should be one of csv, json, or json1)."
+        )
+    return value
+
+
 @app.command(
     help=(
         "Perform a custom text search on the SEC EDGAR website and save the results "
@@ -38,6 +47,7 @@ def text_search(
             "-o",
             help="Name of the output file to save results to.",
             default_factory=f"edgar_search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+            callback=output_callback,
         ),
     ],
     start_date: Annotated[

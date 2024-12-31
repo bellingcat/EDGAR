@@ -1,10 +1,18 @@
 import subprocess
+from unittest.mock import patch
 
+import pytest
 from typer.testing import CliRunner
 
 import edgar_tool
 
 runner = CliRunner()
+
+
+@pytest.fixture(autouse=True)
+def mock_edgar_text_searcher():
+    with patch("edgar_tool.cli.EdgarTextSearcher"):
+        yield
 
 
 def test_cli_should_return_help_string_when_passed_no_args():
@@ -40,7 +48,7 @@ Usage: edgar-tool [OPTIONS] COMMAND [ARGS]...
     assert actual_lines == expected_lines
 
 
-def test_text_search_no_text():
+def test_text_search_no_text_fails():
     """
     Tests that calling without text argument fails
     """
@@ -55,7 +63,42 @@ def test_text_search_no_text():
     assert "Missing argument 'TEXT...'." in result.output
 
 
-def test_text_search_negative_retries():
+def test_text_search_with_text_passes():
+    # GIVEN/WHEN
+    result = runner.invoke(
+        edgar_tool.cli.app,
+        ["text-search", "example"],
+    )
+
+    # THEN
+    assert result.exit_code == 0
+
+
+@pytest.mark.parametrize("extension", [("csv"), ("json"), ("json1")])
+def test_text_search_with_valid_output_file_extension_passes(extension):
+    # GIVEN/WHEN
+    result = runner.invoke(
+        edgar_tool.cli.app,
+        ["text-search", "example", "--output", f"test.{extension}"],
+    )
+
+    # THEN
+    assert result.exit_code == 0
+
+
+@pytest.mark.parametrize("extension", [("yaml"), ("nonsense"), ("blob")])
+def test_text_search_with_invalid_output_file_extension_fails(extension):
+    # GIVEN/WHEN
+    result = runner.invoke(
+        edgar_tool.cli.app,
+        ["text-search", "example", "--output", f"test.{extension}"],
+    )
+
+    # THEN
+    assert result.exit_code != 0
+
+
+def test_text_search_negative_retries_fails():
     """
     Tests that passing a negative value for --retries fails
     """
