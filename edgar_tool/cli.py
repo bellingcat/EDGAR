@@ -7,7 +7,8 @@ import typer
 from dateutil.relativedelta import relativedelta
 from typing_extensions import Annotated
 
-import edgar_tool
+from .constants import FilingCategory
+from .text_search import EdgarTextSearcher
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -65,7 +66,7 @@ def text_search(
         ),
     ] = None,
     filing_category: Annotated[
-        edgar_tool.constants.FilingCategory,
+        FilingCategory,
         typer.Option(
             help="Form group to search for.",
         ),
@@ -130,7 +131,7 @@ def text_search(
         ),
     ] = 3,
 ):
-    text_searcher = edgar_tool.text_search.EdgarTextSearcher()
+    text_searcher = EdgarTextSearcher()
     text_searcher.search(
         keywords=text,
         entity_id=entity_id,

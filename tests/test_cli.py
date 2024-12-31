@@ -46,7 +46,7 @@ def test_text_search_negative_retries():
     """
     # GIVEN/WHEN
     result = runner.invoke(
-        edgar_tool.app,
+        edgar_tool.cli.app,
         [
             "text-search",
             "example",  # At least one search term is required

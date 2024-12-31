@@ -1,8 +1,8 @@
-import edgar_tool
+from .cli import app
 
 
 def main():
-    edgar_tool.app()
+    app()
 
 
 if __name__ == "__main__":
