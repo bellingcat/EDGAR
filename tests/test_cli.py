@@ -40,20 +40,36 @@ Usage: edgar-tool [OPTIONS] COMMAND [ARGS]...
     assert actual_lines == expected_lines
 
 
+def test_text_search_no_text():
+    """
+    Tests that calling without text argument fails
+    """
+    # GIVEN/WHEN
+    result = runner.invoke(
+        edgar_tool.cli.app,
+        ["text-search"],
+    )
+
+    # THEN
+    assert result.exit_code != 0
+    assert "Missing argument 'TEXT...'." in result.output
+
+
 def test_text_search_negative_retries():
     """
-    Tests that passing a negative value for --retries throws an error.
+    Tests that passing a negative value for --retries fails
     """
     # GIVEN/WHEN
     result = runner.invoke(
         edgar_tool.cli.app,
         [
             "text-search",
-            "example",  # At least one search term is required
+            "example",
             "--retries",
             "-1",
         ],
     )
+
     # THEN
     assert result.exit_code != 0
     assert (

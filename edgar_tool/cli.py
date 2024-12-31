@@ -14,7 +14,6 @@ app = typer.Typer(no_args_is_help=True)
 
 
 @app.command(
-    no_args_is_help=True,
     help=(
         "Perform a custom text search on the SEC EDGAR website and save the results "
         "to either a CSV, JSON, or JSONLines file."
@@ -149,7 +148,6 @@ def text_search(
 
 
 @app.command(
-    no_args_is_help=True,
     help=(
         "Fetch the latest RSS feed data for the given company tickers and save it to "
         "either a CSV, JSON, or JSONLines file."
