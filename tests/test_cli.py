@@ -98,6 +98,27 @@ def test_text_search_with_invalid_output_file_extension_fails(extension):
     assert result.exit_code != 0
 
 
+@pytest.mark.parametrize("date_range", ["all", "10y", "5y", "1y", "30d"])
+def test_text_search_with_valid_date_range_passes(date_range):
+    # GIVEN/WHEN
+    result = runner.invoke(
+        edgar_tool.cli.app,
+        ["text-search", "example", "--date-range", f"{date_range}"],
+    )
+    # THEN
+    assert result.exit_code == 0
+
+
+def test_text_search_with_invalid_date_range_fails():
+    # GIVEN/WHEN
+    result = runner.invoke(
+        edgar_tool.cli.app,
+        ["text-search", "example", "--date-range", f"100y"],
+    )
+    # THEN
+    assert result.exit_code != 0
+
+
 def test_text_search_negative_retries_fails():
     """
     Tests that passing a negative value for --retries fails

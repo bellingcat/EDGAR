@@ -1,5 +1,4 @@
 import enum
-from typing import Literal
 
 SUPPORTED_OUTPUT_EXTENSIONS = [".csv", ".jsonl", ".json"]
 TEXT_SEARCH_BASE_URL = "https://efts.sec.gov/LATEST/search-index?"
@@ -1695,6 +1694,14 @@ TEXT_SEARCH_FORM_MAPPING = {
         "title": "Financial statements for certain variable contracts",
     },
 }
+
+
+class DateRange(str, enum.Enum):
+    all = "all"
+    ten_years = "10y"
+    five_years = "5y"
+    one_year = "1y"
+    thirty_days = "30d"
 
 
 class FilingCategory(str, enum.Enum):

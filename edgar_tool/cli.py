@@ -7,7 +7,7 @@ import typer
 from dateutil.relativedelta import relativedelta
 from typing_extensions import Annotated
 
-from .constants import FilingCategory
+from .constants import DateRange, FilingCategory
 from .text_search import EdgarTextSearcher
 
 app = typer.Typer(no_args_is_help=True)
@@ -50,24 +50,27 @@ def text_search(
             callback=output_callback,
         ),
     ],
+    date_range: Annotated[
+        DateRange,
+        typer.Option(
+            "--date-range",
+            help="Date range of the search. Use 'all' to search all records since 2001.",
+        ),
+    ] = DateRange.five_years,
     start_date: Annotated[
         datetime,
         typer.Option(
-            default_factory=(date.today() - relativedelta(years=5)).strftime(
-                "%Y-%m-%d"
-            ),
             formats=["%Y-%m-%d"],
-            help="Start date of the search",
+            help="Start date of the search in YYYY-MM-DD format (i.e. 2024-07-28). ",
         ),
-    ],
+    ] = None,
     end_date: Annotated[
         datetime,
         typer.Option(
-            default_factory=date.today().strftime("%Y-%m-%d"),
             formats=["%Y-%m-%d"],
-            help="End date of the search",
+            help="End date of the search in YYYY-MM-DD format (i.e. 2024-07-28)",
         ),
-    ],
+    ] = None,
     entity_id: Annotated[
         str,
         typer.Option(
