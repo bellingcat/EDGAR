@@ -119,6 +119,54 @@ def test_text_search_with_invalid_date_range_fails():
     assert result.exit_code != 0
 
 
+def test_text_search_with_valid_start_and_end_dates_pass():
+    # GIVEN/WHEN
+    result = runner.invoke(
+        edgar_tool.cli.app,
+        [
+            "text-search",
+            "example",
+            "--start-date",
+            "2024-07-28",
+            "--end-date",
+            "2025-01-05",
+        ],
+    )
+    # THEN
+    assert result.exit_code == 0
+
+
+def test_text_search_with_start_date_past_end_date_fails():
+    # GIVEN/WHEN
+    result = runner.invoke(
+        edgar_tool.cli.app,
+        [
+            "text-search",
+            "example",
+            "--start-date",
+            "2025-01-01",
+            "--end-date",
+            "2024-07-28",
+        ],
+    )
+    # THEN
+    assert result.exit_code != 0
+    assert "Start date cannot be later than end date." in result.output
+
+
+def test_text_search_with_start_date_but_no_end_date_passes():
+    """The CLI implicitly uses today's date as the end date when
+    --start-date is specified but --end-date is not. Therefore it
+    is acceptable to specify only the start date."""
+    # GIVEN/WHEN
+    result = runner.invoke(
+        edgar_tool.cli.app,
+        ["text-search", "example", "--start-date", "2025-01-01"],
+    )
+    # THEN
+    assert result.exit_code == 0
+
+
 def test_text_search_negative_retries_fails():
     """
     Tests that passing a negative value for --retries fails

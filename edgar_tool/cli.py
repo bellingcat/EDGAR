@@ -70,7 +70,7 @@ def text_search(
             formats=["%Y-%m-%d"],
             help="End date of the search in YYYY-MM-DD format (i.e. 2024-07-28)",
         ),
-    ] = None,
+    ] = date.today().strftime("%Y-%m-%d"),
     entity_id: Annotated[
         str,
         typer.Option(
@@ -143,6 +143,8 @@ def text_search(
         ),
     ] = 3,
 ):
+    if start_date and end_date and start_date > end_date:
+        raise typer.BadParameter("Start date cannot be later than end date.")
     text_searcher = EdgarTextSearcher()
     text_searcher.search(
         keywords=text,
