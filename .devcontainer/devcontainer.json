@@ -6,7 +6,7 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "python.defaultInterpreterPath": "/usr/bin/python3.12"
+                "python.defaultInterpreterPath": "/usr/bin/python3.13"
             },
             "extensions": [
                 "mechatroner.rainbow-csv",
