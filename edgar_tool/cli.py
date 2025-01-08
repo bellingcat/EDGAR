@@ -4,10 +4,9 @@ from typing import Optional
 
 import click
 import typer
-from dateutil.relativedelta import relativedelta
 from typing_extensions import Annotated
 
-from .constants import DateRange, FilingCategory
+from .constants import DateRange, FilingCategory, Location
 from .text_search import EdgarTextSearcher
 
 app = typer.Typer(name="edgar-tool", no_args_is_help=True)
@@ -92,7 +91,7 @@ def text_search(
         ),
     ] = None,
     peo_in: Annotated[
-        Optional[str],
+        Location,
         typer.Option(
             "--principal-executive-offices-in",
             "-peoi",
@@ -106,7 +105,7 @@ def text_search(
         ),
     ] = None,
     inc_in: Annotated[
-        Optional[str],
+        Location,
         typer.Option(
             "--incorporated-in",
             "-ii",

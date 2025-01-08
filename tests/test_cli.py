@@ -1,4 +1,3 @@
-import subprocess
 from unittest.mock import patch
 
 import pytest
@@ -16,8 +15,11 @@ def mock_edgar_text_searcher():
 
 
 def test_cli_should_return_help_string_when_passed_no_args():
-    """Tests that running edgar-tool without any arguments returns the CLI's help string and 0 exit code."""
-    # GIVEN
+    """
+    Tests that running edgar-tool without any arguments
+    returns the CLI's help string and 0 exit code.
+    """
+    # GIVEN/WHEN
     result = runner.invoke(edgar_tool.cli.app, [])
 
     # THEN

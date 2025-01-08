@@ -2,7 +2,11 @@ import datetime
 from typing import Literal, TypedDict
 from urllib import parse
 
-from edgar_tool.constants import PEO_IN_AND_INC_IN_TO_SEC_FORM_ID, TEXT_SEARCH_BASE_URL
+from edgar_tool.constants import (
+    PEO_IN_AND_INC_IN_TO_SEC_FORM_ID,
+    TEXT_SEARCH_BASE_URL,
+    Location,
+)
 
 
 class SearchQueryKwargs(TypedDict, total=False):
@@ -13,8 +17,8 @@ class SearchQueryKwargs(TypedDict, total=False):
     date_range_select: Literal["all", "10y", "1y", "30d", "custom"]
     start_date: datetime.date
     end_date: datetime.date
-    inc_in: str
-    peo_in: str
+    inc_in: Location
+    peo_in: Location
 
 
 class _ValidSearchParams:
