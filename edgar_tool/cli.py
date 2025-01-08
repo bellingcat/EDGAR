@@ -10,7 +10,7 @@ from typing_extensions import Annotated
 from .constants import DateRange, FilingCategory
 from .text_search import EdgarTextSearcher
 
-app = typer.Typer(no_args_is_help=True)
+app = typer.Typer(name="edgar-tool", no_args_is_help=True)
 
 
 def output_callback(value: str):
