@@ -16,10 +16,10 @@ from edgar_tool.constants import (
 )
 from edgar_tool.io import write_results_to_file
 from edgar_tool.page_fetcher import (
-    fetch_page,
+    NoResultsFoundError,
     PageCheckFailedError,
     ResultsTableNotFoundError,
-    NoResultsFoundError,
+    fetch_page,
 )
 from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
 
@@ -83,7 +83,10 @@ class EdgarTextSearcher:
 
         # Get form and human readable name
         root_forms = _source.get("root_forms")
-        form_name = [TEXT_SEARCH_FORM_MAPPING.get(form, {}).get("title", "") for form in root_forms]
+        form_name = [
+            TEXT_SEARCH_FORM_MAPPING.get(form, {}).get("title", "")
+            for form in root_forms
+        ]
         root_forms = unpack_singleton_list(root_forms)
         form_name = unpack_singleton_list(form_name)
 

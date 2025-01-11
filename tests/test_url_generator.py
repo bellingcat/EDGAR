@@ -16,6 +16,7 @@ is functionally equivalent to our generated URL:
 """
 
 import datetime
+
 import pytest
 
 from edgar_tool import url_generator
