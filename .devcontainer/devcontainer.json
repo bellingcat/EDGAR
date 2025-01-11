@@ -6,14 +6,15 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "python.defaultInterpreterPath": "/usr/bin/python3.12"
+                "python.defaultInterpreterPath": "/usr/bin/python3.13"
             },
             "extensions": [
-                "ms-python.python",
-                "ms-python.vscode-pylance",
-                "ms-python.debugpy",
+                "mechatroner.rainbow-csv",
                 "ms-azuretools.vscode-docker",
-                "mechatroner.rainbow-csv"
+                "ms-python.black-formatter",
+                "ms-python.debugpy",
+                "ms-python.python",
+                "ms-python.vscode-pylance"
             ]
         }
     },
