@@ -115,7 +115,7 @@ def test_text_search_with_valid_start_and_end_dates_pass():
     assert result.exit_code == 0
 
 
-def test_text_search_with_start_date_past_end_date_fails():
+def test_text_search_with_start_date_after_end_date_fails():
     # GIVEN/WHEN
     result = runner.invoke(
         edgar_tool.cli.app,

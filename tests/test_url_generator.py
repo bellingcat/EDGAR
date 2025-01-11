@@ -94,7 +94,7 @@ def test_should_raise_if_date_range_select_invalid():
     # GIVEN
     expected_error_msg = (
         "Invalid date_range_select. "
-        'Value must be one of "all", "10y", "1y", "30d", or "custom"'
+        'Value must be one of "all", "10y", "5y", "1y", "30d", or "custom"'
     )
     test_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "1m"}
 
@@ -116,7 +116,7 @@ def test_should_raise_if_date_range_select_invalid():
         ),
         ({"date_range_select": "all"}, "&dateRange=all"),
         ({"date_range_select": "10y"}, "&dateRange=10y"),
-        # TODO: Test 5y doesn't add anything to the URL
+        ({"date_range_select": "5y"}, ""),
         ({"date_range_select": "1y"}, "&dateRange=1y"),
         ({"date_range_select": "30d"}, "&dateRange=30d"),
     ],

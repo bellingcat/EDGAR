@@ -43,6 +43,7 @@ class _ValidSearchParams:
         elif date_range_select and date_range_select not in {
             "all",
             "10y",
+            "5y",
             "1y",
             "30d",
             "custom",
@@ -50,12 +51,14 @@ class _ValidSearchParams:
             raise ValueError(
                 (
                     "Invalid date_range_select. "
-                    'Value must be one of "all", "10y", "1y", "30d", or "custom"'
+                    'Value must be one of "all", "10y", "5y", "1y", "30d", or "custom"'
                 )
             )
 
         self._keywords = keywords
         self.entity = entity
+        # 5y is the default date range, so we don't need to include it in the URL
+        self.date_range_select = date_range_select if date_range_select != "5y" else ""
 
         filing_category = query_args.get("filing_category", "custom")
         single_forms = query_args.get("single_forms")
@@ -68,7 +71,6 @@ class _ValidSearchParams:
 
         self._filing_category = filing_category
         self.single_forms = single_forms
-        self.date_range_select = date_range_select
         self.start_date = start_date
         self.end_date = end_date
 
