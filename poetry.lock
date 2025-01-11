@@ -336,20 +336,6 @@ testing = ["covdefaults (>=2.3)", "coverage (>=7.6.1)", "diff-cover (>=9.2)", "p
 typing = ["typing-extensions (>=4.12.2)"]
 
 [[package]]
-name = "fire"
-version = "0.7.0"
-description = "A library for automatically generating command line interfaces."
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "fire-0.7.0.tar.gz", hash = "sha256:961550f07936eaf65ad1dc8360f2b2bf8408fad46abbfa4d2a3794f8d2a95cdf"},
-]
-
-[package.dependencies]
-termcolor = "*"
-
-[[package]]
 name = "identify"
 version = "2.6.5"
 description = "File identification library for Python"
@@ -918,21 +904,6 @@ doc = ["reno", "sphinx"]
 test = ["pytest", "tornado (>=4.5)", "typeguard"]
 
 [[package]]
-name = "termcolor"
-version = "2.5.0"
-description = "ANSI color formatting for output in terminal"
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-files = [
-    {file = "termcolor-2.5.0-py3-none-any.whl", hash = "sha256:37b17b5fc1e604945c2642c872a3764b5d547a48009871aea3edd3afa180afb8"},
-    {file = "termcolor-2.5.0.tar.gz", hash = "sha256:998d8d27da6d48442e8e1f016119076b690d962507531df4890fcd2db2ef8a6f"},
-]
-
-[package.extras]
-tests = ["pytest", "pytest-cov"]
-
-[[package]]
 name = "tokenize-rt"
 version = "6.1.0"
 description = "A wrapper around the stdlib `tokenize` which roundtrips."
@@ -1128,4 +1099,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9"
-content-hash = "f7e0ad151b0ab2cc4d969e936fed8ceb38cad10496c61f561cf6e990b7a045dd"
+content-hash = "78107cd8dfa328603b3de44cf372e0a17af2f7e9bf34884e7e336ce373a90901"
