@@ -27,7 +27,7 @@ keywords=["scraper", "edgar", "finance", "sec"]
 edgar-tool = "edgar_tool.__main__:main"
 
 [tool.poetry.dependencies]
-fire = "^0.5"
+fire = "^0.7"
 jsonlines = "^4.0"
 python = "^3.9"
 requests = "^2.31"
