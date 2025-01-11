@@ -27,7 +27,7 @@ keywords=["scraper", "edgar", "finance", "sec"]
 edgar-tool = "edgar_tool.__main__:main"
 
 [tool.poetry.dependencies]
-fire = "^0.5"
+fire = "^0.7"
 jsonlines = "^4.0"
 python = "^3.9"
 requests = "^2.31"
@@ -38,7 +38,7 @@ click = "^8.1.7"
 typer = "^0.12.5"
 
 [tool.poetry.group.dev.dependencies]
-black = "24.3.0"
+black = {extras = ["jupyter"], version = "^24.10.0"}
 isort = "5.13.2"
 pre-commit = "^3.8.0"
 pytest = "^8.2.2"
