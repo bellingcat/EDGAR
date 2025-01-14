@@ -2,7 +2,11 @@ import datetime
 from typing import Literal, TypedDict
 from urllib import parse
 
-from edgar_tool.constants import PEO_IN_AND_INC_IN_TO_SEC_FORM_ID, TEXT_SEARCH_BASE_URL
+from edgar_tool.constants import (
+    PEO_IN_AND_INC_IN_TO_SEC_FORM_ID,
+    TEXT_SEARCH_BASE_URL,
+    Location,
+)
 
 
 class SearchQueryKwargs(TypedDict, total=False):
@@ -13,8 +17,8 @@ class SearchQueryKwargs(TypedDict, total=False):
     date_range_select: Literal["all", "10y", "1y", "30d", "custom"]
     start_date: datetime.date
     end_date: datetime.date
-    inc_in: str
-    peo_in: str
+    inc_in: Location
+    peo_in: Location
 
 
 class _ValidSearchParams:
@@ -39,6 +43,7 @@ class _ValidSearchParams:
         elif date_range_select and date_range_select not in {
             "all",
             "10y",
+            "5y",
             "1y",
             "30d",
             "custom",
@@ -46,12 +51,14 @@ class _ValidSearchParams:
             raise ValueError(
                 (
                     "Invalid date_range_select. "
-                    'Value must be one of "all", "10y", "1y", "30d", or "custom"'
+                    'Value must be one of "all", "10y", "5y", "1y", "30d", or "custom"'
                 )
             )
 
         self._keywords = keywords
         self.entity = entity
+        # 5y is the default date range, so we don't need to include it in the URL
+        self.date_range_select = date_range_select if date_range_select != "5y" else ""
 
         filing_category = query_args.get("filing_category", "custom")
         single_forms = query_args.get("single_forms")
@@ -64,7 +71,6 @@ class _ValidSearchParams:
 
         self._filing_category = filing_category
         self.single_forms = single_forms
-        self.date_range_select = date_range_select
         self.start_date = start_date
         self.end_date = end_date
 

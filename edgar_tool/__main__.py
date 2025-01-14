@@ -1,10 +1,8 @@
-import fire
-
-from edgar_tool.cli import SecEdgarScraperCli
+from .cli import app
 
 
 def main():
-    fire.Fire(SecEdgarScraperCli)
+    app()
 
 
 if __name__ == "__main__":
