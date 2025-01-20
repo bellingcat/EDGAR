@@ -7,6 +7,7 @@ import typer
 from typing_extensions import Annotated
 
 from .constants import DateRange, FilingCategory, Location
+from .rss import fetch_rss_feed
 from .text_search import EdgarTextSearcher
 
 app = typer.Typer(name="edgar-tool", no_args_is_help=True)
@@ -200,9 +201,9 @@ def rss(
 ) -> None:
     if every_n_mins:
         while True:
-            rss.fetch_rss_feed(tickers, output, refresh_tickers_mapping)
+            fetch_rss_feed(tickers, output, refresh_tickers_mapping)
             print(
                 f"Sleeping for {every_n_mins} minute(s) before fetching the RSS feed again ..."
             )
             time.sleep(every_n_mins * 60)
-    rss.fetch_rss_feed(tickers, output, refresh_tickers_mapping)
+    fetch_rss_feed(tickers, output, refresh_tickers_mapping)
