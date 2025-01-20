@@ -1,8 +1,4 @@
 import subprocess
-import warnings
-from unittest.mock import patch
-
-from edgar_tool.cli import SecEdgarScraperCli
 
 
 def test_cli_should_return_help_string_when_passed_no_args():
