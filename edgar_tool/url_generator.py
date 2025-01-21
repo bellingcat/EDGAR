@@ -64,12 +64,6 @@ class _SearchQueryKwargsValidator(pydantic.BaseModel):
                 "Invalid date parameters. You must provide both a start and end date if searching a custom date range."
             )
 
-        valid_date_ranges = {"all", "10y", "5y", "1y", "30d", "custom"}
-        if self.date_range_select and self.date_range_select not in valid_date_ranges:
-            raise ValueError(
-                'Invalid date_range_select. Value must be one of "all", "10y", "5y", "1y", "30d", or "custom".'
-            )
-
         if (
             self.filing_category
             and self.filing_category != "Custom"
