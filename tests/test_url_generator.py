@@ -627,3 +627,27 @@ def test_should_raise_exception_if_both_peo_in_and_inc_in():
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
         url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+
+def test_should_correctly_generate_search_url_for_multiple_peo_in():
+    # GIVEN
+    test_kwargs = {"keywords": ["test multiple"], "peo_in": ["NY", "AK"]}
+    expected_url = "https://efts.sec.gov/LATEST/search-index?q=%22test%20multiple%22&locationCodes=NY%2CAK"
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    assert actual_url == expected_url
+
+
+def test_should_correctly_generate_search_url_for_multiple_inc_in():
+    # GIVEN
+    test_kwargs = {"keywords": ["company"], "inc_in": ["CA", "TX"]}
+    expected_url = "https://efts.sec.gov/LATEST/search-index?q=company&locationType=incorporated&locationCodes=CA%2CTX"
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    assert actual_url == expected_url

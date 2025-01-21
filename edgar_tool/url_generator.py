@@ -1,5 +1,5 @@
 import datetime
-from typing import Optional, TypedDict
+from typing import Optional, TypedDict, Union
 from urllib import parse
 
 import pydantic
@@ -15,16 +15,31 @@ class _SearchQueryKwargsValidator(pydantic.BaseModel):
     date_range_select: Optional[constants.DateRangeLiteral] = None
     start_date: Optional[datetime.date] = None
     end_date: Optional[datetime.date] = None
-    inc_in: Optional[constants.LocationLiteral] = None
-    peo_in: Optional[constants.LocationLiteral] = None
+    inc_in: Optional[
+        Union[constants.LocationLiteral, list[constants.LocationLiteral]]
+    ] = None
+    peo_in: Optional[
+        Union[constants.LocationLiteral, list[constants.LocationLiteral]]
+    ] = None
 
     @pydantic.field_validator("inc_in", "peo_in", mode="before")
-    def validate_location_code(cls, location):
-        if location and location not in constants.PEO_IN_AND_INC_IN_TO_SEC_FORM_ID:
-            raise ValueError(
-                "Invalid location code. Please provide a valid 2-letter state abbreviation, 3-letter country code, or 'XX' for unknown."
-            )
-        return location
+    def validate_location_code(cls, raw_location):
+        if not raw_location:
+            return raw_location
+        value_error = ValueError(
+            "Invalid location code. Please provide a valid 2-letter state abbreviation, "
+            "3-letter country code, or 'XX' for unknown."
+        )
+        if (
+            isinstance(raw_location, str)
+            and raw_location not in constants.PEO_IN_AND_INC_IN_TO_SEC_FORM_ID
+        ):
+            raise value_error
+        if isinstance(raw_location, list):
+            for loc in raw_location:
+                if loc not in constants.PEO_IN_AND_INC_IN_TO_SEC_FORM_ID:
+                    raise value_error
+        return raw_location
 
     @pydantic.model_validator(mode="after")
     def check_fields(self):
@@ -101,8 +116,8 @@ class _ValidSearchParams:
         self.single_forms = validated_params.single_forms
         self.start_date = validated_params.start_date
         self.end_date = validated_params.end_date
-        self.inc_in = validated_params.inc_in
-        self.peo_in = validated_params.peo_in
+        self._inc_in = validated_params.inc_in
+        self._peo_in = validated_params.peo_in
 
     @property
     def keywords(self):
@@ -114,6 +129,35 @@ class _ValidSearchParams:
         if not self._keywords:
             return None
         return [f'"{phrase}"' if " " in phrase else phrase for phrase in self._keywords]
+
+    @staticmethod
+    def _get_formatted_location(
+        location: Union[constants.LocationLiteral, list[constants.LocationLiteral]]
+    ) -> str:
+        if not location:
+            return None
+        if isinstance(location, str):
+            return constants.PEO_IN_AND_INC_IN_TO_SEC_FORM_ID[location]
+        else:
+            return ",".join(
+                [constants.PEO_IN_AND_INC_IN_TO_SEC_FORM_ID[loc] for loc in location]
+            )
+
+    @property
+    def inc_in(self):
+        return self._inc_in
+
+    @inc_in.getter
+    def inc_in(self):
+        return self._get_formatted_location(self._inc_in)
+
+    @property
+    def peo_in(self):
+        return self._peo_in
+
+    @peo_in.getter
+    def peo_in(self):
+        return self._get_formatted_location(self._peo_in)
 
     @property
     def filing_category(self):
@@ -159,14 +203,16 @@ def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
     elif validated_params.filing_category:
         query_params["category"] = validated_params.filing_category
     if validated_params.peo_in:
-        query_params["locationCode"] = constants.PEO_IN_AND_INC_IN_TO_SEC_FORM_ID[
-            validated_params.peo_in
-        ]
+        if "," in validated_params.peo_in:
+            query_params["locationCodes"] = validated_params.peo_in
+        else:
+            query_params["locationCode"] = validated_params.peo_in
     elif validated_params.inc_in:
         query_params["locationType"] = "incorporated"
-        query_params["locationCode"] = constants.PEO_IN_AND_INC_IN_TO_SEC_FORM_ID[
-            validated_params.inc_in
-        ]
+        if "," in validated_params.inc_in:
+            query_params["locationCodes"] = validated_params.inc_in
+        else:
+            query_params["locationCode"] = validated_params.inc_in
     encoded_params = parse.urlencode(
         query_params, doseq=True, encoding="utf-8", quote_via=parse.quote
     )
