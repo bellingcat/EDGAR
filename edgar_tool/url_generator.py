@@ -2,12 +2,12 @@ import datetime
 from typing import Optional, TypedDict
 from urllib import parse
 
-from pydantic import BaseModel, field_validator, model_validator
+import pydantic
 
 from edgar_tool import constants
 
 
-class _SearchQueryKwargsValidator(BaseModel):
+class _SearchQueryKwargsValidator(pydantic.BaseModel):
     keywords: Optional[list[str]] = None
     entity: Optional[str] = None
     filing_category: Optional[constants.FilingCategoryLiteral] = None
@@ -18,7 +18,7 @@ class _SearchQueryKwargsValidator(BaseModel):
     inc_in: Optional[constants.LocationLiteral] = None
     peo_in: Optional[constants.LocationLiteral] = None
 
-    @field_validator("inc_in", "peo_in", mode="before")
+    @pydantic.field_validator("inc_in", "peo_in", mode="before")
     def validate_location_code(cls, location):
         if location and location not in constants.PEO_IN_AND_INC_IN_TO_SEC_FORM_ID:
             raise ValueError(
@@ -26,7 +26,7 @@ class _SearchQueryKwargsValidator(BaseModel):
             )
         return location
 
-    @model_validator(mode="after")
+    @pydantic.model_validator(mode="after")
     def check_fields(self):
         if (
             not self.keywords
