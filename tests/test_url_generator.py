@@ -104,6 +104,13 @@ def test_should_raise_if_date_range_select_invalid():
             },
             "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
         ),
+        (  # Test that date_range_select is not required if start_date and end_date are provided
+            {
+                "start_date": datetime.date.fromisoformat("2024-07-10"),
+                "end_date": datetime.date.fromisoformat("2024-07-15"),
+            },
+            "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
+        ),
         ({"date_range_select": "all"}, "&dateRange=all"),
         ({"date_range_select": "10y"}, "&dateRange=10y"),
         ({"date_range_select": "5y"}, ""),
