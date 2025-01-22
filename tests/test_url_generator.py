@@ -55,7 +55,7 @@ def test_should_raise_if_no_arguments_provided():
     # GIVEN
     expected_error_msg = re.escape(
         "Invalid search arguments. You must provide keywords, an entity, a filing category, or 1+ single forms. "
-        "Filing category cannot be 'View all'."
+        "Filing category cannot be 'all'."
     )
 
     # WHEN / THEN
@@ -135,25 +135,19 @@ def test_generates_correct_url_for_date_ranges(date_kwargs, url_ending):
 @pytest.mark.parametrize(
     "filing_category, url_ending",
     (
-        ("View all", ""),
-        ("Custom", "&category=custom"),
-        (
-            "Exclude insider equity awards, transactions, and ownership (Section 16 Reports)",
-            "&category=form-cat0",
-        ),
-        ("All annual, quarterly, and current reports", "&category=form-cat1"),
-        (
-            "Insider equity awards, transactions, and ownership (Section 16 Reports)",
-            "&category=form-cat2",
-        ),
-        ("Beneficial Ownership Reports", "&category=form-cat3"),
-        ("Exempt Offerings", "&category=form-cat4"),
-        ("Registration statements and prospectuses", "&category=form-cat5"),
-        ("Filing review correspondence", "&category=form-cat6"),
-        ("SEC orders and notices", "&category=form-cat7"),
-        ("Proxy materials", "&category=form-cat8"),
-        ("Tender offers and going private transactions", "&category=form-cat9"),
-        ("Trust indentures filings", "&category=form-cat10"),
+        ("all", ""),
+        ("custom", "&category=custom"),
+        ("all_except_section_16", "&category=form-cat0"),
+        ("all_annual_quarterly_and_current_reports", "&category=form-cat1"),
+        ("all_section_16", "&category=form-cat2"),
+        ("beneficial_ownership_reports", "&category=form-cat3"),
+        ("exempt_offerings", "&category=form-cat4"),
+        ("registration_statements", "&category=form-cat5"),
+        ("filing_review_correspondence", "&category=form-cat6"),
+        ("sec_orders_and_notices", "&category=form-cat7"),
+        ("proxy_materials", "&category=form-cat8"),
+        ("tender_offers_and_going_private_tx", "&category=form-cat9"),
+        ("trust_indentures", "&category=form-cat10"),
     ),
 )
 def test_generates_correct_url_for_filing_category(filing_category, url_ending):
@@ -198,7 +192,7 @@ def test_generates_correct_url_for_single_form_and_custom_filing_category():
     expected_url = (
         f"https://efts.sec.gov/LATEST/search-index?category=custom&forms=NPORT-EX"
     )
-    test_kwargs = {"single_forms": ["NPORT-EX"], "filing_category": "Custom"}
+    test_kwargs = {"single_forms": ["NPORT-EX"], "filing_category": "custom"}
 
     # WHEN
     actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
@@ -217,7 +211,7 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
     # GIVEN
     test_kwargs = {
         "single_forms": ["F-4, PREC14A, SEC STAFF ACTION"],
-        "filing_category": "Beneficial Ownership Reports",
+        "filing_category": "beneficial_ownership_reports",
     }
     expected_error_msg = (
         "Cannot specify both filing_category and single_forms. "
@@ -230,9 +224,9 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
         url_generator.generate_search_url_for_kwargs(test_kwargs)
 
 
-def test_should_allow_search_with_non_all_filing_category():
+def test_should_allow_search_with_only_non_all_filing_category():
     # GIVEN
-    test_kwargs = {"filing_category": "Exempt Offerings"}
+    test_kwargs = {"filing_category": "exempt_offerings"}
     expected_url = f"https://efts.sec.gov/LATEST/search-index?category=form-cat4"
 
     # WHEN
@@ -244,10 +238,10 @@ def test_should_allow_search_with_non_all_filing_category():
 
 def test_should_not_allow_search_with_all_filing_category():
     # GIVEN
-    test_kwargs = {"filing_category": "View all"}
+    test_kwargs = {"filing_category": "all"}
     expected_error_msg = re.escape(
         "Invalid search arguments. You must provide keywords, an entity, a filing category, or 1+ single forms. "
-        "Filing category cannot be 'View all'."
+        "Filing category cannot be 'all'."
     )
 
     # WHEN / THEN

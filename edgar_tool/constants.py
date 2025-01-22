@@ -1927,19 +1927,19 @@ TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING = {
 }
 
 FilingCategoryLiteral = Literal[
-    "View all",
-    "Custom",
-    "Exclude insider equity awards, transactions, and ownership (Section 16 Reports)",
-    "All annual, quarterly, and current reports",
-    "Insider equity awards, transactions, and ownership (Section 16 Reports)",
-    "Beneficial Ownership Reports",
-    "Exempt Offerings",
-    "Registration statements and prospectuses",
-    "Filing review correspondence",
-    "SEC orders and notices",
-    "Proxy materials",
-    "Tender offers and going private transactions",
-    "Trust indentures filings",
+    "all",
+    "custom",
+    "all_except_section_16",
+    "all_annual_quarterly_and_current_reports",
+    "all_section_16",
+    "beneficial_ownership_reports",
+    "exempt_offerings",
+    "registration_statements",
+    "filing_review_correspondence",
+    "sec_orders_and_notices",
+    "proxy_materials",
+    "tender_offers_and_going_private_tx",
+    "trust_indentures",
 ]
 
 DateRangeLiteral = Literal["all", "10y", "5y", "1y", "30d", "custom"]

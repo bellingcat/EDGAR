@@ -46,12 +46,12 @@ class _SearchQueryKwargsValidator(pydantic.BaseModel):
         if (
             not self.keywords
             and not self.entity
-            and (not self.filing_category or self.filing_category == "View all")
+            and (not self.filing_category or self.filing_category == "all")
             and not self.single_forms
         ):
             raise ValueError(
                 "Invalid search arguments. You must provide keywords, an entity, a filing category, "
-                "or 1+ single forms. Filing category cannot be 'View all'."
+                "or 1+ single forms. Filing category cannot be 'all'."
             )
 
         if not self.date_range_select and self.start_date and self.end_date:
@@ -66,7 +66,7 @@ class _SearchQueryKwargsValidator(pydantic.BaseModel):
 
         if (
             self.filing_category
-            and self.filing_category != "Custom"
+            and self.filing_category != "custom"
             and self.single_forms
         ):
             raise ValueError(
@@ -156,19 +156,19 @@ class _ValidSearchParams:
     @property
     def filing_category(self):
         filing_category_to_sec_form_id = {
-            "View all": "",
-            "Custom": "custom",
-            "Exclude insider equity awards, transactions, and ownership (Section 16 Reports)": "form-cat0",
-            "All annual, quarterly, and current reports": "form-cat1",
-            "Insider equity awards, transactions, and ownership (Section 16 Reports)": "form-cat2",
-            "Beneficial Ownership Reports": "form-cat3",
-            "Exempt Offerings": "form-cat4",
-            "Registration statements and prospectuses": "form-cat5",
-            "Filing review correspondence": "form-cat6",
-            "SEC orders and notices": "form-cat7",
-            "Proxy materials": "form-cat8",
-            "Tender offers and going private transactions": "form-cat9",
-            "Trust indentures filings": "form-cat10",
+            "all": "",
+            "custom": "custom",
+            "all_except_section_16": "form-cat0",
+            "all_annual_quarterly_and_current_reports": "form-cat1",
+            "all_section_16": "form-cat2",
+            "beneficial_ownership_reports": "form-cat3",
+            "exempt_offerings": "form-cat4",
+            "registration_statements": "form-cat5",
+            "filing_review_correspondence": "form-cat6",
+            "sec_orders_and_notices": "form-cat7",
+            "proxy_materials": "form-cat8",
+            "tender_offers_and_going_private_tx": "form-cat9",
+            "trust_indentures": "form-cat10",
         }
         return filing_category_to_sec_form_id.get(self._filing_category)
 

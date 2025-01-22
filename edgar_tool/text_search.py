@@ -1,10 +1,14 @@
 import itertools
 import re
+import sys
+import urllib.parse
 from datetime import date, timedelta
 from math import ceil
 from typing import Any, Dict, Iterator, List, Optional
 
 from edgar_tool.constants import (
+    TEXT_SEARCH_BASE_URL,
+    TEXT_SEARCH_CATEGORY_FORM_GROUPINGS,
     TEXT_SEARCH_CSV_FIELDS_NAMES,
     TEXT_SEARCH_FORM_MAPPING,
     TEXT_SEARCH_LOCATIONS_MAPPING,
@@ -17,14 +21,13 @@ from edgar_tool.page_fetcher import (
     ResultsTableNotFoundError,
     fetch_page,
 )
-from edgar_tool.url_generator import generate_search_url_for_kwargs
 from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
 
 
 class EdgarTextSearcher:
 
     def __init__(self):
-        self.search_request_urls: list[str] = []
+        self.search_requests = []
         self.json_response = {}
 
     def _parse_number_of_results(self) -> int:
@@ -188,9 +191,84 @@ class EdgarTextSearcher:
                 continue
         return parsed_rows
 
+    @staticmethod
+    def _generate_request_args(
+        keywords: List[str],
+        entity_id: Optional[str],
+        filing_form: Optional[str],
+        single_forms: Optional[List[str]],
+        start_date: date,
+        end_date: date,
+        peo_in: Optional[str],
+        inc_in: Optional[str],
+    ) -> str:
+        """
+        Generates the request arguments for the SEC website based on the given parameters.
+
+        :param keywords: Search keywords to input in the "Document word or phrase" field
+        :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
+        :param filing_form: Group to select within the filing category dropdown menu, defaults to None
+        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
+        :param start_date: Start date for the custom date range, defaults to 5 years ago to replicate the default behavior of the SEC website
+        :param end_date: End date for the custom date range, defaults to current date in order to replicate the default behavior of the SEC website
+        :param peo_in: Search principal executive offices in a location (e.g. "NY,OH")
+        :param inc_in: Search incorporated in a location (e.g. "NY,OH")
+
+        :return: URL-encoded request arguments string to concatenate to the SEC website URL
+        """
+
+        # Check that start_date is not after end_date
+        if start_date > end_date:
+            raise ValueError("start_date cannot be after end_date")
+
+        # Join search keywords into a single string
+        keywords = " ".join(
+            [f'"{keyword}"' if " " in keyword else keyword for keyword in keywords]
+        )
+
+        # Generate request arguments
+        request_args = {
+            "q": keywords,
+            "dateRange": "custom",
+            "startdt": start_date.strftime("%Y-%m-%d"),
+            "enddt": end_date.strftime("%Y-%m-%d"),
+        }
+
+        # Add optional parameters
+        if peo_in and inc_in:
+            raise ValueError(
+                "use only one of peo_in or inc_in, not both"
+            )  ## because SEC API doesn't support
+        else:
+            if peo_in:
+                request_args["locationCodes"] = peo_in
+            if inc_in:
+                request_args["locationCodes"] = inc_in
+                request_args["locationType"] = "incorporated"
+
+        if entity_id:
+            request_args["entityName"] = entity_id
+        # Handle forms and single forms
+        part_filing_form = (
+            []
+            if filing_form is None
+            else TEXT_SEARCH_CATEGORY_FORM_GROUPINGS[filing_form]
+        )
+        part_single_forms = [] if single_forms is None else single_forms
+
+        # Join the filing_forms and single forms and remove duplicates
+        forms = ",".join(list(set(part_filing_form + part_single_forms)))
+        if forms != "":
+            request_args["forms"] = forms
+
+        # URL-encode the request arguments
+        request_args = urllib.parse.urlencode(request_args)
+
+        return request_args
+
     def _fetch_search_request_results(
         self,
-        url: str,
+        search_request_url_args: str,
         min_wait_seconds: float,
         max_wait_seconds: float,
         retries: int,
@@ -198,7 +276,7 @@ class EdgarTextSearcher:
         """
         Fetches the results for the given search request and paginates through the results.
 
-        :param url: URL to fetch the results from
+        :param search_request_url_args: URL-encoded request arguments string to concatenate to the SEC website URL
         :param min_wait_seconds: minimum number of seconds to wait for the request to complete
         :param max_wait_seconds: maximum number of seconds to wait for the request to complete
         :param retries: number of times to retry the request before failing
@@ -207,21 +285,21 @@ class EdgarTextSearcher:
 
         # Fetch first page, verify that the request was successful by checking the results table appears on the page
         self.json_response = fetch_page(
-            url,
+            f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}",
             min_wait_seconds,
             max_wait_seconds,
             retries,
         )(
             lambda json_response: json_response.get("error") is None
             and json_response.get("hits", {}).get("hits", 0) != 0,
-            f"First search request failed for URL {url} ...",
+            f"First search request failed for URL {TEXT_SEARCH_BASE_URL}{search_request_url_args} ...",
         )
 
         # Get number of pages
         num_pages = self._compute_number_of_pages()
 
         for i in range(1, num_pages + 1):
-            paginated_url = f"{url}&page={i}&from={100*(i-1)}"
+            paginated_url = f"{TEXT_SEARCH_BASE_URL}{search_request_url_args}&page={i}&from={100*(i-1)}"
             try:
                 self.json_response = fetch_page(
                     paginated_url,
@@ -282,18 +360,17 @@ class EdgarTextSearcher:
         """
 
         # Fetch first page, verify that the request was successful by checking the result count value on the page
-        url = generate_search_url_for_kwargs(
-            {
-                "keywords": keywords,
-                "entity_id": entity_id,
-                "filing_form": filing_form,
-                "single_forms": single_forms,
-                "start_date": start_date,
-                "end_date": end_date,
-                "peo_in": peo_in,
-                "inc_in": inc_in,
-            }
+        request_args = self._generate_request_args(
+            keywords=keywords,
+            entity_id=entity_id,
+            filing_form=filing_form,
+            single_forms=single_forms,
+            start_date=start_date,
+            end_date=end_date,
+            peo_in=peo_in,
+            inc_in=inc_in,
         )
+        url = f"{TEXT_SEARCH_BASE_URL}{request_args}"
 
         # Try to fetch the first page and parse the number of results
         # In rare cases when the results are not empty, but the number of results cannot be parsed,
@@ -320,7 +397,7 @@ class EdgarTextSearcher:
                 f"Less than 10000 ({num_results}) results found for range {start_date} -> {end_date}, "
                 f"returning search request string..."
             )
-            self.search_request_urls.append(url)
+            self.search_requests.append(request_args)
         else:
             num_batches = min(
                 ((end_date - start_date).days, TEXT_SEARCH_SPLIT_BATCHES_NUMBER)
@@ -398,13 +475,13 @@ class EdgarTextSearcher:
         )
 
         search_requests_results: List[Iterator[Iterator[Dict[str, Any]]]] = []
-        for request_url in self.search_request_urls:
+        for r in self.search_requests:
 
             # Run generated search requests and paginate through results
             try:
                 all_pages_results: Iterator[Iterator[Dict[str, Any]]] = (
                     self._fetch_search_request_results(
-                        url=request_url,
+                        search_request_url_args=r,
                         min_wait_seconds=min_wait_seconds,
                         max_wait_seconds=max_wait_seconds,
                         retries=retries,
@@ -414,7 +491,7 @@ class EdgarTextSearcher:
 
             except Exception as e:
                 print(
-                    f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{request_url}': {e}"
+                    f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{r}': {e}"
                 )
         if search_requests_results == []:
             raise NoResultsFoundError(f"No results found for the search query")
