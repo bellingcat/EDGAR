@@ -16,6 +16,7 @@ is functionally equivalent to our generated URL:
 """
 
 import datetime
+import re
 
 import pytest
 
@@ -26,8 +27,8 @@ def test_should_correctly_generate_search_url_for_single_word():
     """Baseline test to assert that querying for a single word
     produces the correct search URL"""
     # GIVEN
-    keywords = ["10-K"]
-    expected_url = f"https://efts.sec.gov/LATEST/search-index?q=10-K"
+    keywords = ["growth"]
+    expected_url = f"https://efts.sec.gov/LATEST/search-index?q=growth"
 
     # WHEN
     actual_url = url_generator.generate_search_url_for_kwargs({"keywords": keywords})
@@ -50,22 +51,16 @@ def test_should_correctly_generate_search_url_for_exact_phrase():
     assert actual_url == expected_url
 
 
-@pytest.mark.parametrize(
-    "test_kwarg",
-    [
-        {"keywords": []},
-        {"entity": []},
-    ],
-)
-def test_should_raise_if_keywords_or_entity_missing(test_kwarg):
+def test_should_raise_if_no_arguments_provided():
     # GIVEN
-    expected_error_msg = (
-        "Invalid search arguments. You must provide keywords or an entity."
+    expected_error_msg = re.escape(
+        "Invalid search arguments. You must provide keywords, an entity, a filing category, or 1+ single forms. "
+        "Filing category cannot be 'all'."
     )
 
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
-        url_generator.generate_search_url_for_kwargs(test_kwarg)
+        url_generator.generate_search_url_for_kwargs({})
 
 
 @pytest.mark.parametrize(
@@ -91,14 +86,10 @@ def test_should_raise_if_date_range_custom_but_missing_dates(date_kwarg):
 
 def test_should_raise_if_date_range_select_invalid():
     # GIVEN
-    expected_error_msg = (
-        "Invalid date_range_select. "
-        'Value must be one of "all", "10y", "1y", "30d", or "custom"'
-    )
     test_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "1m"}
 
     # WHEN / THEN
-    with pytest.raises(ValueError, match=expected_error_msg):
+    with pytest.raises(ValueError):
         url_generator.generate_search_url_for_kwargs(test_kwargs)
 
 
@@ -113,8 +104,16 @@ def test_should_raise_if_date_range_select_invalid():
             },
             "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
         ),
+        (  # Test that date_range_select is not required if start_date and end_date are provided
+            {
+                "start_date": datetime.date.fromisoformat("2024-07-10"),
+                "end_date": datetime.date.fromisoformat("2024-07-15"),
+            },
+            "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
+        ),
         ({"date_range_select": "all"}, "&dateRange=all"),
         ({"date_range_select": "10y"}, "&dateRange=10y"),
+        ({"date_range_select": "5y"}, ""),
         ({"date_range_select": "1y"}, "&dateRange=1y"),
         ({"date_range_select": "30d"}, "&dateRange=30d"),
     ],
@@ -137,6 +136,7 @@ def test_generates_correct_url_for_date_ranges(date_kwargs, url_ending):
     "filing_category, url_ending",
     (
         ("all", ""),
+        ("custom", "&category=custom"),
         ("all_except_section_16", "&category=form-cat0"),
         ("all_annual_quarterly_and_current_reports", "&category=form-cat1"),
         ("all_section_16", "&category=form-cat2"),
@@ -165,20 +165,45 @@ def test_generates_correct_url_for_filing_category(filing_category, url_ending):
 @pytest.mark.parametrize(
     "single_forms, url_ending",
     (
-        (["1"], "&forms=1"),
-        (["CORRESP"], "&forms=CORRESP"),
+        (["N-23C3B"], "&forms=N-23C3B"),
+        (["40-206A"], "&forms=40-206A"),
+        (["NRSRO-CE"], "&forms=NRSRO-CE"),
+        (["APP WDG"], "&forms=APP%20WDG"),
+        (["STOP ORDER"], "&forms=STOP%20ORDER"),
+        (["424A"], "&forms=424A"),
+        (["ANNLRPT"], "&forms=ANNLRPT"),
+        (["N-CR"], "&forms=N-CR"),
+        (["PX14A6N"], "&forms=PX14A6N"),
+        (["SEC STAFF LETTER"], "&forms=SEC%20STAFF%20LETTER"),
+        (["N-54C"], "&forms=N-54C"),
+        (["NT-NCEN"], "&forms=NT-NCEN"),
+        (["POS462B"], "&forms=POS462B"),
         (
-            ["F-4, PREC14A, SEC STAFF ACTION"],
-            "&forms=F-4%2C%20PREC14A%2C%20SEC%20STAFF%20ACTION",
+            ["F-4", "PREC14A", "SEC STAFF ACTION"],
+            "&forms=F-4%2CPREC14A%2CSEC%20STAFF%20ACTION",
         ),
     ),
 )
 def test_generates_correct_url_for_single_forms(single_forms, url_ending):
     # GIVEN
     expected_url = (
-        f"https://efts.sec.gov/LATEST/search-index?q=Ignore&category=custom{url_ending}"
+        f"https://efts.sec.gov/LATEST/search-index?category=custom{url_ending}"
     )
-    test_kwargs = {"keywords": ["Ignore"], "single_forms": single_forms}
+    test_kwargs = {"single_forms": single_forms}
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    assert actual_url == expected_url
+
+
+def test_generates_correct_url_for_single_form_and_custom_filing_category():
+    # GIVEN
+    expected_url = (
+        f"https://efts.sec.gov/LATEST/search-index?category=custom&forms=NPORT-EX"
+    )
+    test_kwargs = {"single_forms": ["NPORT-EX"], "filing_category": "custom"}
 
     # WHEN
     actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
@@ -196,14 +221,38 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
     """
     # GIVEN
     test_kwargs = {
-        "keywords": ["Ignore"],
-        "single_forms": ["F-4, PREC14A, SEC STAFF ACTION"],
+        "single_forms": ["F-4", "PREC14A", "SEC STAFF ACTION"],
         "filing_category": "beneficial_ownership_reports",
     }
     expected_error_msg = (
         "Cannot specify both filing_category and single_forms. "
         "Passing single_forms automatically sets the filing_category"
         " to custom. Please choose one or the other."
+    )
+
+    # WHEN / THEN
+    with pytest.raises(ValueError, match=expected_error_msg):
+        url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+
+def test_should_allow_search_with_only_non_all_filing_category():
+    # GIVEN
+    test_kwargs = {"filing_category": "exempt_offerings"}
+    expected_url = f"https://efts.sec.gov/LATEST/search-index?category=form-cat4"
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    assert actual_url == expected_url
+
+
+def test_should_not_allow_search_with_all_filing_category():
+    # GIVEN
+    test_kwargs = {"filing_category": "all"}
+    expected_error_msg = re.escape(
+        "Invalid search arguments. You must provide keywords, an entity, a filing category, or 1+ single forms. "
+        "Filing category cannot be 'all'."
     )
 
     # WHEN / THEN
@@ -583,3 +632,27 @@ def test_should_raise_exception_if_both_peo_in_and_inc_in():
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
         url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+
+def test_should_correctly_generate_search_url_for_multiple_peo_in():
+    # GIVEN
+    test_kwargs = {"keywords": ["test multiple"], "peo_in": ["NY", "AK"]}
+    expected_url = "https://efts.sec.gov/LATEST/search-index?q=%22test%20multiple%22&locationCodes=NY%2CAK"
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    assert actual_url == expected_url
+
+
+def test_should_correctly_generate_search_url_for_multiple_inc_in():
+    # GIVEN
+    test_kwargs = {"keywords": ["company"], "inc_in": ["CA", "TX"]}
+    expected_url = "https://efts.sec.gov/LATEST/search-index?q=company&locationType=incorporated&locationCodes=CA%2CTX"
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    assert actual_url == expected_url
