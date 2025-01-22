@@ -11,7 +11,7 @@ class _SearchQueryKwargsValidator(pydantic.BaseModel):
     keywords: Optional[list[str]] = None
     entity: Optional[str] = None
     filing_category: Optional[constants.FilingCategoryLiteral] = None
-    single_forms: Optional[list[str]] = None
+    single_forms: Optional[list[constants.FilingLiteral]] = None
     date_range_select: Optional[constants.DateRangeLiteral] = None
     start_date: Optional[datetime.date] = None
     end_date: Optional[datetime.date] = None
@@ -193,7 +193,7 @@ def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
             )
     if validated_params.single_forms:
         query_params["category"] = "custom"
-        query_params["forms"] = validated_params.single_forms
+        query_params["forms"] = ",".join(validated_params.single_forms)
     elif validated_params.filing_category:
         query_params["category"] = validated_params.filing_category
     if validated_params.peo_in:

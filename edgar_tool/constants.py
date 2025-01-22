@@ -2253,3 +2253,330 @@ LocationLiteral = Literal[
     "ZWE",  # Zimbabwe
     "XX",  # Unknown
 ]
+
+FilingLiteral = Literal[
+    "1-A POS",  # Post-qualification amendment (Regulation A)
+    "1-A-W",  # Withdrawal of Regulation A offering statement
+    "1-A",  # Regulation A offering statement
+    "1-E AD",  # Sales material filed under Regulation E
+    "1-K",  # Annual report (Regulation A)
+    "1-SA",  # Semiannual report (Regulation A)
+    "1-U",  # Current report (Regulation A)
+    "1-Z-W",  # Withdrawal of Regulation A exit report
+    "1-Z",  # Exit report under Regulation A
+    "1",  #
+    "10-12B",  # Registration statement
+    "10-12G",  # Registration statement
+    "10-D",  # Distribution report
+    "10-K",  # Annual report
+    "10-KT",  # Transition report (10-K)
+    "10-Q",  # Quarterly report
+    "10-QT",  # Transition report (10-Q)
+    "11-K",  # Annual report (employee stock purchase, savings and similar plans)
+    "13F-HR",  # Institutional investment manager holdings report
+    "13F-NT",  # Institutional investment manager notice
+    "13FCONP",  #
+    "144",  # Notice of proposed sale of securities
+    "15-12B",  # Termination of registration
+    "15-12G",  # Termination of registration
+    "15-15D",  # Suspension notice
+    "15F-12B",  # Termination of registration of a class of securities of a foreign private issuer
+    "15F-12G",  # Termination of registration of a foreign private issuer
+    "15F-15D",  # Suspension of duty to file reports by a foreign private issuer
+    "18-12B",  # Initial registration of foreign governments or political subdivisions under 12(b)
+    "18-K",  # Annual report for foreign governments and political subdivisions
+    "19B-4E",  #
+    "2-A",  # Small company offering registration form
+    "20-F",  # Annual report (foreign private issuer)
+    "20FR12B",  # Registration of a class of securities of a foreign private issuer
+    "20FR12G",  #
+    "24F-2NT",  # Annual notice of securities sold
+    "25-NSE",  #
+    "25",  # Notice of removal from listing and/or registration
+    "253G1",  # Prospectus previously omitted in reliance on Rule 430A
+    "253G2",  #
+    "253G4",  # Prospectus previously omitted in reliance on Rule 430D
+    "3",  # Initial insider holdings report
+    "305B2",  # Application for designation of new trustee
+    "4",  # Statement of changes in beneficial ownership of securities
+    "40-17F1",  # Initial certificate of accounting of securities and similar investments (investment companies)
+    "40-17F2",  # Initial certificate of accounting (investment companies)
+    "40-17G",  # Fidelity bond for investment companies
+    "40-202A",  # Application for exemption under the Investment Advisers Act
+    "40-203A",  # Application for exemption under the Investment Advisers Act
+    "40-206A",  # Application for exemption under the Investment Advisers Act
+    "40-24B2",  # Filing of sales literature (investment companies)
+    "40-33",  # Copies of all stockholder derivative actions (investment companies)
+    "40-6B",  # Application under the Investment Company Act by an employees' securities company
+    "40-8B25",  # Request for extension of time by an investment company
+    "40-APP",  # Application for exemptive relief (investment companies)
+    "40-F",  # Registration statement (certain Canadian issuers)
+    "40-OIP",  # Application for exemptive relief (investment companies)
+    "40FR12B",  # Registration of a class of securities of certain Canadian issuers
+    "424A",  # Prospectus filed under Rule 424(a)
+    "424B1",  # Prospectus
+    "424B2",  # Prospectus
+    "424B3",  # Prospectus
+    "424B4",  # Prospectus
+    "424B5",  # Prospectus
+    "424B7",  # Prospectus
+    "424B8",  # Prospectus
+    "424H",  #
+    "425",  # Prospectus/communication re business combination
+    "485APOS",  # Prospectus materials
+    "485BPOS",  # Prospectus materials
+    "485BXT",  # Post-effective amendment to extend effective date
+    "486APOS",  # Post-effective amendment filed pursuant to Rule 486(a)
+    "486BPOS",  # Post-effective amendment filed pursuant to Rule 486(b)
+    "486BXT",  # Post-effective amendment under Rule 486(b)(1)(iii) to extend effective date
+    "487",  # Pre-effective pricing amendment
+    "497",  # Definitive materials for investment companies
+    "497AD",  # Filing of Rule 482 advertising
+    "497H2",  # Filings under Rule 497(h)(2)
+    "497J",  # Prospectus materials
+    "497K",  # Summary prospectus for open-end management investment companies
+    "497VPI",  # Initial summary prospectus for variable contracts under Rule 497(k)
+    "497VPU",  # Updating summary prospectus for variable contracts under Rule 497(k)
+    "5",  # Annual insider trading report
+    "6-K",  # Current report (foreign issuer)
+    "6B NTC",  # Notice of application by employees' securities company under Investment Company Act
+    "6B ORDR",  # Order approving application by employees' securities company
+    "8-A12B",  # Registration statement
+    "8-A12G",  # Registration statement
+    "8-K",  # Current report
+    "8-K12B",  #
+    "8-K12G3",  #
+    "8-M",  # Modified current report
+    "8F-2 NTC",  # Notice of termination of registration of certain investment companies
+    "8F-2 ORDR",  # Order terminating registration of certain investment companies
+    "ABS-15G",  # Asset-Backed Securitizer Report
+    "ABS-EE",  # Form for electronic exhibits in asset-backed securities offerings
+    "ADV-E",  #
+    "ADV-H-C",  # Continuing hardship exemption request for Form ADV
+    "ADV-H-T",  # Temporary hardship exemption request for Form ADV
+    "ADV-NR",  #
+    "ANNLRPT",  # Annual report by development banks
+    "APP NTC",  # 40-APP Notice
+    "APP ORDR",  # 40-APP Order
+    "APP WD",  # Withdrawal of application for exemptive relief
+    "APP WDG",  # Withdrawal of application for exemptive relief from Investment Company Act
+    "ARS",  # Annual report to security holders
+    "ATS-N-C",  # Cessation of operations report for NMS Stock ATS
+    "ATS-N",  # Initial operation report, amendment, or cessation report for NMS Stock ATS
+    "ATS-N/UA",  # Amendment to initial operation report for NMS Stock ATS
+    "AW WD",  # Withdrawal of request to withdraw amendment to registration statement
+    "AW",  # Withdrawal of amendment to a registration statement
+    "C-AR-W",  # Withdrawal of Regulation A annual report
+    "C-AR",  # Annual report (Regulation A)
+    "C-TR-W",  # Withdrawal of Regulation C termination of reporting
+    "C-TR",  # Termination of Regulation C offering
+    "C-U-W",  # Withdrawal of Regulation A periodic report
+    "C-U",  # Progress update (Regulation A)
+    "C-W",  # Offering statement withdrawal
+    "C",  # Offering statement
+    "CB",  # Notification form for certain tender offers (foreign private issuer)
+    "CERT",  #
+    "CERTARCA",  #
+    "CERTBATS",  #
+    "CERTCBO",  #
+    "CERTNAS",  #
+    "CERTNYS",  #
+    "CERTPAC",  #
+    "CFPORTAL",  # Application for registration as funding portal
+    "CORRESP",  # Correspondence
+    "CT ORDER",  # Confidential order
+    "D",  # Notice of sales of unregistered securities
+    "DEF 14A",  # Proxy statement
+    "DEF 14C",  # Information statement
+    "DEFA14A",  # Proxy materials
+    "DEFA14C",  # Additional definitive proxy soliciting materials
+    "DEFC14A",  # Definitive proxy statement to contested solicitations
+    "DEFM14A",  # Definitive proxy statement (merger or acquisition)
+    "DEFM14C",  # Definitive information statement relating to merger or acquisition
+    "DEFN14A",  # Definitive proxy statement - non-management
+    "DEFR14A",  # Revised definitive proxy statement
+    "DEFR14C",  # Revised definitive information statement
+    "DEL AM",  # Delaying amendment
+    "DFAN14A",  # Proxy soliciting materials (non-management)
+    "DFRN14A",  # Revised definitive proxy statement (non-management)
+    "DOS",  #
+    "DOSLTR",  #
+    "DRS",  # Draft registration statement
+    "DRSLTR",  # Correspondence related to draft registration statement
+    "DSTRBRPT",  # Distribution of primary obligations development bank report
+    "EFFECT",  # SEC order
+    "F-1",  # Registration statement for certain foreign private issuers
+    "F-10",  # Registration statement (certain Canadian issuers)
+    "F-10EF",  # Auto effective registration statement for certain Canadian issuers
+    "F-10POS",  # Post-effective amendment to F-10 registration
+    "F-1MEF",  # Registration statement under Rule 462(b)
+    "F-3",  # Registration statement (certain foreign private issuers)
+    "F-3ASR",  # Automatic shelf registration statement (foreign private issuers)
+    "F-3D",  # Registration for dividend or interest reinvestment plan by foreign issuers
+    "F-4",  # Registration statement (business combinations - foreign private issuers)
+    "F-4MEF",  # Registration statement under Rule 462(b) related to Form F-4
+    "F-6 POS",  # Post-effective amendment to F-6EF registration
+    "F-6",  # Registration statement (American Depositary Receipts - foreign private issuer)
+    "F-6EF",  # Registration statement (American Depositary Receipts)
+    "F-7 POS",  # Post-effective amendment to F-7 registration
+    "F-7",  # Registration of certain Canadian issuers for rights offerings
+    "F-8",  # Registration of certain Canadian issuers for exchange offers or business combinations
+    "F-80",  # Registration of certain Canadian issuers for exchange offers or business combinations
+    "F-80POS",  # Post-effective amendment to F-80 registration
+    "F-9 POS",  # Post-effective amendment to F-9 registration
+    "F-9",  # Registration of certain investment grade debt or investment grade preferred securities of certain Canadian issuers
+    "F-N",  # Appointment of agent for service by foreign institutions
+    "F-X",  # Appointment of agent for service of process
+    "FOCUSN",  #
+    "FWP",  # Free writing prospectus
+    "G-FIN",  #
+    "IRANNOTICE",  # Notice of Iran-related disclosure
+    "MA-A",  # Annual update of municipal advisor registration
+    "MA-I",  # Municipal advisor registration
+    "MA-W",  # Notice of withdrawal from registration as a municipal advisor
+    "MA",  # Municipal advisor registration
+    "MSD",  #
+    "MSDW",  # Withdrawal of application for exemptive relief
+    "N-1",  # Registration statement for open-end management investment companies
+    "N-14 8C",  # Registration statement by closed-end investment company (business combinations)
+    "N-14",  # Registration statement (open-end investment company - business combinations)
+    "N-14MEF",  # Registration statement under Rule 462(b) related to Form N-14
+    "N-18F1",  # Initial notification of election (open-end investment companies)
+    "N-1A",  # Registration statement (open-end management investment companies)
+    "N-2 POSASR",  # Post-effective amendment to automatic shelf registration on Form N-2
+    "N-2",  # Registration statement (closed-end investment companies)
+    "N-23C-2",  # Notice of intention to redeem securities (closed-end investment companies)
+    "N-23C3A",  #
+    "N-23C3B",  # Notification of discretionary repurchase offer by closed-end funds or BDCs
+    "N-2ASR",  # Automatic shelf registration statement of WKSIs
+    "N-2MEF",  # Registration statement under Rule 462(b) by closed-end investment companies
+    "N-30B-2",  # Periodic and interim reports (investment companies)
+    "N-30D",  # Annual and semi-annual reports (investment companies)
+    "N-4",  # Registration statement (separate accounts - unit investment trusts)
+    "N-5",  # Registration statement for SBICs
+    "N-54A",  # Notification of election by business development companies
+    "N-54C",  # Withdrawal of BDC election
+    "N-6",  # Registration statement (separate accounts - unit investment trusts)
+    "N-6F",  # Notice of intent by business development companies to elect to be regulated
+    "N-8A",  # Initial notification of registration (investment companies)
+    "N-8B-2",  # Initial registration statement for UITs on Form N-8B-2
+    "N-8F NTC",  # N-8F Notice
+    "N-8F ORDR",  # N-8F Order
+    "N-8F",  # Application for deregistration (investment companies)
+    "N-CEN",  # Annual report for investment companies
+    "N-CR",  # Current report of money market fund material events
+    "N-CSR",  # Annual shareholder report
+    "N-CSRS",  # Semi-annual shareholder report
+    "N-MFP",  # Monthly portfolio holdings schedule
+    "N-MFP1",  # Monthly portfolio holdings schedule
+    "N-MFP2",  # Monthly portfolio holdings schedule
+    "N-PX",  # Annual proxy voting report
+    "N-Q",  # Quarterly portolio holdings schedule
+    "N-VP",  # Certification of no change in definitive materials under Rule 497(j)
+    "N-VPFS",  # Designation of new effective date for post-effective amendment under Rule 486(a)
+    "NO ACT",  #
+    "NPORT-EX",  # Portfolio holdings exhibit
+    "NPORT-NP",  #
+    "NPORT-P",  #
+    "NRSRO-CE",  # Annual certification for NRSROs
+    "NRSRO-UPD",  # Form NRSRO – Update of Registration for Nationally Recognized Statistical Rating Organizations
+    "NSAR-A",  # Semi-annual report for management companies
+    "NSAR-AT",  # Transitional semi-annual report on Form N-SAR
+    "NSAR-B",  # Annual report for management companies
+    "NSAR-BT",  # Transitional annual report (Form N-SAR)
+    "NSAR-U",  # Annual report for unit investment trusts
+    "NT 10-D",  # Late filing notice for Form 10-D
+    "NT 10-K",  # Late filing notice (10-K)
+    "NT 10-Q",  # Late filing notice (10-Q)
+    "NT 11-K",  # Late filing notice (11-K)
+    "NT 20-F",  # Late filing notice (20-F)
+    "NT N-CEN",  #
+    "NT N-MFP",  # Late filing notice (Form N-MFP)
+    "NT N-MFP1",  # Late filing notice for Form N-MFP1
+    "NT N-MFP2",  #
+    "NT NPORT-P",  #
+    "NT-NCEN",  # Late filing notice for Form N-CEN
+    "NT-NCSR",  # Late filing notice (Form N-CSR)
+    "NT-NSAR",  # Late filing notice (Form N-SAR)
+    "NTN 10D",  # Late filing notice for Form 10-D
+    "NTN 10K",  #
+    "NTN 10Q",  #
+    "OIP NTC",  # 40-OIP Notice
+    "OIP ORDR",  # 40-OIP Order
+    "POS 8C",  # Post-effective amendment filed under the 1933 Act only or under both the 1933 and 1940 Acts
+    "POS AM",  # Post-effective amendment
+    "POS AMI",  # Post-effective amendment (1940 Act only)
+    "POS EX",  # Post-effective amendment to add exhibits
+    "POS462B",  # Post-effective amendment to Rule 462(b) registration statement
+    "POS462C",  # Post-effective amendment to Rule 462(c) registration statement
+    "POSASR",  # Post-effective amendment to automatic shelf registration
+    "PRE 14A",  # Preliminary proxy statement
+    "PRE 14C",  # Preliminary information statement
+    "PREC14A",  # Preliminary proxy statement in contested solicitations
+    "PREM14A",  # Preliminary proxy statement relating to merger or acquisition
+    "PREM14C",  # Preliminary information statement relating to merger or acquisition
+    "PREN14A",  # Preliminary proxy statement - non-management
+    "PRER14A",  # Preliminary revised proxy statement
+    "PRER14C",  # Preliminary information statement
+    "PRRN14A",  # Revised preliminary proxy statement
+    "PX14A6G",  #
+    "PX14A6N",  # Notice of exempt solicitation
+    "QRTLYRPT",  # Periodic development bank filing, submitted quarterly
+    "QUALIF",  #
+    "REG-NR",  # Non-resident registration
+    "REVOKED",  #
+    "RW WD",  # Withdrawal of a request for withdrawal of a registration statement
+    "RW",  # Registration withdrawal request
+    "S-1",  # Registration statement
+    "S-11",  # Registration statement (real estate companies)
+    "S-11MEF",  # Registration statement under Rule 462(b) related to Form S-11
+    "S-1MEF",  # Registration statement under Rule 462(b)
+    "S-20",  # Registration statement for standardized options
+    "S-3",  # Registration statement (certain issuers)
+    "S-3ASR",  # Automatic shelf registration statement
+    "S-3D",  # Registration statement (dividend or interest reinvestment plan)
+    "S-3DPOS",  # Post-effective amendment to S-3D registration statement
+    "S-3MEF",  # Registration statement under Rule 462(b)
+    "S-4 POS",  # Post-effective amendment to S-4EF registration statement
+    "S-4",  # Registration statement - business combination
+    "S-4EF",  # Auto effective registration statement related to bank/S&L holding company formation
+    "S-4MEF",  # Registration statement under Rule 462(b) related to Form S-4
+    "S-6",  # Registration statement for unit investment trusts
+    "S-8 POS",  # Post-effective amendment to S-8 registration
+    "S-8",  # Registration statement (employee benefit plans)
+    "S-B",  # Registration statement (foreign governments and subdivisions)
+    "SBSE-A",  # Application for registration of security-based swap dealers and participants (CFTC)
+    "SBSE-BD",  # Application for registration of security-based swap dealers and participants (broker-dealers)
+    "SBSE-C",  # Certifications for registration of security-based swap dealers and participants
+    "SBSE-W",  # Withdrawal of registration as a security-based swap dealer or participant
+    "SBSE",  # Application for registration of security-based swap dealers and participants
+    "SC 13D",  # Beneficial ownership report (active investors)
+    "SC 13E3",  # Going private transaction statement
+    "SC 13G",  # Beneficial ownership report (passive investors)
+    "SC 14D9",  # Recommendation statement (tender offers)
+    "SC 14F1",  # Change in majority of directors
+    "SC 14N",  # Information filed under §240.14n-1 and amendments under §240.14n-2
+    "SC TO-C",  # Written communication relating to tender offer
+    "SC TO-I",  # Issuer tender offer statement
+    "SC TO-T",  # Third party tender offer statement
+    "SC14D1F",  # Third party tender offer statement (foreign issuer)
+    "SC14D9C",  # Written communication by the subject company relating to a third party tender offer
+    "SC14D9F",  # Solicitation/recommendation statement by foreign issuers under 14(d)(4)
+    "SD",  # Specialized disclosure report
+    "SE",  #
+    "SEC ACTION",  # Commission opinion, order, or consent to withdraw registration statement
+    "SEC STAFF ACTION",  #
+    "SEC STAFF LETTER",  # SEC staff correspondence
+    "SF-3",  # Registration statement (asset-backed securities)
+    "SL",  # Prospectus filed under Rule 424(b)(2) or (b)(3)
+    "STOP ORDER",  # Stop order on a registration statement
+    "SUPPL",  # Voluntary supplemental material (foreign issuers)
+    "T-3",  # Application for qualification of trust indentures
+    "TA-1",  # Application for registration as a transfer agent
+    "TA-2",  # Annual report of transfer agent activities
+    "TA-W",  # Notice of withdrawal from registration as transfer agent
+    "TACO",  #
+    "UNDER",  # Initial undertaking to file reports
+    "UPLOAD",  # Correspondence
+    "X-17A-5",  # Annual audit report by brokers or dealers
+]

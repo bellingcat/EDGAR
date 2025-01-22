@@ -165,11 +165,22 @@ def test_generates_correct_url_for_filing_category(filing_category, url_ending):
 @pytest.mark.parametrize(
     "single_forms, url_ending",
     (
-        (["1"], "&forms=1"),
-        (["CORRESP"], "&forms=CORRESP"),
+        (["N-23C3B"], "&forms=N-23C3B"),
+        (["40-206A"], "&forms=40-206A"),
+        (["NRSRO-CE"], "&forms=NRSRO-CE"),
+        (["APP WDG"], "&forms=APP%20WDG"),
+        (["STOP ORDER"], "&forms=STOP%20ORDER"),
+        (["424A"], "&forms=424A"),
+        (["ANNLRPT"], "&forms=ANNLRPT"),
+        (["N-CR"], "&forms=N-CR"),
+        (["PX14A6N"], "&forms=PX14A6N"),
+        (["SEC STAFF LETTER"], "&forms=SEC%20STAFF%20LETTER"),
+        (["N-54C"], "&forms=N-54C"),
+        (["NT-NCEN"], "&forms=NT-NCEN"),
+        (["POS462B"], "&forms=POS462B"),
         (
-            ["F-4, PREC14A, SEC STAFF ACTION"],
-            "&forms=F-4%2C%20PREC14A%2C%20SEC%20STAFF%20ACTION",
+            ["F-4", "PREC14A", "SEC STAFF ACTION"],
+            "&forms=F-4%2CPREC14A%2CSEC%20STAFF%20ACTION",
         ),
     ),
 )
@@ -210,7 +221,7 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
     """
     # GIVEN
     test_kwargs = {
-        "single_forms": ["F-4, PREC14A, SEC STAFF ACTION"],
+        "single_forms": ["F-4", "PREC14A", "SEC STAFF ACTION"],
         "filing_category": "beneficial_ownership_reports",
     }
     expected_error_msg = (
