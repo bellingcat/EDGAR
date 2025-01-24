@@ -6,7 +6,7 @@ import click
 import typer
 from typing_extensions import Annotated
 
-from .constants import DateRange, FilingCategory, Location
+from .constants import DateRange, Filing, FilingCategory, Location
 from .rss import fetch_rss_feed
 from .text_search import EdgarTextSearcher
 
@@ -71,6 +71,7 @@ def text_search(
             help="End date of the search in YYYY-MM-DD format (i.e. 2024-07-28)",
         ),
     ] = date.today().strftime("%Y-%m-%d"),
+    # TODO: Test all below options
     entity_id: Annotated[
         str,
         typer.Option(
@@ -84,7 +85,7 @@ def text_search(
         ),
     ] = None,
     single_form: Annotated[
-        list[str],
+        Filing,
         typer.Option(
             "--single-form",
             "-sf",
@@ -119,29 +120,6 @@ def text_search(
             ),
         ),
     ] = None,
-    # todo: deprecate min_wait and max_wait
-    min_wait: Annotated[
-        float,
-        typer.Option(
-            "--min-wait",
-            help="Minimum number of seconds to wait between search",
-        ),
-    ] = 0.1,
-    max_wait: Annotated[
-        float,
-        typer.Option(
-            "--max-wait", help="Maximum number of seconds to wait between search"
-        ),
-    ] = 0.15,
-    retries: Annotated[
-        int,
-        typer.Option(
-            "--retries",
-            "-r",
-            help="Number of times to retry the request before failing",
-            click_type=click.IntRange(min=0),
-        ),
-    ] = 3,
 ):
     if start_date and end_date and start_date > end_date:
         raise typer.BadParameter("Start date cannot be later than end date.")
@@ -153,9 +131,9 @@ def text_search(
         single_forms=single_form,
         start_date=start_date,
         end_date=end_date,
-        min_wait_seconds=min_wait,
-        max_wait_seconds=max_wait,
-        retries=retries,
+        min_wait_seconds=0.1,
+        max_wait_seconds=0.15,
+        retries=3,
         destination=output,
         peo_in=peo_in,
         inc_in=inc_in,

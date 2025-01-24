@@ -144,26 +144,3 @@ def test_text_search_with_start_date_but_no_end_date_passes():
     )
     # THEN
     assert result.exit_code == 0
-
-
-def test_text_search_negative_retries_fails():
-    """
-    Tests that passing a negative value for --retries fails
-    """
-    # GIVEN/WHEN
-    result = runner.invoke(
-        edgar_tool.cli.app,
-        [
-            "text-search",
-            "example",
-            "--retries",
-            "-1",
-        ],
-    )
-
-    # THEN
-    assert result.exit_code != 0
-    assert (
-        "Invalid value for '--retries' / '-r': -1 is not in the range x>=0."
-        in result.output
-    )
