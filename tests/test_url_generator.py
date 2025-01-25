@@ -17,7 +17,9 @@ is functionally equivalent to our generated URL:
 
 import datetime
 import re
+import urllib.parse
 
+import freezegun
 import pytest
 
 from edgar_tool import url_generator
@@ -38,14 +40,21 @@ def test_should_correctly_generate_search_url_for_single_word():
     assert actual_url == expected_url
 
 
-def test_should_correctly_generate_search_url_for_exact_phrase():
-    # GIVEN
-    keywords = ["Insider trading report"]
-    expected_url = (
-        "https://efts.sec.gov/LATEST/search-index?q=%22Insider%20trading%20report%22"
-    )
-
-    # WHEN
+@pytest.mark.parametrize(
+    "keywords,expected_url",
+    [
+        (
+            ["Insider trading report"],
+            "https://efts.sec.gov/LATEST/search-index?q=%22Insider%20trading%20report%22",
+        ),
+        (
+            ["John Doe", "(1) ABC Corp.", "January 4, 2021"],
+            "https://efts.sec.gov/LATEST/search-index?q=%22John%20Doe%22%20%22%281%29%20ABC%20Corp.%22%20%22January%204%2C%202021%22",
+        ),
+    ],
+)
+def test_should_correctly_generate_search_url_for_exact_phrase(keywords, expected_url):
+    # GIVEN / WHEN
     actual_url = url_generator.generate_search_url_for_kwargs({"keywords": keywords})
 
     # THEN
@@ -94,6 +103,7 @@ def test_should_raise_if_date_range_select_invalid():
         url_generator.generate_search_url_for_kwargs(test_kwargs)
 
 
+@freezegun.freeze_time("2025-01-27")
 @pytest.mark.parametrize(
     "date_kwargs,url_ending",
     [
@@ -112,11 +122,24 @@ def test_should_raise_if_date_range_select_invalid():
             },
             "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
         ),
-        ({"date_range_select": "all"}, "&dateRange=all"),
-        ({"date_range_select": "10y"}, "&dateRange=10y"),
-        ({"date_range_select": "5y"}, ""),
-        ({"date_range_select": "1y"}, "&dateRange=1y"),
-        ({"date_range_select": "30d"}, "&dateRange=30d"),
+        (
+            {"date_range_select": "all"},
+            "&dateRange=all&startdt=2001-01-01&enddt=2025-01-27",
+        ),
+        (
+            {"date_range_select": "10y"},
+            "&dateRange=10y&startdt=2015-01-27&enddt=2025-01-27",
+        ),
+        # 5y does not use the `dateRange` parameter
+        ({"date_range_select": "5y"}, "&startdt=2020-01-27&enddt=2025-01-27"),
+        (
+            {"date_range_select": "1y"},
+            "&dateRange=1y&startdt=2024-01-27&enddt=2025-01-27",
+        ),
+        (
+            {"date_range_select": "30d"},
+            "&dateRange=30d&startdt=2024-12-28&enddt=2025-01-27",
+        ),
     ],
 )
 def test_generates_correct_url_for_date_ranges(date_kwargs, url_ending):
@@ -581,7 +604,7 @@ class TestPeoInAndIncIn:
         self, abbreviation, expected_location_code
     ):
         # GIVEN
-        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationCode={expected_location_code}"
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationCode={expected_location_code}&locationCodes={expected_location_code}"
 
         # WHEN
         actual_url = url_generator.generate_search_url_for_kwargs(
@@ -595,7 +618,7 @@ class TestPeoInAndIncIn:
         self, abbreviation, expected_location_code
     ):
         # GIVEN
-        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationType=incorporated&locationCode={expected_location_code}"
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationType=incorporated&locationCode={expected_location_code}&locationCodes={expected_location_code}"
 
         # WHEN
         actual_url = url_generator.generate_search_url_for_kwargs(
@@ -638,7 +661,7 @@ def test_should_raise_exception_if_both_peo_in_and_inc_in():
 def test_should_correctly_generate_search_url_for_multiple_peo_in():
     # GIVEN
     test_kwargs = {"keywords": ["test multiple"], "peo_in": ["NY", "AK"]}
-    expected_url = "https://efts.sec.gov/LATEST/search-index?q=%22test%20multiple%22&locationCodes=NY%2CAK"
+    expected_url = "https://efts.sec.gov/LATEST/search-index?q=%22test%20multiple%22&locationCode=NY%2CAK&locationCodes=NY%2CAK"
 
     # WHEN
     actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
@@ -650,10 +673,48 @@ def test_should_correctly_generate_search_url_for_multiple_peo_in():
 def test_should_correctly_generate_search_url_for_multiple_inc_in():
     # GIVEN
     test_kwargs = {"keywords": ["company"], "inc_in": ["CA", "TX"]}
-    expected_url = "https://efts.sec.gov/LATEST/search-index?q=company&locationType=incorporated&locationCodes=CA%2CTX"
+    expected_url = "https://efts.sec.gov/LATEST/search-index?q=company&locationType=incorporated&locationCode=CA%2CTX&locationCodes=CA%2CTX"
 
     # WHEN
     actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
 
     # THEN
     assert actual_url == expected_url
+
+
+@freezegun.freeze_time("2025-01-26")
+def test_with_multiple_kwargs():
+    # GIVEN
+    test_kwargs = {
+        "keywords": ["John Doe", "(1) ABC Corp.", "January 4, 2021"],
+        "entity": "0000915802",
+        "single_forms": ["DEF 14A"],
+        "date_range_select": "all",
+        "inc_in": "DE",
+    }
+    expected_query_params = {
+        "q": ['"John Doe" "(1) ABC Corp." "January 4, 2021"'],
+        "dateRange": ["all"],
+        "startdt": ["2001-01-01"],
+        "enddt": ["2025-01-26"],
+        "entityName": ["0000915802"],
+        "category": ["custom"],
+        "forms": ["DEF 14A"],
+        "locationType": ["incorporated"],
+        "locationCode": ["DE"],
+        "locationCodes": ["DE"],
+    }
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+
+    # THEN
+    parsed_url = urllib.parse.urlparse(actual_url)
+    assert parsed_url.scheme == "https"
+    assert parsed_url.netloc == "efts.sec.gov"
+    assert parsed_url.path == "/LATEST/search-index"
+
+    actual_query_params = urllib.parse.parse_qs(
+        parsed_url.query, strict_parsing=True, keep_blank_values=True
+    )
+    assert actual_query_params == expected_query_params

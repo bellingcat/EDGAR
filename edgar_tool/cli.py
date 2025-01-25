@@ -85,7 +85,7 @@ def text_search(
         ),
     ] = None,
     single_form: Annotated[
-        Filing,
+        list[Filing],
         typer.Option(
             "--single-form",
             "-sf",
@@ -129,11 +129,9 @@ def text_search(
         entity_id=entity_id,
         filing_form=filing_category,
         single_forms=single_form,
+        date_range=date_range,
         start_date=start_date,
         end_date=end_date,
-        min_wait_seconds=0.1,
-        max_wait_seconds=0.15,
-        retries=3,
         destination=output,
         peo_in=peo_in,
         inc_in=inc_in,

@@ -16,7 +16,14 @@ def output_file(tmp_path):
     return tmp_path / "results.csv"
 
 
-def test_text_search_end_to_end(output_file):
+@pytest.mark.parametrize(
+    "date_args",
+    [
+        ("--start-date", "2021-01-01", "--end-date", "2021-01-05"),
+        ("--date-range", "all"),
+    ],
+)
+def test_text_search_end_to_end(output_file, date_args):
     """
     Tests the end-to-end functionality of `SecEdgarScraperCli.text_search` by
     verifying a past search always produces the same result.
@@ -26,19 +33,23 @@ def test_text_search_end_to_end(output_file):
 root_form,form_name,filed_at,reporting_for,entity_name,ticker,company_cik,company_cik_trimmed,place_of_business,incorporated_location,file_num,film_num,file_num_search_url,filing_details_url,filing_document_url
 DEF 14A,Proxy statement,2021-01-04,2021-02-15,FINANCIAL INVESTORS TRUST,,0000915802,915802,"Denver, Colorado",Delaware,811-08194,21500495,https://www.sec.gov/cgi-bin/browse-edgar/?filenum=811-08194&action=getcompany,https://www.sec.gov/Archives/edgar/data/915802/000139834421000011/0001398344-21-000011-index.html,https://www.sec.gov/Archives/edgar/data/915802/000139834421000011/fp0060683_def14a.htm
 """
-
     # WHEN
     runner.invoke(
         edgar_tool.cli.app,
         [
             "text-search",
             "John Doe",
+            "(1) ABC Corp.",
+            "January 4, 2021",
             "--output",
             str(output_file),
-            "--start-date",
-            "2021-01-01",
-            "--end-date",
-            "2021-01-05",
+            *date_args,
+            "--single-form",
+            "DEF 14A",
+            "--entity-id",
+            "0000915802",
+            "--incorporated-in",
+            "DE",
         ],
     )
 
