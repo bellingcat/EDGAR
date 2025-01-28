@@ -8,7 +8,9 @@ from tenacity import retry, stop_after_attempt, wait_fixed
 
 
 @retry(
-    wait=wait_fixed(uniform(0.1, 0.15)),
+    before=wait_fixed(
+        0.11
+    ),  # The SEC API limits us to max 10 requests per second. Let's be conservative.
     stop=stop_after_attempt(3),
     reraise=True,
 )
@@ -17,10 +19,7 @@ def fetch_page(url: str) -> dict:
     Fetches the given URL and retries the request if the page load fails.
 
     :param url: URL to fetch
-    :param min_wait_seconds: minimum wait time for the request to complete before executing the check method
-    :param max_wait_seconds: maximum wait time for the request to complete before executing the check method
-    :param stop_after_n: how many times to retry the request before failing
-    :return: wrapper function that takes a check method and retries the request if the page load fails
+    :return: JSON response from the URL
     """
 
     print(f"Requesting URL: {url}")

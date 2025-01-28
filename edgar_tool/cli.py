@@ -10,7 +10,7 @@ from .constants import DateRange, Filing, FilingCategory, Location
 from .rss import fetch_rss_feed
 from .text_search import EdgarTextSearcher
 
-app = typer.Typer(name="edgar-tool", no_args_is_help=True)
+app = typer.Typer(name="edgar", no_args_is_help=True)
 
 
 def output_callback(value: str):
