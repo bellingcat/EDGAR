@@ -88,7 +88,7 @@ class SearchQueryKwargs(TypedDict, total=False):
     keywords: list[str]
     entity: str
     filing_category: constants.FilingCategoryLiteral
-    single_forms: list[str]
+    single_forms: list[constants.FilingLiteral]
     date_range_select: constants.DateRangeLiteral
     start_date: datetime.date
     end_date: datetime.date
