@@ -26,39 +26,45 @@ from edgar_tool import url_generator
 from edgar_tool.constants import Location
 
 
-def test_should_correctly_generate_search_url_for_single_word():
-    """Baseline test to assert that querying for a single word
-    produces the correct search URL"""
-    # GIVEN
-    keywords = ["growth"]
-    expected_url = f"https://efts.sec.gov/LATEST/search-index?q=growth"
+class TestWords:
+    def test_single_word(self):
+        """Baseline test to assert that querying for a single word
+        produces the correct search URL"""
+        # GIVEN
+        keywords = ["growth"]
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=growth"
 
-    # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs({"keywords": keywords})
+        # WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(
+            {"keywords": keywords}
+        )
 
-    # THEN
-    assert actual_url == expected_url
+        # THEN
+        assert actual_url == expected_url
 
+    @pytest.mark.parametrize(
+        "keywords,expected_url",
+        [
+            pytest.param(
+                ["Insider trading report"],
+                "https://efts.sec.gov/LATEST/search-index?q=%22Insider%20trading%20report%22",
+                id="One exact phrase",
+            ),
+            pytest.param(
+                ["John Doe", "(1) ABC Corp.", "January 4, 2021"],
+                "https://efts.sec.gov/LATEST/search-index?q=%22John%20Doe%22%20%22%281%29%20ABC%20Corp.%22%20%22January%204%2C%202021%22",
+                id="Multiple exact phrases",
+            ),
+        ],
+    )
+    def test_exact_phrase(self, keywords, expected_url):
+        # GIVEN / WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(
+            {"keywords": keywords}
+        )
 
-@pytest.mark.parametrize(
-    "keywords,expected_url",
-    [
-        (
-            ["Insider trading report"],
-            "https://efts.sec.gov/LATEST/search-index?q=%22Insider%20trading%20report%22",
-        ),
-        (
-            ["John Doe", "(1) ABC Corp.", "January 4, 2021"],
-            "https://efts.sec.gov/LATEST/search-index?q=%22John%20Doe%22%20%22%281%29%20ABC%20Corp.%22%20%22January%204%2C%202021%22",
-        ),
-    ],
-)
-def test_should_correctly_generate_search_url_for_exact_phrase(keywords, expected_url):
-    # GIVEN / WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs({"keywords": keywords})
-
-    # THEN
-    assert actual_url == expected_url
+        # THEN
+        assert actual_url == expected_url
 
 
 def test_should_raise_if_no_arguments_provided():
@@ -73,87 +79,100 @@ def test_should_raise_if_no_arguments_provided():
         url_generator.generate_search_url_for_kwargs({})
 
 
-@pytest.mark.parametrize(
-    "date_kwarg",
-    [
-        {"start_date": datetime.date.today()},
-        {"end_date": datetime.date.today()},
-    ],
-)
-def test_should_raise_if_date_range_custom_but_missing_dates(date_kwarg):
-    # GIVEN
-    expected_error_msg = (
-        "Invalid date parameters. "
-        "You must provide both a start and end date if searching a custom date range."
+class TestDates:
+    @pytest.mark.parametrize(
+        "date_kwarg",
+        [
+            pytest.param(
+                {"start_date": datetime.date.today()}, id="start_date but no end_date"
+            ),
+            pytest.param(
+                {"end_date": datetime.date.today()}, id="end_date but no start_date"
+            ),
+        ],
     )
-    base_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "custom"}
-    test_kwargs = {**base_kwargs, **date_kwarg}
+    def test_should_raise_if_date_range_custom_but_missing_dates(self, date_kwarg):
+        # GIVEN
+        expected_error_msg = (
+            "Invalid date parameters. "
+            "You must provide both a start and end date if searching a custom date range."
+        )
+        base_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "custom"}
+        test_kwargs = {**base_kwargs, **date_kwarg}
 
-    # WHEN / THEN
-    with pytest.raises(ValueError, match=expected_error_msg):
-        url_generator.generate_search_url_for_kwargs(test_kwargs)
+        # WHEN / THEN
+        with pytest.raises(ValueError, match=expected_error_msg):
+            url_generator.generate_search_url_for_kwargs(test_kwargs)
 
+    def test_should_raise_if_date_range_select_invalid(self):
+        # GIVEN
+        test_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "1m"}
 
-def test_should_raise_if_date_range_select_invalid():
-    # GIVEN
-    test_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "1m"}
+        # WHEN / THEN
+        with pytest.raises(ValueError):
+            url_generator.generate_search_url_for_kwargs(test_kwargs)
 
-    # WHEN / THEN
-    with pytest.raises(ValueError):
-        url_generator.generate_search_url_for_kwargs(test_kwargs)
+    @freezegun.freeze_time("2025-01-27")
+    @pytest.mark.parametrize(
+        "date_kwargs,url_ending",
+        [
+            pytest.param(
+                {
+                    "date_range_select": "custom",
+                    "start_date": datetime.date.fromisoformat("2024-07-10"),
+                    "end_date": datetime.date.fromisoformat("2024-07-15"),
+                },
+                "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
+                id="Custom date range with start and end date",
+            ),
+            pytest.param(
+                {
+                    "start_date": datetime.date.fromisoformat("2024-07-10"),
+                    "end_date": datetime.date.fromisoformat("2024-07-15"),
+                },
+                "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
+                id="Custom date range with start and end date but no date_range_select",
+            ),
+            pytest.param(
+                # Always starts at 2001-01-01
+                {"date_range_select": "all"},
+                "&dateRange=all&startdt=2001-01-01&enddt=2025-01-27",
+                id="all date range",
+            ),
+            pytest.param(
+                {"date_range_select": "10y"},
+                "&dateRange=10y&startdt=2015-01-27&enddt=2025-01-27",
+                id="10y date range",
+            ),
+            pytest.param(
+                {"date_range_select": "5y"},
+                "&startdt=2020-01-27&enddt=2025-01-27",
+                id="5y date range",
+            ),
+            pytest.param(
+                {"date_range_select": "1y"},
+                "&dateRange=1y&startdt=2024-01-27&enddt=2025-01-27",
+                id="1y date range",
+            ),
+            pytest.param(
+                {"date_range_select": "30d"},
+                "&dateRange=30d&startdt=2024-12-28&enddt=2025-01-27",
+                id="30d date range",
+            ),
+        ],
+    )
+    def test_date_range_select(self, date_kwargs, url_ending):
+        """Tests that various date range options are correctly translated
+        into the seach URL."""
+        # GIVEN
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=%22Ford%20Motor%20Co%22{url_ending}"
+        test_kwargs = {**{"keywords": ["Ford Motor Co"]}, **date_kwargs}
 
+        # WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
 
-@freezegun.freeze_time("2025-01-27")
-@pytest.mark.parametrize(
-    "date_kwargs,url_ending",
-    [
-        (
-            {
-                "date_range_select": "custom",
-                "start_date": datetime.date.fromisoformat("2024-07-10"),
-                "end_date": datetime.date.fromisoformat("2024-07-15"),
-            },
-            "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
-        ),
-        (  # Test that date_range_select is not required if start_date and end_date are provided
-            {
-                "start_date": datetime.date.fromisoformat("2024-07-10"),
-                "end_date": datetime.date.fromisoformat("2024-07-15"),
-            },
-            "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
-        ),
-        (
-            {"date_range_select": "all"},
-            "&dateRange=all&startdt=2001-01-01&enddt=2025-01-27",
-        ),
-        (
-            {"date_range_select": "10y"},
-            "&dateRange=10y&startdt=2015-01-27&enddt=2025-01-27",
-        ),
-        # 5y does not use the `dateRange` parameter
-        ({"date_range_select": "5y"}, "&startdt=2020-01-27&enddt=2025-01-27"),
-        (
-            {"date_range_select": "1y"},
-            "&dateRange=1y&startdt=2024-01-27&enddt=2025-01-27",
-        ),
-        (
-            {"date_range_select": "30d"},
-            "&dateRange=30d&startdt=2024-12-28&enddt=2025-01-27",
-        ),
-    ],
-)
-def test_generates_correct_url_for_date_ranges(date_kwargs, url_ending):
-    """Tests that various date range options are correctly translated
-    into the seach URL."""
-    # GIVEN
-    expected_url = f"https://efts.sec.gov/LATEST/search-index?q=%22Ford%20Motor%20Co%22{url_ending}"
-    test_kwargs = {**{"keywords": ["Ford Motor Co"]}, **date_kwargs}
-
-    # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
-
-    # THEN
-    assert actual_url == expected_url
+        # THEN
+        assert actual_url == expected_url
 
 
 @pytest.mark.parametrize(
@@ -599,10 +618,8 @@ def test_should_not_allow_search_with_all_filing_category():
         (Location.UNKNOWN, "XX"),
     ],
 )
-class TestPeoInAndIncIn:
-    def test_should_correctly_generate_search_url_for_peo_in(
-        self, abbreviation, expected_location_code
-    ):
+class TestLocations:
+    def test_peo_in(self, abbreviation, expected_location_code):
         # GIVEN
         expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationCode={expected_location_code}&locationCodes={expected_location_code}"
 
@@ -614,9 +631,7 @@ class TestPeoInAndIncIn:
         # THEN
         assert actual_url == expected_url
 
-    def test_should_correctly_generate_search_url_for_inc_in(
-        self, abbreviation, expected_location_code
-    ):
+    def test_inc_in(self, abbreviation, expected_location_code):
         # GIVEN
         expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationType=incorporated&locationCode={expected_location_code}&locationCodes={expected_location_code}"
 
