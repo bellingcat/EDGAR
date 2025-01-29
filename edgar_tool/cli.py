@@ -8,7 +8,7 @@ from typing_extensions import Annotated
 
 from .constants import DateRange, Filing, FilingCategory, Location
 from .rss import fetch_rss_feed
-from .text_search import EdgarTextSearcher
+from .text_search import EdgarTextSearcher, SearchParams
 
 app = typer.Typer(name="edgar", no_args_is_help=True)
 
@@ -71,7 +71,6 @@ def text_search(
             help="End date of the search in YYYY-MM-DD format (i.e. 2024-07-28)",
         ),
     ] = date.today().strftime("%Y-%m-%d"),
-    # TODO: Test all below options
     entity_id: Annotated[
         str,
         typer.Option(
@@ -126,18 +125,23 @@ def text_search(
 ):
     if start_date and end_date and start_date > end_date:
         raise typer.BadParameter("Start date cannot be later than end date.")
-    text_searcher = EdgarTextSearcher()
-    text_searcher.search(
+
+    search_params = SearchParams(
         keywords=text,
-        entity_id=entity_id,
-        filing_form=filing_category,
+        entity=entity_id,
+        filing_category=filing_category,
         single_forms=single_form,
-        date_range=date_range,
+        date_range_select=date_range,
         start_date=start_date,
         end_date=end_date,
-        destination=output,
         peo_in=peo_in,
         inc_in=inc_in,
+    )
+
+    text_searcher = EdgarTextSearcher()
+    text_searcher.search(
+        search_params=search_params,
+        destination=output,
     )
 
 

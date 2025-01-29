@@ -18,7 +18,7 @@ from edgar_tool.page_fetcher import (
     ResultsTableNotFoundError,
     fetch_page,
 )
-from edgar_tool.url_generator import SearchQueryKwargs, generate_search_url_for_kwargs
+from edgar_tool.url_generator import SearchParams, generate_search_url_for_kwargs
 from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
 
 
@@ -234,46 +234,17 @@ class EdgarTextSearcher:
 
     def _generate_search_requests(
         self,
-        keywords: List[str],
-        entity_id: Optional[str],
-        filing_form: Optional[str],
-        single_forms: Optional[List[str]],
-        date_range: DateRange,
-        start_date: date,
-        end_date: date,
-        peo_in: Optional[str],
-        inc_in: Optional[str],
+        search_params: SearchParams,
     ) -> None:
         """
         Generates search requests for the given parameters and date range,
         recursively splitting the date range in two if the number of results is 10000 or more.
 
-        :param keywords: Search keywords to input in the "Document word or phrase" field
-        :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
-        :param filing_form: Group to select within the filing category dropdown menu, defaults to None
-        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
-        :param start_date: Start date for the custom date range
-        :param end_date: End date for the custom date range
-        :param min_wait_seconds: Minimum number of seconds to wait for the request to complete
-        :param max_wait_seconds: Maximum number of seconds to wait for the request to complete
-        :param retries: Number of times to retry the request before failing
-        :param peo_in: Search principal executive offices in a location (e.g. "NY,OH")
-        :param inc_in: Search incorporated in a location (e.g. "NY,OH")
+        :param search_params: Instance of SearchParams containing the search parameters
         """
 
         # Fetch first page, verify that the request was successful by checking the result count value on the page
-        request_args: SearchQueryKwargs = {
-            "keywords": keywords,
-            "entity_id": entity_id,
-            "filing_form": filing_form,
-            "single_forms": single_forms,
-            "date_range": date_range,
-            "start_date": start_date,
-            "end_date": end_date,
-            "peo_in": peo_in,
-            "inc_in": inc_in,
-        }
-        url = generate_search_url_for_kwargs(request_args)
+        url = generate_search_url_for_kwargs(search_params)
 
         # Try to fetch the first page and parse the number of results
         # In rare cases when the results are not empty, but the number of results cannot be parsed,
@@ -282,7 +253,7 @@ class EdgarTextSearcher:
             num_results = self._fetch_first_page_results_number(url)
         except ValueError as ve:
             print(
-                f"Setting search results for range {start_date} -> {end_date} to 10000 due to error "
+                f"Setting search results for range {search_params.start_date_formatted} -> {search_params.end_date_formatted} to 10000 due to error "
                 f"while parsing result number for seemingly non-empty results: {ve}"
             )
             num_results = 10000
@@ -291,22 +262,34 @@ class EdgarTextSearcher:
         # we have a set of date ranges for which none of the requests have 10000 results
         if num_results == 0:
             print(
-                f"No results found for query in date range {start_date} -> {end_date}."
+                f"No results found for query in date range {search_params.start_date_formatted} -> {search_params.end_date_formatted}."
             )
         elif num_results < 10000:
             print(
-                f"Less than 10000 ({num_results}) results found for range {start_date} -> {end_date}, "
+                f"Less than 10000 ({num_results}) results found for range {search_params.start_date_formatted} -> {search_params.end_date_formatted}, "
                 f"returning search request string..."
             )
             self.search_requests.append(url)
         else:
             num_batches = min(
-                ((end_date - start_date).days, TEXT_SEARCH_SPLIT_BATCHES_NUMBER)
+                (
+                    (
+                        search_params.end_date_formatted
+                        - search_params.start_date_formatted
+                    ).days,
+                    TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
+                )
             )
             print(
-                f"10000 results or more for date range {start_date} -> {end_date}, splitting in {num_batches} intervals"
+                f"10000 results or more for date range {search_params.start_date_formatted} -> {search_params.end_date_formatted}, splitting in {num_batches} intervals"
             )
-            dates = list(split_date_range_in_n(start_date, end_date, num_batches))
+            dates = list(
+                split_date_range_in_n(
+                    search_params.start_date_formatted,
+                    search_params.end_date_formatted,
+                    num_batches,
+                )
+            )
             for i, d in enumerate(dates):
                 try:
                     start = d if i == 0 else d + timedelta(days=1)
@@ -315,55 +298,32 @@ class EdgarTextSearcher:
                         f"Trying to generate search requests for date range {start} -> {end} ..."
                     )
                     self._generate_search_requests(
-                        keywords=keywords,
-                        entity_id=entity_id,
-                        filing_form=filing_form,
-                        single_forms=single_forms,
-                        start_date=start,
-                        end_date=end,
-                        peo_in=peo_in,
-                        inc_in=inc_in,
+                        search_params=SearchParams(
+                            keywords=search_params.keywords,
+                            entity=search_params.entity,
+                            filing_category=search_params.filing_category,
+                            single_forms=search_params.single_forms,
+                            start_date=start,
+                            end_date=end,
+                            peo_in=search_params.peo_in,
+                            inc_in=search_params.inc_in,
+                        )
                     )
                 except IndexError:
                     pass
 
     def search(
         self,
-        keywords: List[str],
-        entity_id: Optional[str],
-        filing_form: Optional[str],
-        single_forms: Optional[List[str]],
-        date_range: DateRange,
-        start_date: date,
-        end_date: date,
+        search_params: SearchParams,
         destination: str,
-        peo_in: Optional[str],
-        inc_in: Optional[str],
     ) -> None:
         """
         Searches the SEC website for filings based on the given parameters.
 
-        :param keywords: Search keywords to input in the "Document word or phrase" field
-        :param entity_id: Entity/Person name, ticker, or CIK number to input in the "Company name, ticker, or CIK" field
-        :param filing_form: Group to select within the filing category dropdown menu, defaults to None
-        :param single_forms: List of single forms to search for (e.g. ['10-K', '10-Q']), defaults to None
-        :param start_date: Start date for the custom date range
-        :param end_date: End date for the custom date range
+        :param search_params: Instance of SearchParams containing the search parameters
         :param destination: Name of the CSV file to write the results to
-        :param peo_in: Search principal executive offices in a location (e.g. "NY,OH")
-        :param inc_in: Search incorporated in a location (e.g. "NY,OH")
         """
-        self._generate_search_requests(
-            keywords=keywords,
-            entity_id=entity_id,
-            filing_form=filing_form,
-            single_forms=single_forms,
-            start_date=start_date,
-            end_date=end_date,
-            date_range=date_range,
-            peo_in=peo_in,
-            inc_in=inc_in,
-        )
+        self._generate_search_requests(search_params)
 
         search_requests_results = []
         for r in self.search_requests:

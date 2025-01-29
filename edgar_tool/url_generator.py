@@ -1,5 +1,5 @@
 import datetime
-from typing import Optional, TypedDict, Union
+from typing import Optional, Union
 from urllib import parse
 
 import pydantic
@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 from edgar_tool import constants
 
 
-class _SearchQueryKwargsValidator(pydantic.BaseModel):
+class SearchParams(pydantic.BaseModel):
     keywords: Optional[list[str]] = None
     entity: Optional[str] = None
     filing_category: Optional[constants.FilingCategoryLiteral] = None
@@ -83,45 +83,15 @@ class _SearchQueryKwargsValidator(pydantic.BaseModel):
 
         return self
 
-
-class SearchQueryKwargs(TypedDict, total=False):
-    keywords: list[str]
-    entity: str
-    filing_category: constants.FilingCategoryLiteral
-    single_forms: list[constants.FilingLiteral]
-    date_range_select: constants.DateRangeLiteral
-    start_date: datetime.date
-    end_date: datetime.date
-    inc_in: constants.LocationLiteral
-    peo_in: constants.LocationLiteral
-
-
-class _ValidSearchParams:
-    def __init__(self, **query_args: SearchQueryKwargs):
-        validated_params = _SearchQueryKwargsValidator(**query_args)
-        self._keywords = validated_params.keywords
-        self.entity = validated_params.entity
-        self.date_range_select = validated_params.date_range_select
-        self._filing_category = validated_params.filing_category
-        self.single_forms = validated_params.single_forms
-        self._start_date = validated_params.start_date
-        self._end_date = validated_params.end_date
-        self._inc_in = validated_params.inc_in
-        self._peo_in = validated_params.peo_in
-
     @property
-    def keywords(self):
-        return self._keywords
-
-    @keywords.getter
-    def keywords(self):
+    def keywords_formatted(self):
         """Returns the keywords to search for, wrapping exact phrases in quotes."""
-        if not self._keywords:
+        if not self.keywords:
             return None
-        return [f'"{phrase}"' if " " in phrase else phrase for phrase in self._keywords]
+        return [f'"{phrase}"' if " " in phrase else phrase for phrase in self.keywords]
 
     @property
-    def start_date(self):
+    def start_date_formatted(self):
         if self.date_range_select == "all":
             return datetime.date(2001, 1, 1)
         elif self.date_range_select == "10y":
@@ -133,14 +103,14 @@ class _ValidSearchParams:
         elif self.date_range_select == "30d":
             return datetime.date.today() - datetime.timedelta(days=30)
         else:
-            return self._start_date
+            return self.start_date
 
     @property
-    def end_date(self):
+    def end_date_formatted(self):
         if self.date_range_select in ["all", "10y", "5y", "1y", "30d"]:
             return datetime.date.today()
         else:
-            return self._end_date
+            return self.end_date
 
     @staticmethod
     def _get_formatted_location(
@@ -156,23 +126,15 @@ class _ValidSearchParams:
             )
 
     @property
-    def inc_in(self):
-        return self._inc_in
-
-    @inc_in.getter
-    def inc_in(self):
-        return self._get_formatted_location(self._inc_in)
+    def inc_in_formatted(self):
+        return self._get_formatted_location(self.inc_in)
 
     @property
-    def peo_in(self):
-        return self._peo_in
-
-    @peo_in.getter
-    def peo_in(self):
-        return self._get_formatted_location(self._peo_in)
+    def peo_in_formatted(self):
+        return self._get_formatted_location(self.peo_in)
 
     @property
-    def filing_category(self):
+    def filing_category_formatted(self):
         filing_category_to_sec_form_id = {
             "all": "",
             "custom": "custom",
@@ -188,17 +150,16 @@ class _ValidSearchParams:
             "tender_offers_and_going_private_tx": "form-cat9",
             "trust_indentures": "form-cat10",
         }
-        return filing_category_to_sec_form_id.get(self._filing_category)
+        return filing_category_to_sec_form_id.get(self.filing_category)
 
 
-def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
-    validated_params = _ValidSearchParams(**search_kwargs)
+def generate_search_url_for_kwargs(search_params: SearchParams) -> str:
     query_params = {}
-    if validated_params.keywords:
-        query_params["q"] = " ".join(validated_params.keywords)
-    if validated_params.entity:
-        query_params["entityName"] = validated_params.entity
-    if date_range_select := validated_params.date_range_select:
+    if search_params.keywords:
+        query_params["q"] = " ".join(search_params.keywords_formatted)
+    if search_params.entity:
+        query_params["entityName"] = search_params.entity
+    if date_range_select := search_params.date_range_select:
         if date_range_select != "5y":
             query_params.update(
                 {
@@ -207,23 +168,23 @@ def generate_search_url_for_kwargs(search_kwargs: SearchQueryKwargs) -> str:
             )
         query_params.update(
             {
-                "startdt": validated_params.start_date.strftime("%Y-%m-%d"),
-                "enddt": validated_params.end_date.strftime("%Y-%m-%d"),
+                "startdt": search_params.start_date_formatted.strftime("%Y-%m-%d"),
+                "enddt": search_params.end_date_formatted.strftime("%Y-%m-%d"),
             }
         )
-    if validated_params.single_forms:
+    if search_params.single_forms:
         query_params["category"] = "custom"
-        query_params["forms"] = ",".join(validated_params.single_forms)
-    elif validated_params.filing_category:
-        query_params["category"] = validated_params.filing_category
-    if validated_params.peo_in:
+        query_params["forms"] = ",".join(search_params.single_forms)
+    elif search_params.filing_category_formatted:
+        query_params["category"] = search_params.filing_category_formatted
+    if search_params.peo_in:
         # The SEC API uses both locationCode and locationCodes for peo_in and inc_in
-        query_params["locationCode"] = validated_params.peo_in
-        query_params["locationCodes"] = validated_params.peo_in
-    elif validated_params.inc_in:
+        query_params["locationCode"] = search_params.peo_in_formatted
+        query_params["locationCodes"] = search_params.peo_in_formatted
+    elif search_params.inc_in:
         query_params["locationType"] = "incorporated"
-        query_params["locationCode"] = validated_params.inc_in
-        query_params["locationCodes"] = validated_params.inc_in
+        query_params["locationCode"] = search_params.inc_in_formatted
+        query_params["locationCodes"] = search_params.inc_in_formatted
     encoded_params = parse.urlencode(
         query_params, doseq=True, encoding="utf-8", quote_via=parse.quote
     )
