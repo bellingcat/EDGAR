@@ -2024,6 +2024,9 @@ class DateRange(str, enum.Enum):
 
 
 class FilingCategory(str, enum.Enum):
+    all = "all"
+    custom = "custom"
+    all_except_section_16 = "all_except_section_16"
     all_annual_quarterly_and_current_reports = (
         "all_annual_quarterly_and_current_reports"
     )

@@ -99,7 +99,6 @@ class SearchQueryKwargs(TypedDict, total=False):
 class _ValidSearchParams:
     def __init__(self, **query_args: SearchQueryKwargs):
         validated_params = _SearchQueryKwargsValidator(**query_args)
-
         self._keywords = validated_params.keywords
         self.entity = validated_params.entity
         self.date_range_select = validated_params.date_range_select

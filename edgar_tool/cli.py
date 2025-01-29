@@ -13,7 +13,7 @@ from .text_search import EdgarTextSearcher
 app = typer.Typer(name="edgar", no_args_is_help=True)
 
 
-def output_callback(value: str):
+def text_search_output_callback(value: str):
     if not value.endswith(("csv", "json", "json1")):
         raise typer.BadParameter(
             f"Unsupported file extension for destination file: {value} "
@@ -47,7 +47,7 @@ def text_search(
             "-o",
             help="Name of the output file to save results to.",
             default_factory=f"edgar_search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
-            callback=output_callback,
+            callback=text_search_output_callback,
         ),
     ],
     date_range: Annotated[
@@ -81,7 +81,10 @@ def text_search(
     filing_category: Annotated[
         FilingCategory,
         typer.Option(
-            help="Form group to search for.",
+            help=(
+                "Form group to search for. Use 'custom' or do not set if using "
+                "--single-form/-sf."
+            ),
         ),
     ] = None,
     single_form: Annotated[
@@ -138,6 +141,16 @@ def text_search(
     )
 
 
+def rss_output_callback(value: str):
+    if not value.endswith("csv"):
+        raise typer.BadParameter(
+            f"Unsupported file extension for destination file: {value}. "
+            "Only CSV files are supported for RSS feed. Please use a file "
+            "that ends with .csv (e.g. --output my_rss_feed.csv)."
+        )
+    return value
+
+
 @app.command(
     help=(
         "Fetch the latest RSS feed data for the given company tickers and save it to "
@@ -157,6 +170,7 @@ def rss(
             "--output",
             "-o",
             help="Name of the output file to save the results to",
+            callback=rss_output_callback,
         ),
     ] = f"edgar_rss_feed_{datetime.now().strftime('%d%m%Y_%H%M%S')}.csv",
     refresh_tickers_mapping: Annotated[

@@ -10,7 +10,6 @@ from edgar_tool.constants import (
     TEXT_SEARCH_LOCATIONS_MAPPING,
     TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
     DateRange,
-    FilingCategory,
 )
 from edgar_tool.io import write_results_to_file
 from edgar_tool.page_fetcher import (
@@ -381,12 +380,13 @@ class EdgarTextSearcher:
                     f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{r}': {e}"
                 )
         if search_requests_results == []:
-            raise NoResultsFoundError(f"No results found for the search query")
-        write_results_to_file(
-            itertools.chain(*search_requests_results),
-            destination,
-            TEXT_SEARCH_CSV_FIELDS_NAMES,
-        )
+            print(f"No results found for the search query. Nothing to write to file.")
+        else:
+            write_results_to_file(
+                itertools.chain(*search_requests_results),
+                destination,
+                TEXT_SEARCH_CSV_FIELDS_NAMES,
+            )
 
     def _fetch_first_page_results_number(self, url: str) -> int:
         """
