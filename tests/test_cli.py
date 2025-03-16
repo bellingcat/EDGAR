@@ -57,7 +57,7 @@ class TestTextSearch:
         # THEN
         assert result.exit_code == 0
 
-    @pytest.mark.parametrize("extension", [("csv"), ("json"), ("json1")])
+    @pytest.mark.parametrize("extension", [("csv"), ("json"), ("jsonl")])
     def test_with_valid_output_file_extension_passes(self, extension):
         # GIVEN/WHEN
         result = runner.invoke(

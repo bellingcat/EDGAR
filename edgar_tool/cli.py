@@ -2,7 +2,6 @@ import time
 from datetime import date, datetime
 from typing import Optional
 
-import click
 import typer
 from typing_extensions import Annotated
 
@@ -14,10 +13,10 @@ app = typer.Typer(name="edgar", no_args_is_help=True)
 
 
 def text_search_output_callback(value: str):
-    if not value.endswith(("csv", "json", "json1")):
+    if not value.endswith(("csv", "json", "jsonl")):
         raise typer.BadParameter(
             f"Unsupported file extension for destination file: {value} "
-            "(should be one of csv, json, or json1)."
+            "(should be one of csv, json, or jsonl)."
         )
     return value
 
@@ -45,7 +44,7 @@ def text_search(
         typer.Option(
             "--output",
             "-o",
-            help="Name of the output file to save results to.",
+            help="Name of the output file to save results to. Accepts .csv, .json, and .jsonl extensions.",
             default_factory=f"edgar_search_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
             callback=text_search_output_callback,
         ),

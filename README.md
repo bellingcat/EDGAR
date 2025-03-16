@@ -5,17 +5,17 @@
 --><a href="https://colab.research.google.com/github/bellingcat/EDGAR/blob/main/notebook/Bellingcat_EDGAR_Tool.ipynb"><img alt="Colab icon: Try it on Colab" src="https://img.shields.io/badge/Try%20it%20on%20Colab-%20?style=for-the-badge&logo=googlecolab&logoColor=fff&logoSize=auto&color=e8710a">
 </a>
 
-Python tool to search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC).
+![versions](https://img.shields.io/pypi/pyversions/edgar-tool.svg)
 
-## What is EDGAR?
+This is a command line interface to search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC).
+
+## What is the SEC's EDGAR database?
 
 EDGAR is a database of corporate filings maintained by the SEC.
 These filings contain a wealth of quantitative and qualitative information on every legal entity that issues non-exempt securities in the United States.
-Whether you are looking to study the fundamentals of your favorite stocks, or to track the corporate webs weaved by a person or company of interest, EDGAR is the place to do it.
+Whether you are looking to study the fundamentals of your favorite stocks or to track the corporate webs weaved by a person or company of interest, EDGAR is the place to do it.
 
-This tool was initially developed as part of the Bellingcat Tech Fellowship program, we hope it helps you utilise this incredible, free resource.
-
-## Installation :magic_wand:
+## Installation 🪄
 
 [![PyPI - Version](https://img.shields.io/pypi/v/edgar-tool)
 ](https://pypi.org/project/edgar-tool/)
@@ -26,28 +26,28 @@ You can install this tool directly from the [official PyPi release](https://pypi
 pip install edgar-tool
 ```
 
-## Usage - Text Search :mag_right:
+## Usage - Text Search 🔎
 
 ### What is the text search tool?
 
-If you're interested in finding all the documents mentioning a certain person, company or phrase in the EDGAR database, you can do that via the [full text search page](https://www.sec.gov/edgar/search/#)
+If you're interested in finding all the documents mentioning a certain person, company or phrase in the EDGAR database, you can do that via the [full text search page](https://www.sec.gov/edgar/search/#).
 
 It isn't always easy to get the information you might need from the SEC, so this Python tool lets you download the search results to a file without having to go through all the pages of results by hand.
 
-This is a command line tool that takes a search query, queries a server, and downloads the search results into a CSV file that can be opened in a spreadsheet program (such as Excel).
+This is a command line tool that takes a search query, queries the SEC's EDGAR database, and downloads the search results into a CSV file that can be opened in a spreadsheet program (such as Excel).
 
 ### Examples
 
 Display help message describing all supported arguments along with their usage, aliases and eventual default values (type `q` to exit)
 
 ```shell
-edgar-tool text_search --help
+edgar text-search --help
 ```
 
 Basic usage (defaults to searching the last 5 years of records)
 
 ```shell
-edgar-tool text_search John Doe
+edgar text-search John Doe
 ```
 
 You can wrap a phrase in quotes if you want an exact match.
@@ -57,95 +57,90 @@ For example, the following usage will search for the exact phrase `"John Doe"` a
 `Chemicals` as partial search parameters.
 
 ```shell
-edgar-tool text_search "John Doe" Pharmaceuticals Chemicals
+edgar text-search "John Doe" Pharmaceuticals Chemicals
 ```
 
 Usage with date range and export to custom CSV file
 
 ```shell
-edgar-tool text_search Tsunami Hazards --start_date "2021-01-01" --end_date "2021-12-31" --output "results.csv"
+edgar text-search Tsunami Hazards --start-date 2021-01-01 --end-date 2021-12-31 --output results.csv
 ```
 
 ### Usage with a partial set of filing forms + single forms
 
 ```
-edgar-tool text_search Hurricane Damage --filing_form "registration_statements" --single_forms "['1-K', '1-SA']"
+edgar text-search Hurricane Damage --filing-category registration_statements --single-form 1-K 1-SA
 ```
 
-Usage specifying the location of incorporation
+Usage specifying the location of incorporation. Note that `--inc-in` and `--peo-in` use [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) codes for countries (like USA, CAN, GBR), [ISO_3166-2:US](https://en.wikipedia.org/wiki/ISO_3166-2:US) state codes (like NY, CA, IL), and [ISO_3166-2:CA](https://en.wikipedia.org/wiki/ISO_3166-2:CA) province/territory codes (like AB, BC, NB).
 
 ```shell
-edgar-tool text_search oil --inc_in "Egypt"
+edgar text-search oil --inc-in EGY
 ```
 
 More advanced usage specifying more arguments, with export to JSON
 
 ```shell
-edgar-tool text_search Volcano Monitoring --start_date "2021-01-01" --end_date "2021-12-31" --output "results.json"\
-          --filing_form "all_annual_quarterly_and_current_reports" --entity_id "0001030717" \
-          --min_wait 5.0 --max_wait 7.0 --retries 3
+edgar text-search Volcano Monitoring --start-date 2021-01-01 --end-date 2021-12-31 --output results.json \
+          --filing-category all_annual_quarterly_and_current_reports --entity-id 0001030717
 
-# Using aliases where supported and exporting to JSONLines
-edgar-tool text_search Calabarzon -s "2021-01-01" -o "results.jsonl" -f "all_annual_quarterly_and_current_reports" -r 3 -h
+edgar text-search Calabarzon --start-date 2021-01-01 -o results.jsonl --filing-category all_annual_quarterly_and_current_reports
 ```
 
-> [!WARNING]
-> Combining text search parameters with `entity_id` parameter seems to increase the risk of failed requests on the SEC page due to an apparent bug, we recommend to either avoid doing so (you can specify an empty string for search keywords using `""` and use only entity ID) or setting the number of retries accordingly if you do so.
-
-### Detailed Feature Information
+### Detailed `edgar text-search` CLI usage
 
 <details>
 <summary>Expand to view detailed feature information</summary>
 
-#### Search parameters
+**Usage**:
 
-Most search parameters from the EDGAR text search page are supported, including:
-- `Document word or phrase` (mandatory)
-- `Company name, ticker or CIK, or individual's name` (optional)
-- `Filing category` (optional)
-- `Filed from` and `Filed to` dates (optional)
-- `Principal executive offices in` or `Incorporated in` (optional)
+```console
+$ edgar text-search [OPTIONS] TEXT...
+```
 
-Currently unsupported search parameters are:
-- `Filed date ranges` (since the same behavior can be achieved with `Filed from` and `Filed to` dates)
+**Arguments**:
 
-#### Output formats
+* `TEXT...`: Search filings for a word or a list of words. A filing must contain all the words to return. To search for an exact phrase, use double quotes, like "fiduciary product".  [required]
 
-Currently supported outputs formats are:
-- CSV
-- JSONLines (one JSON object per line)
+**Options**:
 
-Output format is determined by the file extension of the output file path.
-Accepted values are `.csv` and `.jsonl` (case-insensitive).
+* `-o, --output TEXT`: Name of the output file to save results to. Accepts .csv, .json, and .jsonl extensions.  [default: edgar_search_results_20250315_200420.csv]
+* `--date-range [all|10y|5y|1y|30d]`: Date range of the search. Use 'all' to search all records since 2001.  [default: 5y]
+* `--start-date [%Y-%m-%d]`: Start date of the search in YYYY-MM-DD format (i.e. 2024-07-28). 
+* `--end-date [%Y-%m-%d]`: End date of the search in YYYY-MM-DD format (i.e. 2024-07-28)  [default: 2025-03-15]
+* `--entity-id TEXT`: Company name, ticker, CIK number or individual's name.
+* `--filing-category [all|custom|all_except_section_16|all_annual_quarterly_and_current_reports|all_section_16|beneficial_ownership_reports|exempt_offerings|registration_statements|filing_review_correspondence|sec_orders_and_notices|proxy_materials|tender_offers_and_going_private_tx|trust_indentures]`: Form group to search for. Use 'custom' or do not set if using --single-form/-sf.
+* `-sf, --single-form [1-A POS|1-A-W|1-A|1-E AD|1-K|1-SA|1-U|1-Z-W|1-Z|1|10-12B|10-12G|10-D|10-K|10-KT|10-Q|10-QT|11-K|13F-HR|13F-NT|13FCONP|144|15-12B|15-12G|15-15D|15F-12B|15F-12G|15F-15D|18-12B|18-K|19B-4E|2-A|20-F|20FR12B|20FR12G|24F-2NT|25-NSE|25|253G1|253G2|253G4|3|305B2|4|40-17F1|40-17F2|40-17G|40-202A|40-203A|40-206A|40-24B2|40-33|40-6B|40-8B25|40-APP|40-F|40-OIP|40FR12B|424A|424B1|424B2|424B3|424B4|424B5|424B7|424B8|424H|425|485APOS|485BPOS|485BXT|486APOS|486BPOS|486BXT|487|497|497AD|497H2|497J|497K|497VPI|497VPU|5|6-K|6B NTC|6B ORDR|8-A12B|8-A12G|8-K|8-K12B|8-K12G3|8-M|8F-2 NTC|8F-2 ORDR|ABS-15G|ABS-EE|ADV-E|ADV-H-C|ADV-H-T|ADV-NR|ANNLRPT|APP NTC|APP ORDR|APP WD|APP WDG|ARS|ATS-N-C|ATS-N|ATS-N/UA|AW WD|AW|C-AR-W|C-AR|C-TR-W|C-TR|C-U-W|C-U|C-W|C|CB|CERT|CERTARCA|CERTBATS|CERTCBO|CERTNAS|CERTNYS|CERTPAC|CFPORTAL|CORRESP|CT ORDER|D|DEF 14A|DEF 14C|DEFA14A|DEFA14C|DEFC14A|DEFM14A|DEFM14C|DEFN14A|DEFR14A|DEFR14C|DEL AM|DFAN14A|DFRN14A|DOS|DOSLTR|DRS|DRSLTR|DSTRBRPT|EFFECT|F-1|F-10|F-10EF|F-10POS|F-1MEF|F-3|F-3ASR|F-3D|F-4|F-4MEF|F-6 POS|F-6|F-6EF|F-7 POS|F-7|F-8|F-80|F-80POS|F-9 POS|F-9|F-N|F-X|FOCUSN|FWP|G-FIN|IRANNOTICE|MA-A|MA-I|MA-W|MA|MSD|MSDW|N-1|N-14 8C|N-14|N-14MEF|N-18F1|N-1A|N-2 POSASR|N-2|N-23C-2|N-23C3A|N-23C3B|N-2ASR|N-2MEF|N-30B-2|N-30D|N-4|N-5|N-54A|N-54C|N-6|N-6F|N-8A|N-8B-2|N-8F NTC|N-8F ORDR|N-8F|N-CEN|N-CR|N-CSR|N-CSRS|N-MFP|N-MFP1|N-MFP2|N-PX|N-Q|N-VP|N-VPFS|NO ACT|NPORT-EX|NPORT-NP|NPORT-P|NRSRO-CE|NRSRO-UPD|NSAR-A|NSAR-AT|NSAR-B|NSAR-BT|NSAR-U|NT 10-D|NT 10-K|NT 10-Q|NT 11-K|NT 20-F|NT N-CEN|NT N-MFP|NT N-MFP1|NT N-MFP2|NT NPORT-P|NT-NCEN|NT-NCSR|NT-NSAR|NTN 10D|NTN 10K|NTN 10Q|OIP NTC|OIP ORDR|POS 8C|POS AM|POS AMI|POS EX|POS462B|POS462C|POSASR|PRE 14A|PRE 14C|PREC14A|PREM14A|PREM14C|PREN14A|PRER14A|PRER14C|PRRN14A|PX14A6G|PX14A6N|QRTLYRPT|QUALIF|REG-NR|REVOKED|RW WD|RW|S-1|S-11|S-11MEF|S-1MEF|S-20|S-3|S-3ASR|S-3D|S-3DPOS|S-3MEF|S-4 POS|S-4|S-4EF|S-4MEF|S-6|S-8 POS|S-8|S-B|SBSE-A|SBSE-BD|SBSE-C|SBSE-W|SBSE|SC 13D|SC 13E3|SC 13G|SC 14D9|SC 14F1|SC 14N|SC TO-C|SC TO-I|SC TO-T|SC14D1F|SC14D9C|SC14D9F|SD|SE|SEC ACTION|SEC STAFF ACTION|SEC STAFF LETTER|SF-3|SL|STOP ORDER|SUPPL|T-3|TA-1|TA-2|TA-W|TACO|UNDER|UPLOAD|X-17A-5]`: List of single forms to search for (e.g. `-sf 10-K -sf "PRE 14A")
+* `-peoi, --principal-executive-offices-in [AL|AK|AZ|AR|CA|CO|CT|DE|DC|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|AB|BC|CAN|MB|NB|NL|NS|ON|PE|QC|SK|YT|AFG|ALA|ALB|DZA|ASM|AND|AGO|AIA|ATA|ATG|ARG|ARM|ABW|AUS|AUT|AZE|BHS|BHR|BGD|BRB|BLR|BEL|BLZ|BEN|BMU|BTN|BOL|BIH|BWA|BVT|BRA|IOT|BRN|BGR|BFA|BDI|KHM|CMR|CPV|CYM|CAF|TCD|CHL|CHN|CXR|CCK|COL|COM|COG|COD|COK|CRI|CIV|HRV|CUB|CYP|CZE|DNK|DJI|DMA|DOM|ECU|EGY|SLV|GNQ|ERI|EST|ETH|FLK|FRO|FJI|FIN|FRA|GUF|PYF|ATF|GAB|GMB|GEO|DEU|GHA|GIB|GRC|GRL|GRD|GLP|GUM|GTM|GGY|GIN|GNB|GUY|HTI|HMD|VAT|HND|HKG|HUN|ISL|IND|IDN|IRN|IRQ|IRL|IMN|ISR|ITA|JAM|JPN|JEY|JOR|KAZ|KEN|KIR|PRK|KOR|KWT|KGZ|LAO|LVA|LBN|LSO|LBR|LBY|LIE|LTU|LUX|MAC|MKD|MDG|MWI|MYS|MDV|MLI|MLT|MHL|MTQ|MRT|MUS|MYT|MEX|FSM|MDA|MCO|MNG|MNE|MSR|MAR|MOZ|MMR|NAM|NRU|NPL|NLD|ANT|NCL|NZL|NIC|NER|NGA|NIU|NFK|MNP|NOR|OMN|PAK|PLW|PSE|PAN|PNG|PRY|PER|PHL|PCN|POL|PRT|PRI|QAT|REU|ROU|RUS|RWA|BLM|SHN|KNA|LCA|MAF|SPM|VCT|WSM|SMR|STP|SAU|SEN|SRB|SYC|SLE|SGP|SVK|SVN|SLB|SOM|ZAF|SGS|ESP|LKA|SDN|SUR|SJM|SWZ|SWE|CHE|SYR|TWN|TJK|THA|TLS|TGO|TKL|TON|TTO|TUN|TUR|TKM|TCA|TUV|UGA|UKR|ARE|GBR|UMI|URY|UZB|VUT|VEN|VNM|VGB|VIR|WLF|ESH|YEM|ZMB|ZWE|XX]`: Search for the primary location associated with a filing. The principal executive office is where the company's top management operates and conducts key business decisions. The location could be a US state or territory, a Canadian province, or a country.
+* `-ii, --incorporated-in [AL|AK|AZ|AR|CA|CO|CT|DE|DC|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|AB|BC|CAN|MB|NB|NL|NS|ON|PE|QC|SK|YT|AFG|ALA|ALB|DZA|ASM|AND|AGO|AIA|ATA|ATG|ARG|ARM|ABW|AUS|AUT|AZE|BHS|BHR|BGD|BRB|BLR|BEL|BLZ|BEN|BMU|BTN|BOL|BIH|BWA|BVT|BRA|IOT|BRN|BGR|BFA|BDI|KHM|CMR|CPV|CYM|CAF|TCD|CHL|CHN|CXR|CCK|COL|COM|COG|COD|COK|CRI|CIV|HRV|CUB|CYP|CZE|DNK|DJI|DMA|DOM|ECU|EGY|SLV|GNQ|ERI|EST|ETH|FLK|FRO|FJI|FIN|FRA|GUF|PYF|ATF|GAB|GMB|GEO|DEU|GHA|GIB|GRC|GRL|GRD|GLP|GUM|GTM|GGY|GIN|GNB|GUY|HTI|HMD|VAT|HND|HKG|HUN|ISL|IND|IDN|IRN|IRQ|IRL|IMN|ISR|ITA|JAM|JPN|JEY|JOR|KAZ|KEN|KIR|PRK|KOR|KWT|KGZ|LAO|LVA|LBN|LSO|LBR|LBY|LIE|LTU|LUX|MAC|MKD|MDG|MWI|MYS|MDV|MLI|MLT|MHL|MTQ|MRT|MUS|MYT|MEX|FSM|MDA|MCO|MNG|MNE|MSR|MAR|MOZ|MMR|NAM|NRU|NPL|NLD|ANT|NCL|NZL|NIC|NER|NGA|NIU|NFK|MNP|NOR|OMN|PAK|PLW|PSE|PAN|PNG|PRY|PER|PHL|PCN|POL|PRT|PRI|QAT|REU|ROU|RUS|RWA|BLM|SHN|KNA|LCA|MAF|SPM|VCT|WSM|SMR|STP|SAU|SEN|SRB|SYC|SLE|SGP|SVK|SVN|SLB|SOM|ZAF|SGS|ESP|LKA|SDN|SUR|SJM|SWZ|SWE|CHE|SYR|TWN|TJK|THA|TLS|TGO|TKL|TON|TTO|TUN|TUR|TKM|TCA|TUV|UGA|UKR|ARE|GBR|UMI|URY|UZB|VUT|VEN|VNM|VGB|VIR|WLF|ESH|YEM|ZMB|ZWE|XX]`: Search for the primary location associated with a filing. Incorporated in refers to the location where the company was legally formed and registered as a corporation. The location could be a US state or territory, a Canadian province, or a country.
+* `--help`: Show this message and exit.
 
-#### Retries
 
-The tool supports retries in case of failed requests. Retries can be configured with the `--retries` argument, and the wait time between retries will be a random number between `--min_wait` and `--max_wait` arguments.
 
 </details>
 
-## Usage - RSS Feed :card_index:
+## Usage - RSS Feed 📰
 
 ### What is the RSS feed customized retrieval tool ?
 
-The SEC publish a live feed of filings and this part of the tool lets you monitor particular tickers for new filings, so you can get to-the-minute updates.
+The SEC publishes a live feed of filings. This part of the tool lets you monitor particular tickers for new filings, so you can get to-the-minute updates.
 
 The output is a CSV file containing the company and filings' metadata, which can be opened in a spreadsheet program (such as Excel).
 
 ### Examples
 
 ```bash
-# Display help message describing all supported arguments along with their usage, aliases and eventual default values (type q to exit)
-edgar-tool rss --help
+# Display help message describing all supported arguments along with their usage
+edgar rss --help
 
 # Basic one-off usage with export to CSV
-edgar-tool rss "GOOG" --output "rss_feed.csv"
+edgar rss GOOG --output rss_feed.csv
 
 # Periodic usage specifying 10 minutes interval duration, with export to JSON
-edgar-tool rss "AAPL" "GOOG" "MSFT" --output "rss_feed.json" --every_n_mins 10
+edgar rss AAPL GOOG MSFT --output rss_feed.json --every-n-mins 10
 
 # Same example as above, using aliases and exporting to JSONLines (.jsonl)
-edgar-tool rss "AAPL" "GOOG" "MSFT" -o "rss_feed.jsonl" -e 10
+edgar rss AAPL GOOG MSFT -o rss_feed.jsonl -e 10
 ```
 
 ### Detailed Feature Information
@@ -161,11 +156,11 @@ This mapping is obtained from the [SEC website](https://www.sec.gov/files/compan
 #### Periodic retrieval
 
 The RSS feed data returns the last 200 filings and is updated every 10 minutes (which doesn't mean all tickers are updated every 10 minutes).
-The tool can fetch the feed either once on-demand, or at regular intervals.
+The tool can fetch the feed either once on-demand or at regular intervals.
 
 </details>
 
-## Table of Cleaned Financial Data :bank:
+## Table of Cleaned Financial Data 🏦
 
 There is also a table of data containing most income statements, balance sheets, and cash flow statements for every company traded publicly in the U.S.
 
