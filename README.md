@@ -26,6 +26,14 @@ You can install this tool directly from the [official PyPi release](https://pypi
 pip install edgar-tool
 ```
 
+The CLI also supports autocompletion, which is **highly recommended**. You can install autocomplete for your shell by typing
+
+```bash
+edgar --install-completion
+```
+
+Autocomplete makes it really easy to use the CLI, since you only have to type the first few characters of CLI commands, keyword arguments, or available values, followed by the `tab ↹ key` to fill in the rest of the characters.
+
 ## Usage - Text Search 🔎
 
 ### What is the text search tool?
