@@ -114,7 +114,7 @@ class SearchParams(pydantic.BaseModel):
 
     @staticmethod
     def _get_formatted_location(
-        location: Union[constants.LocationLiteral, list[constants.LocationLiteral]]
+        location: Union[constants.LocationLiteral, list[constants.LocationLiteral]],
     ) -> str:
         if not location:
             return None

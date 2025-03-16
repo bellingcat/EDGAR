@@ -41,7 +41,7 @@ pydantic = "^2.10.5"
 python-dateutil = "^2.9.0.post0"
 
 [tool.poetry.group.dev.dependencies]
-black = {extras = ["jupyter"], version = "^24.10.0"}
+black = {extras = ["jupyter"], version = "^25.1.0"}
 isort = "5.13.2"
 pre-commit = "^3.8.0"
 pytest = "^8.2.2"
