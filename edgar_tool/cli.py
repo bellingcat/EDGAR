@@ -6,6 +6,7 @@ import typer
 from typing_extensions import Annotated
 
 from .constants import DateRange, Filing, FilingCategory, Location
+from .location_autocomplete import LOCATION_CODE_TO_NAME
 from .rss import fetch_rss_feed
 from .text_search import EdgarTextSearcher, SearchParams
 
@@ -19,6 +20,19 @@ def text_search_output_callback(value: str):
             "(should be one of csv, json, or jsonl)."
         )
     return value
+
+
+def location_help_callback(incomplete: str):
+    """
+    Filters the user's location code input to only show those that start with the input.
+
+    Note that due to the way terminals handle tab completion, we cannot provide fuzzy matches.
+    The terminal will only show the matches that start with the input, even if this method returns
+    fuzzy matches.
+    """
+    yield from (
+        pair for pair in LOCATION_CODE_TO_NAME if pair.code.startswith(incomplete)
+    )
 
 
 @app.command(
@@ -105,6 +119,7 @@ def text_search(
                 "The location could be a US state or territory, a Canadian "
                 "province, or a country."
             ),
+            autocompletion=location_help_callback,
         ),
     ] = None,
     inc_in: Annotated[
@@ -119,6 +134,7 @@ def text_search(
                 "The location could be a US state or territory, a Canadian "
                 "province, or a country."
             ),
+            autocompletion=location_help_callback,
         ),
     ] = None,
 ):

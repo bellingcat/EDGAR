@@ -4,6 +4,7 @@ import pytest
 from typer.testing import CliRunner
 
 import edgar_tool
+from edgar_tool.location_autocomplete import LOCATION_CODE_TO_NAME
 
 runner = CliRunner()
 
@@ -18,6 +19,45 @@ def mock_edgar_text_searcher():
 def mock_fetch_rss_feed():
     with patch("edgar_tool.cli.fetch_rss_feed"):
         yield
+
+
+@pytest.mark.parametrize(
+    "search_term,expected_result",
+    [
+        (
+            "al",
+            [],
+        ),
+        (
+            "Al",
+            [],
+        ),
+        ("AL", [("AL", "Alabama"), ("ALA", "Åland Islands"), ("ALB", "Albania")]),
+        ("DE", [("DE", "Delaware"), ("DEU", "Germany")]),
+        (
+            "CO",
+            [
+                ("CO", "Colorado"),
+                ("COL", "Colombia"),
+                ("COM", "Comoros"),
+                ("COG", "Republic of the Congo"),
+                ("COD", "Congo, The Democratic Republic of the"),
+                ("COK", "Cook Islands"),
+            ],
+        ),
+        pytest.param(
+            "",
+            edgar_tool.location_autocomplete.LOCATION_CODE_TO_NAME,
+            id="empty string shows all locations",
+        ),
+    ],
+)
+def test_location_help_callback(search_term, expected_result):
+    # GIVEN/WHEN
+    result = [pair for pair in edgar_tool.cli.location_help_callback(search_term)]
+
+    # THEN
+    assert result == expected_result
 
 
 class TestTextSearch:
