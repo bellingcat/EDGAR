@@ -1,3 +1,5 @@
+import enum
+
 from typing_extensions import Literal
 
 SUPPORTED_OUTPUT_EXTENSIONS = [".csv", ".jsonl", ".json"]
@@ -45,317 +47,634 @@ RSS_FEED_CSV_FIELDS_NAMES = [
 The keys are the values that the CLI uses, and the values are those
 that the search form uses. All values are shown in the order they
 appear in the SEC EDGAR search drop down."""
+
+
+class Location(str, enum.Enum):
+    # US States
+    ALABAMA = "AL"
+    ALASKA = "AK"
+    ARIZONA = "AZ"
+    ARKANSAS = "AR"
+    CALIFORNIA = "CA"
+    COLORADO = "CO"
+    CONNECTICUT = "CT"
+    DELAWARE = "DE"
+    DISTRICT_OF_COLUMBIA = "DC"
+    FLORIDA = "FL"
+    GEORGIA = "GA"
+    HAWAII = "HI"
+    IDAHO = "ID"
+    ILLINOIS = "IL"
+    INDIANA = "IN"
+    IOWA = "IA"
+    KANSAS = "KS"
+    KENTUCKY = "KY"
+    LOUISIANA = "LA"
+    MAINE = "ME"
+    MARYLAND = "MD"
+    MASSACHUSETTS = "MA"
+    MICHIGAN = "MI"
+    MINNESOTA = "MN"
+    MISSISSIPPI = "MS"
+    MISSOURI = "MO"
+    MONTANA = "MT"
+    NEBRASKA = "NE"
+    NEVADA = "NV"
+    NEW_HAMPSHIRE = "NH"
+    NEW_JERSEY = "NJ"
+    NEW_MEXICO = "NM"
+    NEW_YORK = "NY"
+    NORTH_CAROLINA = "NC"
+    NORTH_DAKOTA = "ND"
+    OHIO = "OH"
+    OKLAHOMA = "OK"
+    OREGON = "OR"
+    PENNSYLVANIA = "PA"
+    RHODE_ISLAND = "RI"
+    SOUTH_CAROLINA = "SC"
+    SOUTH_DAKOTA = "SD"
+    TENNESSEE = "TN"
+    TEXAS = "TX"
+    UTAH = "UT"
+    VERMONT = "VT"
+    VIRGINIA = "VA"
+    WASHINGTON = "WA"
+    WEST_VIRGINIA = "WV"
+    WISCONSIN = "WI"
+    WYOMING = "WY"
+
+    # Canadian Provinces
+    ALBERTA = "AB"
+    BRITISH_COLUMBIA = "BC"
+    CANADA = "CAN"
+    MANITOBA = "MB"
+    NEW_BRUNSWICK = "NB"
+    NEWFOUNDLAND_AND_LABRADOR = "NL"
+    NOVA_SCOTIA = "NS"
+    ONTARIO = "ON"
+    PRINCE_EDWARD_ISLAND = "PE"
+    QUEBEC = "QC"
+    SASKATCHEWAN = "SK"
+    YUKON = "YT"
+
+    # Countries
+    AFGHANISTAN = "AFG"
+    ALAND_ISLANDS = "ALA"
+    ALBANIA = "ALB"
+    ALGERIA = "DZA"
+    AMERICAN_SAMOA = "ASM"
+    ANDORRA = "AND"
+    ANGOLA = "AGO"
+    ANGUILLA = "AIA"
+    ANTARCTICA = "ATA"
+    ANTIGUA_AND_BARBUDA = "ATG"
+    ARGENTINA = "ARG"
+    ARMENIA = "ARM"
+    ARUBA = "ABW"
+    AUSTRALIA = "AUS"
+    AUSTRIA = "AUT"
+    AZERBAIJAN = "AZE"
+    BAHAMAS = "BHS"
+    BAHRAIN = "BHR"
+    BANGLADESH = "BGD"
+    BARBADOS = "BRB"
+    BELARUS = "BLR"
+    BELGIUM = "BEL"
+    BELIZE = "BLZ"
+    BENIN = "BEN"
+    BERMUDA = "BMU"
+    BHUTAN = "BTN"
+    BOLIVIA = "BOL"
+    BOSNIA_AND_HERZEGOVINA = "BIH"
+    BOTSWANA = "BWA"
+    BOUVET_ISLAND = "BVT"
+    BRAZIL = "BRA"
+    BRITISH_INDIAN_OCEAN_TERRITORY = "IOT"
+    BRUNEI_DARUSSALAM = "BRN"
+    BULGARIA = "BGR"
+    BURKINA_FASO = "BFA"
+    BURUNDI = "BDI"
+    CAMBODIA = "KHM"
+    CAMEROON = "CMR"
+    CAPE_VERDE = "CPV"
+    CAYMAN_ISLANDS = "CYM"
+    CENTRAL_AFRICAN_REPUBLIC = "CAF"
+    CHAD = "TCD"
+    CHILE = "CHL"
+    CHINA = "CHN"
+    CHRISTMAS_ISLAND = "CXR"
+    COCOS_KEELING_ISLANDS = "CCK"
+    COLOMBIA = "COL"
+    COMOROS = "COM"
+    CONGO = "COG"
+    CONGO_DEMOCRATIC_REPUBLIC = "COD"
+    COOK_ISLANDS = "COK"
+    COSTA_RICA = "CRI"
+    COTE_DIVOIRE = "CIV"
+    CROATIA = "HRV"
+    CUBA = "CUB"
+    CYPRUS = "CYP"
+    CZECH_REPUBLIC = "CZE"
+    DENMARK = "DNK"
+    DJIBOUTI = "DJI"
+    DOMINICA = "DMA"
+    DOMINICAN_REPUBLIC = "DOM"
+    ECUADOR = "ECU"
+    EGYPT = "EGY"
+    EL_SALVADOR = "SLV"
+    EQUATORIAL_GUINEA = "GNQ"
+    ERITREA = "ERI"
+    ESTONIA = "EST"
+    ETHIOPIA = "ETH"
+    FALKLAND_ISLANDS = "FLK"
+    FAROE_ISLANDS = "FRO"
+    FIJI = "FJI"
+    FINLAND = "FIN"
+    FRANCE = "FRA"
+    FRENCH_GUIANA = "GUF"
+    FRENCH_POLYNESIA = "PYF"
+    FRENCH_SOUTHERN_TERRITORIES = "ATF"
+    GABON = "GAB"
+    GAMBIA = "GMB"
+    GEORGIA_REPUBLIC = "GEO"
+    GERMANY = "DEU"
+    GHANA = "GHA"
+    GIBRALTAR = "GIB"
+    GREECE = "GRC"
+    GREENLAND = "GRL"
+    GRENADA = "GRD"
+    GUADELOUPE = "GLP"
+    GUAM = "GUM"
+    GUATEMALA = "GTM"
+    GUERNSEY = "GGY"
+    GUINEA = "GIN"
+    GUINEA_BISSAU = "GNB"
+    GUYANA = "GUY"
+    HAITI = "HTI"
+    HEARD_AND_MCDONALD_ISLANDS = "HMD"
+    HOLY_SEE_VATICAN_CITY = "VAT"
+    HONDURAS = "HND"
+    HONG_KONG = "HKG"
+    HUNGARY = "HUN"
+    ICELAND = "ISL"
+    INDIA = "IND"
+    INDONESIA = "IDN"
+    IRAN = "IRN"
+    IRAQ = "IRQ"
+    IRELAND = "IRL"
+    ISLE_OF_MAN = "IMN"
+    ISRAEL = "ISR"
+    ITALY = "ITA"
+    JAMAICA = "JAM"
+    JAPAN = "JPN"
+    JERSEY = "JEY"
+    JORDAN = "JOR"
+    KAZAKHSTAN = "KAZ"
+    KENYA = "KEN"
+    KIRIBATI = "KIR"
+    NORTH_KOREA = "PRK"
+    SOUTH_KOREA = "KOR"
+    KUWAIT = "KWT"
+    KYRGYZSTAN = "KGZ"
+    LAOS = "LAO"
+    LATVIA = "LVA"
+    LEBANON = "LBN"
+    LESOTHO = "LSO"
+    LIBERIA = "LBR"
+    LIBYA = "LBY"
+    LIECHTENSTEIN = "LIE"
+    LITHUANIA = "LTU"
+    LUXEMBOURG = "LUX"
+    MACAU = "MAC"
+    MACEDONIA = "MKD"
+    MADAGASCAR = "MDG"
+    MALAWI = "MWI"
+    MALAYSIA = "MYS"
+    MALDIVES = "MDV"
+    MALI = "MLI"
+    MALTA = "MLT"
+    MARSHALL_ISLANDS = "MHL"
+    MARTINIQUE = "MTQ"
+    MAURITANIA = "MRT"
+    MAURITIUS = "MUS"
+    MAYOTTE = "MYT"
+    MEXICO = "MEX"
+    MICRONESIA = "FSM"
+    MOLDOVA = "MDA"
+    MONACO = "MCO"
+    MONGOLIA = "MNG"
+    MONTENEGRO = "MNE"
+    MONTSERRAT = "MSR"
+    MOROCCO = "MAR"
+    MOZAMBIQUE = "MOZ"
+    MYANMAR = "MMR"
+    NAMIBIA = "NAM"
+    NAURU = "NRU"
+    NEPAL = "NPL"
+    NETHERLANDS = "NLD"
+    NETHERLANDS_ANTILLES = "ANT"
+    NEW_CALEDONIA = "NCL"
+    NEW_ZEALAND = "NZL"
+    NICARAGUA = "NIC"
+    NIGER = "NER"
+    NIGERIA = "NGA"
+    NIUE = "NIU"
+    NORFOLK_ISLAND = "NFK"
+    NORTHERN_MARIANA_ISLANDS = "MNP"
+    NORWAY = "NOR"
+    OMAN = "OMN"
+    PAKISTAN = "PAK"
+    PALAU = "PLW"
+    PALESTINIAN_TERRITORY = "PSE"
+    PANAMA = "PAN"
+    PAPUA_NEW_GUINEA = "PNG"
+    PARAGUAY = "PRY"
+    PERU = "PER"
+    PHILIPPINES = "PHL"
+    PITCAIRN = "PCN"
+    POLAND = "POL"
+    PORTUGAL = "PRT"
+    PUERTO_RICO = "PRI"
+    QATAR = "QAT"
+    REUNION = "REU"
+    ROMANIA = "ROU"
+    RUSSIAN_FEDERATION = "RUS"
+    RWANDA = "RWA"
+    SAINT_BARTHELEMY = "BLM"
+    SAINT_HELENA = "SHN"
+    SAINT_KITTS_AND_NEVIS = "KNA"
+    SAINT_LUCIA = "LCA"
+    SAINT_MARTIN = "MAF"
+    SAINT_PIERRE_AND_MIQUELON = "SPM"
+    SAINT_VINCENT_AND_GRENADINES = "VCT"
+    SAMOA = "WSM"
+    SAN_MARINO = "SMR"
+    SAO_TOME_AND_PRINCIPE = "STP"
+    SAUDI_ARABIA = "SAU"
+    SENEGAL = "SEN"
+    SERBIA = "SRB"
+    SEYCHELLES = "SYC"
+    SIERRA_LEONE = "SLE"
+    SINGAPORE = "SGP"
+    SLOVAKIA = "SVK"
+    SLOVENIA = "SVN"
+    SOLOMON_ISLANDS = "SLB"
+    SOMALIA = "SOM"
+    SOUTH_AFRICA = "ZAF"
+    SOUTH_GEORGIA_AND_SOUTH_SANDWICH_ISLANDS = "SGS"
+    SPAIN = "ESP"
+    SRI_LANKA = "LKA"
+    SUDAN = "SDN"
+    SURINAME = "SUR"
+    SVALBARD_AND_JAN_MAYEN = "SJM"
+    ESWATINI = "SWZ"  # Formerly Swaziland
+    SWEDEN = "SWE"
+    SWITZERLAND = "CHE"
+    SYRIA = "SYR"
+    TAIWAN = "TWN"
+    TAJIKISTAN = "TJK"
+    THAILAND = "THA"
+    TIMOR_LESTE = "TLS"
+    TOGO = "TGO"
+    TOKELAU = "TKL"
+    TONGA = "TON"
+    TRINIDAD_AND_TOBAGO = "TTO"
+    TUNISIA = "TUN"
+    TURKEY = "TUR"
+    TURKMENISTAN = "TKM"
+    TURKS_AND_CAICOS_ISLANDS = "TCA"
+    TUVALU = "TUV"
+    UGANDA = "UGA"
+    UKRAINE = "UKR"
+    UNITED_ARAB_EMIRATES = "ARE"
+    UNITED_KINGDOM = "GBR"
+    UNITED_STATES_MINOR_OUTLYING_ISLANDS = "UMI"
+    URUGUAY = "URY"
+    UZBEKISTAN = "UZB"
+    VANUATU = "VUT"
+    VENEZUELA = "VEN"
+    VIETNAM = "VNM"
+    BRITISH_VIRGIN_ISLANDS = "VGB"
+    US_VIRGIN_ISLANDS = "VIR"
+    WALLIS_AND_FUTUNA = "WLF"
+    WESTERN_SAHARA = "ESH"
+    YEMEN = "YEM"
+    ZAMBIA = "ZMB"
+    ZIMBABWE = "ZWE"
+    UNKNOWN = "XX"
+
+
 PEO_IN_AND_INC_IN_TO_SEC_FORM_ID = {
     # US States
-    "AL": "AL",
-    "AK": "AK",
-    "AZ": "AZ",
-    "AR": "AR",
-    "CA": "CA",
-    "CO": "CO",
-    "CT": "CT",
-    "DE": "DE",
-    "DC": "DC",
-    "FL": "FL",
-    "GA": "GA",
-    "HI": "HI",
-    "ID": "ID",
-    "IL": "IL",
-    "IN": "IN",
-    "IA": "IA",
-    "KS": "KS",
-    "KY": "KY",
-    "LA": "LA",
-    "ME": "ME",
-    "MD": "MD",
-    "MA": "MA",
-    "MI": "MI",
-    "MN": "MN",
-    "MS": "MS",
-    "MO": "MO",
-    "MT": "MT",
-    "NE": "NE",
-    "NV": "NV",
-    "NH": "NH",
-    "NJ": "NJ",
-    "NM": "NM",
-    "NY": "NY",
-    "NC": "NC",
-    "ND": "ND",
-    "OH": "OH",
-    "OK": "OK",
-    "OR": "OR",
-    "PA": "PA",
-    "RI": "RI",
-    "SC": "SC",
-    "SD": "SD",
-    "TN": "TN",
-    "TX": "TX",
-    "UT": "UT",
-    "VT": "VT",
-    "VA": "VA",
-    "WA": "WA",
-    "WV": "WV",
-    "WI": "WI",
-    "WY": "WY",
+    Location.ALABAMA: "AL",
+    Location.ALASKA: "AK",
+    Location.ARIZONA: "AZ",
+    Location.ARKANSAS: "AR",
+    Location.CALIFORNIA: "CA",
+    Location.COLORADO: "CO",
+    Location.CONNECTICUT: "CT",
+    Location.DELAWARE: "DE",
+    Location.DISTRICT_OF_COLUMBIA: "DC",
+    Location.FLORIDA: "FL",
+    Location.GEORGIA: "GA",
+    Location.HAWAII: "HI",
+    Location.IDAHO: "ID",
+    Location.ILLINOIS: "IL",
+    Location.INDIANA: "IN",
+    Location.IOWA: "IA",
+    Location.KANSAS: "KS",
+    Location.KENTUCKY: "KY",
+    Location.LOUISIANA: "LA",
+    Location.MAINE: "ME",
+    Location.MARYLAND: "MD",
+    Location.MASSACHUSETTS: "MA",
+    Location.MICHIGAN: "MI",
+    Location.MINNESOTA: "MN",
+    Location.MISSISSIPPI: "MS",
+    Location.MISSOURI: "MO",
+    Location.MONTANA: "MT",
+    Location.NEBRASKA: "NE",
+    Location.NEVADA: "NV",
+    Location.NEW_HAMPSHIRE: "NH",
+    Location.NEW_JERSEY: "NJ",
+    Location.NEW_MEXICO: "NM",
+    Location.NEW_YORK: "NY",
+    Location.NORTH_CAROLINA: "NC",
+    Location.NORTH_DAKOTA: "ND",
+    Location.OHIO: "OH",
+    Location.OKLAHOMA: "OK",
+    Location.OREGON: "OR",
+    Location.PENNSYLVANIA: "PA",
+    Location.RHODE_ISLAND: "RI",
+    Location.SOUTH_CAROLINA: "SC",
+    Location.SOUTH_DAKOTA: "SD",
+    Location.TENNESSEE: "TN",
+    Location.TEXAS: "TX",
+    Location.UTAH: "UT",
+    Location.VERMONT: "VT",
+    Location.VIRGINIA: "VA",
+    Location.WASHINGTON: "WA",
+    Location.WEST_VIRGINIA: "WV",
+    Location.WISCONSIN: "WI",
+    Location.WYOMING: "WY",
     # Canadian Provinces
-    "AB": "A0",
-    "BC": "A1",
-    "CAN": "Z4",  # Canada (Federal Level)
-    "MB": "A2",
-    "NB": "A3",
-    "NL": "A4",
-    "NS": "A5",
-    "ON": "A6",
-    "PE": "A7",
-    "QC": "A8",
-    "SK": "A9",
-    "YT": "B0",
+    Location.ALBERTA: "A0",
+    Location.BRITISH_COLUMBIA: "A1",
+    Location.CANADA: "Z4",  # Canada (Federal Level)
+    Location.MANITOBA: "A2",
+    Location.NEW_BRUNSWICK: "A3",
+    Location.NEWFOUNDLAND_AND_LABRADOR: "A4",
+    Location.NOVA_SCOTIA: "A5",
+    Location.ONTARIO: "A6",
+    Location.PRINCE_EDWARD_ISLAND: "A7",
+    Location.QUEBEC: "A8",
+    Location.SASKATCHEWAN: "A9",
+    Location.YUKON: "B0",
     # Countries
-    "AFG": "B2",
-    "ALA": "Y6",
-    "ALB": "B3",
-    "DZA": "B4",
-    "ASM": "B5",
-    "AND": "B6",
-    "AGO": "B7",
-    "AIA": "1A",
-    "ATA": "B8",
-    "ATG": "B9",
-    "ARG": "C1",
-    "ARM": "1B",
-    "ABW": "1C",
-    "AUS": "C3",
-    "AUT": "C4",
-    "AZE": "1D",
-    "BHS": "C5",
-    "BHR": "C6",
-    "BGD": "C7",
-    "BRB": "C8",
-    "BLR": "1F",
-    "BEL": "C9",
-    "BLZ": "D1",
-    "BEN": "G6",
-    "BMU": "D0",
-    "BTN": "D2",
-    "BOL": "D3",
-    "BIH": "1E",
-    "BWA": "B1",
-    "BVT": "D4",
-    "BRA": "D5",
-    "IOT": "D6",
-    "BRN": "D9",
-    "BGR": "E0",
-    "BFA": "X2",
-    "BDI": "E2",
-    "KHM": "E3",
-    "CMR": "E4",
-    "CPV": "E8",
-    "CYM": "E9",
-    "CAF": "F0",
-    "TCD": "F2",
-    "CHL": "F3",
-    "CHN": "F4",
-    "CXR": "F6",
-    "CCK": "F7",
-    "COL": "F8",
-    "COM": "F9",
-    "COG": "G0",
-    "COD": "Y3",
-    "COK": "G1",
-    "CRI": "G2",
-    "CIV": "L7",
-    "HRV": "1M",
-    "CUB": "G3",
-    "CYP": "G4",
-    "CZE": "2N",
-    "DNK": "G7",
-    "DJI": "1G",
-    "DMA": "G9",
-    "DOM": "D8",
-    "ECU": "H1",
-    "EGY": "H2",
-    "SLV": "H3",
-    "GNQ": "H4",
-    "ERI": "1J",
-    "EST": "1H",
-    "ETH": "H5",
-    "FLK": "H7",
-    "FRO": "H6",
-    "FJI": "H8",
-    "FIN": "H9",
-    "FRA": "I0",
-    "GUF": "I3",
-    "PYF": "I4",
-    "ATF": "2C",
-    "GAB": "I5",
-    "GMB": "I6",
-    "GEO": "2Q",
-    "DEU": "2M",
-    "GHA": "J0",
-    "GIB": "J1",
-    "GRC": "J3",
-    "GRL": "J4",
-    "GRD": "J5",
-    "GLP": "J6",
-    "GUM": "GU",
-    "GTM": "J8",
-    "GGY": "Y7",
-    "GIN": "J9",
-    "GNB": "S0",
-    "GUY": "K0",
-    "HTI": "K1",
-    "HMD": "K4",
-    "VAT": "X4",
-    "HND": "K2",
-    "HKG": "K3",
-    "HUN": "K5",
-    "ISL": "K6",
-    "IND": "K7",
-    "IDN": "K8",
-    "IRN": "K9",
-    "IRQ": "L0",
-    "IRL": "L2",
-    "IMN": "Y8",
-    "ISR": "L3",
-    "ITA": "L6",
-    "JAM": "L8",
-    "JPN": "M0",
-    "JEY": "Y9",
-    "JOR": "M2",
-    "KAZ": "1P",
-    "KEN": "M3",
-    "KIR": "J2",
-    "PRK": "M4",
-    "KOR": "M5",
-    "KWT": "M6",
-    "KGZ": "1N",
-    "LAO": "M7",
-    "LVA": "1R",
-    "LBN": "M8",
-    "LSO": "M9",
-    "LBR": "N0",
-    "LBY": "N1",
-    "LIE": "N2",
-    "LTU": "1Q",
-    "LUX": "N4",
-    "MAC": "N5",
-    "MKD": "1U",
-    "MDG": "N6",
-    "MWI": "N7",
-    "MYS": "N8",
-    "MDV": "N9",
-    "MLI": "O0",
-    "MLT": "O1",
-    "MHL": "1T",
-    "MTQ": "O2",
-    "MRT": "O3",
-    "MUS": "O4",
-    "MYT": "2P",
-    "MEX": "O5",
-    "FSM": "1K",
-    "MDA": "1S",
-    "MCO": "O9",
-    "MNG": "P0",
-    "MNE": "Z5",
-    "MSR": "P1",
-    "MAR": "P2",
-    "MOZ": "P3",
-    "MMR": "E1",
-    "NAM": "T6",
-    "NRU": "P5",
-    "NPL": "P6",
-    "NLD": "P7",
-    "ANT": "P8",
-    "NCL": "1W",
-    "NZL": "Q2",
-    "NIC": "Q3",
-    "NER": "Q4",
-    "NGA": "Q5",
-    "NIU": "Q6",
-    "NFK": "Q7",
-    "MNP": "1V",
-    "NOR": "Q8",
-    "OMN": "P4",
-    "PAK": "R0",
-    "PLW": "1Y",
-    "PSE": "1X",
-    "PAN": "R1",
-    "PNG": "R2",
-    "PRY": "R4",
-    "PER": "R5",
-    "PHL": "R6",
-    "PCN": "R8",
-    "POL": "R9",
-    "PRT": "S1",
-    "PRI": "PR",
-    "QAT": "S3",
-    "REU": "S4",
-    "ROU": "S5",
-    "RUS": "1Z",
-    "RWA": "S6",
-    "BLM": "Z0",
-    "SHN": "U8",
-    "KNA": "U7",
-    "LCA": "U9",
-    "MAF": "Z1",
-    "SPM": "V0",
-    "VCT": "V1",
-    "WSM": "Y0",
-    "SMR": "S8",
-    "STP": "S9",
-    "SAU": "T0",
-    "SEN": "T1",
-    "SRB": "Z2",
-    "SYC": "T2",
-    "SLE": "T8",
-    "SGP": "U0",
-    "SVK": "2B",
-    "SVN": "2A",
-    "SLB": "D7",
-    "SOM": "U1",
-    "ZAF": "T3",
-    "SGS": "1L",
-    "ESP": "U3",
-    "LKA": "F1",
-    "SDN": "V2",
-    "SUR": "V3",
-    "SJM": "L9",
-    "SWZ": "V6",
-    "SWE": "V7",
-    "CHE": "V8",
-    "SYR": "V9",
-    "TWN": "F5",
-    "TJK": "2D",
-    "THA": "W1",
-    "TLS": "Z3",
-    "TGO": "W2",
-    "TKL": "W3",
-    "TON": "W4",
-    "TTO": "W5",
-    "TUN": "W6",
-    "TUR": "W8",
-    "TKM": "2E",
-    "TCA": "W7",
-    "TUV": "2G",
-    "UGA": "W9",
-    "UKR": "2H",
-    "ARE": "C0",
-    "GBR": "X0",
-    "UMI": "2J",
-    "URY": "X3",
-    "UZB": "2K",
-    "VUT": "2L",
-    "VEN": "X5",
-    "VNM": "Q1",
-    "VGB": "D8",
-    "VIR": "VI",
-    "WLF": "X8",
-    "ESH": "Y1",
-    "YEM": "T7",
-    "ZMB": "Y4",
-    "ZWE": "Y5",
-    "XX": "XX",
+    Location.AFGHANISTAN: "B2",
+    Location.ALAND_ISLANDS: "Y6",
+    Location.ALBANIA: "B3",
+    Location.ALGERIA: "B4",
+    Location.AMERICAN_SAMOA: "B5",
+    Location.ANDORRA: "B6",
+    Location.ANGOLA: "B7",
+    Location.ANGUILLA: "1A",
+    Location.ANTARCTICA: "B8",
+    Location.ANTIGUA_AND_BARBUDA: "B9",
+    Location.ARGENTINA: "C1",
+    Location.ARMENIA: "1B",
+    Location.ARUBA: "1C",
+    Location.AUSTRALIA: "C3",
+    Location.AUSTRIA: "C4",
+    Location.AZERBAIJAN: "1D",
+    Location.BAHAMAS: "C5",
+    Location.BAHRAIN: "C6",
+    Location.BANGLADESH: "C7",
+    Location.BARBADOS: "C8",
+    Location.BELARUS: "1F",
+    Location.BELGIUM: "C9",
+    Location.BELIZE: "D1",
+    Location.BENIN: "G6",
+    Location.BERMUDA: "D0",
+    Location.BHUTAN: "D2",
+    Location.BOLIVIA: "D3",
+    Location.BOSNIA_AND_HERZEGOVINA: "1E",
+    Location.BOTSWANA: "B1",
+    Location.BOUVET_ISLAND: "D4",
+    Location.BRAZIL: "D5",
+    Location.BRITISH_INDIAN_OCEAN_TERRITORY: "D6",
+    Location.BRUNEI_DARUSSALAM: "D9",
+    Location.BULGARIA: "E0",
+    Location.BURKINA_FASO: "X2",
+    Location.BURUNDI: "E2",
+    Location.CAMBODIA: "E3",
+    Location.CAMEROON: "E4",
+    Location.CAPE_VERDE: "E8",
+    Location.CAYMAN_ISLANDS: "E9",
+    Location.CENTRAL_AFRICAN_REPUBLIC: "F0",
+    Location.CHAD: "F2",
+    Location.CHILE: "F3",
+    Location.CHINA: "F4",
+    Location.CHRISTMAS_ISLAND: "F6",
+    Location.COCOS_KEELING_ISLANDS: "F7",
+    Location.COLOMBIA: "F8",
+    Location.COMOROS: "F9",
+    Location.CONGO: "G0",
+    Location.CONGO_DEMOCRATIC_REPUBLIC: "Y3",
+    Location.COOK_ISLANDS: "G1",
+    Location.COSTA_RICA: "G2",
+    Location.COTE_DIVOIRE: "L7",
+    Location.CROATIA: "1M",
+    Location.CUBA: "G3",
+    Location.CYPRUS: "G4",
+    Location.CZECH_REPUBLIC: "2N",
+    Location.DENMARK: "G7",
+    Location.DJIBOUTI: "1G",
+    Location.DOMINICA: "G9",
+    Location.DOMINICAN_REPUBLIC: "D8",
+    Location.ECUADOR: "H1",
+    Location.EGYPT: "H2",
+    Location.EL_SALVADOR: "H3",
+    Location.EQUATORIAL_GUINEA: "H4",
+    Location.ERITREA: "1J",
+    Location.ESTONIA: "1H",
+    Location.ETHIOPIA: "H5",
+    Location.FALKLAND_ISLANDS: "H7",
+    Location.FAROE_ISLANDS: "H6",
+    Location.FIJI: "H8",
+    Location.FINLAND: "H9",
+    Location.FRANCE: "I0",
+    Location.FRENCH_GUIANA: "I3",
+    Location.FRENCH_POLYNESIA: "I4",
+    Location.FRENCH_SOUTHERN_TERRITORIES: "2C",
+    Location.GABON: "I5",
+    Location.GAMBIA: "I6",
+    Location.GEORGIA_REPUBLIC: "2Q",
+    Location.GERMANY: "2M",
+    Location.GHANA: "J0",
+    Location.GIBRALTAR: "J1",
+    Location.GREECE: "J3",
+    Location.GREENLAND: "J4",
+    Location.GRENADA: "J5",
+    Location.GUADELOUPE: "J6",
+    Location.GUAM: "GU",
+    Location.GUATEMALA: "J8",
+    Location.GUERNSEY: "Y7",
+    Location.GUINEA: "J9",
+    Location.GUINEA_BISSAU: "S0",
+    Location.GUYANA: "K0",
+    Location.HAITI: "K1",
+    Location.HEARD_AND_MCDONALD_ISLANDS: "K4",
+    Location.HOLY_SEE_VATICAN_CITY: "X4",
+    Location.HONDURAS: "K2",
+    Location.HONG_KONG: "K3",
+    Location.HUNGARY: "K5",
+    Location.ICELAND: "K6",
+    Location.INDIA: "K7",
+    Location.INDONESIA: "K8",
+    Location.IRAN: "K9",
+    Location.IRAQ: "L0",
+    Location.IRELAND: "L2",
+    Location.ISLE_OF_MAN: "Y8",
+    Location.ISRAEL: "L3",
+    Location.ITALY: "L6",
+    Location.JAMAICA: "L8",
+    Location.JAPAN: "M0",
+    Location.JERSEY: "Y9",
+    Location.JORDAN: "M2",
+    Location.KAZAKHSTAN: "1P",
+    Location.KENYA: "M3",
+    Location.KIRIBATI: "J2",
+    Location.NORTH_KOREA: "M4",
+    Location.SOUTH_KOREA: "M5",
+    Location.KUWAIT: "M6",
+    Location.KYRGYZSTAN: "1N",
+    Location.LAOS: "M7",
+    Location.LATVIA: "1R",
+    Location.LEBANON: "M8",
+    Location.LESOTHO: "M9",
+    Location.LIBERIA: "N0",
+    Location.LIBYA: "N1",
+    Location.LIECHTENSTEIN: "N2",
+    Location.LITHUANIA: "1Q",
+    Location.LUXEMBOURG: "N4",
+    Location.MACAU: "N5",
+    Location.MACEDONIA: "1U",
+    Location.MADAGASCAR: "N6",
+    Location.MALAWI: "N7",
+    Location.MALAYSIA: "N8",
+    Location.MALDIVES: "N9",
+    Location.MALI: "O0",
+    Location.MALTA: "O1",
+    Location.MARSHALL_ISLANDS: "1T",
+    Location.MARTINIQUE: "O2",
+    Location.MAURITANIA: "O3",
+    Location.MAURITIUS: "O4",
+    Location.MAYOTTE: "2P",
+    Location.MEXICO: "O5",
+    Location.MICRONESIA: "1K",
+    Location.MOLDOVA: "1S",
+    Location.MONACO: "O9",
+    Location.MONGOLIA: "P0",
+    Location.MONTENEGRO: "Z5",
+    Location.MONTSERRAT: "P1",
+    Location.MOROCCO: "P2",
+    Location.MOZAMBIQUE: "P3",
+    Location.MYANMAR: "E1",
+    Location.NAMIBIA: "T6",
+    Location.NAURU: "P5",
+    Location.NEPAL: "P6",
+    Location.NETHERLANDS: "P7",
+    Location.NETHERLANDS_ANTILLES: "P8",
+    Location.NEW_CALEDONIA: "1W",
+    Location.NEW_ZEALAND: "Q2",
+    Location.NICARAGUA: "Q3",
+    Location.NIGER: "Q4",
+    Location.NIGERIA: "Q5",
+    Location.NIUE: "Q6",
+    Location.NORFOLK_ISLAND: "Q7",
+    Location.NORTHERN_MARIANA_ISLANDS: "1V",
+    Location.NORWAY: "Q8",
+    Location.OMAN: "P4",
+    Location.PAKISTAN: "R0",
+    Location.PALAU: "1Y",
+    Location.PALESTINIAN_TERRITORY: "1X",
+    Location.PANAMA: "R1",
+    Location.PAPUA_NEW_GUINEA: "R2",
+    Location.PARAGUAY: "R4",
+    Location.PERU: "R5",
+    Location.PHILIPPINES: "R6",
+    Location.PITCAIRN: "R8",
+    Location.POLAND: "R9",
+    Location.PORTUGAL: "S1",
+    Location.PUERTO_RICO: "PR",
+    Location.QATAR: "S3",
+    Location.REUNION: "S4",
+    Location.ROMANIA: "S5",
+    Location.RUSSIAN_FEDERATION: "1Z",
+    Location.RWANDA: "S6",
+    Location.SAINT_BARTHELEMY: "Z0",
+    Location.SAINT_HELENA: "U8",
+    Location.SAINT_KITTS_AND_NEVIS: "U7",
+    Location.SAINT_LUCIA: "U9",
+    Location.SAINT_MARTIN: "Z1",
+    Location.SAINT_PIERRE_AND_MIQUELON: "V0",
+    Location.SAINT_VINCENT_AND_GRENADINES: "V1",
+    Location.SAMOA: "Y0",
+    Location.SAN_MARINO: "S8",
+    Location.SAO_TOME_AND_PRINCIPE: "S9",
+    Location.SAUDI_ARABIA: "T0",
+    Location.SENEGAL: "T1",
+    Location.SERBIA: "Z2",
+    Location.SEYCHELLES: "T2",
+    Location.SIERRA_LEONE: "T8",
+    Location.SINGAPORE: "U0",
+    Location.SLOVAKIA: "2B",
+    Location.SLOVENIA: "2A",
+    Location.SOLOMON_ISLANDS: "D7",
+    Location.SOMALIA: "U1",
+    Location.SOUTH_AFRICA: "T3",
+    Location.SOUTH_GEORGIA_AND_SOUTH_SANDWICH_ISLANDS: "1L",
+    Location.SPAIN: "U3",
+    Location.SRI_LANKA: "F1",
+    Location.SUDAN: "V2",
+    Location.SURINAME: "V3",
+    Location.SVALBARD_AND_JAN_MAYEN: "L9",
+    Location.ESWATINI: "V6",
+    Location.SWEDEN: "V7",
+    Location.SWITZERLAND: "V8",
+    Location.SYRIA: "V9",
+    Location.TAIWAN: "F5",
+    Location.TAJIKISTAN: "2D",
+    Location.THAILAND: "W1",
+    Location.TIMOR_LESTE: "Z3",
+    Location.TOGO: "W2",
+    Location.TOKELAU: "W3",
+    Location.TONGA: "W4",
+    Location.TRINIDAD_AND_TOBAGO: "W5",
+    Location.TUNISIA: "W6",
+    Location.TURKEY: "W8",
+    Location.TURKMENISTAN: "2E",
+    Location.TURKS_AND_CAICOS_ISLANDS: "W7",
+    Location.TUVALU: "2G",
+    Location.UGANDA: "W9",
+    Location.UKRAINE: "2H",
+    Location.UNITED_ARAB_EMIRATES: "C0",
+    Location.UNITED_KINGDOM: "X0",
+    Location.UNITED_STATES_MINOR_OUTLYING_ISLANDS: "2J",
+    Location.URUGUAY: "X3",
+    Location.UZBEKISTAN: "2K",
+    Location.VANUATU: "2L",
+    Location.VENEZUELA: "X5",
+    Location.VIETNAM: "Q1",
+    Location.BRITISH_VIRGIN_ISLANDS: "D8",
+    Location.US_VIRGIN_ISLANDS: "VI",
+    Location.WALLIS_AND_FUTUNA: "X8",
+    Location.WESTERN_SAHARA: "Y1",
+    Location.YEMEN: "T7",
+    Location.ZAMBIA: "Y4",
+    Location.ZIMBABWE: "Y5",
+    Location.UNKNOWN: "XX",
 }
 
 TEXT_SEARCH_LOCATIONS_MAPPING = {
@@ -1695,236 +2014,32 @@ TEXT_SEARCH_FORM_MAPPING = {
     },
 }
 
-TEXT_SEARCH_CATEGORY_FORM_GROUPINGS = {
-    #    "Exclude insider equity awards, transactions, and ownership (Section 16 Reports)": ["-3","-4","-5"], # todo: work out how to exclude these
-    "All annual, quarterly, and current reports": [
-        "1-K",
-        "1-SA",
-        "1-U",
-        "1-Z",
-        "1-Z-W",
-        "10-D",
-        "10-K",
-        "10-KT",
-        "10-Q",
-        "10-QT",
-        "11-K",
-        "11-KT",
-        "13F-HR",
-        "13F-NT",
-        "15-12B",
-        "15-12G",
-        "15-15D",
-        "15F-12B",
-        "15F-12G",
-        "15F-15D",
-        "18-K",
-        "20-F",
-        "24F-2NT",
-        "25",
-        "25-NSE",
-        "40-17F2",
-        "40-17G",
-        "40-F",
-        "6-K",
-        "8-K",
-        "8-K12G3",
-        "8-K15D5",
-        "ABS-15G",
-        "ABS-EE",
-        "ANNLRPT",
-        "DSTRBRPT",
-        "IRANNOTICE",
-        "N-30B-2",
-        "N-30D",
-        "N-CEN",
-        "N-CSR",
-        "N-CSRS",
-        "N-MFP",
-        "N-MFP1",
-        "N-MFP2",
-        "N-PX",
-        "N-Q",
-        "NPORT-EX",
-        "NSAR-A",
-        "NSAR-B",
-        "NSAR-U",
-        "NT 10-D",
-        "NT 10-K",
-        "NT 10-Q",
-        "NT 11-K",
-        "NT 20-F",
-        "QRTLYRPT",
-        "SD",
-        "SP 15D2",
-    ],
-    "Insider equity awards, transactions, and ownership (Section 16 Reports)": [
-        "3",
-        "4",
-        "5",
-    ],
-    "Beneficial ownership reports": ["SC 13D", "SC 13G", "SC14D1F"],
-    "Exempt offerings": [
-        "1-A",
-        "1-A POS",
-        "1-A-W",
-        "253G1",
-        "253G2",
-        "253G3",
-        "253G4",
-        "C",
-        "D",
-        "DOS",
-    ],
-    "Registration statements and prospectuses": [
-        "10-12B",
-        "10-12G",
-        "18-12B",
-        "20FR12B",
-        "20FR12G",
-        "40-24B2",
-        "40FR12B",
-        "40FR12G",
-        "424A",
-        "424B1",
-        "424B2",
-        "424B3",
-        "424B4",
-        "424B5",
-        "424B7",
-        "424B8",
-        "424H",
-        "425",
-        "485APOS",
-        "485BPOS",
-        "485BXT",
-        "487",
-        "497",
-        "497J",
-        "497K",
-        "8-A12B",
-        "8-A12G",
-        "AW",
-        "AW WD",
-        "DEL AM",
-        "DRS",
-        "F-1",
-        "F-10",
-        "F-10EF",
-        "F-10POS",
-        "F-3",
-        "F-3ASR",
-        "F-3D",
-        "F-3DPOS",
-        "F-3MEF",
-        "F-4",
-        "F-4 POS",
-        "F-4MEF",
-        "F-6",
-        "F-6 POS",
-        "F-6EF",
-        "F-7",
-        "F-7 POS",
-        "F-8",
-        "F-8 POS",
-        "F-80",
-        "F-80POS",
-        "F-9",
-        "F-9 POS",
-        "F-N",
-        "F-X",
-        "FWP",
-        "N-2",
-        "POS AM",
-        "POS EX",
-        "POS462B",
-        "POS462C",
-        "POSASR",
-        "RW",
-        "RW WD",
-        "S-1",
-        "S-11",
-        "S-11MEF",
-        "S-1MEF",
-        "S-20",
-        "S-3",
-        "S-3ASR",
-        "S-3D",
-        "S-3DPOS",
-        "S-3MEF",
-        "S-4",
-        "S-4 POS",
-        "S-4EF",
-        "S-4MEF",
-        "S-6",
-        "S-8",
-        "S-8 POS",
-        "S-B",
-        "S-BMEF",
-        "SF-1",
-        "SF-3",
-        "SUPPL",
-        "UNDER",
-    ],
-    "Filing review correspondence": ["CORRESP", "DOSLTR", "DRSLTR", "UPLOAD"],
-    "SEC orders and notices": ["40-APP", "CT ORDER", "EFFECT", "QUALIF", "REVOKED"],
-    "Proxy materials": [
-        "ARS",
-        "DEF 14A",
-        "DEF 14C",
-        "DEFA14A",
-        "DEFA14C",
-        "DEFC14A",
-        "DEFC14C",
-        "DEFM14A",
-        "DEFM14C",
-        "DEFN14A",
-        "DEFR14A",
-        "DEFR14C",
-        "DFAN14A",
-        "DFRN14A",
-        "PRE 14A",
-        "PRE 14C",
-        "PREC14A",
-        "PREC14C",
-        "PREM14A",
-        "PREM14C",
-        "PREN14A",
-        "PRER14A",
-        "PRER14C",
-        "PRRN14A",
-        "PX14A6G",
-        "PX14A6N",
-        "SC 14N",
-    ],
-    "Tender offers and going private transactions": [
-        "CB",
-        "SC 13E1",
-        "SC 13E3",
-        "SC 14D9",
-        "SC 14F1",
-        "SC TO-C",
-        "SC TO-I",
-        "SC TO-T",
-        "SC13E4F",
-        "SC14D9C",
-        "SC14D9F",
-    ],
-    "Trust indenture filings": ["305B2", "T-3"],
-}
-# These are the verbose descriptions of the categories that are used in the CLI,
-TEXT_SEARCH_FILING_VS_MAPPING_CATEGORIES_MAPPING = {
-    "all_annual_quarterly_and_current_reports": "All annual, quarterly, and current reports",
-    "all_section_16": "Insider equity awards, transactions, and ownership (Section 16 Reports)",
-    "beneficial_ownership_reports": "Beneficial ownership reports",
-    "exempt_offerings": "Exempt offerings",
-    "registration_statements": "Registration statements and prospectuses",
-    "filing_review_correspondence": "Filing review correspondence",
-    "sec_orders_and_notices": "SEC orders and notices",
-    "proxy_materials": "Proxy materials",
-    "tender_offers_and_going_private_tx": "Tender offers and going private transactions",
-    "trust_indentures": "Trust indenture filings",
-}
+
+class DateRange(str, enum.Enum):
+    all = "all"
+    ten_years = "10y"
+    five_years = "5y"
+    one_year = "1y"
+    thirty_days = "30d"
+
+
+class FilingCategory(str, enum.Enum):
+    all = "all"
+    custom = "custom"
+    all_except_section_16 = "all_except_section_16"
+    all_annual_quarterly_and_current_reports = (
+        "all_annual_quarterly_and_current_reports"
+    )
+    all_section_16 = "all_section_16"
+    beneficial_ownership_reports = "beneficial_ownership_reports"
+    exempt_offerings = "exempt_offerings"
+    registration_statements = "registration_statements"
+    filing_review_correspondence = "filing_review_correspondence"
+    sec_orders_and_notices = "sec_orders_and_notices"
+    proxy_materials = "proxy_materials"
+    tender_offers_and_going_private_tx = "tender_offers_and_going_private_tx"
+    trust_indentures = "trust_indentures"
+
 
 FilingCategoryLiteral = Literal[
     "all",
@@ -2580,3 +2695,330 @@ FilingLiteral = Literal[
     "UPLOAD",  # Correspondence
     "X-17A-5",  # Annual audit report by brokers or dealers
 ]
+
+
+class Filing(str, enum.Enum):
+    FORM_1_A_POS = "1-A POS"
+    FORM_1_A_W = "1-A-W"
+    FORM_1_A = "1-A"
+    FORM_1_E_AD = "1-E AD"
+    FORM_1_K = "1-K"
+    FORM_1_SA = "1-SA"
+    FORM_1_U = "1-U"
+    FORM_1_Z_W = "1-Z-W"
+    FORM_1_Z = "1-Z"
+    FORM_1 = "1"
+    FORM_10_12B = "10-12B"
+    FORM_10_12G = "10-12G"
+    FORM_10_D = "10-D"
+    FORM_10_K = "10-K"
+    FORM_10_KT = "10-KT"
+    FORM_10_Q = "10-Q"
+    FORM_10_QT = "10-QT"
+    FORM_11_K = "11-K"
+    FORM_13F_HR = "13F-HR"
+    FORM_13F_NT = "13F-NT"
+    FORM_13FCONP = "13FCONP"
+    FORM_144 = "144"
+    FORM_15_12B = "15-12B"
+    FORM_15_12G = "15-12G"
+    FORM_15_15D = "15-15D"
+    FORM_15F_12B = "15F-12B"
+    FORM_15F_12G = "15F-12G"
+    FORM_15F_15D = "15F-15D"
+    FORM_18_12B = "18-12B"
+    FORM_18_K = "18-K"
+    FORM_19B_4E = "19B-4E"
+    FORM_2_A = "2-A"
+    FORM_20_F = "20-F"
+    FORM_20FR12B = "20FR12B"
+    FORM_20FR12G = "20FR12G"
+    FORM_24F_2NT = "24F-2NT"
+    FORM_25_NSE = "25-NSE"
+    FORM_25 = "25"
+    FORM_253G1 = "253G1"
+    FORM_253G2 = "253G2"
+    FORM_253G4 = "253G4"
+    FORM_3 = "3"
+    FORM_305B2 = "305B2"
+    FORM_4 = "4"
+    FORM_40_17F1 = "40-17F1"
+    FORM_40_17F2 = "40-17F2"
+    FORM_40_17G = "40-17G"
+    FORM_40_202A = "40-202A"
+    FORM_40_203A = "40-203A"
+    FORM_40_206A = "40-206A"
+    FORM_40_24B2 = "40-24B2"
+    FORM_40_33 = "40-33"
+    FORM_40_6B = "40-6B"
+    FORM_40_8B25 = "40-8B25"
+    FORM_40_APP = "40-APP"
+    FORM_40_F = "40-F"
+    FORM_40_OIP = "40-OIP"
+    FORM_40FR12B = "40FR12B"
+    FORM_424A = "424A"
+    FORM_424B1 = "424B1"
+    FORM_424B2 = "424B2"
+    FORM_424B3 = "424B3"
+    FORM_424B4 = "424B4"
+    FORM_424B5 = "424B5"
+    FORM_424B7 = "424B7"
+    FORM_424B8 = "424B8"
+    FORM_424H = "424H"
+    FORM_425 = "425"
+    FORM_485APOS = "485APOS"
+    FORM_485BPOS = "485BPOS"
+    FORM_485BXT = "485BXT"
+    FORM_486APOS = "486APOS"
+    FORM_486BPOS = "486BPOS"
+    FORM_486BXT = "486BXT"
+    FORM_487 = "487"
+    FORM_497 = "497"
+    FORM_497AD = "497AD"
+    FORM_497H2 = "497H2"
+    FORM_497J = "497J"
+    FORM_497K = "497K"
+    FORM_497VPI = "497VPI"
+    FORM_497VPU = "497VPU"
+    FORM_5 = "5"
+    FORM_6_K = "6-K"
+    FORM_6B_NTC = "6B NTC"
+    FORM_6B_ORDR = "6B ORDR"
+    FORM_8_A12B = "8-A12B"
+    FORM_8_A12G = "8-A12G"
+    FORM_8_K = "8-K"
+    FORM_8_K12B = "8-K12B"
+    FORM_8_K12G3 = "8-K12G3"
+    FORM_8_M = "8-M"
+    FORM_8F_2_NTC = "8F-2 NTC"
+    FORM_8F_2_ORDR = "8F-2 ORDR"
+    FORM_ABS_15G = "ABS-15G"
+    FORM_ABS_EE = "ABS-EE"
+    FORM_ADV_E = "ADV-E"
+    FORM_ADV_H_C = "ADV-H-C"
+    FORM_ADV_H_T = "ADV-H-T"
+    FORM_ADV_NR = "ADV-NR"
+    FORM_ANNLRPT = "ANNLRPT"
+    FORM_APP_NTC = "APP NTC"
+    FORM_APP_ORDR = "APP ORDR"
+    FORM_APP_WD = "APP WD"
+    FORM_APP_WDG = "APP WDG"
+    FORM_ARS = "ARS"
+    FORM_ATS_N_C = "ATS-N-C"
+    FORM_ATS_N = "ATS-N"
+    FORM_ATS_N_UA = "ATS-N/UA"
+    FORM_AW_WD = "AW WD"
+    FORM_AW = "AW"
+    FORM_C_AR_W = "C-AR-W"
+    FORM_C_AR = "C-AR"
+    FORM_C_TR_W = "C-TR-W"
+    FORM_C_TR = "C-TR"
+    FORM_C_U_W = "C-U-W"
+    FORM_C_U = "C-U"
+    FORM_C_W = "C-W"
+    FORM_C = "C"
+    FORM_CB = "CB"
+    FORM_CERT = "CERT"
+    FORM_CERTARCA = "CERTARCA"
+    FORM_CERTBATS = "CERTBATS"
+    FORM_CERTCBO = "CERTCBO"
+    FORM_CERTNAS = "CERTNAS"
+    FORM_CERTNYS = "CERTNYS"
+    FORM_CERTPAC = "CERTPAC"
+    FORM_CFPORTAL = "CFPORTAL"
+    FORM_CORRESP = "CORRESP"
+    FORM_CT_ORDER = "CT ORDER"
+    FORM_D = "D"
+    FORM_DEF_14A = "DEF 14A"
+    FORM_DEF_14C = "DEF 14C"
+    FORM_DEFA14A = "DEFA14A"
+    FORM_DEFA14C = "DEFA14C"
+    FORM_DEFC14A = "DEFC14A"
+    FORM_DEFM14A = "DEFM14A"
+    FORM_DEFM14C = "DEFM14C"
+    FORM_DEFN14A = "DEFN14A"
+    FORM_DEFR14A = "DEFR14A"
+    FORM_DEFR14C = "DEFR14C"
+    FORM_DEL_AM = "DEL AM"
+    FORM_DFAN14A = "DFAN14A"
+    FORM_DFRN14A = "DFRN14A"
+    FORM_DOS = "DOS"
+    FORM_DOSLTR = "DOSLTR"
+    FORM_DRS = "DRS"
+    FORM_DRSLTR = "DRSLTR"
+    FORM_DSTRBRPT = "DSTRBRPT"
+    FORM_EFFECT = "EFFECT"
+    FORM_F_1 = "F-1"
+    FORM_F_10 = "F-10"
+    FORM_F_10EF = "F-10EF"
+    FORM_F_10POS = "F-10POS"
+    FORM_F_1MEF = "F-1MEF"
+    FORM_F_3 = "F-3"
+    FORM_F_3ASR = "F-3ASR"
+    FORM_F_3D = "F-3D"
+    FORM_F_4 = "F-4"
+    FORM_F_4MEF = "F-4MEF"
+    FORM_F_6_POS = "F-6 POS"
+    FORM_F_6 = "F-6"
+    FORM_F_6EF = "F-6EF"
+    FORM_F_7_POS = "F-7 POS"
+    FORM_F_7 = "F-7"
+    FORM_F_8 = "F-8"
+    FORM_F_80 = "F-80"
+    FORM_F_80POS = "F-80POS"
+    FORM_F_9_POS = "F-9 POS"
+    FORM_F_9 = "F-9"
+    FORM_F_N = "F-N"
+    FORM_F_X = "F-X"
+    FORM_FOCUSN = "FOCUSN"
+    FORM_FWP = "FWP"
+    FORM_G_FIN = "G-FIN"
+    FORM_IRANNOTICE = "IRANNOTICE"
+    FORM_MA_A = "MA-A"
+    FORM_MA_I = "MA-I"
+    FORM_MA_W = "MA-W"
+    FORM_MA = "MA"
+    FORM_MSD = "MSD"
+    FORM_MSDW = "MSDW"
+    FORM_N_1 = "N-1"
+    FORM_N_14_8C = "N-14 8C"
+    FORM_N_14 = "N-14"
+    FORM_N_14MEF = "N-14MEF"
+    FORM_N_18F1 = "N-18F1"
+    FORM_N_1A = "N-1A"
+    FORM_N_2_POSASR = "N-2 POSASR"
+    FORM_N_2 = "N-2"
+    FORM_N_23C_2 = "N-23C-2"
+    FORM_N_23C3A = "N-23C3A"
+    FORM_N_23C3B = "N-23C3B"
+    FORM_N_2ASR = "N-2ASR"
+    FORM_N_2MEF = "N-2MEF"
+    FORM_N_30B_2 = "N-30B-2"
+    FORM_N_30D = "N-30D"
+    FORM_N_4 = "N-4"
+    FORM_N_5 = "N-5"
+    FORM_N_54A = "N-54A"
+    FORM_N_54C = "N-54C"
+    FORM_N_6 = "N-6"
+    FORM_N_6F = "N-6F"
+    FORM_N_8A = "N-8A"
+    FORM_N_8B_2 = "N-8B-2"
+    FORM_N_8F_NTC = "N-8F NTC"
+    FORM_N_8F_ORDR = "N-8F ORDR"
+    FORM_N_8F = "N-8F"
+    FORM_N_CEN = "N-CEN"
+    FORM_N_CR = "N-CR"
+    FORM_N_CSR = "N-CSR"
+    FORM_N_CSRS = "N-CSRS"
+    FORM_N_MFP = "N-MFP"
+    FORM_N_MFP1 = "N-MFP1"
+    FORM_N_MFP2 = "N-MFP2"
+    FORM_N_PX = "N-PX"
+    FORM_N_Q = "N-Q"
+    FORM_N_VP = "N-VP"
+    FORM_N_VPFS = "N-VPFS"
+    FORM_NO_ACT = "NO ACT"
+    FORM_NPORT_EX = "NPORT-EX"
+    FORM_NPORT_NP = "NPORT-NP"
+    FORM_NPORT_P = "NPORT-P"
+    FORM_NRSRO_CE = "NRSRO-CE"
+    FORM_NRSRO_UPD = "NRSRO-UPD"
+    FORM_NSAR_A = "NSAR-A"
+    FORM_NSAR_AT = "NSAR-AT"
+    FORM_NSAR_B = "NSAR-B"
+    FORM_NSAR_BT = "NSAR-BT"
+    FORM_NSAR_U = "NSAR-U"
+    FORM_NT_10_D = "NT 10-D"
+    FORM_NT_10_K = "NT 10-K"
+    FORM_NT_10_Q = "NT 10-Q"
+    FORM_NT_11_K = "NT 11-K"
+    FORM_NT_20_F = "NT 20-F"
+    FORM_NT_N_CEN = "NT N-CEN"
+    FORM_NT_N_MFP = "NT N-MFP"
+    FORM_NT_N_MFP1 = "NT N-MFP1"
+    FORM_NT_N_MFP2 = "NT N-MFP2"
+    FORM_NT_NPORT_P = "NT NPORT-P"
+    FORM_NT_NCEN = "NT-NCEN"
+    FORM_NT_NCSR = "NT-NCSR"
+    FORM_NT_NSAR = "NT-NSAR"
+    FORM_NTN_10D = "NTN 10D"
+    FORM_NTN_10K = "NTN 10K"
+    FORM_NTN_10Q = "NTN 10Q"
+    FORM_OIP_NTC = "OIP NTC"
+    FORM_OIP_ORDR = "OIP ORDR"
+    FORM_POS_8C = "POS 8C"
+    FORM_POS_AM = "POS AM"
+    FORM_POS_AMI = "POS AMI"
+    FORM_POS_EX = "POS EX"
+    FORM_POS462B = "POS462B"
+    FORM_POS462C = "POS462C"
+    FORM_POSASR = "POSASR"
+    FORM_PRE_14A = "PRE 14A"
+    FORM_PRE_14C = "PRE 14C"
+    FORM_PREC14A = "PREC14A"
+    FORM_PREM14A = "PREM14A"
+    FORM_PREM14C = "PREM14C"
+    FORM_PREN14A = "PREN14A"
+    FORM_PRER14A = "PRER14A"
+    FORM_PRER14C = "PRER14C"
+    FORM_PRRN14A = "PRRN14A"
+    FORM_PX14A6G = "PX14A6G"
+    FORM_PX14A6N = "PX14A6N"
+    FORM_QRTLYRPT = "QRTLYRPT"
+    FORM_QUALIF = "QUALIF"
+    FORM_REG_NR = "REG-NR"
+    FORM_REVOKED = "REVOKED"
+    FORM_RW_WD = "RW WD"
+    FORM_RW = "RW"
+    FORM_S_1 = "S-1"
+    FORM_S_11 = "S-11"
+    FORM_S_11MEF = "S-11MEF"
+    FORM_S_1MEF = "S-1MEF"
+    FORM_S_20 = "S-20"
+    FORM_S_3 = "S-3"
+    FORM_S_3ASR = "S-3ASR"
+    FORM_S_3D = "S-3D"
+    FORM_S_3DPOS = "S-3DPOS"
+    FORM_S_3MEF = "S-3MEF"
+    FORM_S_4_POS = "S-4 POS"
+    FORM_S_4 = "S-4"
+    FORM_S_4EF = "S-4EF"
+    FORM_S_4MEF = "S-4MEF"
+    FORM_S_6 = "S-6"
+    FORM_S_8_POS = "S-8 POS"
+    FORM_S_8 = "S-8"
+    FORM_S_B = "S-B"
+    FORM_SBSE_A = "SBSE-A"
+    FORM_SBSE_BD = "SBSE-BD"
+    FORM_SBSE_C = "SBSE-C"
+    FORM_SBSE_W = "SBSE-W"
+    FORM_SBSE = "SBSE"
+    FORM_SC_13D = "SC 13D"
+    FORM_SC_13E3 = "SC 13E3"
+    FORM_SC_13G = "SC 13G"
+    FORM_SC_14D9 = "SC 14D9"
+    FORM_SC_14F1 = "SC 14F1"
+    FORM_SC_14N = "SC 14N"
+    FORM_SC_TO_C = "SC TO-C"
+    FORM_SC_TO_I = "SC TO-I"
+    FORM_SC_TO_T = "SC TO-T"
+    FORM_SC14D1F = "SC14D1F"
+    FORM_SC14D9C = "SC14D9C"
+    FORM_SC14D9F = "SC14D9F"
+    FORM_SD = "SD"
+    FORM_SE = "SE"
+    FORM_SEC_ACTION = "SEC ACTION"
+    FORM_SEC_STAFF_ACTION = "SEC STAFF ACTION"
+    FORM_SEC_STAFF_LETTER = "SEC STAFF LETTER"
+    FORM_SF_3 = "SF-3"
+    FORM_SL = "SL"
+    FORM_STOP_ORDER = "STOP ORDER"
+    FORM_SUPPL = "SUPPL"
+    FORM_T_3 = "T-3"
+    FORM_TA_1 = "TA-1"
+    FORM_TA_2 = "TA-2"
+    FORM_TA_W = "TA-W"
+    FORM_TACO = "TACO"
+    FORM_UNDER = "UNDER"
+    FORM_UPLOAD = "UPLOAD"
+    FORM_X_17A_5 = "X-17A-5"

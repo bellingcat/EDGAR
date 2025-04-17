@@ -17,38 +17,53 @@ is functionally equivalent to our generated URL:
 
 import datetime
 import re
+import urllib.parse
 
+import freezegun
 import pytest
 
 from edgar_tool import url_generator
+from edgar_tool.constants import Location
 
 
-def test_should_correctly_generate_search_url_for_single_word():
-    """Baseline test to assert that querying for a single word
-    produces the correct search URL"""
-    # GIVEN
-    keywords = ["growth"]
-    expected_url = f"https://efts.sec.gov/LATEST/search-index?q=growth"
+class TestWords:
+    def test_single_word(self):
+        """Baseline test to assert that querying for a single word
+        produces the correct search URL"""
+        # GIVEN
+        search_params = url_generator.SearchParams(keywords=["growth"])
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=growth"
 
-    # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs({"keywords": keywords})
+        # WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
-    # THEN
-    assert actual_url == expected_url
+        # THEN
+        assert actual_url == expected_url
 
-
-def test_should_correctly_generate_search_url_for_exact_phrase():
-    # GIVEN
-    keywords = ["Insider trading report"]
-    expected_url = (
-        "https://efts.sec.gov/LATEST/search-index?q=%22Insider%20trading%20report%22"
+    @pytest.mark.parametrize(
+        "keywords,expected_url",
+        [
+            pytest.param(
+                ["Insider trading report"],
+                "https://efts.sec.gov/LATEST/search-index?q=%22Insider%20trading%20report%22",
+                id="One exact phrase",
+            ),
+            pytest.param(
+                ["John Doe", "(1) ABC Corp.", "January 4, 2021"],
+                "https://efts.sec.gov/LATEST/search-index?q=%22John%20Doe%22%20%22%281%29%20ABC%20Corp.%22%20%22January%204%2C%202021%22",
+                id="Multiple exact phrases",
+            ),
+        ],
     )
+    def test_exact_phrase(self, keywords, expected_url):
+        # GIVEN
+        search_params = url_generator.SearchParams(keywords=keywords)
 
-    # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs({"keywords": keywords})
+        # WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
-    # THEN
-    assert actual_url == expected_url
+        # THEN
+        assert actual_url == expected_url
 
 
 def test_should_raise_if_no_arguments_provided():
@@ -60,76 +75,108 @@ def test_should_raise_if_no_arguments_provided():
 
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
-        url_generator.generate_search_url_for_kwargs({})
+        url_generator.generate_search_url_for_kwargs(url_generator.SearchParams())
 
 
-@pytest.mark.parametrize(
-    "date_kwarg",
-    [
-        {"start_date": datetime.date.today()},
-        {"end_date": datetime.date.today()},
-    ],
-)
-def test_should_raise_if_date_range_custom_but_missing_dates(date_kwarg):
-    # GIVEN
-    expected_error_msg = (
-        "Invalid date parameters. "
-        "You must provide both a start and end date if searching a custom date range."
+class TestDates:
+    @pytest.mark.parametrize(
+        "date_kwarg",
+        [
+            pytest.param(
+                {"start_date": datetime.date.today()}, id="start_date but no end_date"
+            ),
+            pytest.param(
+                {"end_date": datetime.date.today()}, id="end_date but no start_date"
+            ),
+        ],
     )
-    base_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "custom"}
-    test_kwargs = {**base_kwargs, **date_kwarg}
+    def test_should_raise_if_date_range_custom_but_missing_dates(self, date_kwarg):
+        # GIVEN
+        expected_error_msg = (
+            "Invalid date parameters. "
+            "You must provide both a start and end date if searching a custom date range."
+        )
 
-    # WHEN / THEN
-    with pytest.raises(ValueError, match=expected_error_msg):
-        url_generator.generate_search_url_for_kwargs(test_kwargs)
+        # WHEN / THEN
+        with pytest.raises(ValueError, match=expected_error_msg):
+            url_generator.generate_search_url_for_kwargs(
+                url_generator.SearchParams(
+                    keywords=["Ford Motor Co"], date_range_select="custom", **date_kwarg
+                )
+            )
 
+    def test_should_raise_if_date_range_select_invalid(self):
+        # GIVEN / WHEN / THEN
+        with pytest.raises(ValueError):
+            url_generator.generate_search_url_for_kwargs(
+                url_generator.SearchParams(
+                    keywords=["Ford Motor Co"], date_range_select="1m"
+                )
+            )
 
-def test_should_raise_if_date_range_select_invalid():
-    # GIVEN
-    test_kwargs = {"keywords": ["Ford Motor Co"], "date_range_select": "1m"}
+    @freezegun.freeze_time("2025-01-27")
+    @pytest.mark.parametrize(
+        "date_kwargs,url_ending",
+        [
+            pytest.param(
+                {
+                    "date_range_select": "custom",
+                    "start_date": datetime.date.fromisoformat("2024-07-10"),
+                    "end_date": datetime.date.fromisoformat("2024-07-15"),
+                },
+                "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
+                id="Custom date range with start and end date",
+            ),
+            pytest.param(
+                {
+                    "start_date": datetime.date.fromisoformat("2024-07-10"),
+                    "end_date": datetime.date.fromisoformat("2024-07-15"),
+                },
+                "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
+                id="Custom date range with start and end date but no date_range_select",
+            ),
+            pytest.param(
+                # Always starts at 2001-01-01
+                {"date_range_select": "all"},
+                "&dateRange=all&startdt=2001-01-01&enddt=2025-01-27",
+                id="all date range",
+            ),
+            pytest.param(
+                {"date_range_select": "10y"},
+                "&dateRange=10y&startdt=2015-01-27&enddt=2025-01-27",
+                id="10y date range",
+            ),
+            pytest.param(
+                {"date_range_select": "5y"},
+                "&startdt=2020-01-27&enddt=2025-01-27",
+                id="5y date range",
+            ),
+            pytest.param(
+                {"date_range_select": "1y"},
+                "&dateRange=1y&startdt=2024-01-27&enddt=2025-01-27",
+                id="1y date range",
+            ),
+            pytest.param(
+                {"date_range_select": "30d"},
+                "&dateRange=30d&startdt=2024-12-28&enddt=2025-01-27",
+                id="30d date range",
+            ),
+        ],
+    )
+    def test_date_range_select(self, date_kwargs, url_ending):
+        """Tests that various date range options are correctly translated
+        into the seach URL."""
+        # GIVEN
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=%22Ford%20Motor%20Co%22{url_ending}"
+        search_params = url_generator.SearchParams(
+            keywords=["Ford Motor Co"], **date_kwargs
+        )
 
-    # WHEN / THEN
-    with pytest.raises(ValueError):
-        url_generator.generate_search_url_for_kwargs(test_kwargs)
+        # WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
-
-@pytest.mark.parametrize(
-    "date_kwargs,url_ending",
-    [
-        (
-            {
-                "date_range_select": "custom",
-                "start_date": datetime.date.fromisoformat("2024-07-10"),
-                "end_date": datetime.date.fromisoformat("2024-07-15"),
-            },
-            "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
-        ),
-        (  # Test that date_range_select is not required if start_date and end_date are provided
-            {
-                "start_date": datetime.date.fromisoformat("2024-07-10"),
-                "end_date": datetime.date.fromisoformat("2024-07-15"),
-            },
-            "&dateRange=custom&startdt=2024-07-10&enddt=2024-07-15",
-        ),
-        ({"date_range_select": "all"}, "&dateRange=all"),
-        ({"date_range_select": "10y"}, "&dateRange=10y"),
-        ({"date_range_select": "5y"}, ""),
-        ({"date_range_select": "1y"}, "&dateRange=1y"),
-        ({"date_range_select": "30d"}, "&dateRange=30d"),
-    ],
-)
-def test_generates_correct_url_for_date_ranges(date_kwargs, url_ending):
-    """Tests that various date range options are correctly translated
-    into the seach URL."""
-    # GIVEN
-    expected_url = f"https://efts.sec.gov/LATEST/search-index?q=%22Ford%20Motor%20Co%22{url_ending}"
-    test_kwargs = {**{"keywords": ["Ford Motor Co"]}, **date_kwargs}
-
-    # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
-
-    # THEN
-    assert actual_url == expected_url
+        # THEN
+        assert actual_url == expected_url
 
 
 @pytest.mark.parametrize(
@@ -153,10 +200,12 @@ def test_generates_correct_url_for_date_ranges(date_kwargs, url_ending):
 def test_generates_correct_url_for_filing_category(filing_category, url_ending):
     # GIVEN
     expected_url = f"https://efts.sec.gov/LATEST/search-index?q=Ignore{url_ending}"
-    test_kwargs = {"keywords": ["Ignore"], "filing_category": filing_category}
+    search_params = url_generator.SearchParams(
+        keywords=["Ignore"], filing_category=filing_category
+    )
 
     # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+    actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
     assert actual_url == expected_url
@@ -189,10 +238,10 @@ def test_generates_correct_url_for_single_forms(single_forms, url_ending):
     expected_url = (
         f"https://efts.sec.gov/LATEST/search-index?category=custom{url_ending}"
     )
-    test_kwargs = {"single_forms": single_forms}
+    search_params = url_generator.SearchParams(single_forms=single_forms)
 
     # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+    actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
     assert actual_url == expected_url
@@ -203,10 +252,12 @@ def test_generates_correct_url_for_single_form_and_custom_filing_category():
     expected_url = (
         f"https://efts.sec.gov/LATEST/search-index?category=custom&forms=NPORT-EX"
     )
-    test_kwargs = {"single_forms": ["NPORT-EX"], "filing_category": "custom"}
+    search_params = url_generator.SearchParams(
+        single_forms=["NPORT-EX"], filing_category="custom"
+    )
 
     # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+    actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
     assert actual_url == expected_url
@@ -220,10 +271,7 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
     the user use either a filing category or single forms.
     """
     # GIVEN
-    test_kwargs = {
-        "single_forms": ["F-4", "PREC14A", "SEC STAFF ACTION"],
-        "filing_category": "beneficial_ownership_reports",
-    }
+
     expected_error_msg = (
         "Cannot specify both filing_category and single_forms. "
         "Passing single_forms automatically sets the filing_category"
@@ -232,16 +280,21 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
 
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
-        url_generator.generate_search_url_for_kwargs(test_kwargs)
+        url_generator.generate_search_url_for_kwargs(
+            url_generator.SearchParams(
+                single_forms=["F-4", "PREC14A", "SEC STAFF ACTION"],
+                filing_category="beneficial_ownership_reports",
+            )
+        )
 
 
 def test_should_allow_search_with_only_non_all_filing_category():
     # GIVEN
-    test_kwargs = {"filing_category": "exempt_offerings"}
+    search_params = url_generator.SearchParams(filing_category="exempt_offerings")
     expected_url = f"https://efts.sec.gov/LATEST/search-index?category=form-cat4"
 
     # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+    actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
     assert actual_url == expected_url
@@ -249,7 +302,6 @@ def test_should_allow_search_with_only_non_all_filing_category():
 
 def test_should_not_allow_search_with_all_filing_category():
     # GIVEN
-    test_kwargs = {"filing_category": "all"}
     expected_error_msg = re.escape(
         "Invalid search arguments. You must provide keywords, an entity, a filing category, or 1+ single forms. "
         "Filing category cannot be 'all'."
@@ -257,349 +309,349 @@ def test_should_not_allow_search_with_all_filing_category():
 
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
-        url_generator.generate_search_url_for_kwargs(test_kwargs)
+        url_generator.generate_search_url_for_kwargs(
+            url_generator.SearchParams(filing_category="all")
+        )
 
 
 @pytest.mark.parametrize(
     "abbreviation, expected_location_code",
     [
         # US States - All use 2-letter state & territory abbreviations (ISO 3166-2)
-        ("AL", "AL"),  # Alabama
-        ("AK", "AK"),  # Alaska
-        ("AZ", "AZ"),  # Arizona
-        ("AR", "AR"),  # Arkansas
-        ("CA", "CA"),  # California
-        ("CO", "CO"),  # Colorado
-        ("CT", "CT"),  # Connecticut
-        ("DE", "DE"),  # Delaware
-        ("DC", "DC"),  # District of Columbia
-        ("FL", "FL"),  # Florida
-        ("GA", "GA"),  # Georgia
-        ("HI", "HI"),  # Hawaii
-        ("ID", "ID"),  # Idaho
-        ("IL", "IL"),  # Illinois
-        ("IN", "IN"),  # Indiana
-        ("IA", "IA"),  # Iowa
-        ("KS", "KS"),  # Kansas
-        ("KY", "KY"),  # Kentucky
-        ("LA", "LA"),  # Louisiana
-        ("ME", "ME"),  # Maine
-        ("MD", "MD"),  # Maryland
-        ("MA", "MA"),  # Massachusetts
-        ("MI", "MI"),  # Michigan
-        ("MN", "MN"),  # Minnesota
-        ("MS", "MS"),  # Mississippi
-        ("MO", "MO"),  # Missouri
-        ("MT", "MT"),  # Montana
-        ("NE", "NE"),  # Nebraska
-        ("NV", "NV"),  # Nevada
-        ("NH", "NH"),  # New Hampshire
-        ("NJ", "NJ"),  # New Jersey
-        ("NM", "NM"),  # New Mexico
-        ("NY", "NY"),  # New York
-        ("NC", "NC"),  # North Carolina
-        ("ND", "ND"),  # North Dakota
-        ("OH", "OH"),  # Ohio
-        ("OK", "OK"),  # Oklahoma
-        ("OR", "OR"),  # Oregon
-        ("PA", "PA"),  # Pennsylvania
-        ("RI", "RI"),  # Rhode Island
-        ("SC", "SC"),  # South Carolina
-        ("SD", "SD"),  # South Dakota
-        ("TN", "TN"),  # Tennessee
-        ("TX", "TX"),  # Texas
-        ("UT", "UT"),  # Utah
-        ("VT", "VT"),  # Vermont
-        ("VA", "VA"),  # Virginia
-        ("WA", "WA"),  # Washington
-        ("WV", "WV"),  # West Virginia
-        ("WI", "WI"),  # Wisconsin
-        ("WY", "WY"),  # Wyoming
+        (Location.ALABAMA, "AL"),
+        (Location.ALASKA, "AK"),
+        (Location.ARIZONA, "AZ"),
+        (Location.ARKANSAS, "AR"),
+        (Location.CALIFORNIA, "CA"),
+        (Location.COLORADO, "CO"),
+        (Location.CONNECTICUT, "CT"),
+        (Location.DELAWARE, "DE"),
+        (Location.DISTRICT_OF_COLUMBIA, "DC"),
+        (Location.FLORIDA, "FL"),
+        (Location.GEORGIA, "GA"),
+        (Location.HAWAII, "HI"),
+        (Location.IDAHO, "ID"),
+        (Location.ILLINOIS, "IL"),
+        (Location.INDIANA, "IN"),
+        (Location.IOWA, "IA"),
+        (Location.KANSAS, "KS"),
+        (Location.KENTUCKY, "KY"),
+        (Location.LOUISIANA, "LA"),
+        (Location.MAINE, "ME"),
+        (Location.MARYLAND, "MD"),
+        (Location.MASSACHUSETTS, "MA"),
+        (Location.MICHIGAN, "MI"),
+        (Location.MINNESOTA, "MN"),
+        (Location.MISSISSIPPI, "MS"),
+        (Location.MISSOURI, "MO"),
+        (Location.MONTANA, "MT"),
+        (Location.NEBRASKA, "NE"),
+        (Location.NEVADA, "NV"),
+        (Location.NEW_HAMPSHIRE, "NH"),
+        (Location.NEW_JERSEY, "NJ"),
+        (Location.NEW_MEXICO, "NM"),
+        (Location.NEW_YORK, "NY"),
+        (Location.NORTH_CAROLINA, "NC"),
+        (Location.NORTH_DAKOTA, "ND"),
+        (Location.OHIO, "OH"),
+        (Location.OKLAHOMA, "OK"),
+        (Location.OREGON, "OR"),
+        (Location.PENNSYLVANIA, "PA"),
+        (Location.RHODE_ISLAND, "RI"),
+        (Location.SOUTH_CAROLINA, "SC"),
+        (Location.SOUTH_DAKOTA, "SD"),
+        (Location.TENNESSEE, "TN"),
+        (Location.TEXAS, "TX"),
+        (Location.UTAH, "UT"),
+        (Location.VERMONT, "VT"),
+        (Location.VIRGINIA, "VA"),
+        (Location.WASHINGTON, "WA"),
+        (Location.WEST_VIRGINIA, "WV"),
+        (Location.WISCONSIN, "WI"),
+        (Location.WYOMING, "WY"),
         # Canadian Provinces - P.E.O. in to use internationally approved alpha codes (ISO 3166-2)
-        ("AB", "A0"),  # Alberta
-        ("BC", "A1"),  # British Columbia
-        ("CAN", "Z4"),  # Canada (Federal Level)
-        ("MB", "A2"),  # Manitoba
-        ("NB", "A3"),  # New Brunswick
-        ("NL", "A4"),  # Newfoundland and Labrador
-        ("NS", "A5"),  # Nova Scotia
-        ("ON", "A6"),  # Ontario
-        ("PE", "A7"),  # Prince Edward Island
-        ("QC", "A8"),  # Quebec
-        ("SK", "A9"),  # Saskatchewan
-        ("YT", "B0"),  # Yukon
+        (Location.ALBERTA, "A0"),
+        (Location.BRITISH_COLUMBIA, "A1"),
+        (Location.CANADA, "Z4"),
+        (Location.MANITOBA, "A2"),
+        (Location.NEW_BRUNSWICK, "A3"),
+        (Location.NEWFOUNDLAND_AND_LABRADOR, "A4"),
+        (Location.NOVA_SCOTIA, "A5"),
+        (Location.ONTARIO, "A6"),
+        (Location.PRINCE_EDWARD_ISLAND, "A7"),
+        (Location.QUEBEC, "A8"),
+        (Location.SASKATCHEWAN, "A9"),
+        (Location.YUKON, "B0"),
         # Other Countries - All use internationally approved 3-letter alpha codes (ISO 3166-1)
-        ("AFG", "B2"),  # Afghanistan
-        ("ALA", "Y6"),  # Aland Islands
-        ("ALB", "B3"),  # Albania
-        ("DZA", "B4"),  # Algeria
-        ("ASM", "B5"),  # American Samoa
-        ("AND", "B6"),  # Andorra
-        ("AGO", "B7"),  # Angola
-        ("AIA", "1A"),  # Anguilla
-        ("ATA", "B8"),  # Antarctica
-        ("ATG", "B9"),  # Antigua and Barbuda
-        ("ARG", "C1"),  # Argentina
-        ("ARM", "1B"),  # Armenia
-        ("ABW", "1C"),  # Aruba
-        ("AUS", "C3"),  # Australia
-        ("AUT", "C4"),  # Austria
-        ("AZE", "1D"),  # Azerbaijan
-        ("BHS", "C5"),  # Bahamas
-        ("BHR", "C6"),  # Bahrain
-        ("BGD", "C7"),  # Bangladesh
-        ("BRB", "C8"),  # Barbados
-        ("BLR", "1F"),  # Belarus
-        ("BEL", "C9"),  # Belgium
-        ("BLZ", "D1"),  # Belize
-        ("BEN", "G6"),  # Benin
-        ("BMU", "D0"),  # Bermuda
-        ("BTN", "D2"),  # Bhutan
-        ("BOL", "D3"),  # Bolivia
-        ("BIH", "1E"),  # Bosnia and Herzegovina
-        ("BWA", "B1"),  # Botswana
-        ("BVT", "D4"),  # Bouvet Island
-        ("BRA", "D5"),  # Brazil
-        ("IOT", "D6"),  # British Indian Ocean Territory
-        ("BRN", "D9"),  # Brunei Darussalam
-        ("BGR", "E0"),  # Bulgaria
-        ("BFA", "X2"),  # Burkina Faso
-        ("BDI", "E2"),  # Burundi
-        ("KHM", "E3"),  # Cambodia
-        ("CMR", "E4"),  # Cameroon
-        ("CPV", "E8"),  # Cape Verde
-        ("CYM", "E9"),  # Cayman Islands
-        ("CAF", "F0"),  # Central African Republic
-        ("TCD", "F2"),  # Chad
-        ("CHL", "F3"),  # Chile
-        ("CHN", "F4"),  # China
-        ("CXR", "F6"),  # Christmas Island
-        ("CCK", "F7"),  # Cocos (Keeling) Islands
-        ("COL", "F8"),  # Colombia
-        ("COM", "F9"),  # Comoros
-        ("COG", "G0"),  # Congo
-        ("COD", "Y3"),  # Congo, Democratic Republic of the
-        ("COK", "G1"),  # Cook Islands
-        ("CRI", "G2"),  # Costa Rica
-        ("CIV", "L7"),  # Cote d'Ivoire
-        ("HRV", "1M"),  # Croatia
-        ("CUB", "G3"),  # Cuba
-        ("CYP", "G4"),  # Cyprus
-        ("CZE", "2N"),  # Czech Republic
-        ("DNK", "G7"),  # Denmark
-        ("DJI", "1G"),  # Djibouti
-        ("DMA", "G9"),  # Dominica
-        ("DOM", "D8"),  # Dominican Republic
-        ("ECU", "H1"),  # Ecuador
-        ("EGY", "H2"),  # Egypt
-        ("SLV", "H3"),  # El Salvador
-        ("GNQ", "H4"),  # Equatorial Guinea
-        ("ERI", "1J"),  # Eritrea
-        ("EST", "1H"),  # Estonia
-        ("ETH", "H5"),  # Ethiopia
-        ("FLK", "H7"),  # Falkland Islands (Malvinas)
-        ("FRO", "H6"),  # Faroe Islands
-        ("FJI", "H8"),  # Fiji
-        ("FIN", "H9"),  # Finland
-        ("FRA", "I0"),  # France
-        ("GUF", "I3"),  # French Guiana
-        ("PYF", "I4"),  # French Polynesia
-        ("ATF", "2C"),  # French Southern Territories
-        ("GAB", "I5"),  # Gabon
-        ("GMB", "I6"),  # Gambia
-        ("GEO", "2Q"),  # Georgia
-        ("DEU", "2M"),  # Germany
-        ("GHA", "J0"),  # Ghana
-        ("GIB", "J1"),  # Gibraltar
-        ("GRC", "J3"),  # Greece
-        ("GRL", "J4"),  # Greenland
-        ("GRD", "J5"),  # Grenada
-        ("GLP", "J6"),  # Guadeloupe
-        ("GUM", "GU"),  # Guam
-        ("GTM", "J8"),  # Guatemala
-        ("GGY", "Y7"),  # Guernsey
-        ("GIN", "J9"),  # Guinea
-        ("GNB", "S0"),  # Guinea-Bissau
-        ("GUY", "K0"),  # Guyana
-        ("HTI", "K1"),  # Haiti
-        ("HMD", "K4"),  # Heard Island and McDonald Islands
-        ("VAT", "X4"),  # Holy See (Vatican City State)
-        ("HND", "K2"),  # Honduras
-        ("HKG", "K3"),  # Hong Kong
-        ("HUN", "K5"),  # Hungary
-        ("ISL", "K6"),  # Iceland
-        ("IND", "K7"),  # India
-        ("IDN", "K8"),  # Indonesia
-        ("IRN", "K9"),  # Iran
-        ("IRQ", "L0"),  # Iraq
-        ("IRL", "L2"),  # Ireland
-        ("IMN", "Y8"),  # Isle of Man
-        ("ISR", "L3"),  # Israel
-        ("ITA", "L6"),  # Italy
-        ("JAM", "L8"),  # Jamaica
-        ("JPN", "M0"),  # Japan
-        ("JEY", "Y9"),  # Jersey
-        ("JOR", "M2"),  # Jordan
-        ("KAZ", "1P"),  # Kazakhstan
-        ("KEN", "M3"),  # Kenya
-        ("KIR", "J2"),  # Kiribati
-        ("PRK", "M4"),  # Korea, Democratic People's Republic of
-        ("KOR", "M5"),  # Korea, Republic of
-        ("KWT", "M6"),  # Kuwait
-        ("KGZ", "1N"),  # Kyrgyzstan
-        ("LAO", "M7"),  # Lao People's Democratic Republic
-        ("LVA", "1R"),  # Latvia
-        ("LBN", "M8"),  # Lebanon
-        ("LSO", "M9"),  # Lesotho
-        ("LBR", "N0"),  # Liberia
-        ("LBY", "N1"),  # Libya
-        ("LIE", "N2"),  # Liechtenstein
-        ("LTU", "1Q"),  # Lithuania
-        ("LUX", "N4"),  # Luxembourg
-        ("MAC", "N5"),  # Macao
-        ("MKD", "1U"),  # Macedonia
-        ("MDG", "N6"),  # Madagascar
-        ("MWI", "N7"),  # Malawi
-        ("MYS", "N8"),  # Malaysia
-        ("MDV", "N9"),  # Maldives
-        ("MLI", "O0"),  # Mali
-        ("MLT", "O1"),  # Malta
-        ("MHL", "1T"),  # Marshall Islands
-        ("MTQ", "O2"),  # Martinique
-        ("MRT", "O3"),  # Mauritania
-        ("MUS", "O4"),  # Mauritius
-        ("MYT", "2P"),  # Mayotte
-        ("MEX", "O5"),  # Mexico
-        ("FSM", "1K"),  # Micronesia, Federated States of
-        ("MDA", "1S"),  # Moldova
-        ("MCO", "O9"),  # Monaco
-        ("MNG", "P0"),  # Mongolia
-        ("MNE", "Z5"),  # Montenegro
-        ("MSR", "P1"),  # Montserrat
-        ("MAR", "P2"),  # Morocco
-        ("MOZ", "P3"),  # Mozambique
-        ("MMR", "E1"),  # Myanmar
-        ("NAM", "T6"),  # Namibia
-        ("NRU", "P5"),  # Nauru
-        ("NPL", "P6"),  # Nepal
-        ("NLD", "P7"),  # Netherlands
-        ("ANT", "P8"),  # Netherlands Antilles
-        ("NCL", "1W"),  # New Caledonia
-        ("NZL", "Q2"),  # New Zealand
-        ("NIC", "Q3"),  # Nicaragua
-        ("NER", "Q4"),  # Niger
-        ("NGA", "Q5"),  # Nigeria
-        ("NIU", "Q6"),  # Niue
-        ("NFK", "Q7"),  # Norfolk Island
-        ("MNP", "1V"),  # Northern Mariana Islands
-        ("NOR", "Q8"),  # Norway
-        ("OMN", "P4"),  # Oman
-        ("PAK", "R0"),  # Pakistan
-        ("PLW", "1Y"),  # Palau
-        ("PSE", "1X"),  # Palestinian Territory
-        ("PAN", "R1"),  # Panama
-        ("PNG", "R2"),  # Papua New Guinea
-        ("PRY", "R4"),  # Paraguay
-        ("PER", "R5"),  # Peru
-        ("PHL", "R6"),  # Philippines
-        ("PCN", "R8"),  # Pitcairn
-        ("POL", "R9"),  # Poland
-        ("PRT", "S1"),  # Portugal
-        ("PRI", "PR"),  # Puerto Rico
-        ("QAT", "S3"),  # Qatar
-        ("REU", "S4"),  # Reunion
-        ("ROU", "S5"),  # Romania
-        ("RUS", "1Z"),  # Russian Federation
-        ("RWA", "S6"),  # Rwanda
-        ("BLM", "Z0"),  # Saint Barthelemy
-        ("SHN", "U8"),  # Saint Helena
-        ("KNA", "U7"),  # Saint Kitts and Nevis
-        ("LCA", "U9"),  # Saint Lucia
-        ("MAF", "Z1"),  # Saint Martin
-        ("SPM", "V0"),  # Saint Pierre and Miquelon
-        ("VCT", "V1"),  # Saint Vincent and the Grenadines
-        ("WSM", "Y0"),  # Samoa
-        ("SMR", "S8"),  # San Marino
-        ("STP", "S9"),  # Sao Tome and Principe
-        ("SAU", "T0"),  # Saudi Arabia
-        ("SEN", "T1"),  # Senegal
-        ("SRB", "Z2"),  # Serbia
-        ("SYC", "T2"),  # Seychelles
-        ("SLE", "T8"),  # Sierra Leone
-        ("SGP", "U0"),  # Singapore
-        ("SVK", "2B"),  # Slovakia
-        ("SVN", "2A"),  # Slovenia
-        ("SLB", "D7"),  # Solomon Islands
-        ("SOM", "U1"),  # Somalia
-        ("ZAF", "T3"),  # South Africa
-        ("SGS", "1L"),  # South Georgia and the South Sandwich Islands
-        ("ESP", "U3"),  # Spain
-        ("LKA", "F1"),  # Sri Lanka
-        ("SDN", "V2"),  # Sudan
-        ("SUR", "V3"),  # Suriname
-        ("SJM", "L9"),  # Svalbard and Jan Mayen
-        ("SWZ", "V6"),  # Kingdom of Eswatini (Formerly Swaziland)
-        ("SWE", "V7"),  # Sweden
-        ("CHE", "V8"),  # Switzerland
-        ("SYR", "V9"),  # Syrian Arab Republic (Syria)
-        ("TWN", "F5"),  # Taiwan
-        ("TJK", "2D"),  # Tajikistan
-        ("THA", "W1"),  # Thailand
-        ("TLS", "Z3"),  # Timor-Leste
-        ("TGO", "W2"),  # Togo
-        ("TKL", "W3"),  # Tokelau
-        ("TON", "W4"),  # Tonga
-        ("TTO", "W5"),  # Trinidad and Tobago
-        ("TUN", "W6"),  # Tunisia
-        ("TUR", "W8"),  # Turkey
-        ("TKM", "2E"),  # Turkmenistan
-        ("TCA", "W7"),  # Turks and Caicos Islands
-        ("TUV", "2G"),  # Tuvalu
-        ("UGA", "W9"),  # Uganda
-        ("UKR", "2H"),  # Ukraine
-        ("ARE", "C0"),  # United Arab Emirates
-        ("GBR", "X0"),  # United Kingdom
-        ("UMI", "2J"),  # United States Minor Outlying Islands
-        ("URY", "X3"),  # Uruguay
-        ("UZB", "2K"),  # Uzbekistan
-        ("VUT", "2L"),  # Vanuatu
-        ("VEN", "X5"),  # Venezuela
-        ("VNM", "Q1"),  # Vietnam
-        ("VGB", "D8"),  # British Virgin Islands
-        ("VIR", "VI"),  # U.S. Virgin Islands
-        ("WLF", "X8"),  # Wallis and Futuna
-        ("ESH", "Y1"),  # Western Sahara
-        ("YEM", "T7"),  # Yemen
-        ("ZMB", "Y4"),  # Zambia
-        ("ZWE", "Y5"),  # Zimbabwe
-        ("XX", "XX"),  # Unknown
+        (Location.AFGHANISTAN, "B2"),
+        (Location.ALAND_ISLANDS, "Y6"),
+        (Location.ALBANIA, "B3"),
+        (Location.ALGERIA, "B4"),
+        (Location.AMERICAN_SAMOA, "B5"),
+        (Location.ANDORRA, "B6"),
+        (Location.ANGOLA, "B7"),
+        (Location.ANGUILLA, "1A"),
+        (Location.ANTARCTICA, "B8"),
+        (Location.ANTIGUA_AND_BARBUDA, "B9"),
+        (Location.ARGENTINA, "C1"),
+        (Location.ARMENIA, "1B"),
+        (Location.ARUBA, "1C"),
+        (Location.AUSTRALIA, "C3"),
+        (Location.AUSTRIA, "C4"),
+        (Location.AZERBAIJAN, "1D"),
+        (Location.BAHAMAS, "C5"),
+        (Location.BAHRAIN, "C6"),
+        (Location.BANGLADESH, "C7"),
+        (Location.BARBADOS, "C8"),
+        (Location.BELARUS, "1F"),
+        (Location.BELGIUM, "C9"),
+        (Location.BELIZE, "D1"),
+        (Location.BENIN, "G6"),
+        (Location.BERMUDA, "D0"),
+        (Location.BHUTAN, "D2"),
+        (Location.BOLIVIA, "D3"),
+        (Location.BOSNIA_AND_HERZEGOVINA, "1E"),
+        (Location.BOTSWANA, "B1"),
+        (Location.BOUVET_ISLAND, "D4"),
+        (Location.BRAZIL, "D5"),
+        (Location.BRITISH_INDIAN_OCEAN_TERRITORY, "D6"),
+        (Location.BRUNEI_DARUSSALAM, "D9"),
+        (Location.BULGARIA, "E0"),
+        (Location.BURKINA_FASO, "X2"),
+        (Location.BURUNDI, "E2"),
+        (Location.CAMBODIA, "E3"),
+        (Location.CAMEROON, "E4"),
+        (Location.CAPE_VERDE, "E8"),
+        (Location.CAYMAN_ISLANDS, "E9"),
+        (Location.CENTRAL_AFRICAN_REPUBLIC, "F0"),
+        (Location.CHAD, "F2"),
+        (Location.CHILE, "F3"),
+        (Location.CHINA, "F4"),
+        (Location.CHRISTMAS_ISLAND, "F6"),
+        (Location.COCOS_KEELING_ISLANDS, "F7"),
+        (Location.COLOMBIA, "F8"),
+        (Location.COMOROS, "F9"),
+        (Location.CONGO, "G0"),
+        (Location.CONGO_DEMOCRATIC_REPUBLIC, "Y3"),
+        (Location.COOK_ISLANDS, "G1"),
+        (Location.COSTA_RICA, "G2"),
+        (Location.COTE_DIVOIRE, "L7"),
+        (Location.CROATIA, "1M"),
+        (Location.CUBA, "G3"),
+        (Location.CYPRUS, "G4"),
+        (Location.CZECH_REPUBLIC, "2N"),
+        (Location.DENMARK, "G7"),
+        (Location.DJIBOUTI, "1G"),
+        (Location.DOMINICA, "G9"),
+        (Location.DOMINICAN_REPUBLIC, "D8"),
+        (Location.ECUADOR, "H1"),
+        (Location.EGYPT, "H2"),
+        (Location.EL_SALVADOR, "H3"),
+        (Location.EQUATORIAL_GUINEA, "H4"),
+        (Location.ERITREA, "1J"),
+        (Location.ESTONIA, "1H"),
+        (Location.ETHIOPIA, "H5"),
+        (Location.FALKLAND_ISLANDS, "H7"),
+        (Location.FAROE_ISLANDS, "H6"),
+        (Location.FIJI, "H8"),
+        (Location.FINLAND, "H9"),
+        (Location.FRANCE, "I0"),
+        (Location.FRENCH_GUIANA, "I3"),
+        (Location.FRENCH_POLYNESIA, "I4"),
+        (Location.FRENCH_SOUTHERN_TERRITORIES, "2C"),
+        (Location.GABON, "I5"),
+        (Location.GAMBIA, "I6"),
+        (Location.GEORGIA_REPUBLIC, "2Q"),
+        (Location.GERMANY, "2M"),
+        (Location.GHANA, "J0"),
+        (Location.GIBRALTAR, "J1"),
+        (Location.GREECE, "J3"),
+        (Location.GREENLAND, "J4"),
+        (Location.GRENADA, "J5"),
+        (Location.GUADELOUPE, "J6"),
+        (Location.GUAM, "GU"),
+        (Location.GUATEMALA, "J8"),
+        (Location.GUERNSEY, "Y7"),
+        (Location.GUINEA, "J9"),
+        (Location.GUINEA_BISSAU, "S0"),
+        (Location.GUYANA, "K0"),
+        (Location.HAITI, "K1"),
+        (Location.HEARD_AND_MCDONALD_ISLANDS, "K4"),
+        (Location.HOLY_SEE_VATICAN_CITY, "X4"),
+        (Location.HONDURAS, "K2"),
+        (Location.HONG_KONG, "K3"),
+        (Location.HUNGARY, "K5"),
+        (Location.ICELAND, "K6"),
+        (Location.INDIA, "K7"),
+        (Location.INDONESIA, "K8"),
+        (Location.IRAN, "K9"),
+        (Location.IRAQ, "L0"),
+        (Location.IRELAND, "L2"),
+        (Location.ISLE_OF_MAN, "Y8"),
+        (Location.ISRAEL, "L3"),
+        (Location.ITALY, "L6"),
+        (Location.JAMAICA, "L8"),
+        (Location.JAPAN, "M0"),
+        (Location.JERSEY, "Y9"),
+        (Location.JORDAN, "M2"),
+        (Location.KAZAKHSTAN, "1P"),
+        (Location.KENYA, "M3"),
+        (Location.KIRIBATI, "J2"),
+        (Location.NORTH_KOREA, "M4"),
+        (Location.SOUTH_KOREA, "M5"),
+        (Location.KUWAIT, "M6"),
+        (Location.KYRGYZSTAN, "1N"),
+        (Location.LAOS, "M7"),
+        (Location.LATVIA, "1R"),
+        (Location.LEBANON, "M8"),
+        (Location.LESOTHO, "M9"),
+        (Location.LIBERIA, "N0"),
+        (Location.LIBYA, "N1"),
+        (Location.LIECHTENSTEIN, "N2"),
+        (Location.LITHUANIA, "1Q"),
+        (Location.LUXEMBOURG, "N4"),
+        (Location.MACAU, "N5"),
+        (Location.MACEDONIA, "1U"),
+        (Location.MADAGASCAR, "N6"),
+        (Location.MALAWI, "N7"),
+        (Location.MALAYSIA, "N8"),
+        (Location.MALDIVES, "N9"),
+        (Location.MALI, "O0"),
+        (Location.MALTA, "O1"),
+        (Location.MARSHALL_ISLANDS, "1T"),
+        (Location.MARTINIQUE, "O2"),
+        (Location.MAURITANIA, "O3"),
+        (Location.MAURITIUS, "O4"),
+        (Location.MAYOTTE, "2P"),
+        (Location.MEXICO, "O5"),
+        (Location.MICRONESIA, "1K"),
+        (Location.MOLDOVA, "1S"),
+        (Location.MONACO, "O9"),
+        (Location.MONGOLIA, "P0"),
+        (Location.MONTENEGRO, "Z5"),
+        (Location.MONTSERRAT, "P1"),
+        (Location.MOROCCO, "P2"),
+        (Location.MOZAMBIQUE, "P3"),
+        (Location.MYANMAR, "E1"),
+        (Location.NAMIBIA, "T6"),
+        (Location.NAURU, "P5"),
+        (Location.NEPAL, "P6"),
+        (Location.NETHERLANDS, "P7"),
+        (Location.NETHERLANDS_ANTILLES, "P8"),
+        (Location.NEW_CALEDONIA, "1W"),
+        (Location.NEW_ZEALAND, "Q2"),
+        (Location.NICARAGUA, "Q3"),
+        (Location.NIGER, "Q4"),
+        (Location.NIGERIA, "Q5"),
+        (Location.NIUE, "Q6"),
+        (Location.NORFOLK_ISLAND, "Q7"),
+        (Location.NORTHERN_MARIANA_ISLANDS, "1V"),
+        (Location.NORWAY, "Q8"),
+        (Location.OMAN, "P4"),
+        (Location.PAKISTAN, "R0"),
+        (Location.PALAU, "1Y"),
+        (Location.PALESTINIAN_TERRITORY, "1X"),
+        (Location.PANAMA, "R1"),
+        (Location.PAPUA_NEW_GUINEA, "R2"),
+        (Location.PARAGUAY, "R4"),
+        (Location.PERU, "R5"),
+        (Location.PHILIPPINES, "R6"),
+        (Location.PITCAIRN, "R8"),
+        (Location.POLAND, "R9"),
+        (Location.PORTUGAL, "S1"),
+        (Location.PUERTO_RICO, "PR"),
+        (Location.QATAR, "S3"),
+        (Location.REUNION, "S4"),
+        (Location.ROMANIA, "S5"),
+        (Location.RUSSIAN_FEDERATION, "1Z"),
+        (Location.RWANDA, "S6"),
+        (Location.SAINT_BARTHELEMY, "Z0"),
+        (Location.SAINT_HELENA, "U8"),
+        (Location.SAINT_KITTS_AND_NEVIS, "U7"),
+        (Location.SAINT_LUCIA, "U9"),
+        (Location.SAINT_MARTIN, "Z1"),
+        (Location.SAINT_PIERRE_AND_MIQUELON, "V0"),
+        (Location.SAINT_VINCENT_AND_GRENADINES, "V1"),
+        (Location.SAMOA, "Y0"),
+        (Location.SAN_MARINO, "S8"),
+        (Location.SAO_TOME_AND_PRINCIPE, "S9"),
+        (Location.SAUDI_ARABIA, "T0"),
+        (Location.SENEGAL, "T1"),
+        (Location.SERBIA, "Z2"),
+        (Location.SEYCHELLES, "T2"),
+        (Location.SIERRA_LEONE, "T8"),
+        (Location.SINGAPORE, "U0"),
+        (Location.SLOVAKIA, "2B"),
+        (Location.SLOVENIA, "2A"),
+        (Location.SOLOMON_ISLANDS, "D7"),
+        (Location.SOMALIA, "U1"),
+        (Location.SOUTH_AFRICA, "T3"),
+        (Location.SOUTH_GEORGIA_AND_SOUTH_SANDWICH_ISLANDS, "1L"),
+        (Location.SPAIN, "U3"),
+        (Location.SRI_LANKA, "F1"),
+        (Location.SUDAN, "V2"),
+        (Location.SURINAME, "V3"),
+        (Location.SVALBARD_AND_JAN_MAYEN, "L9"),
+        (Location.ESWATINI, "V6"),
+        (Location.SWEDEN, "V7"),
+        (Location.SWITZERLAND, "V8"),
+        (Location.SYRIA, "V9"),
+        (Location.TAIWAN, "F5"),
+        (Location.TAJIKISTAN, "2D"),
+        (Location.THAILAND, "W1"),
+        (Location.TIMOR_LESTE, "Z3"),
+        (Location.TOGO, "W2"),
+        (Location.TOKELAU, "W3"),
+        (Location.TONGA, "W4"),
+        (Location.TRINIDAD_AND_TOBAGO, "W5"),
+        (Location.TUNISIA, "W6"),
+        (Location.TURKEY, "W8"),
+        (Location.TURKMENISTAN, "2E"),
+        (Location.TURKS_AND_CAICOS_ISLANDS, "W7"),
+        (Location.TUVALU, "2G"),
+        (Location.UGANDA, "W9"),
+        (Location.UKRAINE, "2H"),
+        (Location.UNITED_ARAB_EMIRATES, "C0"),
+        (Location.UNITED_KINGDOM, "X0"),
+        (Location.UNITED_STATES_MINOR_OUTLYING_ISLANDS, "2J"),
+        (Location.URUGUAY, "X3"),
+        (Location.UZBEKISTAN, "2K"),
+        (Location.VANUATU, "2L"),
+        (Location.VENEZUELA, "X5"),
+        (Location.VIETNAM, "Q1"),
+        (Location.BRITISH_VIRGIN_ISLANDS, "D8"),
+        (Location.US_VIRGIN_ISLANDS, "VI"),
+        (Location.WALLIS_AND_FUTUNA, "X8"),
+        (Location.WESTERN_SAHARA, "Y1"),
+        (Location.YEMEN, "T7"),
+        (Location.ZAMBIA, "Y4"),
+        (Location.ZIMBABWE, "Y5"),
+        (Location.UNKNOWN, "XX"),
     ],
 )
-class TestPeoInAndIncIn:
-    def test_should_correctly_generate_search_url_for_peo_in(
-        self, abbreviation, expected_location_code
-    ):
+class TestLocations:
+    def test_peo_in(self, abbreviation, expected_location_code):
         # GIVEN
-        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationCode={expected_location_code}"
-
-        # WHEN
-        actual_url = url_generator.generate_search_url_for_kwargs(
-            {"keywords": ["a"], "peo_in": abbreviation}
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationCode={expected_location_code}&locationCodes={expected_location_code}"
+        search_params = url_generator.SearchParams(
+            keywords=["a"],
+            peo_in=abbreviation,
         )
+        # WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
         # THEN
         assert actual_url == expected_url
 
-    def test_should_correctly_generate_search_url_for_inc_in(
-        self, abbreviation, expected_location_code
-    ):
+    def test_inc_in(self, abbreviation, expected_location_code):
         # GIVEN
-        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationType=incorporated&locationCode={expected_location_code}"
-
-        # WHEN
-        actual_url = url_generator.generate_search_url_for_kwargs(
-            {"keywords": ["a"], "inc_in": abbreviation}
+        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationType=incorporated&locationCode={expected_location_code}&locationCodes={expected_location_code}"
+        search_params = url_generator.SearchParams(
+            keywords=["a"],
+            inc_in=abbreviation,
         )
+        # WHEN
+        actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
         # THEN
         assert actual_url == expected_url
@@ -614,11 +666,12 @@ def test_should_raise_exception_if_location_code_invalid(key):
         "3-letter country code, or 'XX' for unknown."
     )
     soviet_union = "SUN"
-    test_kwargs = {"keywords": ["a"], key: soviet_union}
 
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
-        url_generator.generate_search_url_for_kwargs(test_kwargs)
+        url_generator.generate_search_url_for_kwargs(
+            url_generator.SearchParams(keywords=["a"], **{key: soviet_union})
+        )
 
 
 def test_should_raise_exception_if_both_peo_in_and_inc_in():
@@ -627,20 +680,26 @@ def test_should_raise_exception_if_both_peo_in_and_inc_in():
         "Cannot specify both peo_in and inc_in. Please choose one or the other."
     )
 
-    test_kwargs = {"keywords": ["a"], "peo_in": "CA", "inc_in": "CA"}
-
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
-        url_generator.generate_search_url_for_kwargs(test_kwargs)
+        url_generator.generate_search_url_for_kwargs(
+            url_generator.SearchParams(
+                keywords=["a"],
+                peo_in="CA",
+                inc_in="CA",
+            )
+        )
 
 
 def test_should_correctly_generate_search_url_for_multiple_peo_in():
     # GIVEN
-    test_kwargs = {"keywords": ["test multiple"], "peo_in": ["NY", "AK"]}
-    expected_url = "https://efts.sec.gov/LATEST/search-index?q=%22test%20multiple%22&locationCodes=NY%2CAK"
-
+    expected_url = "https://efts.sec.gov/LATEST/search-index?q=%22test%20multiple%22&locationCode=NY%2CAK&locationCodes=NY%2CAK"
+    search_params = url_generator.SearchParams(
+        keywords=["test multiple"],
+        peo_in=["NY", "AK"],
+    )
     # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+    actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
     assert actual_url == expected_url
@@ -648,11 +707,52 @@ def test_should_correctly_generate_search_url_for_multiple_peo_in():
 
 def test_should_correctly_generate_search_url_for_multiple_inc_in():
     # GIVEN
-    test_kwargs = {"keywords": ["company"], "inc_in": ["CA", "TX"]}
-    expected_url = "https://efts.sec.gov/LATEST/search-index?q=company&locationType=incorporated&locationCodes=CA%2CTX"
+    expected_url = "https://efts.sec.gov/LATEST/search-index?q=company&locationType=incorporated&locationCode=CA%2CTX&locationCodes=CA%2CTX"
+    search_params = url_generator.SearchParams(
+        keywords=["company"],
+        inc_in=["CA", "TX"],
+    )
 
     # WHEN
-    actual_url = url_generator.generate_search_url_for_kwargs(test_kwargs)
+    actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
     assert actual_url == expected_url
+
+
+@freezegun.freeze_time("2025-01-26")
+def test_with_multiple_kwargs():
+    # GIVEN
+    search_params = url_generator.SearchParams(
+        keywords=["John Doe", "(1) ABC Corp.", "January 4, 2021"],
+        entity="0000915802",
+        single_forms=["DEF 14A"],
+        date_range_select="all",
+        inc_in="DE",
+    )
+    expected_query_params = {
+        "q": ['"John Doe" "(1) ABC Corp." "January 4, 2021"'],
+        "dateRange": ["all"],
+        "startdt": ["2001-01-01"],
+        "enddt": ["2025-01-26"],
+        "entityName": ["0000915802"],
+        "category": ["custom"],
+        "forms": ["DEF 14A"],
+        "locationType": ["incorporated"],
+        "locationCode": ["DE"],
+        "locationCodes": ["DE"],
+    }
+
+    # WHEN
+    actual_url = url_generator.generate_search_url_for_kwargs(search_params)
+
+    # THEN
+    parsed_url = urllib.parse.urlparse(actual_url)
+    assert parsed_url.scheme == "https"
+    assert parsed_url.netloc == "efts.sec.gov"
+    assert parsed_url.path == "/LATEST/search-index"
+
+    actual_query_params = urllib.parse.parse_qs(
+        parsed_url.query, strict_parsing=True, keep_blank_values=True
+    )
+    assert actual_query_params == expected_query_params
