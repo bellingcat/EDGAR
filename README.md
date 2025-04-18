@@ -168,43 +168,7 @@ The tool can fetch the feed either once on-demand or at regular intervals.
 
 </details>
 
-## Table of Cleaned Financial Data 🏦
-
-There is also a table of data containing most income statements, balance sheets, and cash flow statements for every company traded publicly in the U.S.
-
-This table is updated intermittently and is [available here for download as a .CSV file](https://edgar.marketinference.com/). You can open this file in Excel, use it as a data source for your own code, or use the simple Python script to access time series for the desired data points.
-
-The quality of any programmatically produced financial dataset is not going to be as accurate or as complete as a S&P Global or Bloomberg subscription. It should, however, be of comparable accuracy to what you can find on Yahoo Finance and spans a wider time frame.
-
-George Dyer, the former Bellingcat tech fellow who developed the first version of this tool, describes it as: "good enough use in projects such as [Market Inference](https://www.marketinference.com/) and [Graham](https://graham.marketinference.com/info)".
-
-Please report any inconsistencies in the data to George and he will do his best to refine the existing method.
-
-<details>
-<summary>Expand to view the full method</summary>
-
-The current table is created by the following method:
-
-  - Monthly bulk download of all company facts data from EDGAR (this is the data set accessed by the official APIs)
-  - Scraping of all calculation sheets related to each filing associated with a publicly traded company
-  - Create a dictionary matching the most commonly used GAAP tags with a plain English term
-  - For a given company, for each year:
-    - Determine what GAAP tags are listed under each cashflow / income / balance sheet headings (or whatever alternative terms the company happens to use) in the calculation sheet
-    - For each tag:
-      - Obtain all the data associated with the tag in the company's bulk download folder for the desired year, and the preceding one
-      - Determine whether the data is duration or point in time
-      - Identify quarterly and yearly values based on the time data associated with each data point
-      - Recalculate all quarterly values if the reported ones are cumulative
-      - Calculate Q4 value
-      - Create cleaned and sorted time series
-      - Isolate the value for the considered year (or calculate trailing twelve month value based on preceding four quarters for this year if the company hasn't reported yet)
-    - For some particularly problematic data points such as debts I use addition between related data points to ensure consistency (this is why the debt amounts are not always perfectly accurate, but almost always in the ballpark)
-    - Match the GAAP tags with their plain English term
-    - Keep a database of orphan tags, and add them into the dictionary, manually
-
-</details>
-
-## Development :octocat:
+## Development 👨‍💻
 
 <details>
 <summary>Expand to view information for developers</summary>
