@@ -1,3 +1,5 @@
+import json
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 from uuid import UUID
 
@@ -85,19 +87,101 @@ def test_fetch_page_retry_on_failure(url):
         assert result == {"test": "data"}
 
 
-def test_generate_search_urls_0_records():
-    """Test that generate_search_urls doesn't make more than 1
-    request when the first request returns 0 records."""
+@pytest.mark.parametrize(
+    "response_file, expected_url_count",
+    [
+        ("0_hits.json", 1),
+        ("100_hits.json", 1),
+        ("9999_hits.json", 100),
+    ],
+)
+def test_generate_search_urls_less_than_10_000_results(
+    response_file, expected_url_count
+):
+    """Test that generate_search_urls yields the correct number of URLs for a given response.
+
+    Due to SEC API constraints, each URL is only for 100 results, and a given search returns
+    a maximum of 10,000 results. Therefore less than 10,000 results should yield one URL for 100
+    results.
+    """
     # GIVEN
     search_params = SearchParams(keywords=["test"])
+    with open(Path(__file__).parent / "responses" / response_file) as f:
+        mock_response = json.load(f)
+
     with patch(
         "edgar_tool.text_search.fetch_page",
-        return_value={"hits": {"total": {"value": 0}}},
-    ) as mock_fetch_page:
+        return_value=mock_response,
+    ):
         # WHEN
         # Make sure we exhaust the generator by converting it to a list.
         # This calls it as many times as it can be called.
-        list(generate_search_urls(search_params))
+        urls = list(generate_search_urls(search_params))
 
         # THEN
-        assert mock_fetch_page.call_count == 1
+        assert len(urls) == expected_url_count
+
+
+def test_generate_search_urls_more_than_10_000_results():
+    """Test that generate_search_urls yields the correct number of URLs when it needs to split
+    the date range in half.
+
+    The first request returns 10,000 results, which is the maximum the SEC returns for a given date range.
+    `generate_search_urls` should then split the date range in half and make two new requests. In this case
+    we use 9999 results for the first date range and 100 results for the second date range, which should
+    yield 101 URLs total (100 for 9999 results and 1 for the 100 results).
+    """
+    # GIVEN
+    search_params = SearchParams(
+        keywords=["test"], start_date="2022-01-01", end_date="2022-01-02"
+    )
+    with open(Path(__file__).parent / "responses" / "10000_hits.json") as f:
+        first_mock_response = json.load(f)
+
+    with open(Path(__file__).parent / "responses" / "9999_hits.json") as f:
+        second_mock_response = json.load(f)
+
+    with open(Path(__file__).parent / "responses" / "100_hits.json") as f:
+        third_mock_response = json.load(f)
+    expected_url_count = 101
+
+    with patch(
+        "edgar_tool.text_search.fetch_page",
+        side_effect=[first_mock_response, second_mock_response, third_mock_response],
+    ):
+        # WHEN
+        # Make sure we exhaust the generator by converting it to a list.
+        # This calls it as many times as it can be called.
+        urls = list(generate_search_urls(search_params))
+
+        # THEN
+        assert len(urls) == expected_url_count
+
+
+def test_generate_search_urls_10_000_results_for_single_day():
+    """Test that generate_search_urls yields 100 URLs when the SEC returns 10,000 results for a single day.
+
+    If the SEC returns 10,000 results for a single day, `generate_search_urls` should yield 100 URLs and not
+    try to split the date range in half. This is because the SEC API does not allow us to search a date range
+    that is smaller than 1 day.
+    """
+    # GIVEN
+    search_params = SearchParams(
+        keywords=["test"], start_date="2022-01-01", end_date="2022-01-01"
+    )
+    with open(Path(__file__).parent / "responses" / "10000_hits.json") as f:
+        mock_response = json.load(f)
+
+    expected_url_count = 100
+
+    with patch(
+        "edgar_tool.text_search.fetch_page",
+        return_value=mock_response,
+    ):
+        # WHEN
+        # Make sure we exhaust the generator by converting it to a list.
+        # This calls it as many times as it can be called.
+        urls = list(generate_search_urls(search_params))
+
+        # THEN
+        assert len(urls) == expected_url_count

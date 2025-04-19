@@ -229,7 +229,10 @@ def generate_search_urls(search_params: SearchParams) -> Iterator[pydantic.HttpU
     url = generate_search_url_for_kwargs(search_params)
     json_response = fetch_page(url)
     total_records = int(json_response.get("hits", {}).get("total", {}).get("value", 0))
-    if total_records < 10000:
+    search_is_for_single_day = (
+        search_params.start_date_formatted == search_params.end_date_formatted
+    )
+    if search_is_for_single_day or total_records < 10000:
         yield url
         for page, max_records_per_page in enumerate(
             range(
