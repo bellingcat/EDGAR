@@ -56,3 +56,6 @@ jobs:
 
       - name: Run Isort
         run: tox -e isort
+
+      - name: Run autoflake
+        run: tox -e autoflake
