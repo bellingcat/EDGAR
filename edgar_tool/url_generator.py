@@ -91,7 +91,7 @@ class SearchParams(pydantic.BaseModel):
         return [f'"{phrase}"' if " " in phrase else phrase for phrase in self.keywords]
 
     @property
-    def start_date_formatted(self):
+    def start_date_formatted(self) -> datetime.date:
         if self.date_range_select == "all":
             return datetime.date(2001, 1, 1)
         elif self.date_range_select == "10y":
@@ -106,7 +106,7 @@ class SearchParams(pydantic.BaseModel):
             return self.start_date
 
     @property
-    def end_date_formatted(self):
+    def end_date_formatted(self) -> datetime.date:
         if self.date_range_select in ["all", "10y", "5y", "1y", "30d"]:
             return datetime.date.today()
         else:
@@ -153,7 +153,7 @@ class SearchParams(pydantic.BaseModel):
         return filing_category_to_sec_form_id.get(self.filing_category)
 
 
-def generate_search_url_for_kwargs(search_params: SearchParams) -> str:
+def generate_search_url_for_kwargs(search_params: SearchParams) -> pydantic.HttpUrl:
     query_params = {}
     if search_params.keywords:
         query_params["q"] = " ".join(search_params.keywords_formatted)
@@ -188,4 +188,4 @@ def generate_search_url_for_kwargs(search_params: SearchParams) -> str:
     encoded_params = parse.urlencode(
         query_params, doseq=True, encoding="utf-8", quote_via=parse.quote
     )
-    return constants.TEXT_SEARCH_BASE_URL + encoded_params
+    return pydantic.HttpUrl(constants.TEXT_SEARCH_BASE_URL + encoded_params)

@@ -1,8 +1,13 @@
 import itertools
 import re
+import uuid
 from datetime import date, timedelta
 from math import ceil
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterator, List, Optional
+
+import pydantic
+import requests
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 from edgar_tool.constants import (
     TEXT_SEARCH_CSV_FIELDS_NAMES,
@@ -16,10 +21,9 @@ from edgar_tool.page_fetcher import (
     NoResultsFoundError,
     PageCheckFailedError,
     ResultsTableNotFoundError,
-    fetch_page,
 )
 from edgar_tool.url_generator import SearchParams, generate_search_url_for_kwargs
-from edgar_tool.utils import split_date_range_in_n, unpack_singleton_list
+from edgar_tool.utils import split_date_range_in_half, unpack_singleton_list
 
 
 class EdgarTextSearcher:
@@ -244,7 +248,7 @@ class EdgarTextSearcher:
         """
 
         # Fetch first page, verify that the request was successful by checking the result count value on the page
-        url = generate_search_url_for_kwargs(search_params)
+        url = str(generate_search_url_for_kwargs(search_params))
 
         # Try to fetch the first page and parse the number of results
         # In rare cases when the results are not empty, but the number of results cannot be parsed,
@@ -270,24 +274,14 @@ class EdgarTextSearcher:
                 f"returning search request string..."
             )
             self.search_requests.append(url)
+        elif search_params.start_date_formatted == search_params.end_date_formatted:
+            # We cannot further split a single day in half
+            self.search_requests.append(url)
         else:
-            num_batches = min(
-                (
-                    (
-                        search_params.end_date_formatted
-                        - search_params.start_date_formatted
-                    ).days,
-                    TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
-                )
-            )
-            print(
-                f"10000 results or more for date range {search_params.start_date_formatted} -> {search_params.end_date_formatted}, splitting in {num_batches} intervals"
-            )
             dates = list(
-                split_date_range_in_n(
+                split_date_range_in_half(
                     search_params.start_date_formatted,
                     search_params.end_date_formatted,
-                    num_batches,
                 )
             )
             for i, d in enumerate(dates):
@@ -315,7 +309,7 @@ class EdgarTextSearcher:
     def search(
         self,
         search_params: SearchParams,
-        destination: str,
+        output: str,
     ) -> None:
         """
         Searches the SEC website for filings based on the given parameters.
@@ -326,25 +320,25 @@ class EdgarTextSearcher:
         self._generate_search_requests(search_params)
 
         search_requests_results = []
-        for r in self.search_requests:
+        for request in self.search_requests:
 
             # Run generated search requests and paginate through results
             try:
                 all_pages_results = self._fetch_search_request_results(
-                    search_url=r,
+                    search_url=request,
                 )
                 search_requests_results.append(all_pages_results)
 
             except Exception as e:
                 print(
-                    f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{r}': {e}"
+                    f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{request}': {e}"
                 )
         if search_requests_results == []:
             print(f"No results found for the search query. Nothing to write to file.")
         else:
             write_results_to_file(
                 itertools.chain(*search_requests_results),
-                destination,
+                output,
                 TEXT_SEARCH_CSV_FIELDS_NAMES,
             )
 
@@ -373,6 +367,64 @@ class EdgarTextSearcher:
             return num_results
         except NoResultsFoundError as e:
             raise NoResultsFoundError(
-                f"\nExecution aborting due to a {e.__class__.__name__} error raised "
+                f"Execution aborting due to a {e.__class__.__name__} error raised "
                 f"while parsing number of results for first page at URL {url}: {e}"
             ) from e
+
+
+@retry(
+    before=wait_fixed(
+        0.11
+    ),  # The SEC API limits us to max 10 requests per second. Let's be conservative.
+    stop=stop_after_attempt(3),
+    reraise=True,
+)
+def fetch_page(url: pydantic.HttpUrl) -> dict:
+    """
+    Fetches the given URL and retries the request if the page load fails.
+
+    :param url: URL to fetch
+    :return: JSON response from the URL
+    """
+
+    print(f"Requesting URL: {url}")
+    headers = {
+        "User-Agent": f"BellingcatEDGARTool_{uuid.uuid4()} contact-tech@bellingcat.com"
+    }
+    res = requests.get(str(url), headers=headers)
+    if res.status_code != 200:
+        raise PageCheckFailedError(f"Error for url {url}, with code {res.status_code}")
+    return res.json()
+
+
+def generate_search_urls(search_params: SearchParams) -> Iterator[pydantic.HttpUrl]:
+    """
+    Generates search URLs for the given search parameters. Each search URL is
+    guaranteed to return less than 10,000 results, which is the maximum number of
+    results that the SEC API allows us to paginate through.
+
+    :param search_params: Instance of SearchParams containing the search parameters
+    :yield: Search URLs
+    """
+    url = generate_search_url_for_kwargs(search_params)
+    json_response = fetch_page(url)
+    num_results = int(json_response.get("hits", {}).get("total", {}).get("value", 0))
+    # The SEC returns a maximum of 10,000 results at a time, so if there are more than
+    # 10,000 results, we split the date range in half until we have less than 10,000 results
+    if num_results < 10000:
+        yield url
+    else:
+        for start, end in split_date_range_in_half(
+            search_params.start_date_formatted, search_params.end_date_formatted
+        ):
+            new_search_params = SearchParams(
+                keywords=search_params.keywords,
+                entity=search_params.entity,
+                filing_category=search_params.filing_category,
+                single_forms=search_params.single_forms,
+                start_date=start,
+                end_date=end,
+                inc_in=search_params.inc_in,
+                peo_in=search_params.peo_in,
+            )
+            yield from generate_search_urls(new_search_params)
