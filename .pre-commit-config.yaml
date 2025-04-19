@@ -21,6 +21,6 @@ repos:
 
       - id: mdformat
         name: mdformat
-        entry: poetry run mdformat
+        entry: poetry run mdformat --wrap 88
         language: system
         types: [markdown]
