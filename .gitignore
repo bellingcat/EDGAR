@@ -132,5 +132,6 @@ cython_debug/
 
 # Project-specific files
 *.json
+!tests/responses/*.json
 *.csv
 *.jsonl

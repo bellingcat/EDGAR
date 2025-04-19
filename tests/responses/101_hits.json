@@ -1,0 +1,4629 @@
+{
+    "took": 52,
+    "timed_out": false,
+    "_shards": {
+        "total": 50,
+        "successful": 50,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 101,
+            "relation": "eq"
+        },
+        "max_score": 7.971608,
+        "hits": [
+            {
+                "_index": "edgar_file",
+                "_id": "0001918704-25-006778:form424b2.htm",
+                "_score": 7.971608,
+                "_source": {
+                    "ciks": [
+                        "0001682472",
+                        "0000070858"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-268718-01",
+                        "333-268718"
+                    ],
+                    "display_names": [
+                        "BofA Finance LLC  (CIK 0001682472)",
+                        "BANK OF AMERICA CORP /DE/  (CIK 0000070858)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NC"
+                    ],
+                    "sics": [
+                        "6021",
+                        "6021"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001918704-25-006778",
+                    "film_num": [
+                        "25850715",
+                        "25850716"
+                    ],
+                    "biz_locations": [
+                        "Charlotte, NC",
+                        "Charlotte, NC"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "424B2",
+                    "inc_states": [
+                        "DE",
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001918704-25-006719:form424b2.htm",
+                "_score": 7.9670362,
+                "_source": {
+                    "ciks": [
+                        "0001682472",
+                        "0000070858"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-268718-01",
+                        "333-268718"
+                    ],
+                    "display_names": [
+                        "BofA Finance LLC  (CIK 0001682472)",
+                        "BANK OF AMERICA CORP /DE/  (CIK 0000070858)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NC"
+                    ],
+                    "sics": [
+                        "6021",
+                        "6021"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001918704-25-006719",
+                    "film_num": [
+                        "25850007",
+                        "25850008"
+                    ],
+                    "biz_locations": [
+                        "Charlotte, NC",
+                        "Charlotte, NC"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "424B2",
+                    "inc_states": [
+                        "DE",
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001918704-25-006757:form424b2.htm",
+                "_score": 7.954068,
+                "_source": {
+                    "ciks": [
+                        "0001682472",
+                        "0000070858"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-268718-01",
+                        "333-268718"
+                    ],
+                    "display_names": [
+                        "BofA Finance LLC  (CIK 0001682472)",
+                        "BANK OF AMERICA CORP /DE/  (CIK 0000070858)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NC"
+                    ],
+                    "sics": [
+                        "6021",
+                        "6021"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001918704-25-006757",
+                    "film_num": [
+                        "25850240",
+                        "25850241"
+                    ],
+                    "biz_locations": [
+                        "Charlotte, NC",
+                        "Charlotte, NC"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "424B2",
+                    "inc_states": [
+                        "DE",
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001494234-25-000010:BCBinftable.xml",
+                "_score": 7.6144667,
+                "_source": {
+                    "ciks": [
+                        "0001314376"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-11136"
+                    ],
+                    "display_names": [
+                        "Broderick Brian C  (CIK 0001314376)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001494234-25-000010",
+                    "film_num": [
+                        "25851067"
+                    ],
+                    "biz_locations": [
+                        ""
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        ""
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001221073-25-000040:infotable.xml",
+                "_score": 6.8243566,
+                "_source": {
+                    "ciks": [
+                        "0001737987"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-18726"
+                    ],
+                    "display_names": [
+                        "Wells Trecaso Financial Group, LLC  (CIK 0001737987)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "OH"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001221073-25-000040",
+                    "film_num": [
+                        "25851077"
+                    ],
+                    "biz_locations": [
+                        "Akron, OH"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001918704-25-006749:form424b2.htm",
+                "_score": 6.7663503,
+                "_source": {
+                    "ciks": [
+                        "0000312070"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-265158"
+                    ],
+                    "display_names": [
+                        "BARCLAYS BANK PLC  (DJP, GRN, VXX, VXZ, ATMP, GBUG, TAPR, BWVTF, COWTF, JJCTF, JJETF, JJGTF, PGMFF)  (CIK 0000312070)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "X0"
+                    ],
+                    "sics": [
+                        "6029"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001918704-25-006749",
+                    "film_num": [
+                        "25850185"
+                    ],
+                    "biz_locations": [
+                        "London, X0"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "FORM 424B2",
+                    "inc_states": [
+                        "X0"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025309:primary_doc.xml",
+                "_score": 6.672731,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025309",
+                    "film_num": [
+                        "25850932"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001214659-25-006124:j418250424b2.htm",
+                "_score": 6.6409335,
+                "_source": {
+                    "ciks": [
+                        "0000927971"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-285508"
+                    ],
+                    "display_names": [
+                        "BANK OF MONTREAL /CAN/  (BMO, BERZ, BNKD, BNKU, BULZ, CARD, CARU, DULL, FLYD, FLYU, FNGA, FNGB, FNGD, FNGO, FNGS, GDXD, GDXU)  (CIK 0000927971)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "A6"
+                    ],
+                    "sics": [
+                        "6029"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001214659-25-006124",
+                    "film_num": [
+                        "25849632"
+                    ],
+                    "biz_locations": [
+                        "Toronto, A6"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "ARC 4818",
+                    "inc_states": [
+                        "A6"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025311:primary_doc.xml",
+                "_score": 6.6375136,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025311",
+                    "film_num": [
+                        "25850935"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025303:primary_doc.xml",
+                "_score": 6.59768,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025303",
+                    "film_num": [
+                        "25850926"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002195:primary_doc.xml",
+                "_score": 6.5197334,
+                "_source": {
+                    "ciks": [
+                        "0001864916"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-21270"
+                    ],
+                    "display_names": [
+                        "Mezzasalma Advisors, LLC  (CIK 0001864916)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "schema_version": "X0202",
+                    "sequence": 1,
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NJ"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002195",
+                    "film_num": [
+                        "25850841"
+                    ],
+                    "biz_locations": [
+                        "Tinton Falls, NJ"
+                    ],
+                    "file_type": "13F-HR",
+                    "file_description": null,
+                    "inc_states": [
+                        "NJ"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001213900-25-033413:ea0238753-01_497.htm",
+                "_score": 6.4407544,
+                "_source": {
+                    "ciks": [
+                        "0001771146"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-234544"
+                    ],
+                    "display_names": [
+                        "ETF Opportunities Trust  (CIK 0001771146)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "497"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "VA"
+                    ],
+                    "sics": [],
+                    "form": "497",
+                    "adsh": "0001213900-25-033413",
+                    "film_num": [
+                        "25850753"
+                    ],
+                    "biz_locations": [
+                        "Richmond, VA"
+                    ],
+                    "file_type": "497",
+                    "file_description": "497",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001221073-25-000037:infotable.xml",
+                "_score": 6.400369,
+                "_source": {
+                    "ciks": [
+                        "0002009273"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-23548"
+                    ],
+                    "display_names": [
+                        "Crown Oak Advisors, LLC  (CIK 0002009273)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001221073-25-000037",
+                    "film_num": [
+                        "25851072"
+                    ],
+                    "biz_locations": [
+                        "Piedmont, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001172661-25-001513:infotable.xml",
+                "_score": 6.3873205,
+                "_source": {
+                    "ciks": [
+                        "0002010315"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-23629"
+                    ],
+                    "display_names": [
+                        "Marest Capital, LLC  (CIK 0002010315)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001172661-25-001513",
+                    "film_num": [
+                        "25849963"
+                    ],
+                    "biz_locations": [
+                        "Tarzana, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "CA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001989476-25-000002:cultivar_1q2024.inftbl.xml",
+                "_score": 6.335388,
+                "_source": {
+                    "ciks": [
+                        "0001989476"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-23508"
+                    ],
+                    "display_names": [
+                        "CULTIVAR CAPITAL, INC.  (CIK 0001989476)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "TX"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001989476-25-000002",
+                    "film_num": [
+                        "25848589"
+                    ],
+                    "biz_locations": [
+                        "Denton, TX"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "TX"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001840888-25-000003:rothfinancialpartnersq113f.xml",
+                "_score": 6.314891,
+                "_source": {
+                    "ciks": [
+                        "0001840888"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-20467"
+                    ],
+                    "display_names": [
+                        "Roth Financial Partners LLC  (CIK 0001840888)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "TX"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001840888-25-000003",
+                    "film_num": [
+                        "25850096"
+                    ],
+                    "biz_locations": [
+                        "Kingwood, TX"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "TX"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001214659-25-006105:infotable.xml",
+                "_score": 6.30381,
+                "_source": {
+                    "ciks": [
+                        "0002061818"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "028-25498"
+                    ],
+                    "display_names": [
+                        "Greenbush Financial Group, LLC  (CIK 0002061818)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NY"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001214659-25-006105",
+                    "film_num": [
+                        "25849521"
+                    ],
+                    "biz_locations": [
+                        "Albany, NY"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "NY"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001214659-25-006107:infotable.xml",
+                "_score": 6.285371,
+                "_source": {
+                    "ciks": [
+                        "0002061818"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-25498"
+                    ],
+                    "display_names": [
+                        "Greenbush Financial Group, LLC  (CIK 0002061818)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NY"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001214659-25-006107",
+                    "film_num": [
+                        "25849533"
+                    ],
+                    "biz_locations": [
+                        "Albany, NY"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "NY"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002196:infotable.xml",
+                "_score": 6.2632113,
+                "_source": {
+                    "ciks": [
+                        "0000894300"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-03386"
+                    ],
+                    "display_names": [
+                        "BENDER ROBERT & ASSOCIATES  (CIK 0000894300)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002196",
+                    "film_num": [
+                        "25850843"
+                    ],
+                    "biz_locations": [
+                        "Pasadena, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "CA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002199:infotable.xml",
+                "_score": 6.2526703,
+                "_source": {
+                    "ciks": [
+                        "0001730456"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-18388"
+                    ],
+                    "display_names": [
+                        "CAPITAL WEALTH MANAGEMENT, LLC  (CIK 0001730456)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "RI"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002199",
+                    "film_num": [
+                        "25850881"
+                    ],
+                    "biz_locations": [
+                        "W. Warwick, RI"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "RI"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001062993-25-007666:form13fInfoTable.xml",
+                "_score": 6.108416,
+                "_source": {
+                    "ciks": [
+                        "0001002672"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-05106"
+                    ],
+                    "display_names": [
+                        "Bell Bank  (CIK 0001002672)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "ND"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001062993-25-007666",
+                    "film_num": [
+                        "25849218"
+                    ],
+                    "biz_locations": [
+                        "Fargo, ND"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "FORM 13F INFORMATION TABLE",
+                    "inc_states": [
+                        "ND"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001492162-25-000003:2025.03.31.xml",
+                "_score": 6.047202,
+                "_source": {
+                    "ciks": [
+                        "0001492162"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-13961"
+                    ],
+                    "display_names": [
+                        "Lesa Sroufe & Co  (CIK 0001492162)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "WA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001492162-25-000003",
+                    "film_num": [
+                        "25848658"
+                    ],
+                    "biz_locations": [
+                        "Seattle, WA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001723115-25-000003:uploadfiling_q12025.xml",
+                "_score": 6.017601,
+                "_source": {
+                    "ciks": [
+                        "0001723115"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-19971"
+                    ],
+                    "display_names": [
+                        "Demars Financial Group, LLC  (CIK 0001723115)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "WA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001723115-25-000003",
+                    "film_num": [
+                        "25848807"
+                    ],
+                    "biz_locations": [
+                        "Spokane Valley, WA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "WA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001910966-25-000003:planningcenter1q25.xml",
+                "_score": 5.998352,
+                "_source": {
+                    "ciks": [
+                        "0001910966"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-22196"
+                    ],
+                    "display_names": [
+                        "Planning Center, Inc.  (CIK 0001910966)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "IL"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001910966-25-000003",
+                    "film_num": [
+                        "25850283"
+                    ],
+                    "biz_locations": [
+                        "Moline, IL"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "IL"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025317:primary_doc.xml",
+                "_score": 5.978401,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025317",
+                    "film_num": [
+                        "25850941"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001437749-25-012338:F13InfoTable_74617.xml",
+                "_score": 5.9620786,
+                "_source": {
+                    "ciks": [
+                        "0002010786"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-23664"
+                    ],
+                    "display_names": [
+                        "Boomfish Wealth Group, LLC  (CIK 0002010786)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "GA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001437749-25-012338",
+                    "film_num": [
+                        "25849811"
+                    ],
+                    "biz_locations": [
+                        "Alpharetta, GA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "GA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001062993-25-007662:form13fInfoTable.xml",
+                "_score": 5.9530272,
+                "_source": {
+                    "ciks": [
+                        "0001803523"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-20100"
+                    ],
+                    "display_names": [
+                        "Pacific Capital Wealth Advisors, Inc.  (CIK 0001803523)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001062993-25-007662",
+                    "film_num": [
+                        "25848792"
+                    ],
+                    "biz_locations": [
+                        "Corona, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "FORM 13F INFORMATION TABLE",
+                    "inc_states": [
+                        "CA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001221073-25-000039:infotable.xml",
+                "_score": 5.917491,
+                "_source": {
+                    "ciks": [
+                        "0001965246"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-22883"
+                    ],
+                    "display_names": [
+                        "Financial Partners Group, LLC  (CIK 0001965246)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "TN"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001221073-25-000039",
+                    "film_num": [
+                        "25851075"
+                    ],
+                    "biz_locations": [
+                        "Gallatin, TN"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "TN"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002193:infotable.xml",
+                "_score": 5.8527164,
+                "_source": {
+                    "ciks": [
+                        "0002054827"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-24831"
+                    ],
+                    "display_names": [
+                        "Cushing Capital Partners, LLC  (CIK 0002054827)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "WI"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002193",
+                    "film_num": [
+                        "25850835"
+                    ],
+                    "biz_locations": [
+                        "Delafield, WI"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "WI"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025320:primary_doc.xml",
+                "_score": 5.8328986,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025320",
+                    "film_num": [
+                        "25850946"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001664147-25-000003:CCM1q202513F.xml",
+                "_score": 5.799307,
+                "_source": {
+                    "ciks": [
+                        "0001664147"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-17087"
+                    ],
+                    "display_names": [
+                        "Colorado Capital Management, Inc.  (CIK 0001664147)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CO"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001664147-25-000003",
+                    "film_num": [
+                        "25850238"
+                    ],
+                    "biz_locations": [
+                        "Boulder, CO"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "2025Q1 CCM 13F",
+                    "inc_states": [
+                        "CO"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001767601-25-000004:marketstreetwealth1q25.xml",
+                "_score": 5.7584496,
+                "_source": {
+                    "ciks": [
+                        "0001767601"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-19106"
+                    ],
+                    "display_names": [
+                        "MARKET STREET WEALTH MANAGEMENT ADVISORS LLC  (CIK 0001767601)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "IN"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001767601-25-000004",
+                    "film_num": [
+                        "25850326"
+                    ],
+                    "biz_locations": [
+                        "Indianapolis, IN"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001494234-25-000009:HTCinftable.xml",
+                "_score": 5.7319508,
+                "_source": {
+                    "ciks": [
+                        "0001494234"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-14337"
+                    ],
+                    "display_names": [
+                        "Hemenway Trust Co LLC  (CIK 0001494234)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NH"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001494234-25-000009",
+                    "film_num": [
+                        "25850808"
+                    ],
+                    "biz_locations": [
+                        "Salem, NH"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000878228-25-000006:DWASEC13F03312025.XML",
+                "_score": 5.6761923,
+                "_source": {
+                    "ciks": [
+                        "0000878228"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-02940"
+                    ],
+                    "display_names": [
+                        "WENDELL DAVID ASSOCIATES INC  (CIK 0000878228)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NH"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0000878228-25-000006",
+                    "film_num": [
+                        "25849514"
+                    ],
+                    "biz_locations": [
+                        "Portsmouth, NH"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "DAVID WENDELL ASSOCIATES 03312025 13F-HR",
+                    "inc_states": [
+                        "NH"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001062993-25-007657:form13fInfoTable.xml",
+                "_score": 5.6383457,
+                "_source": {
+                    "ciks": [
+                        "0002011402"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-24070"
+                    ],
+                    "display_names": [
+                        "Edge Financial Advisors LLC  (CIK 0002011402)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "IL"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001062993-25-007657",
+                    "film_num": [
+                        "25848770"
+                    ],
+                    "biz_locations": [
+                        "Wheaton, IL"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "FORM 13F INFORMATION TABLE",
+                    "inc_states": [
+                        "IL"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001434845-25-000004:cardinalnc1q25.xml",
+                "_score": 5.6121182,
+                "_source": {
+                    "ciks": [
+                        "0001434845"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-13067"
+                    ],
+                    "display_names": [
+                        "Cardinal Capital Management  (CIK 0001434845)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NC"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001434845-25-000004",
+                    "film_num": [
+                        "25848648"
+                    ],
+                    "biz_locations": [
+                        "Raleigh, NC"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "NC"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001844709-25-000005:sanluis13f_1q2025.xml",
+                "_score": 5.590853,
+                "_source": {
+                    "ciks": [
+                        "0001844709"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-20584"
+                    ],
+                    "display_names": [
+                        "San Luis Wealth Advisors LLC  (CIK 0001844709)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR/A",
+                    "adsh": "0001844709-25-000005",
+                    "film_num": [
+                        "25849482"
+                    ],
+                    "biz_locations": [
+                        "San Luis Obispo, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "CA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0002011212-25-000004:Q1202513FCFG.xml",
+                "_score": 5.4644556,
+                "_source": {
+                    "ciks": [
+                        "0002011212"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-23873"
+                    ],
+                    "display_names": [
+                        "Clayton Financial Group LLC  (CIK 0002011212)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0002011212-25-000004",
+                    "film_num": [
+                        "25849654"
+                    ],
+                    "biz_locations": [
+                        "St. Louis, MO"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "Q12025CFG13F",
+                    "inc_states": [
+                        "MO"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001221073-25-000041:infotable.xml",
+                "_score": 5.4282904,
+                "_source": {
+                    "ciks": [
+                        "0001801926"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-19865"
+                    ],
+                    "display_names": [
+                        "Mayfair Advisory Group, LLC  (CIK 0001801926)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "AL"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001221073-25-000041",
+                    "film_num": [
+                        "25851078"
+                    ],
+                    "biz_locations": [
+                        "Birmingham, AL"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-25-036367:tm2512583d1_defa14a.htm",
+                "_score": 5.417284,
+                "_source": {
+                    "ciks": [
+                        "0001742313"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "814-01301"
+                    ],
+                    "display_names": [
+                        "Monroe Capital Income Plus Corp  (CIK 0001742313)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "DEFA14A"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "IL"
+                    ],
+                    "sics": [],
+                    "form": "DEFA14A",
+                    "adsh": "0001104659-25-036367",
+                    "film_num": [
+                        "25850773"
+                    ],
+                    "biz_locations": [
+                        "Chicago, IL"
+                    ],
+                    "file_type": "DEFA14A",
+                    "file_description": "DEFA14A",
+                    "inc_states": [
+                        "MD"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002195:infotable.xml",
+                "_score": 5.40567,
+                "_source": {
+                    "ciks": [
+                        "0001864916"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-21270"
+                    ],
+                    "display_names": [
+                        "Mezzasalma Advisors, LLC  (CIK 0001864916)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NJ"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002195",
+                    "film_num": [
+                        "25850841"
+                    ],
+                    "biz_locations": [
+                        "Tinton Falls, NJ"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "NJ"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001826790-25-000002:2025Q113F.xml",
+                "_score": 5.404131,
+                "_source": {
+                    "ciks": [
+                        "0001826790"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-20357"
+                    ],
+                    "display_names": [
+                        "Tennessee Valley Asset Management Partners  (CIK 0001826790)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "TN"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001826790-25-000002",
+                    "film_num": [
+                        "25849598"
+                    ],
+                    "biz_locations": [
+                        "Knoxville, TN"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "TN"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0002059321-25-000058:20250331_InfoTable.xml",
+                "_score": 5.401184,
+                "_source": {
+                    "ciks": [
+                        "0002059321"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-25455"
+                    ],
+                    "display_names": [
+                        "PKO Investment Management Joint-Stock Co  (CIK 0002059321)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "R9"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0002059321-25-000058",
+                    "film_num": [
+                        "25849196"
+                    ],
+                    "biz_locations": [
+                        "Warsaw, R9"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "R9"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002203:infotable.xml",
+                "_score": 5.3771753,
+                "_source": {
+                    "ciks": [
+                        "0001963728"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-22778"
+                    ],
+                    "display_names": [
+                        "Seed Wealth Management, Inc.  (CIK 0001963728)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "IL"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002203",
+                    "film_num": [
+                        "25851084"
+                    ],
+                    "biz_locations": [
+                        "Evanston, IL"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "IL"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025350:primary_doc.xml",
+                "_score": 5.3352423,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025350",
+                    "film_num": [
+                        "25850975"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025347:primary_doc.xml",
+                "_score": 5.3132896,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025347",
+                    "film_num": [
+                        "25850971"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001876326-25-000002:FiveOceansAdvisors_13f.xml",
+                "_score": 5.2927446,
+                "_source": {
+                    "ciks": [
+                        "0001876326"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-21379"
+                    ],
+                    "display_names": [
+                        "Five Oceans Advisors  (CIK 0001876326)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001876326-25-000002",
+                    "film_num": [
+                        "25849561"
+                    ],
+                    "biz_locations": [
+                        "Santa Monica, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001172661-25-001512:infotable.xml",
+                "_score": 5.2927446,
+                "_source": {
+                    "ciks": [
+                        "0001424177"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-12685"
+                    ],
+                    "display_names": [
+                        "Birch Hill Investment Advisors LLC  (CIK 0001424177)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001172661-25-001512",
+                    "film_num": [
+                        "25849953"
+                    ],
+                    "biz_locations": [
+                        "Boston, MA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "MA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002200:infotable.xml",
+                "_score": 5.282833,
+                "_source": {
+                    "ciks": [
+                        "0001579111"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-15736"
+                    ],
+                    "display_names": [
+                        "Wolf Group Capital Advisors  (CIK 0001579111)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "VA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002200",
+                    "film_num": [
+                        "25850884"
+                    ],
+                    "biz_locations": [
+                        "Fairfax, VA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "VA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025341:primary_doc.xml",
+                "_score": 5.196126,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025341",
+                    "film_num": [
+                        "25850965"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0002042876-25-000002:2025Q113F.xml",
+                "_score": 5.181935,
+                "_source": {
+                    "ciks": [
+                        "0002042876"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-24441"
+                    ],
+                    "display_names": [
+                        "Optivise Advisory Services LLC  (CIK 0002042876)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "TN"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0002042876-25-000002",
+                    "film_num": [
+                        "25850204"
+                    ],
+                    "biz_locations": [
+                        "Franklin, TN"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "TN"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001172661-25-001514:infotable.xml",
+                "_score": 5.0675573,
+                "_source": {
+                    "ciks": [
+                        "0001991463"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-23385"
+                    ],
+                    "display_names": [
+                        "Prosperity Wealth Management, Inc.  (CIK 0001991463)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001172661-25-001514",
+                    "film_num": [
+                        "25850112"
+                    ],
+                    "biz_locations": [
+                        "San Ramon, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "CA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001484205-25-000006:HH1q25.xml",
+                "_score": 5.04144,
+                "_source": {
+                    "ciks": [
+                        "0001484205"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-13854"
+                    ],
+                    "display_names": [
+                        "HALBERT HARGROVE GLOBAL ADVISORS, LLC  (CIK 0001484205)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001484205-25-000006",
+                    "film_num": [
+                        "25848624"
+                    ],
+                    "biz_locations": [
+                        "Long Beach, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "CA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002194:infotable.xml",
+                "_score": 4.981865,
+                "_source": {
+                    "ciks": [
+                        "0001696628"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-17938"
+                    ],
+                    "display_names": [
+                        "Shepherd Financial Partners LLC  (CIK 0001696628)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002194",
+                    "film_num": [
+                        "25850840"
+                    ],
+                    "biz_locations": [
+                        "Winchester, MA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001660694-25-000003:gretledge1q25.xml",
+                "_score": 4.9505863,
+                "_source": {
+                    "ciks": [
+                        "0001660694"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-17980"
+                    ],
+                    "display_names": [
+                        "GSB Wealth Management, LLC  (CIK 0001660694)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CT"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001660694-25-000003",
+                    "film_num": [
+                        "25850248"
+                    ],
+                    "biz_locations": [
+                        "Guilford, CT"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "CT"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001957363-25-000003:creativecap1q25.xml",
+                "_score": 4.942466,
+                "_source": {
+                    "ciks": [
+                        "0001957363"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-22724"
+                    ],
+                    "display_names": [
+                        "Creative Capital Management Investments LLC  (CIK 0001957363)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001957363-25-000003",
+                    "film_num": [
+                        "25850406"
+                    ],
+                    "biz_locations": [
+                        "San Diego, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "CA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001398344-25-007278:fp0092947-1_13fhr-table.xml",
+                "_score": 4.7857904,
+                "_source": {
+                    "ciks": [
+                        "0001728657"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-18658"
+                    ],
+                    "display_names": [
+                        "Wagner Wealth Management, LLC  (CIK 0001728657)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "SC"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001398344-25-007278",
+                    "film_num": [
+                        "25848735"
+                    ],
+                    "biz_locations": [
+                        "Greenville, SC"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "SC"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002198:infotable.xml",
+                "_score": 4.6958613,
+                "_source": {
+                    "ciks": [
+                        "0001801991"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-19958"
+                    ],
+                    "display_names": [
+                        "Lion Street Advisors, LLC  (CIK 0001801991)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "TX"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002198",
+                    "film_num": [
+                        "25850875"
+                    ],
+                    "biz_locations": [
+                        "Austin, TX"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "TX"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025302:primary_doc.xml",
+                "_score": 4.624517,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025302",
+                    "film_num": [
+                        "25850927"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001965484-25-000002:XMLfile13FQ12025.xml",
+                "_score": 4.1414595,
+                "_source": {
+                    "ciks": [
+                        "0001965484"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-23012"
+                    ],
+                    "display_names": [
+                        "Financial Freedom, LLC  (CIK 0001965484)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "OH"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001965484-25-000002",
+                    "film_num": [
+                        "25849299"
+                    ],
+                    "biz_locations": [
+                        "Cincinnati, OH"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "PA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001664214-25-000007:13fclarius1q2025.xml",
+                "_score": 4.1151986,
+                "_source": {
+                    "ciks": [
+                        "0001664214"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-17249"
+                    ],
+                    "display_names": [
+                        "Clarius Group, LLC  (CIK 0001664214)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "WA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001664214-25-000007",
+                    "film_num": [
+                        "25850649"
+                    ],
+                    "biz_locations": [
+                        "Seattle, WA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "13FCLARIUS1Q2025",
+                    "inc_states": [
+                        "WA"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001398344-25-007282:fp0093003-1_13fhr-table.xml",
+                "_score": 3.9893913,
+                "_source": {
+                    "ciks": [
+                        "0001729672"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-18247"
+                    ],
+                    "display_names": [
+                        "Global Trust Asset Management, LLC  (CIK 0001729672)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "FL"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001398344-25-007282",
+                    "film_num": [
+                        "25849317"
+                    ],
+                    "biz_locations": [
+                        "Palm Beach Gardens, FL"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025349:primary_doc.xml",
+                "_score": 3.5879335,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025349",
+                    "film_num": [
+                        "25850973"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001706836-25-000004:bfsg1q25.xml",
+                "_score": 3.5358052,
+                "_source": {
+                    "ciks": [
+                        "0001706836"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-18081"
+                    ],
+                    "display_names": [
+                        "BFSG, LLC  (CIK 0001706836)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001706836-25-000004",
+                    "film_num": [
+                        "25848707"
+                    ],
+                    "biz_locations": [
+                        "Irvine, CA"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001964958-25-000002:form13finfotable1q2025.xml",
+                "_score": 3.5333548,
+                "_source": {
+                    "ciks": [
+                        "0001964958"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-22931"
+                    ],
+                    "display_names": [
+                        "INSIGNEO ADVISORY SERVICES, LLC  (CIK 0001964958)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "FL"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001964958-25-000002",
+                    "film_num": [
+                        "25849063"
+                    ],
+                    "biz_locations": [
+                        "Miami, FL"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "1Q2025 INFORMATION TABLE",
+                    "inc_states": [
+                        "FL"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001085146-25-002197:infotable.xml",
+                "_score": 3.5166197,
+                "_source": {
+                    "ciks": [
+                        "0001674117"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-17458"
+                    ],
+                    "display_names": [
+                        "Cornerstone Wealth Management, LLC  (CIK 0001674117)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001085146-25-002197",
+                    "film_num": [
+                        "25850847"
+                    ],
+                    "biz_locations": [
+                        "St. Peters, MO"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": "INFORMATION TABLE",
+                    "inc_states": [
+                        "MO"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025343:primary_doc.xml",
+                "_score": 3.3820844,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025343",
+                    "film_num": [
+                        "25850966"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0002003287-25-000003:finper1q25.xml",
+                "_score": 3.3407826,
+                "_source": {
+                    "ciks": [
+                        "0002003287"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-23491"
+                    ],
+                    "display_names": [
+                        "Financial Perspectives, Inc  (CIK 0002003287)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MN"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0002003287-25-000003",
+                    "film_num": [
+                        "25850364"
+                    ],
+                    "biz_locations": [
+                        "Minneapolis, MN"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "MN"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0002009539-25-000004:information_table.xml",
+                "_score": 3.1635017,
+                "_source": {
+                    "ciks": [
+                        "0002009539"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-23558"
+                    ],
+                    "display_names": [
+                        "Rakuten Securities, Inc.  (CIK 0002009539)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "M0"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0002009539-25-000004",
+                    "film_num": [
+                        "25849190"
+                    ],
+                    "biz_locations": [
+                        "Tokyo, M0"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "M0"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000044365-25-000002:MAR2025.xml",
+                "_score": 3.0355482,
+                "_source": {
+                    "ciks": [
+                        "0000044365"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-03392"
+                    ],
+                    "display_names": [
+                        "CENTRAL TRUST Co  (CIK 0000044365)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0000044365-25-000002",
+                    "film_num": [
+                        "25849597"
+                    ],
+                    "biz_locations": [
+                        "Jefferson City, MO"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "MO"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025326:primary_doc.xml",
+                "_score": 3.0292087,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025326",
+                    "film_num": [
+                        "25850951"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001844716-25-000002:dhjj1q25.xml",
+                "_score": 2.7625923,
+                "_source": {
+                    "ciks": [
+                        "0001844716"
+                    ],
+                    "period_ending": "2025-03-31",
+                    "file_num": [
+                        "028-20882"
+                    ],
+                    "display_names": [
+                        "DHJJ Financial Advisors, Ltd.  (CIK 0001844716)"
+                    ],
+                    "xsl": "xslForm13F_X02",
+                    "sequence": "2",
+                    "root_forms": [
+                        "13F-HR"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "IL"
+                    ],
+                    "sics": [],
+                    "form": "13F-HR",
+                    "adsh": "0001844716-25-000002",
+                    "film_num": [
+                        "25850210"
+                    ],
+                    "biz_locations": [
+                        "Naperville, IL"
+                    ],
+                    "file_type": "INFORMATION TABLE",
+                    "file_description": null,
+                    "inc_states": [
+                        "IL"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025342:primary_doc.xml",
+                "_score": 2.7259994,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025342",
+                    "film_num": [
+                        "25850967"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001579684-25-000019:gci-20250416.htm",
+                "_score": 2.6190662,
+                "_source": {
+                    "ciks": [
+                        "0001579684"
+                    ],
+                    "period_ending": "2025-06-02",
+                    "file_num": [
+                        "001-36097"
+                    ],
+                    "display_names": [
+                        "Gannett Co., Inc.  (GCI)  (CIK 0001579684)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "DEF 14A"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NY"
+                    ],
+                    "sics": [
+                        "2711"
+                    ],
+                    "form": "DEF 14A",
+                    "adsh": "0001579684-25-000019",
+                    "film_num": [
+                        "25849254"
+                    ],
+                    "biz_locations": [
+                        "Pittsford, NY"
+                    ],
+                    "file_type": "DEF 14A",
+                    "file_description": "DEF 14A",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001556739-25-000021:thry-20250418.htm",
+                "_score": 2.6052408,
+                "_source": {
+                    "ciks": [
+                        "0001556739"
+                    ],
+                    "period_ending": "2025-06-12",
+                    "file_num": [
+                        "001-35895"
+                    ],
+                    "display_names": [
+                        "Thryv Holdings, Inc.  (THRY)  (CIK 0001556739)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "PRE 14A"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "TX"
+                    ],
+                    "sics": [
+                        "7310"
+                    ],
+                    "form": "PRE 14A",
+                    "adsh": "0001556739-25-000021",
+                    "film_num": [
+                        "25850431"
+                    ],
+                    "biz_locations": [
+                        "D/fw Airport, TX"
+                    ],
+                    "file_type": "PRE 14A",
+                    "file_description": "PRE 14A",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001810806-25-000085:q42024form10-kxfiled.pdf",
+                "_score": 2.5393372,
+                "_source": {
+                    "ciks": [
+                        "0001810806"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-39497"
+                    ],
+                    "display_names": [
+                        "Unity Software Inc.  (U)  (CIK 0001810806)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "ARS"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [
+                        "7372"
+                    ],
+                    "form": "ARS",
+                    "adsh": "0001810806-25-000085",
+                    "film_num": [
+                        "25850776"
+                    ],
+                    "biz_locations": [
+                        "San Francisco, CA"
+                    ],
+                    "file_type": "ARS",
+                    "file_description": "ARS",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-25-036376:tm2512300-1_s1.htm",
+                "_score": 2.4043746,
+                "_source": {
+                    "ciks": [
+                        "0001637147"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-286641"
+                    ],
+                    "display_names": [
+                        "zSpace, Inc.  (ZSPC)  (CIK 0001637147)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "S-1"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [
+                        "7372"
+                    ],
+                    "form": "S-1",
+                    "adsh": "0001104659-25-036376",
+                    "film_num": [
+                        "25850812"
+                    ],
+                    "biz_locations": [
+                        "San Jose, CA"
+                    ],
+                    "file_type": "S-1",
+                    "file_description": "S-1",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025352:primary_doc.xml",
+                "_score": 2.3489552,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025352",
+                    "film_num": [
+                        "25850978"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001140361-25-014572:ny20047457x1_pre14a.htm",
+                "_score": 2.0637126,
+                "_source": {
+                    "ciks": [
+                        "0001816581"
+                    ],
+                    "period_ending": "2025-06-18",
+                    "file_num": [
+                        "001-39463"
+                    ],
+                    "display_names": [
+                        "Ouster, Inc.  (OUST, OUSTW, OUSTZ)  (CIK 0001816581)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "PRE 14A"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [
+                        "3569"
+                    ],
+                    "form": "PRE 14A",
+                    "adsh": "0001140361-25-014572",
+                    "film_num": [
+                        "25850581"
+                    ],
+                    "biz_locations": [
+                        "San Francisco, CA"
+                    ],
+                    "file_type": "PRE 14A",
+                    "file_description": "PRE 14A",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001145549-25-025348:primary_doc.xml",
+                "_score": 2.023857,
+                "_source": {
+                    "ciks": [
+                        "0001710607"
+                    ],
+                    "period_ending": "2025-02-28",
+                    "file_num": [
+                        "811-23305"
+                    ],
+                    "display_names": [
+                        "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)"
+                    ],
+                    "xsl": "xslFormNPORT-P_X01",
+                    "sequence": 1,
+                    "root_forms": [
+                        "NPORT-P"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "MO"
+                    ],
+                    "sics": [],
+                    "form": "NPORT-P",
+                    "adsh": "0001145549-25-025348",
+                    "film_num": [
+                        "25850974"
+                    ],
+                    "biz_locations": [
+                        "Kansas City, MO"
+                    ],
+                    "file_type": "NPORT-P",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000950170-25-055891:ars_am25_ooma.pdf",
+                "_score": 1.9389997,
+                "_source": {
+                    "ciks": [
+                        "0001327688"
+                    ],
+                    "period_ending": "2025-04-18",
+                    "file_num": [
+                        "001-37493"
+                    ],
+                    "display_names": [
+                        "OOMA INC  (OOMA)  (CIK 0001327688)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "ARS"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [
+                        "7374"
+                    ],
+                    "form": "ARS",
+                    "adsh": "0000950170-25-055891",
+                    "film_num": [
+                        "25850713"
+                    ],
+                    "biz_locations": [
+                        "Sunnyvale, CA"
+                    ],
+                    "file_type": "ARS",
+                    "file_description": "ARS",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000950170-25-055922:ntgr-_2025_ars.pdf",
+                "_score": 1.6017213,
+                "_source": {
+                    "ciks": [
+                        "0001122904"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "000-50350"
+                    ],
+                    "display_names": [
+                        "NETGEAR, INC.  (NTGR)  (CIK 0001122904)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "ARS"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [
+                        "3661"
+                    ],
+                    "form": "ARS",
+                    "adsh": "0000950170-25-055922",
+                    "film_num": [
+                        "25850830"
+                    ],
+                    "biz_locations": [
+                        "San Jose, CA"
+                    ],
+                    "file_type": "ARS",
+                    "file_description": "ARS",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-25-036264:tm252536-10_def14aseq1.htm",
+                "_score": 1.5721827,
+                "_source": {
+                    "ciks": [
+                        "0001798562"
+                    ],
+                    "period_ending": "2025-05-29",
+                    "file_num": [
+                        "001-39281"
+                    ],
+                    "display_names": [
+                        "TMC the metals Co Inc.  (TMC, TMCWW)  (CIK 0001798562)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "DEF 14A"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "A1"
+                    ],
+                    "sics": [
+                        "1000"
+                    ],
+                    "form": "DEF 14A",
+                    "adsh": "0001104659-25-036264",
+                    "film_num": [
+                        "25849505"
+                    ],
+                    "biz_locations": [
+                        "Vancouver, A1"
+                    ],
+                    "file_type": "DEF 14A",
+                    "file_description": "FORM DEF 14A",
+                    "inc_states": [
+                        "A1"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001641172-25-005446:formpre14a.htm",
+                "_score": 1.5565495,
+                "_source": {
+                    "ciks": [
+                        "0001799011"
+                    ],
+                    "period_ending": "2025-04-18",
+                    "file_num": [
+                        "001-40901"
+                    ],
+                    "display_names": [
+                        "Lucid Diagnostics Inc.  (LUCD)  (CIK 0001799011)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "PRE 14A"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NY"
+                    ],
+                    "sics": [
+                        "3841"
+                    ],
+                    "form": "PRE 14A",
+                    "adsh": "0001641172-25-005446",
+                    "film_num": [
+                        "25850849"
+                    ],
+                    "biz_locations": [
+                        "New York, NY"
+                    ],
+                    "file_type": "PRE 14A",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001477932-25-002836:wnlv_10k.htm",
+                "_score": 1.4703331,
+                "_source": {
+                    "ciks": [
+                        "0001558740"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "000-56204"
+                    ],
+                    "display_names": [
+                        "Winvest Group Ltd  (WNLV)  (CIK 0001558740)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NV"
+                    ],
+                    "sics": [
+                        "7812"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0001477932-25-002836",
+                    "film_num": [
+                        "25849174"
+                    ],
+                    "biz_locations": [
+                        "Reno, NV"
+                    ],
+                    "file_type": "10-K",
+                    "file_description": "FORM 10-K",
+                    "inc_states": [
+                        "NV"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001874178-25-000015:rivn-20250418.htm",
+                "_score": 1.3670754,
+                "_source": {
+                    "ciks": [
+                        "0001874178"
+                    ],
+                    "period_ending": "2025-06-18",
+                    "file_num": [
+                        "001-41042"
+                    ],
+                    "display_names": [
+                        "Rivian Automotive, Inc. / DE  (RIVN)  (CIK 0001874178)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "PRE 14A"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "PRE 14A",
+                    "adsh": "0001874178-25-000015",
+                    "film_num": [
+                        "25850771"
+                    ],
+                    "biz_locations": [
+                        "Irvine, CA"
+                    ],
+                    "file_type": "PRE 14A",
+                    "file_description": "PRE 14A",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001193125-25-085763:d924785dars.pdf",
+                "_score": 1.281332,
+                "_source": {
+                    "ciks": [
+                        "0001283699"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-33409"
+                    ],
+                    "display_names": [
+                        "T-Mobile US, Inc.  (TMUS)  (CIK 0001283699)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "ARS"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "WA"
+                    ],
+                    "sics": [
+                        "4812"
+                    ],
+                    "form": "ARS",
+                    "adsh": "0001193125-25-085763",
+                    "film_num": [
+                        "25850508"
+                    ],
+                    "biz_locations": [
+                        "Bellevue, WA"
+                    ],
+                    "file_type": "ARS",
+                    "file_description": "ARS",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001641172-25-005394:forms-1a.htm",
+                "_score": 1.159492,
+                "_source": {
+                    "ciks": [
+                        "0001818274"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-284042"
+                    ],
+                    "display_names": [
+                        "Arrive AI Inc.  (ARAI)  (CIK 0001818274)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "S-1"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "IN"
+                    ],
+                    "sics": [
+                        "7340"
+                    ],
+                    "form": "S-1/A",
+                    "adsh": "0001641172-25-005394",
+                    "film_num": [
+                        "25850319"
+                    ],
+                    "biz_locations": [
+                        "Indianapolis, IN"
+                    ],
+                    "file_type": "S-1/A",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001641172-25-005449:formpre14a.htm",
+                "_score": 1.0743656,
+                "_source": {
+                    "ciks": [
+                        "0001624326"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-37685"
+                    ],
+                    "display_names": [
+                        "PAVmed Inc.  (PAVM, PAVMZ)  (CIK 0001624326)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "PRE 14A"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NY"
+                    ],
+                    "sics": [
+                        "3841"
+                    ],
+                    "form": "PRE 14A",
+                    "adsh": "0001641172-25-005449",
+                    "film_num": [
+                        "25850872"
+                    ],
+                    "biz_locations": [
+                        "New York, NY"
+                    ],
+                    "file_type": "PRE 14A",
+                    "file_description": null,
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000950170-25-055893:ooma-20250418.htm",
+                "_score": 1.0674734,
+                "_source": {
+                    "ciks": [
+                        "0001327688"
+                    ],
+                    "period_ending": "2025-04-18",
+                    "file_num": [
+                        "001-37493"
+                    ],
+                    "display_names": [
+                        "OOMA INC  (OOMA)  (CIK 0001327688)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "DEF 14A"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [
+                        "7374"
+                    ],
+                    "form": "DEF 14A",
+                    "adsh": "0000950170-25-055893",
+                    "film_num": [
+                        "25850722"
+                    ],
+                    "biz_locations": [
+                        "Sunnyvale, CA"
+                    ],
+                    "file_type": "DEF 14A",
+                    "file_description": "DEF 14A",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001641172-25-005354:form10-k.htm",
+                "_score": 1.0567169,
+                "_source": {
+                    "ciks": [
+                        "0001539850"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "000-54892"
+                    ],
+                    "display_names": [
+                        "Starco Brands, Inc.  (STCB)  (CIK 0001539850)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [
+                        "7311"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0001641172-25-005354",
+                    "film_num": [
+                        "25849809"
+                    ],
+                    "biz_locations": [
+                        "Santa Monica, CA"
+                    ],
+                    "file_type": "10-K",
+                    "file_description": null,
+                    "inc_states": [
+                        "NV"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001193125-25-084832:d737521ds1a.htm",
+                "_score": 0.9996505,
+                "_source": {
+                    "ciks": [
+                        "0001876042"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-286310"
+                    ],
+                    "display_names": [
+                        "Circle Internet Group, Inc.  (CIK 0001876042)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "S-1"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NY"
+                    ],
+                    "sics": [
+                        "6199"
+                    ],
+                    "form": "S-1/A",
+                    "adsh": "0001193125-25-084832",
+                    "film_num": [
+                        "25849184"
+                    ],
+                    "biz_locations": [
+                        "New York, NY"
+                    ],
+                    "file_type": "S-1/A",
+                    "file_description": "S-1/A",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001140361-25-014582:ny20044986x3_ars.pdf",
+                "_score": 0.82568693,
+                "_source": {
+                    "ciks": [
+                        "0001841408"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-40161"
+                    ],
+                    "display_names": [
+                        "Dave Inc./DE  (DAVE, DAVEW)  (CIK 0001841408)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "ARS"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "CA"
+                    ],
+                    "sics": [
+                        "6199"
+                    ],
+                    "form": "ARS",
+                    "adsh": "0001140361-25-014582",
+                    "film_num": [
+                        "25850704"
+                    ],
+                    "biz_locations": [
+                        "Los Angeles, CA"
+                    ],
+                    "file_type": "ARS",
+                    "file_description": "ARS",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001579684-25-000023:gannettcoinc_arsx2025.pdf",
+                "_score": 0.75265455,
+                "_source": {
+                    "ciks": [
+                        "0001579684"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-36097"
+                    ],
+                    "display_names": [
+                        "Gannett Co., Inc.  (GCI)  (CIK 0001579684)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "ARS"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NY"
+                    ],
+                    "sics": [
+                        "2711"
+                    ],
+                    "form": "ARS",
+                    "adsh": "0001579684-25-000023",
+                    "film_num": [
+                        "25849258"
+                    ],
+                    "biz_locations": [
+                        "Pittsford, NY"
+                    ],
+                    "file_type": "ARS",
+                    "file_description": "ARS",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001193125-25-085725:d890062dposam.htm",
+                "_score": 0.68369913,
+                "_source": {
+                    "ciks": [
+                        "0001666244"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-273828"
+                    ],
+                    "display_names": [
+                        "Cantor Fitzgerald Income Trust, Inc.  (CIK 0001666244)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "POS AM"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "NY"
+                    ],
+                    "sics": [
+                        "6798"
+                    ],
+                    "form": "POS AM",
+                    "adsh": "0001193125-25-085725",
+                    "film_num": [
+                        "25850358"
+                    ],
+                    "biz_locations": [
+                        "New York, NY"
+                    ],
+                    "file_type": "POS AM",
+                    "file_description": "POS AM",
+                    "inc_states": [
+                        "MD"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001410578-25-000800:sy-20241231x20f.htm",
+                "_score": 0.44025898,
+                "_source": {
+                    "ciks": [
+                        "0001758530"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-38878"
+                    ],
+                    "display_names": [
+                        "So-Young International Inc.  (SY)  (CIK 0001758530)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "20-F"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "F4"
+                    ],
+                    "sics": [
+                        "7374"
+                    ],
+                    "form": "20-F",
+                    "adsh": "0001410578-25-000800",
+                    "film_num": [
+                        "25849208"
+                    ],
+                    "biz_locations": [
+                        "Beijing, F4"
+                    ],
+                    "file_type": "20-F",
+                    "file_description": "20-F",
+                    "inc_states": [
+                        "E9"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000950170-25-055759:feng-20241231.htm",
+                "_score": 0.43912125,
+                "_source": {
+                    "ciks": [
+                        "0001509646"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-35158"
+                    ],
+                    "display_names": [
+                        "Phoenix New Media Ltd  (FENG)  (CIK 0001509646)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "20-F"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "F4"
+                    ],
+                    "sics": [
+                        "4833"
+                    ],
+                    "form": "20-F",
+                    "adsh": "0000950170-25-055759",
+                    "film_num": [
+                        "25849270"
+                    ],
+                    "biz_locations": [
+                        "Beijing, F4"
+                    ],
+                    "file_type": "20-F",
+                    "file_description": "20-F",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000950170-25-055749:lx-20241231.htm",
+                "_score": 0.35923767,
+                "_source": {
+                    "ciks": [
+                        "0001708259"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-38328"
+                    ],
+                    "display_names": [
+                        "LexinFintech Holdings Ltd.  (LX)  (CIK 0001708259)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "20-F"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "F4"
+                    ],
+                    "sics": [
+                        "6199"
+                    ],
+                    "form": "20-F",
+                    "adsh": "0000950170-25-055749",
+                    "film_num": [
+                        "25849222"
+                    ],
+                    "biz_locations": [
+                        "Shenzhen, F4"
+                    ],
+                    "file_type": "20-F",
+                    "file_description": "20-F",
+                    "inc_states": [
+                        "E9"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001410578-25-000806:didi-20241231x20f.htm",
+                "_score": 0.32962894,
+                "_source": {
+                    "ciks": [
+                        "0001764757"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-40541"
+                    ],
+                    "display_names": [
+                        "DiDi Global Inc.  (DIDIY)  (CIK 0001764757)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "20-F"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "F4"
+                    ],
+                    "sics": [
+                        "7389"
+                    ],
+                    "form": "20-F",
+                    "adsh": "0001410578-25-000806",
+                    "film_num": [
+                        "25850825"
+                    ],
+                    "biz_locations": [
+                        "Beijing, F4"
+                    ],
+                    "file_type": "20-F",
+                    "file_description": "20-F",
+                    "inc_states": [
+                        "E9"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001410578-25-000806:didi-20241231x20f.htm",
+                "_score": 0.32962894,
+                "_source": {
+                    "ciks": [
+                        "0001764757"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-40541"
+                    ],
+                    "display_names": [
+                        "DiDi Global Inc.  (DIDIY)  (CIK 0001764757)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "20-F"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "F4"
+                    ],
+                    "sics": [
+                        "7389"
+                    ],
+                    "form": "20-F",
+                    "adsh": "0001410578-25-000806",
+                    "film_num": [
+                        "25850825"
+                    ],
+                    "biz_locations": [
+                        "Beijing, F4"
+                    ],
+                    "file_type": "20-F",
+                    "file_description": "20-F",
+                    "inc_states": [
+                        "E9"
+                    ],
+                    "items": []
+                }
+            }
+        ]
+    },
+    "aggregations": {
+        "entity_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 50,
+            "buckets": [
+                {
+                    "key": "AMERICAN CENTURY ETF TRUST  (CIK 0001710607)",
+                    "doc_count": 15
+                },
+                {
+                    "key": "BANK OF AMERICA CORP /DE/  (CIK 0000070858)",
+                    "doc_count": 3
+                },
+                {
+                    "key": "BofA Finance LLC  (CIK 0001682472)",
+                    "doc_count": 3
+                },
+                {
+                    "key": "Gannett Co., Inc.  (GCI)  (CIK 0001579684)",
+                    "doc_count": 2
+                },
+                {
+                    "key": "Greenbush Financial Group, LLC  (CIK 0002061818)",
+                    "doc_count": 2
+                },
+                {
+                    "key": "Mezzasalma Advisors, LLC  (CIK 0001864916)",
+                    "doc_count": 2
+                },
+                {
+                    "key": "OOMA INC  (OOMA)  (CIK 0001327688)",
+                    "doc_count": 2
+                },
+                {
+                    "key": "Arrive AI Inc.  (ARAI)  (CIK 0001818274)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "BANK OF MONTREAL /CAN/  (BMO, BERZ, BNKD, BNKU, BULZ, CARD, CARU, DULL, FLYD, FLYU, FNGA, FNGB, FNGD, FNGO, FNGS, GDXD, GDXU)  (CIK 0000927971)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "BARCLAYS BANK PLC  (DJP, GRN, VXX, VXZ, ATMP, GBUG, TAPR, BWVTF, COWTF, JJCTF, JJETF, JJGTF, PGMFF)  (CIK 0000312070)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "BENDER ROBERT & ASSOCIATES  (CIK 0000894300)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "BFSG, LLC  (CIK 0001706836)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Bell Bank  (CIK 0001002672)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Birch Hill Investment Advisors LLC  (CIK 0001424177)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Boomfish Wealth Group, LLC  (CIK 0002010786)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Broderick Brian C  (CIK 0001314376)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "CAPITAL WEALTH MANAGEMENT, LLC  (CIK 0001730456)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "CENTRAL TRUST Co  (CIK 0000044365)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "CULTIVAR CAPITAL, INC.  (CIK 0001989476)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Cantor Fitzgerald Income Trust, Inc.  (CIK 0001666244)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Cardinal Capital Management  (CIK 0001434845)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Circle Internet Group, Inc.  (CIK 0001876042)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Clarius Group, LLC  (CIK 0001664214)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Clayton Financial Group LLC  (CIK 0002011212)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Colorado Capital Management, Inc.  (CIK 0001664147)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Cornerstone Wealth Management, LLC  (CIK 0001674117)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Creative Capital Management Investments LLC  (CIK 0001957363)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Crown Oak Advisors, LLC  (CIK 0002009273)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "Cushing Capital Partners, LLC  (CIK 0002054827)",
+                    "doc_count": 1
+                },
+                {
+                    "key": "DHJJ Financial Advisors, Ltd.  (CIK 0001844716)",
+                    "doc_count": 1
+                }
+            ]
+        },
+        "sic_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+                {
+                    "key": "6021",
+                    "doc_count": 3
+                },
+                {
+                    "key": "6199",
+                    "doc_count": 3
+                },
+                {
+                    "key": "7374",
+                    "doc_count": 3
+                },
+                {
+                    "key": "2711",
+                    "doc_count": 2
+                },
+                {
+                    "key": "3841",
+                    "doc_count": 2
+                },
+                {
+                    "key": "6029",
+                    "doc_count": 2
+                },
+                {
+                    "key": "7372",
+                    "doc_count": 2
+                },
+                {
+                    "key": "1000",
+                    "doc_count": 1
+                },
+                {
+                    "key": "3569",
+                    "doc_count": 1
+                },
+                {
+                    "key": "3661",
+                    "doc_count": 1
+                },
+                {
+                    "key": "3711",
+                    "doc_count": 1
+                },
+                {
+                    "key": "4812",
+                    "doc_count": 1
+                },
+                {
+                    "key": "4833",
+                    "doc_count": 1
+                },
+                {
+                    "key": "6798",
+                    "doc_count": 1
+                },
+                {
+                    "key": "7310",
+                    "doc_count": 1
+                },
+                {
+                    "key": "7311",
+                    "doc_count": 1
+                },
+                {
+                    "key": "7340",
+                    "doc_count": 1
+                },
+                {
+                    "key": "7389",
+                    "doc_count": 1
+                },
+                {
+                    "key": "7812",
+                    "doc_count": 1
+                }
+            ]
+        },
+        "biz_states_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 1,
+            "buckets": [
+                {
+                    "key": "CA",
+                    "doc_count": 19
+                },
+                {
+                    "key": "MO",
+                    "doc_count": 18
+                },
+                {
+                    "key": "NY",
+                    "doc_count": 8
+                },
+                {
+                    "key": "IL",
+                    "doc_count": 5
+                },
+                {
+                    "key": "F4",
+                    "doc_count": 4
+                },
+                {
+                    "key": "NC",
+                    "doc_count": 4
+                },
+                {
+                    "key": "TX",
+                    "doc_count": 4
+                },
+                {
+                    "key": "WA",
+                    "doc_count": 4
+                },
+                {
+                    "key": "TN",
+                    "doc_count": 3
+                },
+                {
+                    "key": "FL",
+                    "doc_count": 2
+                },
+                {
+                    "key": "IN",
+                    "doc_count": 2
+                },
+                {
+                    "key": "MA",
+                    "doc_count": 2
+                },
+                {
+                    "key": "NH",
+                    "doc_count": 2
+                },
+                {
+                    "key": "NJ",
+                    "doc_count": 2
+                },
+                {
+                    "key": "OH",
+                    "doc_count": 2
+                },
+                {
+                    "key": "VA",
+                    "doc_count": 2
+                },
+                {
+                    "key": "A1",
+                    "doc_count": 1
+                },
+                {
+                    "key": "A6",
+                    "doc_count": 1
+                },
+                {
+                    "key": "AL",
+                    "doc_count": 1
+                },
+                {
+                    "key": "CO",
+                    "doc_count": 1
+                },
+                {
+                    "key": "CT",
+                    "doc_count": 1
+                },
+                {
+                    "key": "GA",
+                    "doc_count": 1
+                },
+                {
+                    "key": "M0",
+                    "doc_count": 1
+                },
+                {
+                    "key": "MN",
+                    "doc_count": 1
+                },
+                {
+                    "key": "ND",
+                    "doc_count": 1
+                },
+                {
+                    "key": "NV",
+                    "doc_count": 1
+                },
+                {
+                    "key": "R9",
+                    "doc_count": 1
+                },
+                {
+                    "key": "RI",
+                    "doc_count": 1
+                },
+                {
+                    "key": "SC",
+                    "doc_count": 1
+                },
+                {
+                    "key": "WI",
+                    "doc_count": 1
+                }
+            ]
+        },
+        "form_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+                {
+                    "key": "13F-HR",
+                    "doc_count": 53
+                },
+                {
+                    "key": "NPORT-P",
+                    "doc_count": 15
+                },
+                {
+                    "key": "ARS",
+                    "doc_count": 6
+                },
+                {
+                    "key": "424B2",
+                    "doc_count": 5
+                },
+                {
+                    "key": "PRE 14A",
+                    "doc_count": 5
+                },
+                {
+                    "key": "20-F",
+                    "doc_count": 4
+                },
+                {
+                    "key": "DEF 14A",
+                    "doc_count": 3
+                },
+                {
+                    "key": "S-1",
+                    "doc_count": 3
+                },
+                {
+                    "key": "10-K",
+                    "doc_count": 2
+                },
+                {
+                    "key": "497",
+                    "doc_count": 1
+                },
+                {
+                    "key": "DEFA14A",
+                    "doc_count": 1
+                },
+                {
+                    "key": "POS AM",
+                    "doc_count": 1
+                }
+            ]
+        }
+    },
+    "query": {
+        "_source": {
+            "exclude": [
+                "doc_text"
+            ]
+        },
+        "query": {
+            "bool": {
+                "must": [
+                    {
+                        "match_phrase": {
+                            "doc_text": "apple"
+                        }
+                    }
+                ],
+                "must_not": [],
+                "should": [],
+                "filter": [
+                    {
+                        "range": {
+                            "file_date": {
+                                "gte": "2025-04-18",
+                                "lte": "2025-04-18"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "from": 0,
+        "size": 100,
+        "aggregations": {
+            "form_filter": {
+                "terms": {
+                    "field": "root_forms",
+                    "size": 30
+                }
+            },
+            "entity_filter": {
+                "terms": {
+                    "field": "display_names.raw",
+                    "size": 30
+                }
+            },
+            "sic_filter": {
+                "terms": {
+                    "field": "sics",
+                    "size": 30
+                }
+            },
+            "biz_states_filter": {
+                "terms": {
+                    "field": "biz_states",
+                    "size": 30
+                }
+            }
+        }
+    }
+}

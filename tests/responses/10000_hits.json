@@ -1,0 +1,5122 @@
+{
+    "took": 87,
+    "timed_out": false,
+    "_shards": {
+        "total": 50,
+        "successful": 50,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 10000,
+            "relation": "gte"
+        },
+        "max_score": 8.800533,
+        "hits": [
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-22-000039:fmcc03312022ex10.htm",
+                "_score": 8.800533,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2022-03-31",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "10-Q"
+                    ],
+                    "file_date": "2022-04-28",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "10-Q",
+                    "adsh": "0000038009-22-000039",
+                    "film_num": [
+                        "22861496"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-10",
+                    "file_description": "EX-10",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-23-000044:exhibit99tojuly272023for.htm",
+                "_score": 8.798843,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2023-07-27",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-07-27",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-23-000044",
+                    "film_num": [
+                        "231118512"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000015:march2exhibit99.htm",
+                "_score": 8.797731,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-03-02",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-03-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000015",
+                    "film_num": [
+                        "22701341"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-24-000009:f12312023exhibit21.htm",
+                "_score": 8.792729,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-12-31",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 10,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2024-02-07",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0000037996-24-000009",
+                    "film_num": [
+                        "24601728"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-21",
+                    "file_description": "EX-21",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-23-000058:exhibit99toforddateddece.htm",
+                "_score": 8.792595,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2023-12-15",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-12-15",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-23-000058",
+                    "film_num": [
+                        "231488956"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-21-000040:fmcc03312021ex10.htm",
+                "_score": 8.789286,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2021-03-31",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 7,
+                    "root_forms": [
+                        "10-Q"
+                    ],
+                    "file_date": "2021-04-29",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "10-Q",
+                    "adsh": "0000038009-21-000040",
+                    "film_num": [
+                        "21866305"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-10",
+                    "file_description": "EX-10",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-21-000037:a52621newfordprovehicles.htm",
+                "_score": 8.782324,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2021-05-26",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-05-26",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-21-000037",
+                    "film_num": [
+                        "21966090"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000072:exhibit99tooctober262022.htm",
+                "_score": 8.782103,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-10-26",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-10-26",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000072",
+                    "film_num": [
+                        "221333388"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-22-000002:exhibit99december2021sal.htm",
+                "_score": 8.77856,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2022-01-05",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-01-05",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-22-000002",
+                    "film_num": [
+                        "22509582"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-24-000074:exhibit99toapril242024fo.htm",
+                "_score": 8.775276,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2024-04-24",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-04-24",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-24-000074",
+                    "film_num": [
+                        "24870607"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-21-000085:exhibit99tooctober272021.htm",
+                "_score": 8.772015,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2021-10-27",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-10-27",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-21-000085",
+                    "film_num": [
+                        "211352920"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-23-000012:exhibit99tofordfebruary2.htm",
+                "_score": 8.771492,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2023-02-02",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-02-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-23-000012",
+                    "film_num": [
+                        "23581039"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000089:exhibit99tonovember30202.htm",
+                "_score": 8.770674,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-11-30",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-11-30",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000089",
+                    "film_num": [
+                        "231453940"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000066:exhibit99tooctober262023.htm",
+                "_score": 8.770532,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-10-26",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-10-26",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000066",
+                    "film_num": [
+                        "231350236"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-25-000011:exhibit99tofebruary52025.htm",
+                "_score": 8.769832,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2025-02-05",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": "2",
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2025-02-05",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-25-000011",
+                    "film_num": [
+                        "25593329"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000057:exhibit991toseptember292.htm",
+                "_score": 8.769342,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-09-29",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-09-29",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000057",
+                    "film_num": [
+                        "231294022"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99.1",
+                    "file_description": "EX-99.1",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-23-000041:exhibit99tojuly62023ford.htm",
+                "_score": 8.769276,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2023-07-06",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-07-06",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-23-000041",
+                    "film_num": [
+                        "231072257"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000021:exhibit99tomarch2320238-.htm",
+                "_score": 8.768311,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-03-23",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-03-23",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000021",
+                    "film_num": [
+                        "23754431"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000014:exhibit99tofebruary13202.htm",
+                "_score": 8.767966,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-02-13",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-02-13",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000014",
+                    "film_num": [
+                        "23616784"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000059:exhibit99q32023salesrele.htm",
+                "_score": 8.766669,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-10-04",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-10-04",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000059",
+                    "film_num": [
+                        "231306697"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000002:exhibit99december2021sal.htm",
+                "_score": 8.766317,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-01-05",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-01-05",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000002",
+                    "film_num": [
+                        "22509579"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000061:exhibit99toforddatedoct1.htm",
+                "_score": 8.7655945,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-10-12",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-10-18",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000061",
+                    "film_num": [
+                        "231330944"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "5.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-21-000012:f12312020exhibit21.htm",
+                "_score": 8.764075,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2020-12-31",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 4,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2021-02-05",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0000037996-21-000012",
+                    "film_num": [
+                        "21592712"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-21",
+                    "file_description": "EXHIBIT 21",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-21-000038:exhibit99toapril282021fm.htm",
+                "_score": 8.763757,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2021-04-28",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-04-28",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-21-000038",
+                    "film_num": [
+                        "21864817"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001279569-21-000395:ex1020.htm",
+                "_score": 8.763126,
+                "_source": {
+                    "ciks": [
+                        "0001643154"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "000-56228"
+                    ],
+                    "display_names": [
+                        "iANTHUS CAPITAL HOLDINGS, INC.  (ITHUF)  (CIK 0001643154)"
+                    ],
+                    "xsl": null,
+                    "sequence": 3,
+                    "root_forms": [
+                        "10-12G"
+                    ],
+                    "file_date": "2021-03-31",
+                    "biz_states": [
+                        "A1"
+                    ],
+                    "sics": [
+                        "0100"
+                    ],
+                    "form": "10-12G/A",
+                    "adsh": "0001279569-21-000395",
+                    "film_num": [
+                        "21794559"
+                    ],
+                    "biz_locations": [
+                        "Vancouver, A1"
+                    ],
+                    "file_type": "EX-10.20",
+                    "file_description": "SETTLEMENT AND RELEASE AGREEMENT WITH HADLEY FORD",
+                    "inc_states": [
+                        "A1"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-24-000008:exhibit99tofordfebruary6.htm",
+                "_score": 8.762019,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2024-02-06",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-02-06",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-24-000008",
+                    "film_num": [
+                        "24600305"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000012:f12312022exhibit21.htm",
+                "_score": 8.761101,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-12-31",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 4,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2023-02-03",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0000037996-23-000012",
+                    "film_num": [
+                        "23583157"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-21",
+                    "file_description": "EX-21",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-21-000071:exhibit99june2021salespr.htm",
+                "_score": 8.761101,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2021-07-02",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-07-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-21-000071",
+                    "film_num": [
+                        "211068256"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-21-000050:exhibit99june2021salespr.htm",
+                "_score": 8.761101,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2021-07-02",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-07-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-21-000050",
+                    "film_num": [
+                        "211068193"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-24-000174:exhibit99toseptember1220.htm",
+                "_score": 8.760542,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2024-09-12",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-09-12",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-24-000174",
+                    "film_num": [
+                        "241293944"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-21-000046:exhibit99.htm",
+                "_score": 8.75896,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2021-06-17",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-06-17",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-21-000046",
+                    "film_num": [
+                        "211023427"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000034:exhibit99tomay2220238-k.htm",
+                "_score": 8.75817,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-05-22",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-05-22",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000034",
+                    "film_num": [
+                        "23942325"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-25-000006:exhibit99tofebruary52025.htm",
+                "_score": 8.757877,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2025-02-05",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": "2",
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2025-02-05",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-25-000006",
+                    "film_num": [
+                        "25593497"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-21-000074:exhibit99tojuly282021for.htm",
+                "_score": 8.755203,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2021-07-28",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-07-28",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-21-000074",
+                    "film_num": [
+                        "211122740"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-23-000050:exhibit99tooctober262023.htm",
+                "_score": 8.754059,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2023-10-26",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-10-26",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-23-000050",
+                    "film_num": [
+                        "231350306"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000029:f-20230331.htm",
+                "_score": 8.753415,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-03-31",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "10-Q"
+                    ],
+                    "file_date": "2023-05-03",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "10-Q",
+                    "adsh": "0000037996-23-000029",
+                    "film_num": [
+                        "23881118"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "10-Q",
+                    "file_description": "10-Q",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000064:exhibit99toseptember1920.htm",
+                "_score": 8.753234,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-09-19",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-09-19",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000064",
+                    "film_num": [
+                        "221250860"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-21-000122:fmccex99tooctober272021f.htm",
+                "_score": 8.751812,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2021-10-27",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-10-27",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-21-000122",
+                    "film_num": [
+                        "211353016"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-22-000010:exhibit99tofebruary32022.htm",
+                "_score": 8.751568,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2022-02-03",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-02-03",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-22-000010",
+                    "film_num": [
+                        "22588475"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-20-000055:exhibit99tojuly302020for.htm",
+                "_score": 8.751132,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2020-07-30",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2020-07-31",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-20-000055",
+                    "film_num": [
+                        "201062652"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EXHIBIT 99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-24-000032:exhibit99toapril242024fo.htm",
+                "_score": 8.750976,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2024-04-24",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-04-24",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-24-000032",
+                    "film_num": [
+                        "24870646"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-21-000035:exhibit99tomay262021ford.htm",
+                "_score": 8.750676,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2021-05-26",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-05-26",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-21-000035",
+                    "film_num": [
+                        "21962769"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000047:exhibit99tojuly272022for.htm",
+                "_score": 8.750273,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-07-27",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-07-27",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000047",
+                    "film_num": [
+                        "221111108"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000048:f-20220630.htm",
+                "_score": 8.749483,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-06-30",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "10-Q"
+                    ],
+                    "file_date": "2022-07-28",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "10-Q",
+                    "adsh": "0000037996-22-000048",
+                    "film_num": [
+                        "221112254"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "10-Q",
+                    "file_description": "10-Q",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-24-000014:exhibit99tofordfebruary6.htm",
+                "_score": 8.749432,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2024-02-06",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-02-06",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-24-000014",
+                    "film_num": [
+                        "24600368"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-24-000016:fmcc-20231231.htm",
+                "_score": 8.749298,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2023-12-31",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2024-02-07",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0000038009-24-000016",
+                    "film_num": [
+                        "24601732"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "10-K",
+                    "file_description": "10-K",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000028:exhibit99tomay22023ford8.htm",
+                "_score": 8.749056,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-05-02",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-05-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000028",
+                    "film_num": [
+                        "23878942"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000116:exhibit99toforddateddece.htm",
+                "_score": 8.748612,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-12-15",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-12-15",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000116",
+                    "film_num": [
+                        "231488954"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "5.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-20-072368:a20-22123_1424h.htm",
+                "_score": 8.747757,
+                "_source": {
+                    "ciks": [
+                        "0001129987",
+                        "0001813722"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-225949",
+                        "333-225949-06"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)",
+                        "Ford Credit Auto Owner Trust 2020-B  (CIK 0001813722)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424H"
+                    ],
+                    "file_date": "2020-06-11",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424H",
+                    "adsh": "0001104659-20-072368",
+                    "film_num": [
+                        "20956990",
+                        "20956991"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424H",
+                    "file_description": "424H",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-22-000148:exhibit99tooctober262022.htm",
+                "_score": 8.747602,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2022-10-26",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-10-26",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-22-000148",
+                    "film_num": [
+                        "221333450"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-25-015559:tm2430777-1_s3asr.htm",
+                "_score": 8.747413,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-285084"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "S-3ASR"
+                    ],
+                    "file_date": "2025-02-20",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "S-3ASR",
+                    "adsh": "0001104659-25-015559",
+                    "film_num": [
+                        "25644350"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "S-3ASR",
+                    "file_description": "S-3ASR",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-21-000014:exhibit99tofeb42021fordc.htm",
+                "_score": 8.747298,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2021-02-04",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-02-04",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-21-000014",
+                    "film_num": [
+                        "21592261"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000013:f12312021exhibit21.htm",
+                "_score": 8.746333,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2021-12-31",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 14,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2022-02-04",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0000037996-22-000013",
+                    "film_num": [
+                        "22590112"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-21",
+                    "file_description": "EX-21",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-22-032866:tm223271-1_s3asr.htm",
+                "_score": 8.746114,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-263478"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "S-3ASR"
+                    ],
+                    "file_date": "2022-03-11",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "S-3ASR",
+                    "adsh": "0001104659-22-032866",
+                    "film_num": [
+                        "22732999"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "S-3ASR",
+                    "file_description": "S-3ASR",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000012:exhibit99tofebruary32022.htm",
+                "_score": 8.746013,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-02-03",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-02-03",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000012",
+                    "film_num": [
+                        "22588354"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-24-000043:exhibit99tojuly242024for.htm",
+                "_score": 8.745875,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2024-07-24",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-07-24",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-24-000043",
+                    "film_num": [
+                        "241138198"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001213900-22-015093:s135931_ex33-2.htm",
+                "_score": 8.745559,
+                "_source": {
+                    "ciks": [
+                        "0001760283"
+                    ],
+                    "period_ending": "2021-12-31",
+                    "file_num": [
+                        "333-220233-05"
+                    ],
+                    "display_names": [
+                        "GM Financial Consumer Automobile Receivables Trust 2019-1  (CIK 0001760283)"
+                    ],
+                    "xsl": null,
+                    "sequence": 4,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2022-03-25",
+                    "biz_states": [
+                        "NV"
+                    ],
+                    "sics": [
+                        "6189"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0001213900-22-015093",
+                    "film_num": [
+                        "22769658"
+                    ],
+                    "biz_locations": [
+                        "Las Vegas, NV"
+                    ],
+                    "file_type": "EX-33.2",
+                    "file_description": "EXHIBIT 33.2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-20-000056:exhibit99tojuly302020for.htm",
+                "_score": 8.744915,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2020-07-27",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 4,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2020-07-31",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-20-000056",
+                    "film_num": [
+                        "201062524"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EXHIBIT 99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "1.01",
+                        "2.02",
+                        "2.03",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-24-000180:exhibit99q32024salesrele.htm",
+                "_score": 8.744398,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2024-10-02",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": "2",
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-10-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-24-000180",
+                    "film_num": [
+                        "241345466"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-20-106000:a20-30516_15424b2.htm",
+                "_score": 8.74421,
+                "_source": {
+                    "ciks": [
+                        "0001159408",
+                        "0000872471",
+                        "0001061198"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-227766",
+                        "333-227766-01",
+                        "333-227766-02"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT FLOORPLAN MASTER OWNER TRUST A  (CIK 0001159408)",
+                        "Ford Credit Floorplan Corp  (CIK 0000872471)",
+                        "FORD CREDIT FLOORPLAN LLC  (CIK 0001061198)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2020-09-17",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001104659-20-106000",
+                    "film_num": [
+                        "201180441",
+                        "201180439",
+                        "201180440"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "424B2",
+                    "inc_states": [
+                        "DE",
+                        "DE",
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-24-000054:exhibit99tooctober282024.htm",
+                "_score": 8.744055,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2024-10-28",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": "2",
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-10-28",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-24-000054",
+                    "film_num": [
+                        "241400971"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000050:exhibit99july2022salesre.htm",
+                "_score": 8.74337,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-08-03",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-08-03",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000050",
+                    "film_num": [
+                        "221131134"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000044:exhibit99-pressrelease.htm",
+                "_score": 8.742791,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-07-21",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-07-21",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000044",
+                    "film_num": [
+                        "221095576"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-20-103880:a20-30516_11fwp.htm",
+                "_score": 8.742664,
+                "_source": {
+                    "ciks": [
+                        "0001159408"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-227766"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT FLOORPLAN MASTER OWNER TRUST A  (CIK 0001159408)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "FWP"
+                    ],
+                    "file_date": "2020-09-10",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189"
+                    ],
+                    "form": "FWP",
+                    "adsh": "0001104659-20-103880",
+                    "film_num": [
+                        "201168364"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "FWP",
+                    "file_description": "FWP",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-21-020524:a21-5856_1424h.htm",
+                "_score": 8.742491,
+                "_source": {
+                    "ciks": [
+                        "0001129987",
+                        "0001843634"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-225949",
+                        "333-225949-08"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)",
+                        "Ford Credit Auto Owner Trust 2021-A  (CIK 0001843634)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424H"
+                    ],
+                    "file_date": "2021-02-11",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424H",
+                    "adsh": "0001104659-21-020524",
+                    "film_num": [
+                        "21618266",
+                        "21618265"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424H",
+                    "file_description": "424H",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-23-000038:exhibit99tomay22023ford8.htm",
+                "_score": 8.741427,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2023-05-02",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-05-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-23-000038",
+                    "film_num": [
+                        "23879049"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-25-000013:f12312024exhibit21.htm",
+                "_score": 8.741378,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": "5",
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2025-02-06",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0000037996-25-000013",
+                    "film_num": [
+                        "25595116"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-21",
+                    "file_description": "EX-21",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-23-119936:tm2330166d6_424b2.htm",
+                "_score": 8.741339,
+                "_source": {
+                    "ciks": [
+                        "0001129987",
+                        "0001998559"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-258040",
+                        "333-258040-07"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)",
+                        "Ford Credit Auto Owner Trust 2023-C  (CIK 0001998559)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2023-11-20",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001104659-23-119936",
+                    "film_num": [
+                        "231423130",
+                        "231423131"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "424B2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-22-000119:exhibit99august2022sales.htm",
+                "_score": 8.741131,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2022-09-02",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-09-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-22-000119",
+                    "film_num": [
+                        "221223381"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001213900-22-015102:s135939_ex33-2.htm",
+                "_score": 8.7410555,
+                "_source": {
+                    "ciks": [
+                        "0001834699"
+                    ],
+                    "period_ending": "2021-12-31",
+                    "file_num": [
+                        "333-249515-01"
+                    ],
+                    "display_names": [
+                        "GM Financial Consumer Automobile Receivables Trust 2021-1  (CIK 0001834699)"
+                    ],
+                    "xsl": null,
+                    "sequence": 4,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2022-03-25",
+                    "biz_states": [
+                        "TX"
+                    ],
+                    "sics": [
+                        "6189"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0001213900-22-015102",
+                    "film_num": [
+                        "22769710"
+                    ],
+                    "biz_locations": [
+                        "Fort Worth, TX"
+                    ],
+                    "file_type": "EX-33.2",
+                    "file_description": "EXHIBIT 33.2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-22-000033:exhibit99march2022salesr.htm",
+                "_score": 8.74098,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2022-04-04",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-04-04",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-22-000033",
+                    "film_num": [
+                        "22800574"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-20-055923:a20-12171_1424h.htm",
+                "_score": 8.740774,
+                "_source": {
+                    "ciks": [
+                        "0001129987",
+                        "0001803935"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-225949",
+                        "333-225949-05"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)",
+                        "Ford Credit Auto Owner Trust 2020-A  (CIK 0001803935)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424H"
+                    ],
+                    "file_date": "2020-05-04",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424H",
+                    "adsh": "0001104659-20-055923",
+                    "film_num": [
+                        "20842934",
+                        "20842933"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424H",
+                    "file_description": "424H",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-22-000093:exhibit99tojuly272022for.htm",
+                "_score": 8.7403145,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2022-07-27",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-07-27",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-22-000093",
+                    "film_num": [
+                        "221111158"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-24-000143:exhibit99tojuly242024for.htm",
+                "_score": 8.740085,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2024-07-24",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-07-24",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-24-000143",
+                    "film_num": [
+                        "241138146"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-21-134063:tm2131642d1_fwp.htm",
+                "_score": 8.740038,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-236450"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "FWP"
+                    ],
+                    "file_date": "2021-11-04",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "FWP",
+                    "adsh": "0001104659-21-134063",
+                    "film_num": [
+                        "211378219"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "FWP",
+                    "file_description": "FWP",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-24-000150:exhibit99toaugust2120248.htm",
+                "_score": 8.739853,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2024-08-19",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-08-21",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-24-000150",
+                    "film_num": [
+                        "241227239"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.06",
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-24-035482:tm248203d6_424b2.htm",
+                "_score": 8.739602,
+                "_source": {
+                    "ciks": [
+                        "0001129987",
+                        "0002014176"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-258040",
+                        "333-258040-08"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)",
+                        "Ford Credit Auto Owner Trust 2024-A  (CIK 0002014176)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2024-03-18",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001104659-24-035482",
+                    "film_num": [
+                        "24758774",
+                        "24758775"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "424B2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-22-071732:tm2218349d1_424h.htm",
+                "_score": 8.739467,
+                "_source": {
+                    "ciks": [
+                        "0001129987",
+                        "0001931934"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-258040",
+                        "333-258040-02"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)",
+                        "Ford Credit Auto Owner Trust 2022-B  (CIK 0001931934)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424H"
+                    ],
+                    "file_date": "2022-06-16",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424H",
+                    "adsh": "0001104659-22-071732",
+                    "film_num": [
+                        "221019661",
+                        "221019662"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424H",
+                    "file_description": "424H",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001213900-22-015073:s135915_ex33-2.htm",
+                "_score": 8.738142,
+                "_source": {
+                    "ciks": [
+                        "0001774379"
+                    ],
+                    "period_ending": "2021-12-31",
+                    "file_num": [
+                        "333-228632-02"
+                    ],
+                    "display_names": [
+                        "AmeriCredit Automobile Receivables Trust 2019-2  (CIK 0001774379)"
+                    ],
+                    "xsl": null,
+                    "sequence": 4,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2022-03-25",
+                    "biz_states": [
+                        "TX"
+                    ],
+                    "sics": [
+                        "6189"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0001213900-22-015073",
+                    "film_num": [
+                        "22769523"
+                    ],
+                    "biz_locations": [
+                        "Fort Worth, TX"
+                    ],
+                    "file_type": "EX-33.2",
+                    "file_description": "EXHIBIT 33.2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-22-000038:exhibit99toapril272022fo.htm",
+                "_score": 8.737953,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2022-04-27",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-04-27",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-22-000038",
+                    "film_num": [
+                        "22859714"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-21-000057:exhibit99tojuly282021for.htm",
+                "_score": 8.737903,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2021-07-28",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-07-28",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-21-000057",
+                    "film_num": [
+                        "211122626"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000023:exhibit99toapril272022fo.htm",
+                "_score": 8.737653,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-04-27",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-04-27",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000023",
+                    "film_num": [
+                        "22859602"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "2.02",
+                        "7.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001213900-22-015081:s135922_ex33-2.htm",
+                "_score": 8.737102,
+                "_source": {
+                    "ciks": [
+                        "0001888143"
+                    ],
+                    "period_ending": "2021-12-31",
+                    "file_num": [
+                        "333-228632-09"
+                    ],
+                    "display_names": [
+                        "AmeriCredit Automobile Receivables Trust 2021-3  (CIK 0001888143)"
+                    ],
+                    "xsl": null,
+                    "sequence": 4,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2022-03-25",
+                    "biz_states": [
+                        "TX"
+                    ],
+                    "sics": [
+                        "6189"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0001213900-22-015081",
+                    "film_num": [
+                        "22769566"
+                    ],
+                    "biz_locations": [
+                        "Fort Worth, TX"
+                    ],
+                    "file_type": "EX-33.2",
+                    "file_description": "EXHIBIT 33.2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-24-000144:f-20240630.htm",
+                "_score": 8.737082,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2024-06-30",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "10-Q"
+                    ],
+                    "file_date": "2024-07-25",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "10-Q",
+                    "adsh": "0000037996-24-000144",
+                    "film_num": [
+                        "241139338"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "10-Q",
+                    "file_description": "10-Q",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001213900-22-015094:s135932_ex33-2.htm",
+                "_score": 8.736988,
+                "_source": {
+                    "ciks": [
+                        "0001769174"
+                    ],
+                    "period_ending": "2021-12-31",
+                    "file_num": [
+                        "333-220233-06"
+                    ],
+                    "display_names": [
+                        "GM Financial Consumer Automobile Receivables Trust 2019-2  (CIK 0001769174)"
+                    ],
+                    "xsl": null,
+                    "sequence": 4,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2022-03-25",
+                    "biz_states": [
+                        "TX"
+                    ],
+                    "sics": [
+                        "6189"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0001213900-22-015094",
+                    "film_num": [
+                        "22769661"
+                    ],
+                    "biz_locations": [
+                        "Fort Worth, TX"
+                    ],
+                    "file_type": "EX-33.2",
+                    "file_description": "EXHIBIT 33.2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-21-000015:fmcc-20201231.htm",
+                "_score": 8.736009,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2020-12-31",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "10-K"
+                    ],
+                    "file_date": "2021-02-05",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "10-K",
+                    "adsh": "0000038009-21-000015",
+                    "film_num": [
+                        "21592752"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "10-K",
+                    "file_description": "10-K",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-21-000097:exhibit99november2021sal.htm",
+                "_score": 8.735876,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2021-12-02",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-12-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-21-000097",
+                    "film_num": [
+                        "211465113"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-21-113378:a21-22463_1sf3a.htm",
+                "_score": 8.7349,
+                "_source": {
+                    "ciks": [
+                        "0001129987"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-258040"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "SF-3"
+                    ],
+                    "file_date": "2021-09-07",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189"
+                    ],
+                    "form": "SF-3/A",
+                    "adsh": "0001104659-21-113378",
+                    "film_num": [
+                        "211239212"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "SF-3/A",
+                    "file_description": "SF-3/A",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-23-000042:exhibit99tojuly62023ford.htm",
+                "_score": 8.734647,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2023-07-06",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2023-07-06",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-23-000042",
+                    "film_num": [
+                        "231072254"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-20-103883:a20-30516_13fwp.htm",
+                "_score": 8.734035,
+                "_source": {
+                    "ciks": [
+                        "0001061198"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-227766-02"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT FLOORPLAN LLC  (CIK 0001061198)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "FWP"
+                    ],
+                    "file_date": "2020-09-10",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189"
+                    ],
+                    "form": "FWP",
+                    "adsh": "0001104659-20-103883",
+                    "film_num": [
+                        "201168370"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "FWP",
+                    "file_description": "FWP",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-21-000014:exhibit99march122021pres.htm",
+                "_score": 8.733698,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2021-03-11",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-03-12",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-21-000014",
+                    "film_num": [
+                        "21736443"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "5.02",
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001096906-24-000663:ncppr_px14a6g.htm",
+                "_score": 8.733345,
+                "_source": {
+                    "ciks": [
+                        "0000037996",
+                        "0001966397"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)",
+                        "National Center for Public Policy Research, Inc.  (CIK 0001966397)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "PX14A6G"
+                    ],
+                    "file_date": "2024-03-29",
+                    "biz_states": [
+                        "MI",
+                        "DC"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "PX14A6G",
+                    "adsh": "0001096906-24-000663",
+                    "film_num": [
+                        "24801012"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Washington, DC"
+                    ],
+                    "file_type": "PX14A6G",
+                    "file_description": "NATIONAL CENTER FOR PUBLIC POLICY RESEARCH -PX14A6G",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-21-025722:a21-5856_6424b2.htm",
+                "_score": 8.733253,
+                "_source": {
+                    "ciks": [
+                        "0001129987",
+                        "0001843634"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-225949",
+                        "333-225949-08"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)",
+                        "Ford Credit Auto Owner Trust 2021-A  (CIK 0001843634)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2021-02-19",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001104659-21-025722",
+                    "film_num": [
+                        "21655030",
+                        "21655031"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "424B2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-22-006406:a22-2584_6424b2.htm",
+                "_score": 8.7327175,
+                "_source": {
+                    "ciks": [
+                        "0001129987",
+                        "0001900656"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-258040",
+                        "333-258040-01"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)",
+                        "Ford Credit Auto Owner Trust 2022-A  (CIK 0001900656)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2022-01-21",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001104659-22-006406",
+                    "film_num": [
+                        "22545460",
+                        "22545461"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "424B2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-23-094461:tm2318848-1_s3asr.htm",
+                "_score": 8.732162,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-274164"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "S-3ASR"
+                    ],
+                    "file_date": "2023-08-23",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "S-3ASR",
+                    "adsh": "0001104659-23-094461",
+                    "film_num": [
+                        "231196656"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "S-3ASR",
+                    "file_description": "S-3ASR",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-24-000067:exhibit99q12024salesrele.htm",
+                "_score": 8.731974,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2024-04-03",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-04-03",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-24-000067",
+                    "film_num": [
+                        "24817084"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000037996-22-000008:exhibit99january2022sale.htm",
+                "_score": 8.731942,
+                "_source": {
+                    "ciks": [
+                        "0000037996"
+                    ],
+                    "period_ending": "2022-02-02",
+                    "file_num": [
+                        "001-03950"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2022-02-02",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "3711"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000037996-22-000008",
+                    "film_num": [
+                        "22581720"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0001104659-20-074606:a20-22123_6424b2.htm",
+                "_score": 8.730315,
+                "_source": {
+                    "ciks": [
+                        "0001129987",
+                        "0001813722"
+                    ],
+                    "period_ending": null,
+                    "file_num": [
+                        "333-225949",
+                        "333-225949-06"
+                    ],
+                    "display_names": [
+                        "FORD CREDIT AUTO RECEIVABLES TWO LLC  (CIK 0001129987)",
+                        "Ford Credit Auto Owner Trust 2020-B  (CIK 0001813722)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "424B2"
+                    ],
+                    "file_date": "2020-06-18",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6189",
+                        "6189"
+                    ],
+                    "form": "424B2",
+                    "adsh": "0001104659-20-074606",
+                    "film_num": [
+                        "20972134",
+                        "20972133"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI",
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "424B2",
+                    "file_description": "424B2",
+                    "inc_states": [],
+                    "items": []
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000950170-24-096328:ulh-ex4_1.htm",
+                "_score": 8.729736,
+                "_source": {
+                    "ciks": [
+                        "0001308208"
+                    ],
+                    "period_ending": "2024-08-12",
+                    "file_num": [
+                        "000-51142"
+                    ],
+                    "display_names": [
+                        "UNIVERSAL LOGISTICS HOLDINGS, INC.  (ULH)  (CIK 0001308208)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2024-08-13",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "4213"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000950170-24-096328",
+                    "film_num": [
+                        "241202130"
+                    ],
+                    "biz_locations": [
+                        "Warren, MI"
+                    ],
+                    "file_type": "EX-4.1",
+                    "file_description": "EX-4.1 COMPOSITE SUBLEASE AGREEMENT",
+                    "inc_states": [
+                        "MI"
+                    ],
+                    "items": [
+                        "1.01",
+                        "2.03",
+                        "9.01"
+                    ]
+                }
+            },
+            {
+                "_index": "edgar_file",
+                "_id": "0000038009-21-000081:exhibit99july2021salespr.htm",
+                "_score": 8.729557,
+                "_source": {
+                    "ciks": [
+                        "0000038009"
+                    ],
+                    "period_ending": "2021-08-04",
+                    "file_num": [
+                        "001-06368"
+                    ],
+                    "display_names": [
+                        "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)"
+                    ],
+                    "xsl": null,
+                    "sequence": 2,
+                    "root_forms": [
+                        "8-K"
+                    ],
+                    "file_date": "2021-08-04",
+                    "biz_states": [
+                        "MI"
+                    ],
+                    "sics": [
+                        "6159"
+                    ],
+                    "form": "8-K",
+                    "adsh": "0000038009-21-000081",
+                    "film_num": [
+                        "211142764"
+                    ],
+                    "biz_locations": [
+                        "Dearborn, MI"
+                    ],
+                    "file_type": "EX-99",
+                    "file_description": "EX-99",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": [
+                        "8.01",
+                        "9.01"
+                    ]
+                }
+            }
+        ]
+    },
+    "aggregations": {
+        "entity_filter": {
+            "doc_count_error_upper_bound": 460,
+            "sum_other_doc_count": 168641,
+            "buckets": [
+                {
+                    "key": "PIMCO FUNDS  (CIK 0000810893)",
+                    "doc_count": 2043
+                },
+                {
+                    "key": "JNL SERIES TRUST  (CIK 0000933691)",
+                    "doc_count": 1874
+                },
+                {
+                    "key": "iSHARES TRUST  (CIK 0001100663)",
+                    "doc_count": 1812
+                },
+                {
+                    "key": "EQ ADVISORS TRUST  (CIK 0001027263)",
+                    "doc_count": 1637
+                },
+                {
+                    "key": "PROSHARES TRUST  (CIK 0001174610)",
+                    "doc_count": 1411
+                },
+                {
+                    "key": "DFA INVESTMENT DIMENSIONS GROUP INC  (CIK 0000355437)",
+                    "doc_count": 1375
+                },
+                {
+                    "key": "SPDR SERIES TRUST  (CIK 0001064642)",
+                    "doc_count": 1244
+                },
+                {
+                    "key": "Global X Funds  (CIK 0001432353)",
+                    "doc_count": 1225
+                },
+                {
+                    "key": "FIDELITY SALEM STREET TRUST  (CIK 0000035315)",
+                    "doc_count": 1176
+                },
+                {
+                    "key": "WisdomTree Trust  (CIK 0001350487)",
+                    "doc_count": 1087
+                },
+                {
+                    "key": "FORD MOTOR CO  (F, F-PB, F-PC, F-PD)  (CIK 0000037996)",
+                    "doc_count": 1004
+                },
+                {
+                    "key": "GOLDMAN SACHS TRUST  (CIK 0000822977)",
+                    "doc_count": 927
+                },
+                {
+                    "key": "SUNAMERICA SERIES TRUST  (CIK 0000892538)",
+                    "doc_count": 920
+                },
+                {
+                    "key": "Direxion Shares ETF Trust  (CIK 0001424958)",
+                    "doc_count": 909
+                },
+                {
+                    "key": "NATIONWIDE VARIABLE INSURANCE TRUST  (CIK 0000353905)",
+                    "doc_count": 902
+                },
+                {
+                    "key": "ProFunds  (CIK 0001039803)",
+                    "doc_count": 788
+                },
+                {
+                    "key": "ADVANCED SERIES TRUST  (CIK 0000814679)",
+                    "doc_count": 770
+                },
+                {
+                    "key": "FORD MOTOR CREDIT CO LLC  (CIK 0000038009)",
+                    "doc_count": 751
+                },
+                {
+                    "key": "Invesco Exchange-Traded Fund Trust II  (CIK 0001378872)",
+                    "doc_count": 747
+                },
+                {
+                    "key": "PACIFIC SELECT FUND  (CIK 0000813900)",
+                    "doc_count": 731
+                },
+                {
+                    "key": "JOHN HANCOCK VARIABLE INSURANCE TRUST  (CIK 0000756913)",
+                    "doc_count": 721
+                },
+                {
+                    "key": "UBS AG  (AMNA, AMND, AMTR, AMUB, BDCX, BDCZ, CEFD, DJCB, ESUS, FEDL, HDLB, IFED, IWDL, IWFL, IWML, MLPB)  (CIK 0001114446)",
+                    "doc_count": 700
+                },
+                {
+                    "key": "NATIONWIDE MUTUAL FUNDS  (CIK 0001048702)",
+                    "doc_count": 643
+                },
+                {
+                    "key": "Brighthouse Funds Trust I  (CIK 0001126087)",
+                    "doc_count": 634
+                },
+                {
+                    "key": "PRINCIPAL FUNDS, INC.  (CIK 0000898745)",
+                    "doc_count": 621
+                },
+                {
+                    "key": "MASSMUTUAL SELECT FUNDS  (CIK 0000916053)",
+                    "doc_count": 606
+                },
+                {
+                    "key": "INVESCO EXCHANGE-TRADED FUND TRUST  (CIK 0001209466)",
+                    "doc_count": 577
+                },
+                {
+                    "key": "JPMorgan Trust I  (CIK 0001217286)",
+                    "doc_count": 575
+                },
+                {
+                    "key": "SEI INSTITUTIONAL INVESTMENTS TRUST  (CIK 0000939934)",
+                    "doc_count": 575
+                },
+                {
+                    "key": "Invesco Exchange-Traded Self-Indexed Fund Trust  (CIK 0001657201)",
+                    "doc_count": 572
+                }
+            ]
+        },
+        "sic_filter": {
+            "doc_count_error_upper_bound": 102,
+            "sum_other_doc_count": 9301,
+            "buckets": [
+                {
+                    "key": "6189",
+                    "doc_count": 5313
+                },
+                {
+                    "key": "1311",
+                    "doc_count": 2190
+                },
+                {
+                    "key": "6021",
+                    "doc_count": 1902
+                },
+                {
+                    "key": "3711",
+                    "doc_count": 1720
+                },
+                {
+                    "key": "6770",
+                    "doc_count": 1241
+                },
+                {
+                    "key": "2834",
+                    "doc_count": 1025
+                },
+                {
+                    "key": "3714",
+                    "doc_count": 1024
+                },
+                {
+                    "key": "6022",
+                    "doc_count": 972
+                },
+                {
+                    "key": "6029",
+                    "doc_count": 785
+                },
+                {
+                    "key": "6159",
+                    "doc_count": 760
+                },
+                {
+                    "key": "5500",
+                    "doc_count": 754
+                },
+                {
+                    "key": "7372",
+                    "doc_count": 641
+                },
+                {
+                    "key": "1381",
+                    "doc_count": 557
+                },
+                {
+                    "key": "6211",
+                    "doc_count": 541
+                },
+                {
+                    "key": "0000",
+                    "doc_count": 528
+                },
+                {
+                    "key": "7389",
+                    "doc_count": 524
+                },
+                {
+                    "key": "1389",
+                    "doc_count": 425
+                },
+                {
+                    "key": "6798",
+                    "doc_count": 401
+                },
+                {
+                    "key": "4922",
+                    "doc_count": 388
+                },
+                {
+                    "key": "3674",
+                    "doc_count": 308
+                },
+                {
+                    "key": "6282",
+                    "doc_count": 287
+                },
+                {
+                    "key": "7374",
+                    "doc_count": 263
+                },
+                {
+                    "key": "4911",
+                    "doc_count": 250
+                },
+                {
+                    "key": "2911",
+                    "doc_count": 225
+                },
+                {
+                    "key": "2080",
+                    "doc_count": 218
+                },
+                {
+                    "key": "3089",
+                    "doc_count": 200
+                },
+                {
+                    "key": "7370",
+                    "doc_count": 193
+                },
+                {
+                    "key": "3690",
+                    "doc_count": 186
+                },
+                {
+                    "key": "3841",
+                    "doc_count": 186
+                },
+                {
+                    "key": "1000",
+                    "doc_count": 184
+                }
+            ]
+        },
+        "biz_states_filter": {
+            "doc_count_error_upper_bound": 174,
+            "sum_other_doc_count": 11770,
+            "buckets": [
+                {
+                    "key": "NY",
+                    "doc_count": 28455
+                },
+                {
+                    "key": "CA",
+                    "doc_count": 20908
+                },
+                {
+                    "key": "MA",
+                    "doc_count": 20343
+                },
+                {
+                    "key": "IL",
+                    "doc_count": 12429
+                },
+                {
+                    "key": "PA",
+                    "doc_count": 11840
+                },
+                {
+                    "key": "TX",
+                    "doc_count": 10822
+                },
+                {
+                    "key": "MI",
+                    "doc_count": 10346
+                },
+                {
+                    "key": "OH",
+                    "doc_count": 7862
+                },
+                {
+                    "key": "MD",
+                    "doc_count": 6700
+                },
+                {
+                    "key": "NJ",
+                    "doc_count": 4713
+                },
+                {
+                    "key": "CO",
+                    "doc_count": 3784
+                },
+                {
+                    "key": "WI",
+                    "doc_count": 3633
+                },
+                {
+                    "key": "MN",
+                    "doc_count": 3014
+                },
+                {
+                    "key": "FL",
+                    "doc_count": 2920
+                },
+                {
+                    "key": "CT",
+                    "doc_count": 2786
+                },
+                {
+                    "key": "DE",
+                    "doc_count": 2783
+                },
+                {
+                    "key": "NC",
+                    "doc_count": 2188
+                },
+                {
+                    "key": "IA",
+                    "doc_count": 2007
+                },
+                {
+                    "key": "MO",
+                    "doc_count": 1834
+                },
+                {
+                    "key": "WA",
+                    "doc_count": 1699
+                },
+                {
+                    "key": "GA",
+                    "doc_count": 1639
+                },
+                {
+                    "key": "IN",
+                    "doc_count": 1601
+                },
+                {
+                    "key": "X0",
+                    "doc_count": 1487
+                },
+                {
+                    "key": "AZ",
+                    "doc_count": 1356
+                },
+                {
+                    "key": "A6",
+                    "doc_count": 1300
+                },
+                {
+                    "key": "VA",
+                    "doc_count": 1233
+                },
+                {
+                    "key": "KS",
+                    "doc_count": 1103
+                },
+                {
+                    "key": "V8",
+                    "doc_count": 1072
+                },
+                {
+                    "key": "OK",
+                    "doc_count": 789
+                },
+                {
+                    "key": "NE",
+                    "doc_count": 762
+                }
+            ]
+        },
+        "form_filter": {
+            "doc_count_error_upper_bound": 104,
+            "sum_other_doc_count": 7050,
+            "buckets": [
+                {
+                    "key": "NPORT-P",
+                    "doc_count": 95566
+                },
+                {
+                    "key": "13F-HR",
+                    "doc_count": 32692
+                },
+                {
+                    "key": "N-PX",
+                    "doc_count": 6453
+                },
+                {
+                    "key": "N-CSR",
+                    "doc_count": 5508
+                },
+                {
+                    "key": "8-K",
+                    "doc_count": 5332
+                },
+                {
+                    "key": "N-CSRS",
+                    "doc_count": 4910
+                },
+                {
+                    "key": "10-K",
+                    "doc_count": 2872
+                },
+                {
+                    "key": "485BPOS",
+                    "doc_count": 2535
+                },
+                {
+                    "key": "10-Q",
+                    "doc_count": 2426
+                },
+                {
+                    "key": "10-D",
+                    "doc_count": 2070
+                },
+                {
+                    "key": "DEF 14A",
+                    "doc_count": 1972
+                },
+                {
+                    "key": "424B2",
+                    "doc_count": 1945
+                },
+                {
+                    "key": "6-K",
+                    "doc_count": 1610
+                },
+                {
+                    "key": "4",
+                    "doc_count": 1414
+                },
+                {
+                    "key": "S-1",
+                    "doc_count": 1125
+                },
+                {
+                    "key": "N-MFP2",
+                    "doc_count": 1029
+                },
+                {
+                    "key": "ABS-EE",
+                    "doc_count": 950
+                },
+                {
+                    "key": "424B3",
+                    "doc_count": 843
+                },
+                {
+                    "key": "SC 13D",
+                    "doc_count": 813
+                },
+                {
+                    "key": "FWP",
+                    "doc_count": 684
+                },
+                {
+                    "key": "497",
+                    "doc_count": 670
+                },
+                {
+                    "key": "D",
+                    "doc_count": 596
+                },
+                {
+                    "key": "425",
+                    "doc_count": 548
+                },
+                {
+                    "key": "S-4",
+                    "doc_count": 534
+                },
+                {
+                    "key": "ARS",
+                    "doc_count": 490
+                },
+                {
+                    "key": "485APOS",
+                    "doc_count": 451
+                },
+                {
+                    "key": "DRS",
+                    "doc_count": 393
+                },
+                {
+                    "key": "C",
+                    "doc_count": 355
+                },
+                {
+                    "key": "N-CEN",
+                    "doc_count": 334
+                },
+                {
+                    "key": "PRE 14A",
+                    "doc_count": 322
+                }
+            ]
+        }
+    },
+    "query": {
+        "_source": {
+            "exclude": [
+                "doc_text"
+            ]
+        },
+        "query": {
+            "bool": {
+                "must": [
+                    {
+                        "match_phrase": {
+                            "doc_text": "ford"
+                        }
+                    }
+                ],
+                "must_not": [],
+                "should": [],
+                "filter": [
+                    {
+                        "range": {
+                            "file_date": {
+                                "gte": "2020-04-19",
+                                "lte": "2025-04-19"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "from": 0,
+        "size": 100,
+        "aggregations": {
+            "form_filter": {
+                "terms": {
+                    "field": "root_forms",
+                    "size": 30
+                }
+            },
+            "entity_filter": {
+                "terms": {
+                    "field": "display_names.raw",
+                    "size": 30
+                }
+            },
+            "sic_filter": {
+                "terms": {
+                    "field": "sics",
+                    "size": 30
+                }
+            },
+            "biz_states_filter": {
+                "terms": {
+                    "field": "biz_states",
+                    "size": 30
+                }
+            }
+        }
+    }
+}

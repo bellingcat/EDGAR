@@ -1,0 +1,98 @@
+{
+    "took": 42,
+    "timed_out": false,
+    "_shards": {
+        "total": 50,
+        "successful": 50,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 0,
+            "relation": "eq"
+        },
+        "max_score": null,
+        "hits": []
+    },
+    "aggregations": {
+        "entity_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": []
+        },
+        "sic_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": []
+        },
+        "biz_states_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": []
+        },
+        "form_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": []
+        }
+    },
+    "query": {
+        "_source": {
+            "exclude": [
+                "doc_text"
+            ]
+        },
+        "query": {
+            "bool": {
+                "must": [
+                    {
+                        "match_phrase": {
+                            "doc_text": "fordasfsdfsdf"
+                        }
+                    }
+                ],
+                "must_not": [],
+                "should": [],
+                "filter": [
+                    {
+                        "range": {
+                            "file_date": {
+                                "gte": "2020-04-19",
+                                "lte": "2025-04-19"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "from": 0,
+        "size": 100,
+        "aggregations": {
+            "form_filter": {
+                "terms": {
+                    "field": "root_forms",
+                    "size": 30
+                }
+            },
+            "entity_filter": {
+                "terms": {
+                    "field": "display_names.raw",
+                    "size": 30
+                }
+            },
+            "sic_filter": {
+                "terms": {
+                    "field": "sics",
+                    "size": 30
+                }
+            },
+            "biz_states_filter": {
+                "terms": {
+                    "field": "biz_states",
+                    "size": 30
+                }
+            }
+        }
+    }
+}

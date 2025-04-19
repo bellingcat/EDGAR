@@ -1,0 +1,172 @@
+{
+    "took": 51,
+    "timed_out": false,
+    "_shards": {
+        "total": 50,
+        "successful": 50,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 1,
+            "relation": "eq"
+        },
+        "max_score": 8.950981,
+        "hits": [
+            {
+                "_index": "edgar_file",
+                "_id": "0000950170-25-055890:btsg-2025_ars.pdf",
+                "_score": 8.950981,
+                "_source": {
+                    "ciks": [
+                        "0001865782"
+                    ],
+                    "period_ending": "2024-12-31",
+                    "file_num": [
+                        "001-41938"
+                    ],
+                    "display_names": [
+                        "BrightSpring Health Services, Inc.  (BTSG, BTSGU)  (CIK 0001865782)"
+                    ],
+                    "xsl": null,
+                    "sequence": 1,
+                    "root_forms": [
+                        "ARS"
+                    ],
+                    "file_date": "2025-04-18",
+                    "biz_states": [
+                        "KY"
+                    ],
+                    "sics": [
+                        "8082"
+                    ],
+                    "form": "ARS",
+                    "adsh": "0000950170-25-055890",
+                    "film_num": [
+                        "25850707"
+                    ],
+                    "biz_locations": [
+                        "Louisville, KY"
+                    ],
+                    "file_type": "ARS",
+                    "file_description": "ARS",
+                    "inc_states": [
+                        "DE"
+                    ],
+                    "items": []
+                }
+            }
+        ]
+    },
+    "aggregations": {
+        "entity_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+                {
+                    "key": "BrightSpring Health Services, Inc.  (BTSG, BTSGU)  (CIK 0001865782)",
+                    "doc_count": 1
+                }
+            ]
+        },
+        "sic_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+                {
+                    "key": "6770",
+                    "doc_count": 1
+                }
+            ]
+        },
+        "biz_states_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+                {
+                    "key": "KY",
+                    "doc_count": 1
+                }
+            ]
+        },
+        "form_filter": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+                {
+                    "key": "ARS",
+                    "doc_count": 1
+                }
+            ]
+        }
+    },
+    "query": {
+        "_source": {
+            "exclude": [
+                "doc_text"
+            ]
+        },
+        "query": {
+            "bool": {
+                "must": [
+                    {
+                        "match_phrase": {
+                            "doc_text": "technology"
+                        }
+                    },
+                    {
+                        "match_phrase": {
+                            "doc_text": "phase"
+                        }
+                    },
+                    {
+                        "match_phrase": {
+                            "doc_text": "jon"
+                        }
+                    }
+                ],
+                "must_not": [],
+                "should": [],
+                "filter": [
+                    {
+                        "range": {
+                            "file_date": {
+                                "gte": "2025-04-18",
+                                "lte": "2025-04-18"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "from": 0,
+        "size": 100,
+        "aggregations": {
+            "form_filter": {
+                "terms": {
+                    "field": "root_forms",
+                    "size": 30
+                }
+            },
+            "entity_filter": {
+                "terms": {
+                    "field": "display_names.raw",
+                    "size": 30
+                }
+            },
+            "sic_filter": {
+                "terms": {
+                    "field": "sics",
+                    "size": 30
+                }
+            },
+            "biz_states_filter": {
+                "terms": {
+                    "field": "biz_states",
+                    "size": 30
+                }
+            }
+        }
+    }
+}
