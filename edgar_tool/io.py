@@ -69,7 +69,7 @@ def _write_results_to_jsonlines(
 
 
 def _write_results_to_csv(
-    data: Iterator[Iterator[Dict[str, Any]]], fields_names: List[str], file_name: str
+    data: Iterator[Dict[str, Any]], fields_names: List[str], file_name: str
 ) -> None:
     """
     Writes the given generator of dictionaries to a CSV file. Assumes all dictionaries have the same keys,
@@ -85,6 +85,5 @@ def _write_results_to_csv(
         writer = csv.DictWriter(f, fieldnames=fields_names)
         if f.tell() == 0:
             writer.writeheader()
-        for results_list_iterators in data:
-            for r in results_list_iterators:
-                writer.writerow(r)
+        for datum in data:
+            writer.writerow(datum)

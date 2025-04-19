@@ -8,7 +8,7 @@ from typing_extensions import Annotated
 from .constants import DateRange, Filing, FilingCategory, Location
 from .location_autocomplete import LOCATION_CODE_TO_NAME
 from .rss import fetch_rss_feed
-from .text_search import EdgarTextSearcher, SearchParams
+from .text_search import SearchParams, search
 
 app = typer.Typer(name="edgar", no_args_is_help=True)
 
@@ -153,8 +153,7 @@ def text_search(
         inc_in=inc_in,
     )
 
-    text_searcher = EdgarTextSearcher()
-    text_searcher.search(
+    search(
         search_params=search_params,
         output=output,
     )
