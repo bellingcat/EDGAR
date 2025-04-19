@@ -122,12 +122,40 @@ def test_generate_search_urls_less_than_10_000_results(
         assert len(urls) == expected_url_count
 
 
+def test_generate_search_urls_yields_correct_paginated_urls():
+    """Test that generate_search_urls yields the correct URLs when it needs to paginate through
+    more than 100 results.
+    """
+    # GIVEN
+    search_params = SearchParams(keywords=["test"])
+    response_files = ("101_hits.json", "1_hit.json")
+    mock_responses = []
+    for filename in response_files:
+        with open(Path(__file__).parent / "responses" / filename) as f:
+            mock_responses.append(json.load(f))
+
+    expected_urls = [
+        "https://efts.sec.gov/LATEST/search-index?q=test",
+        "https://efts.sec.gov/LATEST/search-index?q=test&page=2&from=100",
+    ]
+
+    with patch(
+        "edgar_tool.text_search.fetch_page",
+        side_effect=mock_responses,
+    ):
+        # WHEN
+        urls = list(str(url) for url in generate_search_urls(search_params))
+
+        # THEN
+        assert urls == expected_urls
+
+
 def test_generate_search_urls_more_than_10_000_results():
     """Test that generate_search_urls yields the correct number of URLs when it needs to split
     the date range in half.
 
     The first request returns 10,000 results, which is the maximum the SEC returns for a given date range.
-    `generate_search_urls` should then split the date range in half and make two new requests. In this case
+    `generate_search_urls` should then split the date range in half and make two new search queries. In this case
     we use 9999 results for the first date range and 100 results for the second date range, which should
     yield 101 URLs total (100 for 9999 results and 1 for the 100 results).
     """
@@ -135,23 +163,18 @@ def test_generate_search_urls_more_than_10_000_results():
     search_params = SearchParams(
         keywords=["test"], start_date="2022-01-01", end_date="2022-01-02"
     )
-    with open(Path(__file__).parent / "responses" / "10000_hits.json") as f:
-        first_mock_response = json.load(f)
-
-    with open(Path(__file__).parent / "responses" / "9999_hits.json") as f:
-        second_mock_response = json.load(f)
-
-    with open(Path(__file__).parent / "responses" / "100_hits.json") as f:
-        third_mock_response = json.load(f)
+    response_files = ("10000_hits.json", "9999_hits.json", "100_hits.json")
+    mock_responses = []
+    for filename in response_files:
+        with open(Path(__file__).parent / "responses" / filename) as f:
+            mock_responses.append(json.load(f))
     expected_url_count = 101
 
     with patch(
         "edgar_tool.text_search.fetch_page",
-        side_effect=[first_mock_response, second_mock_response, third_mock_response],
+        side_effect=mock_responses,
     ):
         # WHEN
-        # Make sure we exhaust the generator by converting it to a list.
-        # This calls it as many times as it can be called.
         urls = list(generate_search_urls(search_params))
 
         # THEN
@@ -179,8 +202,6 @@ def test_generate_search_urls_10_000_results_for_single_day():
         return_value=mock_response,
     ):
         # WHEN
-        # Make sure we exhaust the generator by converting it to a list.
-        # This calls it as many times as it can be called.
         urls = list(generate_search_urls(search_params))
 
         # THEN
