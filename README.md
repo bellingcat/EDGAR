@@ -1,11 +1,10 @@
-# EDGAR
+# bellingcat/EDGAR
 
 <a href="https://www.bellingcat.com"><img alt="Bellingcat logo: Discover Bellingcat" src="https://img.shields.io/badge/Discover%20Bellingcat-%20?style=for-the-badge&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAA4AAAAYCAYAAADKx8xXAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TS0UqDnZQEcxQneyiIo6likWwUNoKrTqYXPoFTRqSFBdHwbXg4Mdi1cHFWVcHV0EQ%2FABxdnBSdJES%2F5cUWsR4cNyPd%2Fced%2B8AoVllqtkTA1TNMtKJuJjLr4rBVwQwhhBEDEvM1JOZxSw8x9c9fHy9i%2FIs73N%2Fjn6lYDLAJxLHmG5YxBvEs5uWznmfOMzKkkJ8Tjxp0AWJH7kuu%2FzGueSwwDPDRjY9TxwmFktdLHcxKxsq8QxxRFE1yhdyLiuctzir1Tpr35O%2FMFTQVjJcpzmKBJaQRIo6klFHBVVYiNKqkWIiTftxD%2F%2BI40%2BRSyZXBYwcC6hBheT4wf%2Fgd7dmcXrKTQrFgcCLbX%2BMA8FdoNWw7e9j226dAP5n4Err%2BGtNYO6T9EZHixwBA9vAxXVHk%2FeAyx1g6EmXDMmR%2FDSFYhF4P6NvygODt0Dfmttbex%2BnD0CWulq%2BAQ4OgYkSZa97vLu3u7d%2Fz7T7%2BwHEU3LHAa%2FQ6gAAAAZiS0dEAAAAAAAA%2BUO7fwAAAAlwSFlzAAAuIwAALiMBeKU%2FdgAAAAd0SU1FB%2BgFHwwiMH4odB4AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAA50lEQVQ4y82SvWpCQRCFz25ERSJiCNqlUiS1b5AuEEiZIq1NOsGXCKms0wXSp9T6dskDiFikyiPc%2FrMZyf3FXSGQ0%2BzuzPl2ZoeVKgQ0gQ2wBVpVHlcDkjM5V%2FJ5nag6sJ%2FZX%2Bh%2FC7gEhqeAFKf7p1M9aB3b5oN1OomB7g1axUBPBr3GQHODHmOgqUF3MZAzKI2d4LWBV4H%2BMXDuJd1a7Cew1k7SwksaHC4LqNaw7aeX9GWHXkC1G1sTAS17Y3Kk2lnp4wNLiz0DrgLq8qt2MfmSSabAO%2FBBXp26dtrADPjOmN%2BAUdG7B3cE61l5hOZiAAAAAElFTkSuQmCC&logoColor=%23fff&color=%23000"></a><!--
 --><a href="https://discord.gg/bellingcat"><img alt="Discord logo: Join our community" src="https://img.shields.io/badge/Join%20our%20community-%20?style=for-the-badge&logo=discord&logoColor=%23fff&color=%235865F2"></a><!--
---><a href="https://colab.research.google.com/github/bellingcat/EDGAR/blob/main/notebook/Bellingcat_EDGAR_Tool.ipynb"><img alt="Colab icon: Try it on Colab" src="https://img.shields.io/badge/Try%20it%20on%20Colab-%20?style=for-the-badge&logo=googlecolab&logoColor=fff&logoSize=auto&color=e8710a">
+--><a href="https://colab.research.google.com/github/bellingcat/EDGAR/blob/main/notebook/Bellingcat_EDGAR_Tool.ipynb"><img alt="Colab icon: Try it on Colab" src="https://img.shields.io/badge/Try%20it%20on%20Colab-%20?style=for-the-badge&logo=googlecolab&logoColor=fff&logoSize=auto&color=e8710a"><!--
+--><a href="https://www.bellingcat.com/donate/"><img alt="Bellingcat logo: Support Our Work" src="https://img.shields.io/badge/Support%20Our%20Work-%20?style=for-the-badge&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAA4AAAAYCAYAAADKx8xXAAABhGlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1Iw0AcxV9TS0UqDnZQEcxQneyiIo6likWwUNoKrTqYXPoFTRqSFBdHwbXg4Mdi1cHFWVcHV0EQ%2FABxdnBSdJES%2F5cUWsR4cNyPd%2Fced%2B8AoVllqtkTA1TNMtKJuJjLr4rBVwQwhhBEDEvM1JOZxSw8x9c9fHy9i%2FIs73N%2Fjn6lYDLAJxLHmG5YxBvEs5uWznmfOMzKkkJ8Tjxp0AWJH7kuu%2FzGueSwwDPDRjY9TxwmFktdLHcxKxsq8QxxRFE1yhdyLiuctzir1Tpr35O%2FMFTQVjJcpzmKBJaQRIo6klFHBVVYiNKqkWIiTftxD%2F%2BI40%2BRSyZXBYwcC6hBheT4wf%2Fgd7dmcXrKTQrFgcCLbX%2BMA8FdoNWw7e9j226dAP5n4Err%2BGtNYO6T9EZHixwBA9vAxXVHk%2FeAyx1g6EmXDMmR%2FDSFYhF4P6NvygODt0Dfmttbex%2BnD0CWulq%2BAQ4OgYkSZa97vLu3u7d%2Fz7T7%2BwHEU3LHAa%2FQ6gAAAAZiS0dEAAAAAAAA%2BUO7fwAAAAlwSFlzAAAuIwAALiMBeKU%2FdgAAAAd0SU1FB%2BgFHwwiMH4odB4AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAA50lEQVQ4y82SvWpCQRCFz25ERSJiCNqlUiS1b5AuEEiZIq1NOsGXCKms0wXSp9T6dskDiFikyiPc%2FrMZyf3FXSGQ0%2BzuzPl2ZoeVKgQ0gQ2wBVpVHlcDkjM5V%2FJ5nag6sJ%2FZX%2Bh%2FC7gEhqeAFKf7p1M9aB3b5oN1OomB7g1axUBPBr3GQHODHmOgqUF3MZAzKI2d4LWBV4H%2BMXDuJd1a7Cew1k7SwksaHC4LqNaw7aeX9GWHXkC1G1sTAS17Y3Kk2lnp4wNLiz0DrgLq8qt2MfmSSabAO%2FBBXp26dtrADPjOmN%2BAUdG7B3cE61l5hOZiAAAAAElFTkSuQmCC&logoColor=%23fff&color=%23000"></a>
 </a>
-
-![versions](https://img.shields.io/pypi/pyversions/edgar-tool.svg)
 
 This is a command line interface to search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC).
 
@@ -19,6 +18,7 @@ Whether you are looking to study the fundamentals of your favorite stocks or to 
 
 [![PyPI - Version](https://img.shields.io/pypi/v/edgar-tool)
 ](https://pypi.org/project/edgar-tool/)
+![versions](https://img.shields.io/pypi/pyversions/edgar-tool.svg)
 
 You can install this tool directly from the [official PyPi release](https://pypi.org/project/edgar-tool/).
 
@@ -32,7 +32,7 @@ The CLI also supports autocompletion, which is **highly recommended**. You can i
 edgar --install-completion
 ```
 
-Autocomplete makes it really easy to use the CLI, since you only have to type the first few characters of CLI commands, keyword arguments, or available values, followed by the `tab ↹ key` to fill in the rest of the characters.
+Autocomplete makes it really easy to use the CLI, since you only have to type the first few characters of CLI commands, keyword arguments, or available values, followed by the `tab ↹` key to fill in the rest of the characters.
 
 ## Usage - Text Search 🔎
 
@@ -74,25 +74,38 @@ Usage with date range and export to custom CSV file
 edgar text-search Tsunami Hazards --start-date 2021-01-01 --end-date 2021-12-31 --output results.csv
 ```
 
-### Usage with a partial set of filing forms + single forms
-
-```
-edgar text-search Hurricane Damage --filing-category registration_statements --single-form 1-K 1-SA
-```
-
-Usage specifying the location of incorporation. Note that `--inc-in` and `--peo-in` use [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) codes for countries (like USA, CAN, GBR), [ISO_3166-2:US](https://en.wikipedia.org/wiki/ISO_3166-2:US) state codes (like NY, CA, IL), and [ISO_3166-2:CA](https://en.wikipedia.org/wiki/ISO_3166-2:CA) province/territory codes (like AB, BC, NB).
+### Usage with filing category or single forms
 
 ```shell
-edgar text-search oil --inc-in EGY
+edgar text-search Hurricane Damage --filing-category registration_statements
 ```
 
-More advanced usage specifying more arguments, with export to JSON
+```shell
+edgar text-search Hurricane Damage --single-form 1-K --single-form 1-SA
+# or
+edgar text-search Hurricane Damage -sf 1-K -sf 1-SA
+```
+
+Usage specifying the location of incorporation. Note that `--incorporated-in` and `--principal-executive-offices-in` use [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) codes for countries (like USA, CAN, GBR), [ISO_3166-2:US](https://en.wikipedia.org/wiki/ISO_3166-2:US) state codes (like NY, CA, IL), and [ISO_3166-2:CA](https://en.wikipedia.org/wiki/ISO_3166-2:CA) province/territory codes (like AB, BC, NB).
 
 ```shell
-edgar text-search Volcano Monitoring --start-date 2021-01-01 --end-date 2021-12-31 --output results.json \
-          --filing-category all_annual_quarterly_and_current_reports --entity-id 0001030717
+edgar text-search oil --incorporated-in EGY
+# or
+edgar text-search oil -ii EGY
+```
 
-edgar text-search Calabarzon --start-date 2021-01-01 -o results.jsonl --filing-category all_annual_quarterly_and_current_reports
+More advanced usage specifying more arguments, with export to JSON or JSON Lines formats
+
+```shell
+# Simply specify the output file format suffix to .csv, .json, or .jsonl
+edgar text-search "Marjorie Taylor Greene" --output results.csv
+
+edgar text-search Volcano Monitoring --start-date 2021-01-01 --end-date 2021-12-31 \
+    --output results.json --filing-category all_annual_quarterly_and_current_reports \
+    --entity-id 0001030717
+
+edgar text-search Calabarzon --start-date 2021-01-01 -o results.jsonl \
+    --filing-category all_annual_quarterly_and_current_reports
 ```
 
 ### Detailed `edgar text-search` CLI usage
