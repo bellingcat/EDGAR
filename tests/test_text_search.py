@@ -3,7 +3,12 @@ from uuid import UUID
 
 import pytest
 
-from edgar_tool.text_search import PageCheckFailedError, fetch_page
+from edgar_tool.text_search import (
+    PageCheckFailedError,
+    fetch_page,
+    generate_search_urls,
+)
+from edgar_tool.url_generator import SearchParams
 
 
 @pytest.fixture
@@ -78,3 +83,21 @@ def test_fetch_page_retry_on_failure(url):
         # THEN
         assert mock_get.call_count == 3
         assert result == {"test": "data"}
+
+
+def test_generate_search_urls_0_records():
+    """Test that generate_search_urls doesn't make more than 1
+    request when the first request returns 0 records."""
+    # GIVEN
+    search_params = SearchParams(keywords=["test"])
+    with patch(
+        "edgar_tool.text_search.fetch_page",
+        return_value={"hits": {"total": {"value": 0}}},
+    ) as mock_fetch_page:
+        # WHEN
+        # Make sure we exhaust the generator by converting it to a list.
+        # This calls it as many times as it can be called.
+        list(generate_search_urls(search_params))
+
+        # THEN
+        assert mock_fetch_page.call_count == 1
