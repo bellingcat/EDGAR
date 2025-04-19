@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import Any, Dict, Iterator, List, Optional, Union
+from typing import Any, Iterator, List, Optional, Union
 
 
-def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
+def split_date_range_in_half(start: date, end: date) -> Iterator[date, date]:
     """
     Generator returning a list of N dates at regular intervals between start and end dates
 
@@ -13,10 +13,13 @@ def split_date_range_in_n(start: date, end: date, n: int) -> Iterator[date]:
     :param n: number of intervals to generate
     :return:
     """
-    diff = (end - start) / n
-    for i in range(n):
-        yield start + diff * i
-    yield end
+    if start == end:
+        raise ValueError(
+            "Cannot split dates when both start and end dates are the same. SEC API does not support half days."
+        )
+    diff = (end - start) / 2
+    yield start, start + diff
+    yield start + diff, end
 
 
 def safe_get(d: dict, *keys) -> Any:

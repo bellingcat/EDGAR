@@ -1,5 +1,3 @@
 from edgar_tool.cli import app
 
-__all__ = [
-    "app",
-]
+__all__ = ["app"]

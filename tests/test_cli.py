@@ -4,14 +4,13 @@ import pytest
 from typer.testing import CliRunner
 
 import edgar_tool
-from edgar_tool.location_autocomplete import LOCATION_CODE_TO_NAME
 
 runner = CliRunner()
 
 
 @pytest.fixture(autouse=True)
-def mock_edgar_text_searcher():
-    with patch("edgar_tool.cli.EdgarTextSearcher"):
+def mock_search():
+    with patch("edgar_tool.cli.search"):
         yield
 
 

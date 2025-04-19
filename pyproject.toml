@@ -48,6 +48,7 @@ pytest = "^8.2.2"
 tox = "^4.16.0"
 ipykernel = "^6.29.5"
 freezegun = "^1.5.1"
+autoflake = "^2.3.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -56,6 +57,13 @@ build-backend = "poetry.core.masonry.api"
 [tool.isort]
 profile = "black"
 line_length = 88 # Should always match tool.black
+ensure_newline_before_comments = true
 
 [tool.black]
 line-length = 88  # black's default
+
+[tool.autoflake]
+remove_all_unused_imports = true
+remove_duplicate_keys = true
+remove_unused_variables = true
+expand_star_imports = true

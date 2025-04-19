@@ -38,7 +38,7 @@ class TestWords:
         actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
         # THEN
-        assert actual_url == expected_url
+        assert str(actual_url) == expected_url
 
     @pytest.mark.parametrize(
         "keywords,expected_url",
@@ -63,7 +63,7 @@ class TestWords:
         actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
         # THEN
-        assert actual_url == expected_url
+        assert str(actual_url) == expected_url
 
 
 def test_should_raise_if_no_arguments_provided():
@@ -176,7 +176,7 @@ class TestDates:
         actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
         # THEN
-        assert actual_url == expected_url
+        assert str(actual_url) == expected_url
 
 
 @pytest.mark.parametrize(
@@ -208,7 +208,7 @@ def test_generates_correct_url_for_filing_category(filing_category, url_ending):
     actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
-    assert actual_url == expected_url
+    assert str(actual_url) == expected_url
 
 
 @pytest.mark.parametrize(
@@ -244,7 +244,7 @@ def test_generates_correct_url_for_single_forms(single_forms, url_ending):
     actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
-    assert actual_url == expected_url
+    assert str(actual_url) == expected_url
 
 
 def test_generates_correct_url_for_single_form_and_custom_filing_category():
@@ -260,7 +260,7 @@ def test_generates_correct_url_for_single_form_and_custom_filing_category():
     actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
-    assert actual_url == expected_url
+    assert str(actual_url) == expected_url
 
 
 def test_raises_an_exception_if_user_passes_both_filing_category_and_single_forms():
@@ -297,7 +297,7 @@ def test_should_allow_search_with_only_non_all_filing_category():
     actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
-    assert actual_url == expected_url
+    assert str(actual_url) == expected_url
 
 
 def test_should_not_allow_search_with_all_filing_category():
@@ -641,7 +641,7 @@ class TestLocations:
         actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
         # THEN
-        assert actual_url == expected_url
+        assert str(actual_url) == expected_url
 
     def test_inc_in(self, abbreviation, expected_location_code):
         # GIVEN
@@ -654,7 +654,7 @@ class TestLocations:
         actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
         # THEN
-        assert actual_url == expected_url
+        assert str(actual_url) == expected_url
 
 
 @pytest.mark.parametrize("key", ["peo_in", "inc_in"])
@@ -702,7 +702,7 @@ def test_should_correctly_generate_search_url_for_multiple_peo_in():
     actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
-    assert actual_url == expected_url
+    assert str(actual_url) == expected_url
 
 
 def test_should_correctly_generate_search_url_for_multiple_inc_in():
@@ -717,7 +717,7 @@ def test_should_correctly_generate_search_url_for_multiple_inc_in():
     actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
-    assert actual_url == expected_url
+    assert str(actual_url) == expected_url
 
 
 @freezegun.freeze_time("2025-01-26")
@@ -747,12 +747,11 @@ def test_with_multiple_kwargs():
     actual_url = url_generator.generate_search_url_for_kwargs(search_params)
 
     # THEN
-    parsed_url = urllib.parse.urlparse(actual_url)
-    assert parsed_url.scheme == "https"
-    assert parsed_url.netloc == "efts.sec.gov"
-    assert parsed_url.path == "/LATEST/search-index"
+    assert actual_url.scheme == "https"
+    assert actual_url.host == "efts.sec.gov"
+    assert actual_url.path == "/LATEST/search-index"
 
     actual_query_params = urllib.parse.parse_qs(
-        parsed_url.query, strict_parsing=True, keep_blank_values=True
+        actual_url.query, strict_parsing=True, keep_blank_values=True
     )
     assert actual_query_params == expected_query_params
