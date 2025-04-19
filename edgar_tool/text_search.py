@@ -1,9 +1,9 @@
 import itertools
 import re
 import uuid
-from datetime import date, timedelta
+from datetime import timedelta
 from math import ceil
-from typing import Any, Dict, Iterator, List, Optional
+from typing import Any, Dict, Iterator, List
 
 import pydantic
 import requests
@@ -13,8 +13,6 @@ from edgar_tool.constants import (
     TEXT_SEARCH_CSV_FIELDS_NAMES,
     TEXT_SEARCH_FORM_MAPPING,
     TEXT_SEARCH_LOCATIONS_MAPPING,
-    TEXT_SEARCH_SPLIT_BATCHES_NUMBER,
-    DateRange,
 )
 from edgar_tool.io import write_results_to_file
 from edgar_tool.page_fetcher import (

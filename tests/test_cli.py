@@ -4,7 +4,6 @@ import pytest
 from typer.testing import CliRunner
 
 import edgar_tool
-from edgar_tool.location_autocomplete import LOCATION_CODE_TO_NAME
 
 runner = CliRunner()
 
