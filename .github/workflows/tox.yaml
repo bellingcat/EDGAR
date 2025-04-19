@@ -59,3 +59,6 @@ jobs:
 
       - name: Run autoflake
         run: tox -e autoflake
+
+      - name: Run mdformat
+        run: tox -e mdformat
