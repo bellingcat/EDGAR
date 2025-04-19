@@ -49,6 +49,7 @@ tox = "^4.16.0"
 ipykernel = "^6.29.5"
 freezegun = "^1.5.1"
 autoflake = "^2.3.1"
+mdformat = "^0.7.22"
 
 [build-system]
 requires = ["poetry-core"]
