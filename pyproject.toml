@@ -1,36 +1,38 @@
-[tool.poetry]
+[project]
 name = "edgar-tool"
-version = "2.0.1"
+version = "2.0.2"
 description = "Search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC)."
-authors = ["Bellingcat"]
-license = "GNU General Public License v3 (GPLv3)"
 readme = "README.md"
-repository = "https://github.com/bellingcat/EDGAR"
-classifiers = [
-  "Intended Audience :: Developers",
-  "Intended Audience :: Science/Research",
-  "Development Status :: 3 - Alpha",
-  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
-  "Topic :: Office/Business :: Financial",
+authors = [
+  { name = "Bellingcat", email = "contact@bellingcat.com" }
 ]
-keywords=["scraper", "edgar", "finance", "sec"]
+maintainers = [
+  { name = "Jordan Gillard", email = "jordan@gaproject.com" }
+]
+license = "GNU General Public License v3 (GPLv3)"
+keywords = ["scraper", "edgar", "finance", "sec"]
+dynamic = ["dependencies", "classifiers"]
+requires-python = ">=3.9"
 
-[tool.poetry.urls]
-"Bug Tracker" = "https://github.com/bellingcat/EDGAR/issues"
+[project.urls]
+Repository = "https://github.com/bellingcat/EDGAR"
+Issues = "https://github.com/bellingcat/EDGAR/issues"
 
-[tool.poetry.scripts]
+[project.scripts]
 edgar-tool = "edgar_tool.__main__:main"
 edgar = "edgar_tool.__main__:main"
 
+[tool.poetry]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Financial and Insurance Industry",
+  "Intended Audience :: Science/Research",
+  "Topic :: Office/Business :: Financial",
+]
+
 [tool.poetry.dependencies]
 jsonlines = "^4.0"
-python = "^3.9"
 requests = "^2.31"
 tenacity = "^8.2"
 xmltodict = "^0.13"
@@ -41,7 +43,7 @@ pydantic = "^2.10.5"
 python-dateutil = "^2.9.0.post0"
 
 [tool.poetry.group.dev.dependencies]
-black = {extras = ["jupyter"], version = "^25.1.0"}
+black = { extras = ["jupyter"], version = "^25.1.0" }
 isort = "5.13.2"
 pre-commit = "^3.8.0"
 pytest = "^8.2.2"
@@ -61,7 +63,7 @@ line_length = 88 # Should always match tool.black
 ensure_newline_before_comments = true
 
 [tool.black]
-line-length = 88  # black's default
+line-length = 88 # black's default
 
 [tool.autoflake]
 remove_all_unused_imports = true
