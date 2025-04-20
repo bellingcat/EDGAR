@@ -104,7 +104,7 @@ def text_search(
         typer.Option(
             "--single-form",
             "-sf",
-            help='List of single forms to search for (e.g. `-sf 10-K -sf "PRE 14A"`)',
+            help='List of single forms to search for (e.g. -sf 10-K -sf "PRE 14A")',
         ),
     ] = None,
     peo_in: Annotated[

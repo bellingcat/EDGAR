@@ -1,6 +1,6 @@
 [project]
 name = "edgar-tool"
-version = "2.0.1"
+version = "2.0.2"
 description = "Search and retrieve corporate and financial data from the United States Securities and Exchange Commission (SEC)."
 readme = "README.md"
 authors = [
