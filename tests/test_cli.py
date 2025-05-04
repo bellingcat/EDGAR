@@ -10,8 +10,8 @@ runner = CliRunner()
 
 @pytest.fixture(autouse=True)
 def mock_search():
-    with patch("edgar_tool.cli.search"):
-        yield
+    with patch("edgar_tool.cli.search") as mock_search:
+        yield mock_search
 
 
 @pytest.fixture(autouse=True)
@@ -255,6 +255,25 @@ class TestTextSearch:
         result = runner.invoke(
             edgar_tool.cli.app,
             ["text-search", "example", "--incorporated-in", "INVALID"],
+        )
+        # THEN
+        assert result.exit_code != 0
+
+    def test_with_valid_max_results_passes(self, mock_search):
+        # GIVEN/WHEN
+        result = runner.invoke(
+            edgar_tool.cli.app,
+            ["text-search", "example", "--max-results", "100"],
+        )
+        # THEN
+        assert result.exit_code == 0
+        assert mock_search.call_args.kwargs.get("max_results") == 100
+
+    def test_with_invalid_max_results_fails(self):
+        # GIVEN/WHEN
+        result = runner.invoke(
+            edgar_tool.cli.app,
+            ["text-search", "example", "--max-results", "INVALID"],
         )
         # THEN
         assert result.exit_code != 0
