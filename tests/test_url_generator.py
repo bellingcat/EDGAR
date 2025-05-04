@@ -22,6 +22,7 @@ import urllib.parse
 import freezegun
 import pytest
 
+import edgar_tool.search_params
 from edgar_tool import url_generator
 from edgar_tool.constants import Location
 
@@ -31,7 +32,7 @@ class TestWords:
         """Baseline test to assert that querying for a single word
         produces the correct search URL"""
         # GIVEN
-        search_params = url_generator.SearchParams(keywords=["growth"])
+        search_params = edgar_tool.search_params.SearchParams(keywords=["growth"])
         expected_url = f"https://efts.sec.gov/LATEST/search-index?q=growth"
 
         # WHEN
@@ -57,7 +58,7 @@ class TestWords:
     )
     def test_exact_phrase(self, keywords, expected_url):
         # GIVEN
-        search_params = url_generator.SearchParams(keywords=keywords)
+        search_params = edgar_tool.search_params.SearchParams(keywords=keywords)
 
         # WHEN
         actual_url = url_generator.generate_search_url_for_kwargs(search_params)
@@ -75,7 +76,9 @@ def test_should_raise_if_no_arguments_provided():
 
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
-        url_generator.generate_search_url_for_kwargs(url_generator.SearchParams())
+        url_generator.generate_search_url_for_kwargs(
+            edgar_tool.search_params.SearchParams()
+        )
 
 
 class TestDates:
@@ -100,7 +103,7 @@ class TestDates:
         # WHEN / THEN
         with pytest.raises(ValueError, match=expected_error_msg):
             url_generator.generate_search_url_for_kwargs(
-                url_generator.SearchParams(
+                edgar_tool.search_params.SearchParams(
                     keywords=["Ford Motor Co"], date_range_select="custom", **date_kwarg
                 )
             )
@@ -109,7 +112,7 @@ class TestDates:
         # GIVEN / WHEN / THEN
         with pytest.raises(ValueError):
             url_generator.generate_search_url_for_kwargs(
-                url_generator.SearchParams(
+                edgar_tool.search_params.SearchParams(
                     keywords=["Ford Motor Co"], date_range_select="1m"
                 )
             )
@@ -168,7 +171,7 @@ class TestDates:
         into the seach URL."""
         # GIVEN
         expected_url = f"https://efts.sec.gov/LATEST/search-index?q=%22Ford%20Motor%20Co%22{url_ending}"
-        search_params = url_generator.SearchParams(
+        search_params = edgar_tool.search_params.SearchParams(
             keywords=["Ford Motor Co"], **date_kwargs
         )
 
@@ -200,7 +203,7 @@ class TestDates:
 def test_generates_correct_url_for_filing_category(filing_category, url_ending):
     # GIVEN
     expected_url = f"https://efts.sec.gov/LATEST/search-index?q=Ignore{url_ending}"
-    search_params = url_generator.SearchParams(
+    search_params = edgar_tool.search_params.SearchParams(
         keywords=["Ignore"], filing_category=filing_category
     )
 
@@ -238,7 +241,7 @@ def test_generates_correct_url_for_single_forms(single_forms, url_ending):
     expected_url = (
         f"https://efts.sec.gov/LATEST/search-index?category=custom{url_ending}"
     )
-    search_params = url_generator.SearchParams(single_forms=single_forms)
+    search_params = edgar_tool.search_params.SearchParams(single_forms=single_forms)
 
     # WHEN
     actual_url = url_generator.generate_search_url_for_kwargs(search_params)
@@ -252,7 +255,7 @@ def test_generates_correct_url_for_single_form_and_custom_filing_category():
     expected_url = (
         f"https://efts.sec.gov/LATEST/search-index?category=custom&forms=NPORT-EX"
     )
-    search_params = url_generator.SearchParams(
+    search_params = edgar_tool.search_params.SearchParams(
         single_forms=["NPORT-EX"], filing_category="custom"
     )
 
@@ -281,7 +284,7 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
         url_generator.generate_search_url_for_kwargs(
-            url_generator.SearchParams(
+            edgar_tool.search_params.SearchParams(
                 single_forms=["F-4", "PREC14A", "SEC STAFF ACTION"],
                 filing_category="beneficial_ownership_reports",
             )
@@ -290,7 +293,9 @@ def test_raises_an_exception_if_user_passes_both_filing_category_and_single_form
 
 def test_should_allow_search_with_only_non_all_filing_category():
     # GIVEN
-    search_params = url_generator.SearchParams(filing_category="exempt_offerings")
+    search_params = edgar_tool.search_params.SearchParams(
+        filing_category="exempt_offerings"
+    )
     expected_url = f"https://efts.sec.gov/LATEST/search-index?category=form-cat4"
 
     # WHEN
@@ -310,7 +315,7 @@ def test_should_not_allow_search_with_all_filing_category():
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
         url_generator.generate_search_url_for_kwargs(
-            url_generator.SearchParams(filing_category="all")
+            edgar_tool.search_params.SearchParams(filing_category="all")
         )
 
 
@@ -633,7 +638,7 @@ class TestLocations:
     def test_peo_in(self, abbreviation, expected_location_code):
         # GIVEN
         expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationCode={expected_location_code}&locationCodes={expected_location_code}"
-        search_params = url_generator.SearchParams(
+        search_params = edgar_tool.search_params.SearchParams(
             keywords=["a"],
             peo_in=abbreviation,
         )
@@ -646,7 +651,7 @@ class TestLocations:
     def test_inc_in(self, abbreviation, expected_location_code):
         # GIVEN
         expected_url = f"https://efts.sec.gov/LATEST/search-index?q=a&locationType=incorporated&locationCode={expected_location_code}&locationCodes={expected_location_code}"
-        search_params = url_generator.SearchParams(
+        search_params = edgar_tool.search_params.SearchParams(
             keywords=["a"],
             inc_in=abbreviation,
         )
@@ -670,7 +675,7 @@ def test_should_raise_exception_if_location_code_invalid(key):
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
         url_generator.generate_search_url_for_kwargs(
-            url_generator.SearchParams(keywords=["a"], **{key: soviet_union})
+            edgar_tool.search_params.SearchParams(keywords=["a"], **{key: soviet_union})
         )
 
 
@@ -683,7 +688,7 @@ def test_should_raise_exception_if_both_peo_in_and_inc_in():
     # WHEN / THEN
     with pytest.raises(ValueError, match=expected_error_msg):
         url_generator.generate_search_url_for_kwargs(
-            url_generator.SearchParams(
+            edgar_tool.search_params.SearchParams(
                 keywords=["a"],
                 peo_in="CA",
                 inc_in="CA",
@@ -694,7 +699,7 @@ def test_should_raise_exception_if_both_peo_in_and_inc_in():
 def test_should_correctly_generate_search_url_for_multiple_peo_in():
     # GIVEN
     expected_url = "https://efts.sec.gov/LATEST/search-index?q=%22test%20multiple%22&locationCode=NY%2CAK&locationCodes=NY%2CAK"
-    search_params = url_generator.SearchParams(
+    search_params = edgar_tool.search_params.SearchParams(
         keywords=["test multiple"],
         peo_in=["NY", "AK"],
     )
@@ -708,7 +713,7 @@ def test_should_correctly_generate_search_url_for_multiple_peo_in():
 def test_should_correctly_generate_search_url_for_multiple_inc_in():
     # GIVEN
     expected_url = "https://efts.sec.gov/LATEST/search-index?q=company&locationType=incorporated&locationCode=CA%2CTX&locationCodes=CA%2CTX"
-    search_params = url_generator.SearchParams(
+    search_params = edgar_tool.search_params.SearchParams(
         keywords=["company"],
         inc_in=["CA", "TX"],
     )
@@ -723,7 +728,7 @@ def test_should_correctly_generate_search_url_for_multiple_inc_in():
 @freezegun.freeze_time("2025-01-26")
 def test_with_multiple_kwargs():
     # GIVEN
-    search_params = url_generator.SearchParams(
+    search_params = edgar_tool.search_params.SearchParams(
         keywords=["John Doe", "(1) ABC Corp.", "January 4, 2021"],
         entity="0000915802",
         single_forms=["DEF 14A"],
