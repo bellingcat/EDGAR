@@ -319,3 +319,11 @@ def test_filing_category_formatted(
 
     # THEN
     assert result == expected
+
+
+def test_extra_fields_are_forbidden():
+    # GIVEN / WHEN / THEN
+    with pytest.raises(
+        ValueError,
+    ):
+        SearchParams(keywords=["test"], extra_field="extra_field")
