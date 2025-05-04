@@ -124,7 +124,8 @@ edgar text-search Volcano Monitoring --start-date 2021-01-01 --end-date 2021-12-
     --entity-id 0001030717
 
 edgar text-search Calabarzon --start-date 2021-01-01 -o results.jsonl \
-    --filing-category all_annual_quarterly_and_current_reports
+    --filing-category all_annual_quarterly_and_current_reports \
+    --max-results 100
 ```
 
 ### Detailed `edgar text-search` CLI usage
@@ -168,6 +169,8 @@ $ edgar text-search [OPTIONS] TEXT...
   Search for the primary location associated with a filing. Incorporated in refers to
   the location where the company was legally formed and registered as a corporation. The
   location could be a US state or territory, a Canadian province, or a country.
+- `-mr, --max-results INTEGER`: Maximum number of results to retrieve. If not provided,
+  all results will be retrieved.
 - `--help`: Show this message and exit.
 
 </details>

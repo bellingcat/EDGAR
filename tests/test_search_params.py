@@ -120,9 +120,7 @@ def test_keywords_formatted(keywords: list[str], expected: list[str]):
     ],
 )
 def test_start_date_formatted(
-    date_range_select: (
-        Literal["all"] | Literal["10y"] | Literal["5y"] | Literal["1y"] | Literal["30d"]
-    ),
+    date_range_select: Literal["all", "10y", "5y", "1y", "30d"],
     expected: datetime.date,
 ):
     # GIVEN
@@ -149,14 +147,7 @@ def test_start_date_formatted(
     ],
 )
 def test_end_date_formatted(
-    date_range_select: (
-        Literal["all"]
-        | Literal["10y"]
-        | Literal["5y"]
-        | Literal["1y"]
-        | Literal["30d"]
-        | Literal["custom"]
-    ),
+    date_range_select: Literal["all", "10y", "5y", "1y", "30d"],
     expected: datetime.date,
 ):
     # GIVEN
@@ -223,8 +214,8 @@ def test_date_range_select_custom_with_start_date_and_end_date():
     ],
 )
 def test_inc_in_formatted(
-    location: None | list[str] | Literal["CA"],
-    expected: None | Literal["CA"] | Literal["CA,NY"],
+    location,
+    expected,
 ):
     # GIVEN
     search_params = SearchParams(keywords=["test"], inc_in=location)
@@ -245,8 +236,8 @@ def test_inc_in_formatted(
     ],
 )
 def test_peo_in_formatted(
-    location: None | list[str] | Literal["CA"],
-    expected: None | Literal["CA"] | Literal["CA,NY"],
+    location,
+    expected,
 ):
     # GIVEN
     search_params = SearchParams(keywords=["test"], peo_in=location)
@@ -277,36 +268,36 @@ def test_peo_in_formatted(
     ],
 )
 def test_filing_category_formatted(
-    filing_category: (
-        Literal["all"]
-        | Literal["custom"]
-        | Literal["all_except_section_16"]
-        | Literal["all_annual_quarterly_and_current_reports"]
-        | Literal["all_section_16"]
-        | Literal["beneficial_ownership_reports"]
-        | Literal["exempt_offerings"]
-        | Literal["registration_statements"]
-        | Literal["filing_review_correspondence"]
-        | Literal["sec_orders_and_notices"]
-        | Literal["proxy_materials"]
-        | Literal["tender_offers_and_going_private_tx"]
-        | Literal["trust_indentures"]
-    ),
-    expected: (
-        Literal[""]
-        | Literal["custom"]
-        | Literal["form-cat0"]
-        | Literal["form-cat1"]
-        | Literal["form-cat2"]
-        | Literal["form-cat3"]
-        | Literal["form-cat4"]
-        | Literal["form-cat5"]
-        | Literal["form-cat6"]
-        | Literal["form-cat7"]
-        | Literal["form-cat8"]
-        | Literal["form-cat9"]
-        | Literal["form-cat10"]
-    ),
+    filing_category: Literal[
+        "all",
+        "custom",
+        "all_except_section_16",
+        "all_annual_quarterly_and_current_reports",
+        "all_section_16",
+        "beneficial_ownership_reports",
+        "exempt_offerings",
+        "registration_statements",
+        "filing_review_correspondence",
+        "sec_orders_and_notices",
+        "proxy_materials",
+        "tender_offers_and_going_private_tx",
+        "trust_indentures",
+    ],
+    expected: Literal[
+        "",
+        "custom",
+        "form-cat0",
+        "form-cat1",
+        "form-cat2",
+        "form-cat3",
+        "form-cat4",
+        "form-cat5",
+        "form-cat6",
+        "form-cat7",
+        "form-cat8",
+        "form-cat9",
+        "form-cat10",
+    ],
 ):
     # GIVEN
     search_params = SearchParams(

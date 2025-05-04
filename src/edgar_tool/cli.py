@@ -138,6 +138,14 @@ def text_search(
             autocompletion=location_help_callback,
         ),
     ] = None,
+    max_results: Annotated[
+        int,
+        typer.Option(
+            "--max-results",
+            "-mr",
+            help="Maximum number of results to retrieve. If not provided, all results will be retrieved.",
+        ),
+    ] = None,
 ):
     if start_date and end_date:
         if start_date > end_date:
@@ -158,6 +166,7 @@ def text_search(
 
     search(
         search_params=search_params,
+        max_results=max_results,
         output=output,
     )
 
