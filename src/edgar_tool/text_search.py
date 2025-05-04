@@ -1,4 +1,3 @@
-import itertools
 import re
 import uuid
 from typing import Any, Dict, Iterator, List
@@ -155,32 +154,40 @@ def _parse_table_rows(search_request_url: pydantic.HttpUrl) -> List[dict]:
 
 def search(
     search_params: SearchParams,
-    output: str,
+    output: str = None,
+    max_results: int = None,
 ) -> None:
     """
     Searches the SEC website for filings based on the given parameters.
 
     :param search_params: Instance of SearchParams containing the search parameters
-    :param destination: Name of the CSV file to write the results to
+    :param output: Name of the CSV file to write the results to. In no output is
+      provided, then the results are returned as a list of dictionaries.
+    :param max_results: Maximum number of results to return.
     """
-    search_requests_results = []
+    to_return = []
     try:
         for search_url in generate_search_urls(search_params):
             page_results = _parse_table_rows(search_url)
-            search_requests_results.append(page_results)
+            to_return.extend(page_results)
+            if max_results and len(to_return) >= max_results:
+                break
     except Exception as e:
         print(
             f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{search_url}': {e}"
         )
 
-    if search_requests_results == []:
+    if to_return == []:
         print(f"No results found for the search query. Nothing to write to file.")
-    else:
+    elif output:
         write_results_to_file(
-            itertools.chain(*search_requests_results),
+            to_return,
             output,
             TEXT_SEARCH_CSV_FIELDS_NAMES,
         )
+    if max_results:
+        return to_return[:max_results]
+    return to_return
 
 
 class PageCheckFailedError(Exception):
@@ -231,7 +238,9 @@ def generate_search_urls(search_params: SearchParams) -> Iterator[pydantic.HttpU
     json_response = fetch_page(url)
     total_records = int(json_response.get("hits", {}).get("total", {}).get("value", 0))
     search_is_for_single_day = (
-        search_params.start_date_formatted == search_params.end_date_formatted
+        search_params.start_date_formatted is not None
+        and search_params.end_date_formatted is not None
+        and search_params.start_date_formatted == search_params.end_date_formatted
     )
     if search_is_for_single_day or total_records < 10000:
         yield url

@@ -8,6 +8,9 @@ from edgar_tool import constants
 
 
 class SearchParams(pydantic.BaseModel):
+    """This class represents the parameters for a search on the SEC's EDGAR website."""
+
+    model_config = pydantic.ConfigDict(extra="forbid")
     keywords: Optional[list[str]] = None
     entity: Optional[str] = None
     filing_category: Optional[constants.FilingCategoryLiteral] = None
@@ -110,15 +113,23 @@ class SearchParams(pydantic.BaseModel):
             return datetime.date.today() - relativedelta(years=1)
         elif self.date_range_select == "30d":
             return datetime.date.today() - datetime.timedelta(days=30)
-        else:
+        elif self.start_date is not None:
             return self.start_date
+        else:
+            # The default start date is 5 years ago in the UI, so use
+            # that as the default start date if no start date is provided.
+            return datetime.date.today() - relativedelta(years=5)
 
     @property
     def end_date_formatted(self) -> datetime.date:
         if self.date_range_select in ["all", "10y", "5y", "1y", "30d"]:
             return datetime.date.today()
-        else:
+        elif self.end_date is not None:
             return self.end_date
+        else:
+            # The default end date is today in the UI, so use
+            # that as the default end date if no end date is provided.
+            return datetime.date.today()
 
     @staticmethod
     def _get_formatted_location(

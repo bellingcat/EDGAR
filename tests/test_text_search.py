@@ -10,6 +10,7 @@ from edgar_tool.text_search import (
     PageCheckFailedError,
     fetch_page,
     generate_search_urls,
+    search,
 )
 
 
@@ -206,3 +207,83 @@ def test_generate_search_urls_10_000_results_for_single_day():
 
         # THEN
         assert len(urls) == expected_url_count
+
+
+def test_search_max_results_when_max_results_is_less_than_returned_results():
+    # GIVEN
+    search_params = SearchParams(keywords=["test"])
+
+    # WHEN
+    with open(Path(__file__).parent / "responses" / "10000_hits.json") as f:
+        mock_response = json.load(f)
+
+    with patch(
+        "edgar_tool.text_search.fetch_page",
+        return_value=mock_response,
+    ):
+        results = search(search_params, max_results=10)
+
+    # THEN
+    assert len(results) == 10
+
+
+def test_search_max_results_when_max_results_is_greater_than_returned_results():
+    # GIVEN
+    search_params = SearchParams(keywords=["test"])
+
+    # WHEN
+    with open(Path(__file__).parent / "responses" / "100_hits.json") as f:
+        mock_response = json.load(f)
+
+    with patch(
+        "edgar_tool.text_search.fetch_page",
+        return_value=mock_response,
+    ):
+        results = search(search_params, max_results=200)
+
+    # THEN
+    assert len(results) == 100
+
+
+def test_search_does_not_make_more_requests_than_necessary():
+    # GIVEN
+    search_params = SearchParams(keywords=["test"])
+
+    # WHEN
+    with open(Path(__file__).parent / "responses" / "100_hits.json") as f:
+        mock_response = json.load(f)
+
+    with patch(
+        "edgar_tool.text_search.fetch_page",
+        return_value=mock_response,
+    ) as mock_get:
+        results = search(search_params, max_results=10)
+
+    # THEN
+    assert len(results) == 10
+    # It would be nice if the call count was exactly 1, but right now the implementation
+    # makes 1 request to get get the total number of results and check that it's less than
+    # 10,000. Then it yields URLs for up to 100 results at a time. It's not as efficient
+    # as it could be, but it's not a big deal. We just want to make sure we aren't making
+    # a massive amount of requests and then returning the max_results number of results
+    # from what was returned.
+    assert 1 <= mock_get.call_count <= 2
+
+
+def test_search_when_max_results_is_not_provided():
+    """Test that search returns all results when max_results is not provided."""
+    # GIVEN
+    search_params = SearchParams(keywords=["test"])
+
+    # WHEN
+    with open(Path(__file__).parent / "responses" / "100_hits.json") as f:
+        mock_response = json.load(f)
+
+    with patch(
+        "edgar_tool.text_search.fetch_page",
+        return_value=mock_response,
+    ):
+        results = search(search_params)
+
+    # THEN
+    assert len(results) == 100
