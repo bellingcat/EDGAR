@@ -11,7 +11,7 @@ def split_date_range_in_half(start: date, end: date) -> Iterator[date, date]:
     :param start: start date to generate intervals from
     :param end: end date until which we should generate intervals
     :param n: number of intervals to generate
-    :return:
+    :yield: iterator of tuples of two dates
     """
     if start == end:
         raise ValueError(

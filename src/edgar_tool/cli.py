@@ -8,7 +8,8 @@ from typing_extensions import Annotated
 from .constants import DateRange, Filing, FilingCategory, Location
 from .location_autocomplete import LOCATION_CODE_TO_NAME
 from .rss import fetch_rss_feed
-from .text_search import SearchParams, search
+from .search_params import SearchParams
+from .text_search import search
 
 app = typer.Typer(name="edgar", no_args_is_help=True)
 
@@ -138,8 +139,10 @@ def text_search(
         ),
     ] = None,
 ):
-    if start_date and end_date and start_date > end_date:
-        raise typer.BadParameter("Start date cannot be later than end date.")
+    if start_date and end_date:
+        if start_date > end_date:
+            raise typer.BadParameter("Start date cannot be later than end date.")
+        date_range = "custom"
 
     search_params = SearchParams(
         keywords=text,

@@ -5,12 +5,12 @@ from uuid import UUID
 
 import pytest
 
+from edgar_tool.search_params import SearchParams
 from edgar_tool.text_search import (
     PageCheckFailedError,
     fetch_page,
     generate_search_urls,
 )
-from edgar_tool.url_generator import SearchParams
 
 
 @pytest.fixture
