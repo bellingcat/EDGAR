@@ -69,8 +69,9 @@ class SearchParams(pydantic.BaseModel):
             and self.start_date
         ):
             raise ValueError(
-                "Cannot specify both date_range_select and start_date. "
-                "Please choose one or the other."
+                "Cannot specify both date_range_select and start_date if "
+                "date_range_select is not 'custom'. date_range_select assumes "
+                "the end date is today and calculates the start date based on the date range."
             )
         if (
             self.filing_category

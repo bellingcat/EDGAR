@@ -113,7 +113,6 @@ class TestSearchParamsProperties:
             ("5y", datetime.date.today() - relativedelta(years=5)),
             ("1y", datetime.date.today() - relativedelta(years=1)),
             ("30d", datetime.date.today() - datetime.timedelta(days=30)),
-            # ("custom", datetime.date(2020, 1, 1)),
         ],
     )
     def test_start_date_formatted(
@@ -124,7 +123,6 @@ class TestSearchParamsProperties:
             | Literal["5y"]
             | Literal["1y"]
             | Literal["30d"]
-            | Literal["custom"]
         ),
         expected: datetime.date,
     ):
@@ -148,7 +146,6 @@ class TestSearchParamsProperties:
             ("5y", datetime.date.today()),
             ("1y", datetime.date.today()),
             ("30d", datetime.date.today()),
-            # ("custom", datetime.date(2020, 12, 31)),
         ],
     )
     def test_end_date_formatted(
@@ -179,7 +176,7 @@ class TestSearchParamsProperties:
         "date_range_select",
         ["all", "10y", "5y", "1y", "30d"],
     )
-    def test_date_range_select_cannot_be_used_with_custom_start_date(
+    def test_date_range_select_custom_cannot_be_used_with_start_date(
         self,
         date_range_select: Literal["all", "10y", "5y", "1y", "30d"],
     ):
@@ -187,8 +184,9 @@ class TestSearchParamsProperties:
         with pytest.raises(
             ValueError,
             match=re.escape(
-                "Cannot specify both date_range_select and start_date. "
-                "Please choose one or the other."
+                "Cannot specify both date_range_select and start_date if "
+                "date_range_select is not 'custom'. date_range_select assumes "
+                "the end date is today and calculates the start date based on the date range."
             ),
         ):
             SearchParams(
@@ -196,6 +194,24 @@ class TestSearchParamsProperties:
                 date_range_select=date_range_select,
                 start_date=datetime.date(2024, 6, 1),
             )
+
+    def test_date_range_select_custom_with_start_date_and_end_date(self):
+        # GIVEN
+        start_date = datetime.date(2024, 6, 1)
+        end_date = datetime.date(2024, 6, 30)
+
+        # WHEN
+        search_params = SearchParams(
+            keywords=["test"],
+            date_range_select="custom",
+            start_date=start_date,
+            end_date=end_date,
+        )
+
+        # THEN
+        assert search_params.date_range_select == "custom"
+        assert search_params.start_date_formatted == start_date
+        assert search_params.end_date_formatted == end_date
 
     @pytest.mark.parametrize(
         "location,expected",
