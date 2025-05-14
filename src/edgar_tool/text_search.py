@@ -177,9 +177,7 @@ def search(
             f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{search_url}': {e}"
         )
 
-    if to_return == []:
-        print(f"No results found for the search query. Nothing to write to file.")
-    elif output:
+    if output:
         write_results_to_file(
             to_return,
             output,
