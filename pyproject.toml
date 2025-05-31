@@ -43,15 +43,13 @@ pydantic = "^2.10.5"
 python-dateutil = "^2.9.0.post0"
 
 [tool.poetry.group.dev.dependencies]
-isort = "5.13.2"
 pre-commit = "^3.8.0"
 pytest = "^8.2.2"
 tox = "^4.16.0"
 ipykernel = "^6.29.5"
 freezegun = "^1.5.1"
-autoflake = "^2.3.1"
 mdformat = "^0.7.22"
-black = "^25.1.0"
+ruff = "^0.11.8"
 
 
 [tool.poetry.group.notebook.dependencies]
@@ -62,16 +60,5 @@ ipywidgets = "^8.1.7"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.isort]
-profile = "black"
-line_length = 88 # Should always match tool.black
-ensure_newline_before_comments = true
-
-[tool.black]
-line-length = 88 # black's default
-
-[tool.autoflake]
-remove_all_unused_imports = true
-remove_duplicate_keys = true
-remove_unused_variables = true
-expand_star_imports = true
+[tool.ruff.format]
+exclude = ["*.ipynb"]

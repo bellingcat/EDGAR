@@ -51,14 +51,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox
 
-      - name: Run Black
-        run: tox -e black
+      - name: Run Format
+        run: tox -e format
 
-      - name: Run Isort
-        run: tox -e isort
+      - name: Run Lint
+        run: tox -e lint
 
-      - name: Run autoflake
-        run: tox -e autoflake
-
-      - name: Run mdformat
+      - name: Run Markdown Format
         run: tox -e mdformat

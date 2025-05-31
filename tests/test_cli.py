@@ -132,7 +132,7 @@ class TestTextSearch:
         # GIVEN/WHEN
         result = runner.invoke(
             edgar_tool.cli.app,
-            ["text-search", "example", "--date-range", f"100y"],
+            ["text-search", "example", "--date-range", "100y"],
         )
         # THEN
         assert result.exit_code != 0
@@ -308,7 +308,7 @@ class TestRss:
         # GIVEN/WHEN
         result = runner.invoke(
             edgar_tool.cli.app,
-            ["rss", "AAPL", "--output", f"test.csv"],
+            ["rss", "AAPL", "--output", "test.csv"],
         )
 
         # THEN

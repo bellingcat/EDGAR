@@ -232,6 +232,7 @@ def test_search_max_results_when_max_results_is_greater_than_returned_results():
     search_params = SearchParams(keywords=["test"])
 
     # WHEN
+    # The 100 hits response has 103 results in the response.
     with open(Path(__file__).parent / "responses" / "100_hits.json") as f:
         mock_response = json.load(f)
 
@@ -242,7 +243,7 @@ def test_search_max_results_when_max_results_is_greater_than_returned_results():
         results = search(search_params, max_results=200)
 
     # THEN
-    assert len(results) == 100
+    assert len(results) == 103
 
 
 def test_search_does_not_make_more_requests_than_necessary():
@@ -274,8 +275,12 @@ def test_search_when_max_results_is_not_provided():
     """Test that search returns all results when max_results is not provided."""
     # GIVEN
     search_params = SearchParams(keywords=["test"])
+    expected_results = 103
 
     # WHEN
+    # Even though the response has 100 hits, there are 103 results in the response.
+    # This is because a "hit" is a single filing, and a single filing can have multiple
+    # forms associated with it.
     with open(Path(__file__).parent / "responses" / "100_hits.json") as f:
         mock_response = json.load(f)
 
@@ -286,4 +291,8 @@ def test_search_when_max_results_is_not_provided():
         results = search(search_params)
 
     # THEN
-    assert len(results) == 100
+    assert len(results) == expected_results
+
+
+# TODO: Add test for one hit with multiple forms
+# TODO: Make test for JSON from this request - edgar text-search "Ford Motor Company" --start-date 2024-12-01 --end-date 2024-12-31

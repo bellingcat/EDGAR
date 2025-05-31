@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import Any, Iterator, List, Optional, Union
+from typing import Any, Iterator
 
 
 def split_date_range_in_half(start: date, end: date) -> Iterator[date, date]:
@@ -36,7 +36,3 @@ def safe_get(d: dict, *keys) -> Any:
         except KeyError:
             return None
     return d
-
-
-def unpack_singleton_list(l: Optional[List]) -> Union[str, List[str]]:
-    return l if (l is None) or (len(l) != 1) else l[0]

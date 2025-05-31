@@ -1,6 +1,8 @@
+import datetime
 import re
 import uuid
-from typing import Any, Dict, Iterator, List
+from itertools import chain
+from typing import Any, Dict, Iterator, List, Optional
 
 import pydantic
 import requests
@@ -14,18 +16,78 @@ from edgar_tool.constants import (
 from edgar_tool.io import write_results_to_file
 from edgar_tool.search_params import SearchParams
 from edgar_tool.url_generator import generate_search_url_for_kwargs
-from edgar_tool.utils import split_date_range_in_half, unpack_singleton_list
+from edgar_tool.utils import split_date_range_in_half
 
 
-def _parse_row(row: Dict[str, Any]) -> Dict[str, Any]:
+class EdgarSearchHitSource(pydantic.BaseModel):
+    ciks: list[str]
+    period_ending: datetime.date
+    file_num: list[str]
+    display_names: list[str]
+    xsl: Optional[str] = None
+    sequence: int
+    root_forms: list[str]
+    file_date: datetime.date
+    biz_states: list[str]
+    sics: list[str]
+    form: str
+    adsh: str
+    film_num: list[str]
+    biz_locations: list[str]
+    file_type: str
+    file_description: str
+    inc_states: list[str]
+    items: list[str] = pydantic.Field(default_factory=list)
+
+
+class EdgarSearchHit(pydantic.BaseModel):
+    _index: str
+    _id: str
+    _score: float
+    _source: EdgarSearchHitSource
+
+    @property
+    def result_id(self) -> str:
+        return self._id.split(":")[-1]
+
+
+def _parse_row(row: Dict[str, Any]) -> Iterator[dict]:
     """
     Parses the given table row into a dictionary.
 
     :param row: Table row to parse
     :return: Dictionary representing the parsed table row
     """
+    try:
+        EdgarSearchHit.model_validate(row)
+    except pydantic.ValidationError as e:
+        print(f"Validation error: {e}")
+        raise e
     _id = row.get("_id", "").split(":")[-1]
     _source = row.get("_source", {})
+
+    # Get form and human readable name
+    root_forms = _source.get("root_forms")
+    form_name = [
+        TEXT_SEARCH_FORM_MAPPING.get(form, {}).get("title", None) for form in root_forms
+    ]
+    filed_at = _source.get("file_date")
+    reporting_for = _source.get("period_ending")
+
+    # Extract tickers from entity names
+    ticker_regex = r"\(([A-Z\s,\-]+)\)+$"
+    entity_names = [
+        name.replace("\n", "").rsplit("  (CIK ", maxsplit=1)[
+            0
+        ]  # Remove Newlines and CIK from name
+        for name in _source.get("display_names", [])
+    ]
+    tickers = [
+        ticker.group(1)
+        for name in entity_names
+        if (ticker := re.search(ticker_regex, name)) and ticker is not None
+    ]
+    tickers = tickers if len(tickers) > 0 else None
 
     # Fetching file numbers and links
     file_nums = _source.get("file_num", [])
@@ -38,16 +100,8 @@ def _parse_row(row: Dict[str, Any]) -> Dict[str, Any]:
     film_nums = _source.get("film_num")
 
     # Fetching and cleaning CIKs
-    ciks = _source.get("ciks")
-    ciks_trimmed: List[str] = [c.lstrip("0") for c in ciks]
-
-    # Get form and human readable name
-    root_forms = _source.get("root_forms")
-    form_name = [
-        TEXT_SEARCH_FORM_MAPPING.get(form, {}).get("title", "") for form in root_forms
-    ]
-    root_forms = unpack_singleton_list(root_forms)
-    form_name = unpack_singleton_list(form_name)
+    ciks: list[str] = _source.get("ciks")
+    ciks_trimmed: list[str] = [c.lstrip("0") for c in ciks]
 
     # Build adsh for url
     data_adsh = _source.get("adsh", "")
@@ -59,34 +113,12 @@ def _parse_row(row: Dict[str, Any]) -> Dict[str, Any]:
         for cik in ciks_trimmed
     ]
     filing_details_urls: str = (
-        unpack_singleton_list(filing_details_urls)
-        if (ciks_trimmed and data_adsh)
-        else None
+        filing_details_urls if (ciks_trimmed and data_adsh) else None
     )
     filing_doc_urls: List[str] = [
         f"https://www.sec.gov/Archives/edgar/data/{cik}/{data_adsh_no_dash}/{_id}"
         for cik in ciks_trimmed
     ]
-    filing_doc_urls: str = unpack_singleton_list(filing_doc_urls)
-
-    filed_at = _source.get("file_date")
-    end_date = _source.get("period_ending")
-    entity_names = [
-        name.replace("\n", "").rsplit("  (CIK ", maxsplit=1)[
-            0
-        ]  # Remove Newlines and CIK from name
-        for name in _source.get("display_names", [])
-    ]
-
-    # Extract tickers from entity names
-    ticker_regex = r"\(([A-Z\s,\-]+)\)+$"
-
-    tickers = [
-        ticker.group(1)
-        for name in entity_names
-        if (ticker := re.search(ticker_regex, name)) and ticker is not None
-    ]
-    tickers = tickers if len(tickers) != 0 else None
 
     # Remove tickers from entity names
     entity_names = [re.sub(ticker_regex, "", name).strip() for name in entity_names]
@@ -106,50 +138,27 @@ def _parse_row(row: Dict[str, Any]) -> Dict[str, Any]:
     incorporated_locations = [
         TEXT_SEARCH_LOCATIONS_MAPPING.get(inc_loc) for inc_loc in incorporated_locations
     ]
-
-    parsed = {
-        "root_form": root_forms,
-        "form_name": form_name,
-        "filed_at": filed_at,
-        "reporting_for": end_date,
-        "entity_name": unpack_singleton_list(entity_names),
-        "ticker": unpack_singleton_list(tickers),
-        "company_cik": unpack_singleton_list(ciks),
-        "company_cik_trimmed": unpack_singleton_list(ciks_trimmed),
-        "place_of_business": unpack_singleton_list(places_of_business),
-        "incorporated_location": unpack_singleton_list(incorporated_locations),
-        "file_num": unpack_singleton_list(file_nums),
-        "file_num_search_url": unpack_singleton_list(file_nums_search_urls),
-        "film_num": unpack_singleton_list(film_nums),
-        "filing_details_url": filing_details_urls,
-        "filing_document_url": filing_doc_urls,
-    }
-
-    return parsed
-
-
-def _parse_table_rows(search_request_url: pydantic.HttpUrl) -> List[dict]:
-    """
-    Parses the given list of table rows into a list of dictionaries.
-    Handles multiline rows by joining the text with a line break.
-
-    :param search_request_url: URL of the search request to log in case of errors
-    :return: List of dictionaries representing the parsed table rows
-    """
-    json_response = fetch_page(search_request_url)
-    rows = json_response.get("hits", {}).get("hits", [])
-
-    parsed_rows = []
-    for i, r in enumerate(rows):
-        try:
-            parsed = _parse_row(r)
-            parsed_rows.append(parsed)
-        except Exception as e:
-            print(
-                f"{e.__class__.__name__} error occurred while parsing row {i + 1} for URL {search_request_url}, skipping ..."
-            )
-            continue
-    return parsed_rows
+    for idx in range(len(entity_names)):
+        parsed = {
+            "company_cik_trimmed": ciks_trimmed[idx],
+            "company_cik": ciks[idx],
+            "entity_name": entity_names[idx],
+            "file_num_search_url": file_nums_search_urls[idx],
+            "file_num": file_nums[idx],
+            "filed_at": filed_at,
+            "filing_details_url": filing_details_urls[idx],
+            "filing_document_url": filing_doc_urls[idx],
+            "film_num": film_nums[idx],
+            "form_name": form_name[0],
+            "incorporated_location": (
+                incorporated_locations[idx] if incorporated_locations else None
+            ),  # Some filings do not have an incorporated location value
+            "place_of_business": places_of_business[idx],
+            "reporting_for": reporting_for,
+            "root_form": root_forms[0],
+            "ticker": tickers,
+        }
+        yield parsed
 
 
 def search(
@@ -166,25 +175,22 @@ def search(
     :param max_results: Maximum number of results to return.
     """
     to_return = []
-    try:
-        for search_url in generate_search_urls(search_params):
-            page_results = _parse_table_rows(search_url)
-            to_return.extend(page_results)
-            if max_results and len(to_return) >= max_results:
-                break
-    except Exception as e:
-        print(
-            f"Skipping search request due to an unexpected {e.__class__.__name__} for request parameters '{search_url}': {e}"
-        )
+    for search_url in generate_search_urls(search_params):
+        json_response = fetch_page(search_url)
+        rows = json_response.get("hits", {}).get("hits", [])
+        for parsed in chain.from_iterable(_parse_row(row) for row in rows):
+            to_return.append(parsed)
+            if max_results and len(to_return) == max_results:
+                return to_return
 
-    if output:
+    if to_return == []:
+        print("No results found for the search query. Nothing to write to file.")
+    elif output:
         write_results_to_file(
             to_return,
             output,
             TEXT_SEARCH_CSV_FIELDS_NAMES,
         )
-    if max_results:
-        return to_return[:max_results]
     return to_return
 
 

@@ -33,7 +33,7 @@ class TestWords:
         produces the correct search URL"""
         # GIVEN
         search_params = edgar_tool.search_params.SearchParams(keywords=["growth"])
-        expected_url = f"https://efts.sec.gov/LATEST/search-index?q=growth"
+        expected_url = "https://efts.sec.gov/LATEST/search-index?q=growth"
 
         # WHEN
         actual_url = url_generator.generate_search_url_for_kwargs(search_params)
@@ -253,7 +253,7 @@ def test_generates_correct_url_for_single_forms(single_forms, url_ending):
 def test_generates_correct_url_for_single_form_and_custom_filing_category():
     # GIVEN
     expected_url = (
-        f"https://efts.sec.gov/LATEST/search-index?category=custom&forms=NPORT-EX"
+        "https://efts.sec.gov/LATEST/search-index?category=custom&forms=NPORT-EX"
     )
     search_params = edgar_tool.search_params.SearchParams(
         single_forms=["NPORT-EX"], filing_category="custom"
@@ -296,7 +296,7 @@ def test_should_allow_search_with_only_non_all_filing_category():
     search_params = edgar_tool.search_params.SearchParams(
         filing_category="exempt_offerings"
     )
-    expected_url = f"https://efts.sec.gov/LATEST/search-index?category=form-cat4"
+    expected_url = "https://efts.sec.gov/LATEST/search-index?category=form-cat4"
 
     # WHEN
     actual_url = url_generator.generate_search_url_for_kwargs(search_params)

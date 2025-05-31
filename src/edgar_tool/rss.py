@@ -9,7 +9,7 @@ from requests import Response
 
 from edgar_tool.constants import RSS_FEED_CSV_FIELDS_NAMES
 from edgar_tool.io import write_results_to_file
-from edgar_tool.utils import safe_get, unpack_singleton_list
+from edgar_tool.utils import safe_get
 
 RSS_FEED_DATA_DIRECTORY = Path(__file__).resolve().parents[1] / "data"
 RSS_FEED_URL = "https://www.sec.gov/Archives/edgar/xbrlrss.all.xml"
@@ -125,7 +125,7 @@ def resolve_item_fields(
     # Process files URLs
     files_urls = safe_get(item, "edgar:xbrlFiling", "edgar:xbrlFiles", "edgar:xbrlFile")
 
-    files_urls = unpack_singleton_list([f.get("@edgar:url") for f in files_urls])
+    files_urls = [f.get("@edgar:url") for f in files_urls]
     parsed_line["xbrl_files"] = files_urls
 
     return parsed_line
@@ -150,9 +150,7 @@ def parse_rss_feed_data(
     # Parse RSS feed data and get all items
     items = xmltodict.parse(response.content)["rss"]["channel"]["item"]
     for i in items:
-
         try:
-
             # Resolve the CIK and ticker for the current item
             cik, trimmed_cik, matching_tickers_for_item_cik = (
                 resolve_item_cik_and_ticker(i, tickers_mapping)

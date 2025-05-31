@@ -1330,9 +1330,9 @@ TEXT_SEARCH_FORM_MAPPING = {
         "description": "Portfolio holdings exhibit",
         "title": "Quarterly portfolio holdings schedule",
     },
-    "NPORT-P": {"description": "", "title": ""},
+    "NPORT-P": {"description": "", "title": "Quarter period public submission"},
     "NT NPORT-P": {"description": "", "title": ""},
-    "NPORT-NP": {"description": "", "title": ""},
+    "NPORT-NP": {"description": "", "title": "Monthly non-public submission"},
     "IRANNOTICE": {
         "description": "Notice of Iran-related disclosure filed pursuant to Section 13(r)(3) of the Exchange Act",
         "title": "",
