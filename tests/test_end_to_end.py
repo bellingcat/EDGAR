@@ -70,10 +70,15 @@ def test_rss_end_to_end(output_file):
     expected_header = "company_name,cik,trimmed_cik,ticker,published_date,title,link,description,form,filing_date,file_number,accession_number,acceptance_date,period,assistant_director,assigned_sic,fiscal_year_end,xbrl_files\n"
 
     # WHEN
-    runner.invoke(
+    result = runner.invoke(
         edgar_tool.cli.app,
         ["rss", "GOOG", "--output", str(output_file)],
     )  # simulates `edgar-tool rss "GOOG" --output "results.csv"`
+
+    # THEN: Assert the command succeeded. CliRunner swallows exceptions, and the CSV
+    # header is written before any row is, so asserting on the header alone passes
+    # even when writing the rows raises.
+    assert result.exit_code == 0, result.exception
 
     # THEN: Assert the first line of the file is the expected header
     assert output_file.read_text().startswith(expected_header)
