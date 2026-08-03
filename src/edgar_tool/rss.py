@@ -229,8 +229,7 @@ def fetch_rss_feed(
         cik_to_ticker_mapping,
     )
 
-    # Store the parsed data (simulating a generator to reuse the write_results_to_file function used in text search)
+    # Store the parsed data. write_results_to_file expects a flat iterable of row
+    # dicts (text_search passes a flat list), so parsed_feed is passed through as-is.
     print(f"Saving RSS feed data to {output_file}...")
-    write_results_to_file(
-        (parsed_feed for _ in range(1)), output_file, RSS_FEED_CSV_FIELDS_NAMES
-    )
+    write_results_to_file(parsed_feed, output_file, RSS_FEED_CSV_FIELDS_NAMES)
