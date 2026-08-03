@@ -17,6 +17,10 @@ RSS_COMPANY_TICKERS_FILE_PATH = RSS_FEED_DATA_DIRECTORY / "company_tickers.json"
 RSS_COMPANY_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
 UNKNOWN_TICKER_PLACEHOLDER = "UNKNOWN"
 
+# Elements that repeat in the feed and are always iterated over. xmltodict collapses a
+# single-element list into a plain dict, so these are pinned to lists explicitly.
+FORCE_LIST_ELEMENTS = ("item", "edgar:xbrlFile")
+
 
 def _fetch_company_tickers(
     request_headers: Dict[str, Any], refresh_tickers_mapping: bool
@@ -147,8 +151,12 @@ def parse_rss_feed_data(
     :return: Iterator of parsed dicts for each item in the RSS feed
     """
 
-    # Parse RSS feed data and get all items
-    items = xmltodict.parse(response.content)["rss"]["channel"]["item"]
+    # Parse RSS feed data and get all items. force_list keeps the repeated elements as
+    # lists even when the feed carries exactly one of them; without it xmltodict
+    # collapses a single element to a dict and the loops below iterate over its keys.
+    items = xmltodict.parse(response.content, force_list=FORCE_LIST_ELEMENTS)["rss"][
+        "channel"
+    ]["item"]
     for i in items:
 
         try:
