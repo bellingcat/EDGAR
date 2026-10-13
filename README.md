@@ -40,6 +40,15 @@ Autocomplete makes it really easy to use the CLI, since you only have to type th
 few characters of CLI commands, keyword arguments, or available values, followed by the
 `tab ↹` key to fill in the rest of the characters.
 
+On Linux, [OTinstaller](https://github.com/OSINTVerseHQ/OTinstaller) can also install the PyPI release into its own virtualenv. It is a third-party tool manager, so please report problems with it [on the OTinstaller tracker](https://github.com/OSINTVerseHQ/OTinstaller/issues).
+
+```bash
+pipx install otinstaller
+otinstaller init
+otinstaller install edgar-tool
+otinstaller run edgar-tool -- q:"John Doe"   # same as edgar text-search "John Doe"
+```
+
 ## Usage - Text Search 🔎
 
 ### What is the text search tool?
