@@ -44,6 +44,7 @@ On Linux, [OTinstaller](https://github.com/OSINTVerseHQ/OTinstaller) can also in
 
 ```bash
 pipx install otinstaller
+otinstaller init
 otinstaller install edgar-tool
 otinstaller run edgar-tool -- q:"John Doe"   # same as edgar text-search "John Doe"
 ```
